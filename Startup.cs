@@ -50,7 +50,7 @@ namespace epjSem3
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Privacy}/{id?}");
+                    pattern: "{controller=Auth}/{action=Dashboard}/{id?}");
             });
         }
     }

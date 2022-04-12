@@ -1,0 +1,44 @@
+﻿
+<nav class="col-12" style="background: #fdfcf9; box-shadow: 0 0.25rem 0.75rem rgb(247 231 167 / 0.55)">
+    <div class="sidebar-button col-5">
+        <i class="search-item fa-search fa" id="search-show">
+        </i>
+    
+        <i class="search-item fa fa-times " id="search-hide">
+        </i>
+        <input class="form-control input-search" id="input-search-id" type="text" placeholder="Search...">
+    </div>
+    <div class="sidebar-button col-4">
+        <span id="title-bar" style="letter-spacing: 1.5px; color: #b7451b; font-weight: 600; font-size: 22px; font-family: monospace">DASHBOARD</span>
+    </div>
+
+    <div class="col-3" style="padding:0">
+        
+            <div class="cart-icon" style="float:right;margin-right:0">
+                <span onclick="ShowAction()" class="cart-icon nameCurrent dropbtn " style="float: right; color: #c38a31; margin-top: 0.65vh;padding:12px 20px;background:rgb(249 237 230 / 0.61); border-radius:5px;cursor:pointer">
+                    <i class="fa fa-ellipsis-v" style="font-size:20px; color:#b7451b;cursor:pointer;pointer-events:none"></i>
+                </span>
+
+                <div class="dropdown" style="float:left!important; margin-top:8vh; margin-left:-3vw">
+
+                    <div id="myDropdown" class="dropdown-content show">
+                        <a href="@Url.Action("Index","Home")">Go to Home</a>
+                        <div class="dropdown-divider" style="margin:0"></div>
+                        <a href="@Url.Action("ClientLogout","Auth")">  <i class="fa fa-sign-out" style="color:white; margin-right:0.5vw"></i>Logout</a>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</nav>
+
+<script>
+    function ShowAction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            document.getElementById("myDropdown").classList.add("show");
+        }
+    }
+</script>
