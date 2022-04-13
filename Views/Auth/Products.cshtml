@@ -109,26 +109,26 @@
                     <input class="input-form-cu" type="text" placeholder="quantity" id="ip-qty" />
                     <label class="_error" id="qty-error"></label>
                     <br />
-                    <label class="text-color mt-0">Category:</label>
+
+                </div>
+                <div class="col-7" style="min-height:inherit;float:left">
+                    <label class="text-color mt-2">Category:</label>
                     @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Caterogy 1" },
                                                                                               new SelectListItem { Value = "0", Text = "category 2" },
                                                                                               new SelectListItem { Value = "2", Text = "category 3" } }, new { @style = "", @class = "dropdownlist" })
 
-                    @*  @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
-                        .Concat(db.categories.Where(x=>x.status==true&&Model.id!=x.id&&x.parent_id==0).Select(x => new SelectListItem { Text = x.name, Value = x.id.ToString() })), new { @style = "width: 300px; height: 45px; border: 2px solid #e76c39;border-radius:5px; cursor:pointer;" })
+                    @*  @Html.DropDownList("accountid", new SelectList(ViewBag.Accounts, "AccountID", "AccountName"))
+                        @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
+        .Concat(db.categories.Where(x=>x.status==true&&Model.id!=x.id&&x.parent_id==0).Select(x => new SelectListItem { Text = x.name, Value = x.id.ToString() })), new { @style = "width: 300px; height: 45px; border: 2px solid #e76c39;border-radius:5px; cursor:pointer;" })
                     *@
-                    <br />
-                    <label class="text-color mt-0">Status:</label>
+                    <label class="text-color mt-3">Status:</label>
                     @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
                                                                                               new SelectListItem { Value = "0", Text = "Deactivated" },
                                                                                               new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
 
 
 
-
-                </div>
-                <div class="col-7" style="min-height:inherit;float:left">
-                    <input id="add-attr" type="checkbox" />
+                    <input id="add-attr" type="checkbox" class="mt-3" />
                     <label>Add product attribute</label>
                     <br />
                     <div id="pd-attr">
@@ -189,7 +189,9 @@
     });
     function validated() {
         ResetValidate();
-        var regex = /^[1-9][0-9]*/;
+        validatedAttr();
+
+        var regex = /^[1-9][0-9]*$/;
         var name = $("#ip-name").val();
         var price = $("#ip-price").val();
         var des = $("#ip-des").val();
@@ -205,6 +207,42 @@
             return false;
         }
         return true;
+    }
+    function arraysEqual(a, b) {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;
+        for (var i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    }
+    function validatedAttr() {
+        var e = $(".attr-child").find(".render-child .item-child");
+        var regex = /^[1-9][0-9]*$/;
+        if ((GetListChild($(".add-more"), false) == 0 && isEmpty($("#ip-price").val()) && $("#add-attr").prop("checked") == true)) {
+            $("#add-attr-error").html("Please fill in all fields");
+            return false;
+        }
+
+        for (var i = 0; i < e.length; i++) {
+            if (isEmpty($(e[i]).find("input").val()) || !($(e[i]).find("input").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-size").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
+                $("#add-attr-error").html("Please fill in all fields");
+                return false;
+            }
+        }
+        for (var i = 0; i < e.length; i++) {
+            var slc1 = [$(e[i]).find(".ip-color").val(), $(e[i]).find(".ip-size").val(), $(e[i]).find(".ip-width").val(), $(e[i]).find(".ip-height").val()];
+            for (var j = i + 1; j < e.length; j++) {
+                var slc2 = [$(e[j]).find(".ip-color").val(), $(e[j]).find(".ip-size").val(), $(e[j]).find(".ip-width").val(), $(e[j]).find(".ip-height").val()];
+                if (arraysEqual(slc1, slc2)) {
+                    $("#add-attr-error").html("There are many identical classifications");
+                    return false;
+                }
+            }
+        }
+       
+
     }
     function ResetValidate() {
         er = document.getElementsByClassName("_error");
@@ -308,7 +346,7 @@
                 + '<label class="text-color attr-choose">height</label>'
                 + '<span style="float:right; cursor:pointer" class="close-attr">'
                 + '<i class="fa fa-window-close close-add-attr"></i> </span>'
-                + ' <span class="add-more"><i class="fa fa-plus-circle"></i></span><span class="_error add-attr-error" style="float:left"></span> </div > <div class="render-child p-1">'
+                + ' <span class="add-more"><i class="fa fa-plus-circle"></i></span><span class="_error " id="add-attr-error" style="float:left"></span> </div > <div class="render-child p-1">'
                 + '</div></div >');
         } else {
             $("#pd-attr").empty();

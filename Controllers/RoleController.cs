@@ -1,5 +1,6 @@
 ﻿using epjSem3.Models.ModelViews;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,13 +69,35 @@ namespace epjSem3.Controllers
         {
             //true: left,  false: current
 
-            List<PermissionModel> lsPermission = PermissionController.lsPms.Where(x => before.Contains(x.id)).ToList();
-            if (type)
-            {
-                lsPermission= PermissionController.lsPms.Where(x =>!before.Contains(x.id)).ToList();
-            }
+            List<PermissionModel> lsPermission = PermissionController.lsPms.Where(x =>type==true? !before.Contains(x.id): before.Contains(x.id)).ToList();
+    
             return lsPermission;
             
+        }
+        public void UpdatePermission(string af)
+        {
+            List<int> after= JsonConvert.DeserializeObject<List<int>>(af);
+            List<int> insert = after.Except(before).ToList();
+            List<int> delete = before.Except(after).ToList();
+            if (after.Count == 0)
+            {
+                foreach (var item in before)
+                {
+                    ls_role_pms.Remove(ls_role_pms.FirstOrDefault(x=>x.pmsId==item));
+                }
+            }
+            else
+            {
+                foreach (var item in insert)
+                {
+                    ls_role_pms.Add(new RolePermissionModel() {id=ls_role_pms[ls_role_pms.Count-1].id+1,roleId=roleId, pmsId=item, createdAt=DateTime.Now});
+                }
+                foreach (var item in delete)
+                {
+                    ls_role_pms.Remove(ls_role_pms.FirstOrDefault(x => x.pmsId == item));
+
+                }
+            }
         }
     }
 }
