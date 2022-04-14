@@ -115,7 +115,7 @@
                     <label class="text-color mt-2">Category:</label>
                     @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Caterogy 1" },
                                                                                               new SelectListItem { Value = "0", Text = "category 2" },
-                                                                                              new SelectListItem { Value = "2", Text = "category 3" } }, new { @style = "", @class = "dropdownlist" })
+                                                                                              new SelectListItem { Value = "2", Text = "category 3" } }, new { @style = "", @class = "dropdownlist", @id="cate-select" })
 
                     @*  @Html.DropDownList("accountid", new SelectList(ViewBag.Accounts, "AccountID", "AccountName"))
                         @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
@@ -124,7 +124,7 @@
                     <label class="text-color mt-3">Status:</label>
                     @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
                                                                                               new SelectListItem { Value = "0", Text = "Deactivated" },
-                                                                                              new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
+                                                                                              new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist", @id="status-select" })
 
 
 
@@ -181,7 +181,41 @@
     }
     $("#btnPDSave").click(function () {
         if (validated()) {
-            alert(true)
+            var mdl = {
+                name : $("#ip-name").val(),
+                price:$("#ip-price").val(),
+                description:$("#ip-des").val(),
+                qty:$("#ip-qty").val(),
+                categoryId:$("#cate-select").val(),
+                status:$("#status-select").val()
+            };
+            var e = $(".attr-child").find(".render-child .item-child");
+            var lsAttr = [];
+            for (var i = 0; i < e.length; i++) {
+                lsAttr.push(
+                    {
+                        colorID: $(e[i]).find(".ip-color").val(),
+                        sizeID: $(e[i]).find(".ip-size").val(),
+                        widthID: $(e[i]).find(".ip-width").val(),
+                        heightID: $(e[i]).find(".ip-height").val()
+                    }
+                )
+            }
+            var f = new FormData();
+            f.append("mdl", JSON.stringify(mdl));
+            f.append("lsAttr", JSON.stringify(lsAttr));
+               $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveProduct", "Product")",
+                data: f,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                   
+
+                }
+            });
         }
 
 
@@ -189,16 +223,15 @@
     });
     function validated() {
         ResetValidate();
-        validatedAttr();
 
         var regex = /^[1-9][0-9]*$/;
         var name = $("#ip-name").val();
         var price = $("#ip-price").val();
         var des = $("#ip-des").val();
         var qty = $("#ip-qty").val();
-        if (isEmpty(name) || !qty.match(regex) || isEmpty(qty) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked")==false)) {
+        if (isEmpty(name) || !qty.match(regex) || isEmpty(qty) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false)||!validatedAttr()) {
             if (isEmpty(name)) $("#name-error").html("* required");
-            if (!qty.match(regex)) $("#qty-error").html("invalid qty");
+            if (!qty.match(regex)) $("#qty-error").html("invalid quantity");
             if (isEmpty(qty)) $("#qty-error").html("* required");
             if (isEmpty(des)) $("#des-error").html("* required");
             if (!price.match(regex) && !isEmpty(price)) $("#price-error").html("invalid price");
@@ -227,7 +260,7 @@
 
         for (var i = 0; i < e.length; i++) {
             if (isEmpty($(e[i]).find("input").val()) || !($(e[i]).find("input").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-size").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
-                $("#add-attr-error").html("Please fill in all fields");
+                $("#add-attr-error").html("Invalid input");
                 return false;
             }
         }
@@ -241,7 +274,7 @@
                 }
             }
         }
-       
+        return true;
 
     }
     function ResetValidate() {

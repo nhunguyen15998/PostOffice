@@ -1,5 +1,7 @@
-﻿using epjSem3.Models.ModelViews;
+﻿using epjSem3.Models;
+using epjSem3.Models.ModelViews;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +29,6 @@ namespace epjSem3.Controllers
         }
         public string GetListAttribute(int id)
         {
-                 
-           
             var q= m.Where(x=>x.type==id).ToList();
             var res = $"<option value='-1'>--*{q.FirstOrDefault(x => x.type == id).typeName}*--</option><option value='0'>--NEW--</option>";
 
@@ -46,6 +46,24 @@ namespace epjSem3.Controllers
         {
             m.Add(new AttributeModel() { id = 11, createdAt = DateTime.Now, name = mdl.name, type = mdl.type, typeName = mdl.type == 1 ? "color" : (mdl.type == 2 ? "size" : (mdl.type == 3 ? "width" : "height")) });
             return m[m.Count - 1];
+        }
+        public void SaveProduct(string mdl, string lsAttr)
+        {
+            List<ProductModel> lp = new List<ProductModel>();
+            List<ProductAttributeModel> la = new List<ProductAttributeModel>();
+            ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
+            List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
+            lp.Add(new ProductModel() { id = 1, categoryId = p.categoryId, code = Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price });
+            if (p.price != null)
+                la.Add(new ProductAttributeModel() { createAt = DateTime.Now, price = (decimal)p.price, productId = p.id });
+            
+
+            foreach (var item in ls)
+            {
+                la.Add(new ProductAttributeModel() { colorID = item.colorID, heightID = item.heightID, sizeID = item.sizeID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = item.productId });
+            }
+            Console.WriteLine(lp);
+            Console.WriteLine(la);
         }
     }
 }
