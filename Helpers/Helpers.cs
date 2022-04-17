@@ -34,5 +34,11 @@ namespace post_office.Helpers
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+
+        public static string RandomCode()
+        {
+            return DateTime.Now.Ticks.ToString();
+        }
+
     }
 }

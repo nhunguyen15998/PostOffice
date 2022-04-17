@@ -15624,6 +15624,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Roles.cshtml",
+      "TargetPath": "Views\\Auth\\Roles.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Service/Index.cshtml",
       "TargetPath": "Views\\Service\\Index.cshtml",
       "FileKind": "mvc"
@@ -15644,8 +15649,18 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Login.cshtml",
+      "TargetPath": "Views\\Auth\\Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Blog/Detail.cshtml",
       "TargetPath": "Views\\Blog\\Detail.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Shared/_LayoutMenu.cshtml",
+      "TargetPath": "Views\\Shared\\_LayoutMenu.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -15669,6 +15684,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Products.cshtml",
+      "TargetPath": "Views\\Auth\\Products.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Branches.cshtml",
+      "TargetPath": "Views\\Auth\\Branches.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Shared/Partials/_Slider.cshtml",
       "TargetPath": "Views\\Shared\\Partials\\_Slider.cshtml",
       "FileKind": "mvc"
@@ -15681,6 +15706,11 @@
     {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Blog/Index.cshtml",
       "TargetPath": "Views\\Blog\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Service.cshtml",
+      "TargetPath": "Views\\Auth\\Service.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -15709,6 +15739,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Users.cshtml",
+      "TargetPath": "Views\\Auth\\Users.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Authentication/SignIn.cshtml",
       "TargetPath": "Views\\Authentication\\SignIn.cshtml",
       "FileKind": "mvc"
@@ -15734,8 +15769,18 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Dashboard.cshtml",
+      "TargetPath": "Views\\Auth\\Dashboard.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Authentication/_ViewStart.cshtml",
       "TargetPath": "Views\\Authentication\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/_ViewStart.cshtml",
+      "TargetPath": "Views\\Auth\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -15754,6 +15799,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/ProductCategory.cshtml",
+      "TargetPath": "Views\\Auth\\ProductCategory.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Shared/Partials/_ClientHeader.cshtml",
       "TargetPath": "Views\\Shared\\Partials\\_ClientHeader.cshtml",
       "FileKind": "mvc"
@@ -15761,6 +15811,11 @@
     {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Customer/_Bill.cshtml",
       "TargetPath": "Views\\Customer\\_Bill.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/Attributes.cshtml",
+      "TargetPath": "Views\\Auth\\Attributes.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -15774,8 +15829,18 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Shared/_LayoutAdmin.cshtml",
+      "TargetPath": "Views\\Shared\\_LayoutAdmin.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Customer/_Profile.cshtml",
       "TargetPath": "Views\\Customer\\_Profile.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Shared/_LayoutNavBarAdmin.cshtml",
+      "TargetPath": "Views\\Shared\\_LayoutNavBarAdmin.cshtml",
       "FileKind": "mvc"
     },
     {

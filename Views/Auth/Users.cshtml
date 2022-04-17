@@ -1,0 +1,169 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "User management";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model post_office.Models.UserModel
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
+    <div style="height:50px;position:relative; padding:0">
+        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+
+    </div>
+    <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
+        <tr style="color: white; background: #747583">
+            <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
+            <th>#</th>
+            <th>Code</th>
+            <th>Fullname</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Branch</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <tr class="table-item">
+            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+            <td class="tbl-30">1</td>
+            <td class="tbl-200">12345678987654321</td>
+            <td class="tbl-200">User user user</td>
+            <td class="tbl-150">03866622145</td>
+            <td class="tbl-150">Admin</td>
+            <td class="tbl-120">HCM City </td>
+            <td class="sts-item tbl-40" id="sts-"></td>
+            <td class="tbl-180">
+                <span oid="object-1" class="action-icon edit edit-user" style="padding:10px 5px 10px 10px">
+                    <i class="fa fa-edit"></i>
+                </span>
+
+                <span oid="object-1" class="action-icon delete delete-user">
+                    <i class="fa fa-trash"></i>
+                </span>
+            </td>
+        </tr>
+
+
+    </table>
+    <div class="pagination-container" style="cursor:pointer">
+        <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
+            <ul class="pagination" id="paginations">
+                <li class="page-item page-link" data-page="prev">&lt;</li>
+                @for (int i = 1; i <= ViewBag.pagi; i++)
+                {
+                    if (i == 1)
+                    {
+                        <li class="page-item page-link" data-page="page-1" style="background:#ddd">@i</li>
+
+                    }
+                    else
+                    {
+                        <li class="page-item page-link" data-page="page-@i">@i</li>
+                    }
+                }
+                <li class="page-item page-link" data-page="next">&gt;</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div id="view-main">
+    <div id="view-sub" class="col-11">
+        <div class="col-12" id="view-title">
+            <label></label>
+            <span style="float:right; cursor:pointer" id="CloseForm">
+                <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
+            </span>
+        </div>
+        <div id="content">
+            @using (Html.BeginForm("UserCU", "User", FormMethod.Post, new { @id = "form-user" }))
+            {
+                <div class="col-12" style="padding:20px;min-height:450px;display:table;">
+                    <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
+                        @Html.AntiForgeryToken()
+                        <label class="text-color">
+                            Code:
+                            <span class="text-readonly">12345678987654321</span>
+                        </label>
+                        <br/>
+                        <label class="text-color">Full name:</label>
+                        @Html.TextBoxFor(d => d.fullName, new { @class = "input-form-cu", @type = "text", @placeholder = "full name" })
+                        @Html.ValidationMessageFor(d => d.fullName, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Phone:</label>
+                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone" })
+                        @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Password:</label>
+                        @Html.PasswordFor(d => d.password, new { @class = "input-form-cu",  @placeholder = "password" })
+                        @Html.ValidationMessageFor(d => d.password, "", new { @class = "_error" })
+                        <br />
+                      </div>
+                    <div class="col-6" style="min-height:inherit;float:left">
+                        <br/>
+                        <label class="text-color mt-3">Role:</label>
+                        @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist" })
+                        <br />
+                        <label class="text-color">Branch:</label>
+                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist" })
+                        <br />
+                        <label class="text-color">Status:</label>
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist" })
+
+
+                    </div>
+                </div>
+                <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
+                    <button id="btnUserSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnUserCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#btnCreate").click(function () {
+        OpenForm("Create user",0);
+    });
+    $(".edit-user").click(function () {
+        var id = $(this).attr("oid").replace("object-", "");
+        OpenForm("Update user",id)
+    });
+    function OpenForm(type, id) {
+        $("#content").append('');
+        $("#view-main").css("display", "block");
+        document.getElementById("view-title").children[0].innerHTML = type;
+        $(".sidebar").css("pointer-events", "none")
+
+
+    }
+    $("#CloseForm").click(function () {
+        ResetForm();
+    });
+
+    function ResetForm() {
+        CloseForm();
+        @{post_office.Controllers.Admin.UserController.id = 0; }
+
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            $(er).html("");
+        }
+        $("#form-user").trigger("reset");
+
+    }
+    $('#btnUserSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
+            }
+        }
+    });
+
+</script>
