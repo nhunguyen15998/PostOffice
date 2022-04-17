@@ -16,7 +16,6 @@ i{
     border: 2px solid #eb783d;
 }
 .subtract {
-    margin-left: 0.2vw;
     font-size:18px;
     color: #b58e7b;
     cursor:pointer;
@@ -46,13 +45,12 @@ i{
 }
 .input-attr{
     padding:5px!important;
-    margin-right:0.2vw;
-    width:19%!important
+    width:17%!important
 }
 /*table field*/
 .dropdownlist {
     width: 100%;
-    padding: 8px 5px;
+    padding: 9px 5px;
     border: 2px solid #efd8a6;
     border-radius: 5px;
     color: #c46310
@@ -62,6 +60,10 @@ i{
 }
 .dropdownlist:focus{
     outline:none;
+}
+.tbl-10 {
+    width: 10px;
+    word-break: break-word
 }
 .tbl-20 {
     width: 20px;

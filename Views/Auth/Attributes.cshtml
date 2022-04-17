@@ -74,24 +74,22 @@
             </span>
         </div>
         <div id="content">
-            @using (Html.BeginForm("RoleCU", "Auth", FormMethod.Post, new { @id = "form-attribute" }))
+            @using (Html.BeginForm("AttributeCU", "Attribute", FormMethod.Post, new { @id = "form-attribute" }))
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
                         @Html.AntiForgeryToken()@Html.HiddenFor(x => x.id)
-                        <label class="text-color">
-                            Code:
-                            <span class="text-readonly">4444111558755874</span>
-                        </label>
-                        <br />
                         <label class="text-color">Name:</label>
                         @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
+                        <label class="text-color">Type:</label>
+                        @Html.DropDownListFor(m => m.type, new SelectList(ViewBag.attr, "Key", "Value"), new { @class = "dropdownlist" })
+                        <br />
                         @*<label class="text-color">Type:</label>
-                        @Html.TextBoxFor(d => d.typeName, new { @class = "input-form-cu", @type = "text", @placeholder = "type" })
-                        @Html.ValidationMessageFor(d => d.typeName, "", new { @class = "_error" })
-*@
+        @Html.TextBoxFor(d => d.typeName, new { @class = "input-form-cu", @type = "text", @placeholder = "type" })
+        @Html.ValidationMessageFor(d => d.typeName, "", new { @class = "_error" })
+                        *@
 
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
@@ -99,8 +97,8 @@
                     </div>
                 </div>
                 <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
-                    <button id="btnRoleSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
-                    <a id="btnRoleCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                    <button id="btnAttributeSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnAttributeCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
                 </div>
             }
         </div>
@@ -129,7 +127,15 @@
     $("#CloseForm").click(function () {
         ResetForm();
     });
+    $('#btnAttributeSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
 
+            }
+        }
+    });
     function ResetForm() {
         CloseForm();
         @{epjSem3.Controllers.BranchController.id = 0; }
@@ -138,7 +144,7 @@
         for (var i = 0; i < er.length; i++) {
             $(er).html("");
         }
-        $("#form-attr").trigger("reset");
+        $("#form-attribute").trigger("reset");
 
     }
 

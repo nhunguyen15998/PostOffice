@@ -13,7 +13,7 @@ namespace epjSem3.Models.ModelViews
         public string code { get; set; }
         public string name { get; set; }
         public int categoryId { get; set; }
-        public int qty { get; set; }
+        public int? qty { get; set; }
         public decimal? price { get; set; }
         public string description { get; set; }
         public DateTime createdAt { get; set; }

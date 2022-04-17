@@ -1,5 +1,6 @@
 ﻿using epjSem3.Models.ModelViews;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -50,6 +51,9 @@ namespace epjSem3.Controllers
         //users
         public IActionResult Users()
         {
+            ViewBag.role_ls = new SelectList(ls, "id", "name");
+            ViewBag.branch_ls = new SelectList(ls, "id", "name");
+            ViewBag.ls_sts = UserModel.ls_sts;
             return View();
         }
 
@@ -83,6 +87,7 @@ namespace epjSem3.Controllers
 
         public IActionResult Attributes()
         {
+            ViewBag.attr = AttributeModel.ls_type;
             return View();
         }
 

@@ -13,6 +13,7 @@ namespace epjSem3.Models.ModelViews
         public int? sizeID { get; set; }
         public int? widthID { get; set; }
         public int? heightID { get; set; }
+        public int qty { get; set; }
         public decimal price { get; set; }
         public DateTime createAt { get; set; }
 

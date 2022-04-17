@@ -13,16 +13,16 @@ namespace epjSem3.Controllers
     {
         public static int id = 0;
         List<AttributeModel> m = new List<AttributeModel>() {
-                new AttributeModel() { id = 1, createdAt = DateTime.Now, name = "red", type = 1, typeName = "color" },
-                new AttributeModel() { id = 2, createdAt = DateTime.Now, name = "pink", type = 1, typeName = "color" },
-                new AttributeModel() { id = 3, createdAt = DateTime.Now, name = "blue", type = 1, typeName = "color" },
-                new AttributeModel() { id = 4, createdAt = DateTime.Now, name = "S", type = 2, typeName = "size" },
-                new AttributeModel() { id = 5, createdAt = DateTime.Now, name = "M", type = 2, typeName = "size" },
-                new AttributeModel() { id = 6, createdAt = DateTime.Now, name = "L", type = 2, typeName = "size" },
-                new AttributeModel() { id = 7, createdAt = DateTime.Now, name = "10", type = 3, typeName = "width" },
-                new AttributeModel() { id = 8, createdAt = DateTime.Now, name = "30", type = 3, typeName = "width" },
-                new AttributeModel() { id = 9, createdAt = DateTime.Now, name = "20", type = 4, typeName = "height" },
-                new AttributeModel() { id = 10, createdAt = DateTime.Now, name = "20", type = 4, typeName = "height" }};
+                new AttributeModel() { id = 1, createdAt = DateTime.Now, name = "red", type = 1},
+                new AttributeModel() { id = 2, createdAt = DateTime.Now, name = "pink", type = 1 },
+                new AttributeModel() { id = 3, createdAt = DateTime.Now, name = "blue", type = 1},
+                new AttributeModel() { id = 4, createdAt = DateTime.Now, name = "S", type = 2 },
+                new AttributeModel() { id = 5, createdAt = DateTime.Now, name = "M", type = 2 },
+                new AttributeModel() { id = 6, createdAt = DateTime.Now, name = "L", type = 2 },
+                new AttributeModel() { id = 7, createdAt = DateTime.Now, name = "10", type = 3 },
+                new AttributeModel() { id = 8, createdAt = DateTime.Now, name = "30", type = 3},
+                new AttributeModel() { id = 9, createdAt = DateTime.Now, name = "20", type = 4},
+                new AttributeModel() { id = 10, createdAt = DateTime.Now, name = "40", type = 4 }};
         public IActionResult Index()
         {
             return View();
@@ -44,7 +44,7 @@ namespace epjSem3.Controllers
         }
         public AttributeModel SaveAttribute(AttributeModel mdl)
         {
-            m.Add(new AttributeModel() { id = 11, createdAt = DateTime.Now, name = mdl.name, type = mdl.type, typeName = mdl.type == 1 ? "color" : (mdl.type == 2 ? "size" : (mdl.type == 3 ? "width" : "height")) });
+            m.Add(new AttributeModel() { id = 11, createdAt = DateTime.Now, name = mdl.name, type = mdl.type});
             return m[m.Count - 1];
         }
         public void SaveProduct(string mdl, string lsAttr)
@@ -54,13 +54,13 @@ namespace epjSem3.Controllers
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
             lp.Add(new ProductModel() { id = 1, categoryId = p.categoryId, code = Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price });
-            if (p.price != null)
-                la.Add(new ProductAttributeModel() { createAt = DateTime.Now, price = (decimal)p.price, productId = p.id });
+            if (p.price != null|| p.qty != null)
+                la.Add(new ProductAttributeModel() { createAt = DateTime.Now, price = (decimal)p.price, productId = p.id, qty=(int)p.qty });
             
 
             foreach (var item in ls)
             {
-                la.Add(new ProductAttributeModel() { colorID = item.colorID, heightID = item.heightID, sizeID = item.sizeID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = item.productId });
+                la.Add(new ProductAttributeModel() { qty=item.qty,colorID = item.colorID, heightID = item.heightID, sizeID = item.sizeID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = item.productId });
             }
             Console.WriteLine(lp);
             Console.WriteLine(la);

@@ -417,4 +417,13 @@
             }
         });
     });
+    $('#btnRoleSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
+
+            }
+        }
+    });
 </script>

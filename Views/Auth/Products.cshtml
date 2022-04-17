@@ -20,7 +20,7 @@
             <th>Code</th>
             <th>Name</th>
             <th>Category</th>
-            <th>Description</th>
+            <th>Qty</th>
             <th>Price</th>
             <th>Created at</th>
             <th>Status</th>
@@ -31,10 +31,10 @@
             <td class="tbl-30">1</td>
             <td class="tbl-180">bababbabnannanasbbsbba</td>
             <td class="tbl-200">babbababbabaabbabbbabba</td>
-            <td class="tbl-120">babbabababbabababbaba</td>
-            <td class="tbl-150">babbabababbabababbaba</td>
+            <td class="tbl-160">babbabababbabababbaba</td>
+            <td class="tbl-60">1500</td>
             <td class="tbl-110">babababbaba</td>
-            <td class="tbl-100">annananaaa</td>
+            <td class="tbl-140">annananaaa</td>
             <td class="sts-item tbl-40" id="sts-"></td>
             <td class="tbl-180">
                 <span oid="object-1" class="action-icon view view-branch" style="padding:10px 5px 10px 10px">
@@ -84,7 +84,7 @@
         <div id="content">
             @* @using (Html.BeginForm("RoleCU", "Auth", FormMethod.Post, new { @id = "form-pd" }))
                 {*@
-            <div class="col-12" style="padding:20px;min-height:450px;display:table;">
+            <div class="col-12" style="padding:0 0 0 20px;min-height:450px;display:table;">
                 <div class="col-5" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
                     @Html.AntiForgeryToken()
 
@@ -197,7 +197,9 @@
                         colorID: $(e[i]).find(".ip-color").val(),
                         sizeID: $(e[i]).find(".ip-size").val(),
                         widthID: $(e[i]).find(".ip-width").val(),
-                        heightID: $(e[i]).find(".ip-height").val()
+                        heightID: $(e[i]).find(".ip-height").val(),
+                        qty: $(e[i]).find(".input-qty").val(),
+                        price: $(e[i]).find(".input-price").val()
                     }
                 )
             }
@@ -229,18 +231,33 @@
         var price = $("#ip-price").val();
         var des = $("#ip-des").val();
         var qty = $("#ip-qty").val();
-        if (isEmpty(name) || !qty.match(regex) || isEmpty(qty) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false)||!validatedAttr()) {
+       // alert(!validatedAttr() + " " + isEmpty(name) + " " + (!isEmpty(qty) && isEmpty(price)) +" "+ (isEmpty(qty) && !isEmpty(price))+" "+ (!price.match(regex) && !isEmpty(price)) +" "+ (!qty.match(regex) && !isEmpty(qty)) +" "+ (isEmpty(qty) && $("#add-attr").prop("checked") == false) +" "+ isEmpty(des) +" "+ (isEmpty(price) && $("#add-attr").prop("checked") == false)+" ");
+        if (!validatedAttr() || isEmpty(name) || (!isEmpty(qty) && isEmpty(price)) || (isEmpty(qty) && !isEmpty(price) ) || (!price.match(regex) && !isEmpty(price)) || (!qty.match(regex) && !isEmpty(qty)) || (isEmpty(qty) && $("#add-attr").prop("checked") == false) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false) ) {
+          
             if (isEmpty(name)) $("#name-error").html("* required");
-            if (!qty.match(regex)) $("#qty-error").html("invalid quantity");
-            if (isEmpty(qty)) $("#qty-error").html("* required");
+            if (!qty.match(regex) && !isEmpty(qty)) $("#qty-error").html("invalid quantity");
+            if (isEmpty(qty) && $("#add-attr").prop("checked") == false) $("#qty-error").html("* required");
             if (isEmpty(des)) $("#des-error").html("* required");
             if (!price.match(regex) && !isEmpty(price)) $("#price-error").html("invalid price");
             if (isEmpty(price) && $("#add-attr").prop("checked") == false) $("#price-error").html("* required");
-
+            if (!isEmpty(qty) && isEmpty(price)) $("#price-error").html("* required");
+            else if (isEmpty(qty) && !isEmpty(price)) $("#qty-error").html("* required");
+            $("._error").shake();
             return false;
         }
         return true;
     }
+    @*jQuery.fn.shake = function (interval, distance, times) {
+        interval = typeof interval == "undefined" ? 100 : interval;
+        distance = typeof distance == "undefined" ? 10 : distance;
+        times = typeof times == "undefined" ? 3 : times;
+        var jTarget = $(this);
+        jTarget.css('position', 'relative');
+        for (var iter = 0; iter < (times + 1); iter++) {
+            jTarget.animate({ left: ((iter % 2 == 0 ? distance : distance * -1)) }, interval);
+        }
+        return jTarget.animate({ left: 0 }, interval);
+    }*@
     function arraysEqual(a, b) {
         if (a === b) return true;
         if (a == null || b == null) return false;
@@ -253,13 +270,13 @@
     function validatedAttr() {
         var e = $(".attr-child").find(".render-child .item-child");
         var regex = /^[1-9][0-9]*$/;
-        if ((GetListChild($(".add-more"), false) == 0 && isEmpty($("#ip-price").val()) && $("#add-attr").prop("checked") == true)) {
+        if (GetListChild($(".add-more"), false) == 0 && $("#add-attr").prop("checked") == true) {
             $("#add-attr-error").html("Please fill in all fields");
             return false;
         }
 
         for (var i = 0; i < e.length; i++) {
-            if (isEmpty($(e[i]).find("input").val()) || !($(e[i]).find("input").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-size").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
+            if (isEmpty($(e[i]).find(".input-price").val()) || !($(e[i]).find(".input-price").val()).match(regex) || isEmpty($(e[i]).find(".input-qty").val()) || !($(e[i]).find(".input-qty").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-size").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
                 $("#add-attr-error").html("Invalid input");
                 return false;
             }
@@ -413,7 +430,7 @@
         if ($(this).prop("checked") == true) {
             var str = "";
             if (GetListChild($(this), true) == 1) {
-                str = '<input type="text" placeholder="price" class="input-attr input-form-cu"/><span class="subtract"><i class="fa fa-times-circle"></i></span>';
+                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu input-price"/><span class="subtract"><i class="fa fa-times-circle"></i></span>';
             }
             $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-color">' + GetListAttribute(1) + '</select>' + str)
 

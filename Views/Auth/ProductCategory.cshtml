@@ -91,8 +91,8 @@
                     </div> <div class="col-6"></div>
                 </div>
                 <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
-                    <button id="btnRoleSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
-                    <a id="btnRoleCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                    <button id="btnPDCateSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnPDCateSave" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
                 </div>
             }
         </div>
@@ -147,5 +147,13 @@
         $("#form-pd-cate").trigger("reset");
 
     }
+    $('#btnPDCateSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
 
+            }
+        }
+    });
 </script>

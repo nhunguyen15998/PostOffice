@@ -94,9 +94,6 @@
                         @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
-                       
-                    </div> 
-                    <div class="col-6" style="min-height:inherit;float:left">
                         <label class="text-color">Phone:</label>
                         @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone" })
                         @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
@@ -107,11 +104,14 @@
                                                                                                   new SelectListItem { Value = "0", Text = "Deactivated" },
                                                                                                   new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
 
-                    </div>
+
+                    </div> 
+                    <div class="col-6" style="min-height:inherit;float:left">
+                             </div>
                 </div>
                 <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
-                    <button id="btnRoleSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
-                    <a id="btnRoleCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                    <button id="btnBranchSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnBranchCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
                 </div>
             }
         </div>
@@ -125,7 +125,7 @@
     $("#btnCreate").click(function () {
         OpenForm("Create branch",0);
     });
-    $(".edit-role").click(function () {
+    $(".edit-branch").click(function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update branch",id)
     });
@@ -152,5 +152,13 @@
         $("#form-branch").trigger("reset");
 
     }
+    $('#btnBranchSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
 
+            }
+        }
+    });
 </script>

@@ -1,5 +1,4 @@
-﻿using epjSem3.Models.ModelViews;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace epjSem3.Controllers
 {
-    public class AttributeController : Controller
+    public class UserController : Controller
     {
         public static int id = 0;
-       
-        public void AttributeCU(AttributeModel model)
+        public IActionResult Index()
         {
-            
+
+            return View();
         }
     }
 }
