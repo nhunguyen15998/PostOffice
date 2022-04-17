@@ -15744,11 +15744,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/DashBoard/Index.cshtml",
-      "TargetPath": "Views\\DashBoard\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Authentication/SignIn.cshtml",
       "TargetPath": "Views\\Authentication\\SignIn.cshtml",
       "FileKind": "mvc"
@@ -15806,11 +15801,6 @@
     {
       "FilePath": "/Users/admin/c#/Project_PostOffice/Views/Auth/ProductCategory.cshtml",
       "TargetPath": "Views\\Auth\\ProductCategory.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "/Users/admin/c#/Project_PostOffice/Views/DashBoard/_ViewStart.cshtml",
-      "TargetPath": "Views\\DashBoard\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
