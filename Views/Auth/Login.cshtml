@@ -1,0 +1,141 @@
+﻿@{
+    Layout = "";
+}
+<!doctype html>
+<html lang="en-US" class="default">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+
+<body id="index" style="margin:0">
+    <style>
+        /*scroll menu*/
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+        /* Track */
+        body::-webkit-scrollbar-track {
+            background: #61B4B9;
+        }
+        /* Handle */
+        body::-webkit-scrollbar-thumb {
+            background: #f4bc5b;
+            border-radius: 10px;
+        }
+            /* Handle on hover */
+            body::-webkit-scrollbar-thumb:hover {
+                background: #ee8431;
+                cursor: grabbing;
+            }
+
+        .inputType {
+            padding: 10px 0.85vw;
+            border: 2px solid #e2bd7e;
+            border-radius: 5px;
+            color: #154b33;
+            background: white
+        }
+
+            .inputType:focus {
+                background: rgb(254 250 244 / 0.61);
+                border: 2.5px solid #f9a630;
+                font-weight: 500;
+                color: #b97710;
+                outline: none
+            }
+
+        .btnSignup {
+            background: #f89b23;
+            border: 2px solid #f89b23;
+            color: white;
+            padding: 10px 12px;
+            margin-bottom: 8vh;
+        }
+
+            .btnSignup:hover, .btnSignup:focus {
+                background: white;
+                border: 2px solid #f89b23;
+                font-weight: 700;
+                color: #f8a335;
+                outline: none
+            }
+    </style>
+    <main id="page">
+        <img src="~/lib/imgs/bgc.jpg" style="width:100%" />
+        <div style="top:10px; position:absolute;" class="col-12">
+            <div class="container col-5" id="message" style="background: #61B4B9;display:none">
+                <label class="container mb-2 mt-1" >
+                    <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                   error
+                </label>
+            </div>
+        </div>
+
+        <div class="col-12" style="top:17vh; position:absolute;">
+            <div class="col-5" style="background-image: linear-gradient(150deg, #f2fffe, #bbffde); opacity: 0.85; border-radius: 15px; height: 62vh; left: 8vw; display: table; box-shadow: 0 0 8rem 2rem rgb(218 255 246);border:3px solid #d7fdfa ">
+                <form action="@Url.Action("LoginAction","Auth")" method="post" class="container form-signup col-8" style="min-height:300px; text-align:left">
+
+                    <i class="fa fa-lock container" style="color: #ee9230; text-align: center; font-size: 30px; margin-top: 8vh; "></i>
+
+                    <h3 class="container" style="color: #ee9630; text-align: center; margin-bottom: 3vh;letter-spacing:2px">LOGIN</h3>
+                    <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="phone" name="username" type="text" value="" />
+                    <input class="inputType col-lg-12  contaiter" placeholder="password" name="psw" type="password" value="" />
+                    <a href="#" class="mb-3" style="color: #993829; font-size: 13px; ">Forgot password?</a>
+
+                    @if (TempData["ErrorLogin"] != null)
+                    {
+                        <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40)" id="msgerror">
+                            <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                            @TempData["ErrorLogin"]
+                        </label>
+                        TempData["ErrorLogin"] = null;
+                        <script type="text/javascript">
+                            $("#msgerror").delay(2000).fadeOut(300);
+                        </script>
+
+                    }
+
+                    <button type="submit" class="btnSignup col-lg-12">Login</button>
+
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer style="background:rgb(107 159 141 / 0.63); color: white; height: 60px; z-index: 10; position: fixed; bottom: 0; text-align: center; padding: 18px 0" class="col-12">
+        © 2022 Copyright: !!! web name
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $("#show").click(function () {
+            $("#message").css("display", "block");
+            $("#message").delay(2000).fadeOut(300);
+        });
+        jQuery.fn.shake = function (shakes, distance, duration) {
+            if (shakes > 0) {
+                this.each(function () {
+                    var $el = $(this);
+                    var left = $el.css('left');
+                    $el.animate({ left: "-=" + distance }, duration, function () {
+                        $el.animate({ left: "+=" + distance * 2 }, duration, function () {
+                            $el.animate({ left: left }, duration, function () {
+                                $el.shake(shakes - 1, distance, duration);
+                            });
+                        });
+                    });
+                });
+            }
+            return this;
+        };
+    </script>
+
+</body>
+
+</html>

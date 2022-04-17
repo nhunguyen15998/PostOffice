@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="~/css/admin/adminsite.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+</head>
+<body>
+
+    <div class="body-wrapper">
+
+        <div class="sidebar">
+            @{ Html.RenderPartial("_LayoutMenu");}
+        </div>
+        <section class="home-section">
+            @{ Html.RenderPartial("_LayoutNavBarAdmin");}
+            <!--message-->
+            <div style="top: 70px; position: absolute; z-index: 220; display: none;" class="col-12" id="message">
+                <div class="container pt-2 pb-1" style="width:50%;">
+                    <label id="msg_status">
+
+                    </label>
+                </div>
+            </div>
+            <main style="padding:60px 20px">
+                @RenderBody()
+              
+            </main>
+
+        </section>
+
+    </div>
+    <!--form cu-->
+    
+    <footer style="background-image: linear-gradient(to right, rgb(247 218 210 / 0.01),rgb(233 155 141 / 0.62), rgb(247 218 210 / 0.19)); color: white; height: 50px; z-index: 10; position: fixed; bottom: 0; text-align: center; padding: 15px 0" class="col-12">
+        © 2022 Copyright: !!! web name
+    </footer>
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    @RenderSection("script", required: false)
+    @RenderSection("myscripts", required: false)
+    <script src="~/js/admin/adminsite.js"></script>
+
+</body>
+</html>
+<script>
+   @* let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".sidebarBtn");
+    sidebarBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+        if (sidebar.classList.contains("active")) {
+            sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else
+            sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    }*@
+    document.addEventListener("DOMContentLoaded", function () {
+     
+        var ele = document.getElementById(localStorage.getItem("mySession"));
+        if (ele == null) {
+            document.getElementById("__dash").classList.add("active-item");
+            $("#__dash i").addClass("i-active");
+            $("#__dash span").addClass("title-active");
+            localStorage.setItem("title", "DASHBOARD");
+            
+        } else {
+            link = document.getElementsByClassName("menu");
+            for (var i = 0; i < link.length; i++) {
+                $(link[i]).removeClass("active-item");
+            }
+
+
+            $(ele).addClass("active-item");
+            $("#" + localStorage.getItem("mySession") + " i").addClass("i-active");
+            $("#" + localStorage.getItem("mySession") + " span").addClass("title-active");
+            localStorage.setItem("title", $("#" + localStorage.getItem("mySession") + " span").html().toUpperCase());
+
+        }
+        var title = localStorage.getItem("title");
+        $("#title-bar").html(title);
+
+        localStorage.removeItem("mySession");
+        localStorage.removeItem("title");
+        SearchAction(false);
+    });
+    $("#search-show").click(function () {
+        SearchAction(true);
+
+
+    });
+    $("#search-hide").click(function () {
+        SearchAction(false);
+    });
+    function SearchAction(val) {
+        $("#search-hide").css("display", val == true ? "block" : "none");
+        $("#input-search-id").css("display", val == true ? "block" : "none");
+        $("#search-show").css("display", val == false ? "block" : "none");
+    }
+    $(".menu").click(function () {
+        localStorage.setItem("mySession", $(this).prop("id"));
+
+    });
+
+    function ShowMessage(type, msg) {
+        $("#msg_status").empty();
+        var ele = document.getElementById("message").children[0];
+        ele.classList.remove("success", "error");
+        $("#msg_status").append(type == true ? '<i class= "fa fa-check-circle" style = "margin-right:0.3vw" ></i>' : '<i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>');
+        $("#msg_status").append(msg);
+        ele.classList.add(type == true ? "success" : "error");
+        $("#message").css("display", "block");
+        $("#message").delay(3000).fadeOut(300);
+    }
+    function CloseForm() {
+        $("#view-main").css("display", "none");
+        $(".sidebar").css("pointer-events","inherit")
+    }
+    function SelectAll(source) {
+        checkboxes = document.getElementsByClassName('sub-check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+        
+    }
+    $(".sub-check").click(function () {
+
+        checkboxes = document.getElementsByClassName('sub-check');
+        var k = checkboxes.length;
+        for (var i = 0, n = k; i < n; i++) {
+            if (checkboxes[i].checked == false) {
+                document.getElementById("check-all").checked = false;
+                k -= 1;
+                break;
+            }
+        }
+        if (k == checkboxes.length) {
+            document.getElementById("check-all").checked = true;
+        }
+    });
+    jQuery.fn.shake = function (interval, distance, times) {
+        interval = typeof interval == "undefined" ? 100 : interval;
+        distance = typeof distance == "undefined" ? 10 : distance;
+        times = typeof times == "undefined" ? 3 : times;
+        var jTarget = $(this);
+        jTarget.css('position', 'relative');
+        for (var iter = 0; iter < (times + 1); iter++) {
+            jTarget.animate({ left: ((iter % 2 == 0 ? distance : distance * -1)) }, interval);
+        }
+        return jTarget.animate({ left: 0 }, interval);
+    }
+</script>

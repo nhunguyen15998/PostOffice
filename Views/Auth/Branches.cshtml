@@ -1,0 +1,164 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Branch management";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model post_office.Models.BranchModel
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
+    <div style="height:50px;position:relative; padding:0">
+        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+
+    </div>
+    <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
+        <tr style="color: white; background: #747583">
+            <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
+            <th>#</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>User Head</th>
+            <th>Province</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <tr class="table-item" >
+            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+            <td class="tbl-30">1</td>
+            <td class="tbl-200">bababbabnannanasbbsbsbbsbbababbababba</td>
+            <td class="tbl-200">babbababbababbabba</td>
+            <td class="tbl-120">babbabababbabababbaba</td>
+            <td class="tbl-120">babababbaba</td>
+            <td class="tbl-120">annananaaa</td>
+            <td  class="sts-item tbl-40" id="sts-"></td>
+            <td class="tbl-180">
+                <span oid="object-1" class="action-icon view view-branch" style="padding:10px 5px 10px 10px">
+                    <i class="fa fa-eye"></i>
+                </span>
+                <span oid="object-1" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">
+                    <i class="fa fa-edit"></i>
+                </span>
+
+                <span oid="object-1" class="action-icon delete delete-branch">
+                    <i class="fa fa-trash"></i>
+                </span>
+            </td>
+        </tr>
+
+
+    </table>
+    <div class="pagination-container" style="cursor:pointer">
+        <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
+            <ul class="pagination" id="paginations">
+                <li class="page-item page-link" data-page="prev">&lt;</li>
+                @for (int i = 1; i <= ViewBag.pagi; i++)
+                {
+                    if (i == 1)
+                    {
+                        <li class="page-item page-link" data-page="page-1" style="background:#ddd">@i</li>
+
+                    }
+                    else
+                    {
+                        <li class="page-item page-link" data-page="page-@i">@i</li>
+                    }
+                }
+                <li class="page-item page-link" data-page="next">&gt;</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div id="view-main">
+    <div id="view-sub" class="col-11">
+        <div class="col-12" id="view-title">
+            <label></label>
+            <span style="float:right; cursor:pointer" id="CloseForm">
+                <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
+            </span>
+        </div>
+        <div id="content">
+            @using (Html.BeginForm("RoleCU", "Auth", FormMethod.Post, new { @id = "form-branch" }))
+            {
+                <div class="col-12" style="padding:20px;min-height:450px;display:table;">
+                    <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
+                        @Html.AntiForgeryToken()@Html.HiddenFor(x => x.id)
+                        <label class="text-color">
+                            Code:
+                            <span class="text-readonly">4444111558755874</span>
+                        </label>
+                        <br />
+                        <label class="text-color">Name:</label>
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
+                        @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Phone:</label>
+                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone" })
+                        @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
+                        <br />
+
+                        <label class="text-color">Status:</label>
+                        @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
+                                                                                                  new SelectListItem { Value = "0", Text = "Deactivated" },
+                                                                                                  new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
+
+
+                    </div> 
+                    <div class="col-6" style="min-height:inherit;float:left">
+                             </div>
+                </div>
+                <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
+                    <button id="btnBranchSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnBranchCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#btnCreate").click(function () {
+        OpenForm("Create branch",0);
+    });
+    $(".edit-branch").click(function () {
+        var id = $(this).attr("oid").replace("object-", "");
+        OpenForm("Update branch",id)
+    });
+    function OpenForm(type, id) {
+        $("#content").append('');
+        $("#view-main").css("display", "block");
+        document.getElementById("view-title").children[0].innerHTML = type;
+        $(".sidebar").css("pointer-events", "none")
+
+
+    }
+    $("#CloseForm").click(function () {
+        ResetForm();
+    });
+
+    function ResetForm() {
+        CloseForm();
+        @{post_office.Controllers.Admin.BranchController.id = 0; }
+
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            $(er).html("");
+        }
+        $("#form-branch").trigger("reset");
+
+    }
+    $('#btnBranchSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).length > 0) {
+                $(er[i]).shake();
+
+            }
+        }
+    });
+</script>

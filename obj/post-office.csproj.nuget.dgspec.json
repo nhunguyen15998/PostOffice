@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/admin/c#/post-office/post-office.csproj": {}
+    "/Users/admin/c#/Project_PostOffice/post-office.csproj": {}
   },
   "projects": {
-    "/Users/admin/c#/post-office/post-office.csproj": {
+    "/Users/admin/c#/Project_PostOffice/post-office.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/admin/c#/post-office/post-office.csproj",
+        "projectUniqueName": "/Users/admin/c#/Project_PostOffice/post-office.csproj",
         "projectName": "post-office",
-        "projectPath": "/Users/admin/c#/post-office/post-office.csproj",
+        "projectPath": "/Users/admin/c#/Project_PostOffice/post-office.csproj",
         "packagesPath": "/Users/admin/.nuget/packages/",
-        "outputPath": "/Users/admin/c#/post-office/obj/",
+        "outputPath": "/Users/admin/c#/Project_PostOffice/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/admin/.nuget/NuGet/NuGet.Config"
@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[3.2.0, )"
@@ -75,6 +79,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
