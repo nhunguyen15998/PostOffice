@@ -1,0 +1,243 @@
+<!--info-->
+<form class="row" style="margin-bottom: 100px;">
+    <h3 class="mb-4">Information</h3>
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-6 form-group" style="margin-bottom: 30px;">
+                <input name="first-name" class="form-control form-control-user" id="first-name"
+                    aria-describedby="firstName" placeholder="First name"
+                    style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+            </div>
+            <div class="col-lg-6 form-group" style="margin-bottom: 30px;">
+                <input name="last-name" class="form-control form-control-user" id="last-name"
+                    aria-describedby="lastName" placeholder="Last name"
+                    style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group" style="margin-bottom: 30px;">
+                <input name="phone" class="form-control form-control-user" id="phone" aria-describedby="phone"
+                    placeholder="Phone"
+                    style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+            </div>
+            <div class="col-lg-6 form-group" style="margin-bottom: 30px;">
+                <input name="email" class="form-control form-control-user" id="email" aria-describedby="email"
+                    placeholder="Email"
+                    style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-lg-6">
+                <label style="font-size: 14px;" class="align-items-center d-flex"><input type="checkbox">Change
+                    password?</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <input name="old-password" class="form-control form-control-user" id="old-password"
+                        aria-describedby="old-password" placeholder="Old password"
+                        style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <input name="password" class="form-control form-control-user" id="password"
+                        aria-describedby="password" placeholder="New password"
+                        style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <input name="repeat-password" class="form-control form-control-user" id="repeat-password"
+                        aria-describedby="repeatPassword" placeholder="Repeat new password"
+                        style="padding: 15px 20px;font-size: 13px;border-radius: 50px;background-color: transparent;outline: none;outline-color: transparent;height: 50px;">
+                </div>
+            </div>
+        </div>
+        <a id="btn-sign-up" class="btn btn-block btn-user"
+            style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;padding: 10px 20px;margin: 0 auto;">Update</a>
+    </div>
+    <!--photo-->
+    <div class="align-items-center col-lg-4 d-flex flex-column">
+        <div style="position: relative;width: 100%;height: 170px;" class="d-flex justify-content-center">
+            <img src="../../img/defaults/no-avatar.jpeg" width="150" height="150"
+                style="border-radius: 50%;position: absolute;">
+            <div style="position: absolute;right: 120px;bottom: 25px;">
+                <button class="align-items-center btn btn-secondary d-flex justify-content-center"
+                    style="border-radius: 50%;height: 30px;width: 30px;font-size: 12px;">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+            </div>
+        </div>
+        <p style="font-size: 30px;" class="mb-0">
+            Nhu Nguyen</p>
+        <p class="">Customer</p>
+    </div>
+</form>
+<!--end info-->
+<!--address book-->
+<div class="row">
+    <h3>Address book</h3>
+    <div style="padding: 30px 50px;">
+        <div id="addressBook" class="carousel slide" data-bs-ride="carousel" style="">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="justify-content-around row" style="padding: 10px;">
+                        <div
+                            style="background-color: white;height: fit-content;width: 48%;border-radius: 10px;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);position: relative;">
+                            <div style="position: absolute;right: 15px;top: 15px;">
+                                <img src="../../img/defaults/pin-address.png" width="30">
+                            </div>
+                            <div class="row" style="padding: 30px 20px;font-size: 13px;">
+                                <h5 class="mb-2">Nhu Nguyen</h5>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Phone: 0987654322
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-envelope"></i></span>
+                                        Email: aishiteru1509@gmail.com
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-briefcase"></i></span>
+                                        Co. name: Amazon
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Co. phone: 0987654321
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                    <span><i class="fa-solid fa-location-dot"></i></span>
+                                    Address: 214 Nguyen Dinh Chieu, Ward 6, District 3,
+                                    HCMC
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="background-color: white;height: fit-content;width: 48%;border-radius: 10px;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);position: relative;">
+                            <div style="position: absolute;right: 15px;top: 15px;">
+                                <img src="../../img/defaults/pin-address.png" width="30">
+                            </div>
+                            <div class="row" style="padding: 30px 20px;font-size: 13px;">
+                                <h5 class="mb-2">Nhu Nguyen</h5>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Phone: 0987654322
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-envelope"></i></span>
+                                        Email: aishiteru1509@gmail.com
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-briefcase"></i></span>
+                                        Co. name: Amazon
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Co. phone: 0987654321
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                    <span><i class="fa-solid fa-location-dot"></i></span>
+                                    Address: 214 Nguyen Dinh Chieu, Ward 6, District 3,
+                                    HCMC
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="justify-content-around row" style="padding: 10px;">
+                        <div
+                            style="background-color: white;height: fit-content;width: 48%;border-radius: 10px;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);position: relative;">
+                            <div style="position: absolute;right: 15px;top: 15px;">
+                                <img src="../../img/defaults/pin-address.png" width="30">
+                            </div>
+                            <div class="row" style="padding: 30px 20px;font-size: 13px;">
+                                <h5 class="mb-2">Nhu Nguyen</h5>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Phone: 0987654322
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-envelope"></i></span>
+                                        Email: aishiteru1509@gmail.com
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-briefcase"></i></span>
+                                        Co. name: Amazon
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Co. phone: 0987654321
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                    <span><i class="fa-solid fa-location-dot"></i></span>
+                                    Address: 214 Nguyen Dinh Chieu, Ward 6, District 3,
+                                    HCMC
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="background-color: white;height: fit-content;width: 48%;border-radius: 10px;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);position: relative;">
+                            <div style="position: absolute;right: 15px;top: 15px;">
+                                <img src="../../img/defaults/pin-address.png" width="30">
+                            </div>
+                            <div class="row" style="padding: 30px 20px;font-size: 13px;">
+                                <h5 class="mb-2">Nhu Nguyen</h5>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Phone: 0987654322
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-envelope"></i></span>
+                                        Email: aishiteru1509@gmail.com
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-briefcase"></i></span>
+                                        Co. name: Amazon
+                                    </p>
+                                    <p class="mb-0">
+                                        <span><i class="fa-solid fa-phone"></i></span>
+                                        Co. phone: 0987654321
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                    <span><i class="fa-solid fa-location-dot"></i></span>
+                                    Address: 214 Nguyen Dinh Chieu, Ward 6, District 3,
+                                    HCMC
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#addressBook" data-bs-slide="prev"
+                style="left: -110px;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#addressBook" data-bs-slide="next"
+                style="right: -110px;">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+<!--end address book-->

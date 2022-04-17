@@ -1,0 +1,135 @@
+a{
+    text-decoration: none !important;
+    color: var(--bs-body-color);
+}
+
+/* contact */
+.block-block-27 .vc_custom_1544783217393{
+    width: 70%;
+}
+
+/* blog */
+.entry-content .themestek-row .container, #content-wrapper .blog-detail{
+    width: 80%;
+}
+
+/* pickup */
+.order-steps .row{
+    width: 20%;
+}
+.order-steps .row .mr-2{
+    border-radius: 50px; 
+    border: solid #ffdc39;
+    color: #ffdc39;
+    width:30px;
+    height: 30px;
+}
+.order-steps .row p{
+    line-height: 30px;
+}
+
+.main-form h3{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.main-form input[type="button"], .main-form input[type="button"]:hover,
+.cart-collaterals input[type="button"], .cart-collaterals input[type="button"]:hover{
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 15px 34px;
+    text-transform: uppercase;
+    border: none;
+    color: #fff;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    outline: none !important;
+    -webkit-font-smoothing: antialiased;
+}
+.main-form input[type="button"]:hover{
+    background-color: #313437;
+    color: #fff;
+    cursor: pointer;
+}
+.main-form input[type="button"]{
+    background-color: #ffdc39;
+}
+.main-form input[type="file"]{
+    padding: 12px 20px 12px 0;
+}
+
+#receiver-photo-1{
+    background-color: #ffdc39;
+    padding: 10px;
+    overflow: scroll hidden;
+}
+
+.step-hidden{
+    display: none !important;
+}
+.step-shown{
+    display: block !important;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+.dropdown-toggle::after{
+    right: 15px;
+    position: absolute;
+    top: 25px;
+}
+#product-list ul{
+    border-radius: 0px; 
+    position: absolute; 
+    inset: -3px -1px auto -1px !important; 
+    margin: 0px !important; 
+    transform: translate3d(0px, 47px, 0px);
+}
+#product-list a{
+    font-size: 12px;
+    color: #999;
+    font-family: "Biryani", Arial, Helvetica, sans-serif;
+    width: 100%;
+    text-align: left;
+    line-height: 35px;
+    padding-left: 20px;
+    overflow: auto scroll;
+    height: 49px;
+}
+
+#purchase-product .select2-container,
+#payment-method .select2-container,
+#sender-info .select2-container,
+#receiver-info .select2-container{
+    width: 100% !important;
+}
+
+.activated-step{
+    background-color: #ffdc39 !important;
+    color: #111 !important;
+}
+
+.form-control:focus{
+    background-color: transparent !important;
+}
+
+/* validation */
+.field-validated div i, .field-error div i {
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    font-size: 18px;
+}
+.field-validated div i{
+    color: green !important;
+}
+.field-error div i{
+    color: red !important;
+}
+.field-error div p{
+    font-size: 12px !important;
+    margin: 5px 0 0 15px !important;
+    color: red;
+}

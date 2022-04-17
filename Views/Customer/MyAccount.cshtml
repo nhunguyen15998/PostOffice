@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["BannerTitle"] = "My Profile";
+}
+@section Styles {
+<style>
+    .nav-pills .nav-link.active,
+    .nav-pills .show>.nav-link {
+        color: #ffdc39 !important;
+        background-color: transparent !important;
+        border-bottom: 2px solid #ffdc39 !important;
+        border-radius: 0 !important;
+    }
+
+    .dropdown-toggle::after {
+        right: 0px !important;
+        position: absolute !important;
+        top: 20px !important;
+    }
+
+    .nav-link {
+        color: #111 !important;
+    }
+
+    .nav-link:focus,
+    .nav-link:hover {
+        color: #ffdc39 !important;
+    }
+
+    .carousel-control-prev-icon {
+        background-image: url('../../img/defaults/previous-page.png') !important;
+    }
+
+    .carousel-control-next-icon {
+        background-image: url('../../img/defaults/next-page.png') !important;
+    }
+    .btn:hover {
+        color: white !important;
+        background-color: #ffdc39 !important;
+    }
+
+    .table-warning {
+        --bs-table-bg: #ffdc39 !important;
+    }
+</style>
+}
+<div id="content-wrapper" class="site-content-wrapper">
+    <div id="content" class="site-content ">
+        <div id="content-inner" class="site-content-inner ">
+            <div id="primary" class="content-area  ">
+                <main id="main" class="site-main">
+                    <div data-vc-full-width="true" data-vc-full-width-init="true"
+                        class="themestek-row vc_row-fluid wpb_row vc_hidden"
+                        style="position: relative; left: 0px; box-sizing: border-box; width: 1440px; padding-left: 0px; padding-right: 0px;">
+                        <div class="vc_row container vc_column-gap-0px vc_row vc_row-flex"
+                            style="width: 80%; margin-bottom: 150px;">
+                            <!--menu-->
+                            <ul class="nav nav-pills mb-5">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#">Profile</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                        aria-expanded="false">Send</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Bills</a></li>
+                                        <li><a class="dropdown-item" href="#">Orders</a></li>
+                                        <li><a class="dropdown-item" href="#">Purchased Products</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Receive</a>
+                                </li>
+                            </ul>
+                            <!--end menu-->
+                            <div style="height: fit-content;width: 100%;">
+                                <!--profile-->
+                                @* <partial name="_Profile"/> *@
+                                <!--send - bill-->
+                                <partial name="_Bill"/>
+                                <!--send - order-->
+                                @* <partial name="_Order"/> *@
+                                <!--send - product-->
+                                @* <partial name="_Product"/> *@
+                                <!--receive-->
+                                @* <partial name="_Receive"/> *@
+                            </div>
+                        </div>
+                    </div>
+                </main><!-- #main .site-main -->
+            </div><!-- #primary .content-area -->
+        </div><!-- .site-content-inner -->
+    </div><!-- .site-content -->
+</div>

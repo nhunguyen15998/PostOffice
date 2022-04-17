@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Sign Up";
+}
+<div style=" height: 500px; width: 35%;position: absolute;top: 165px;right: 120px;">
+    <form>
+        <div class="row">
+            <div class="text-center" style="margin-bottom: 50px;">
+                <p class="h4 text-gray-900" style="font-size: 35px;">Register Now!</p>
+            </div>
+            <div class="col-lg-12" style="margin-bottom: 30px;">
+                <div class="row">
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="first-name" class="form-control form-control-user" id="first-name"
+                            aria-describedby="firstName" placeholder="First name">
+                        <div id="first-name-error"></div>
+                    </div>
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="last-name" class="form-control form-control-user" id="last-name"
+                            aria-describedby="lastName" placeholder="Last name">
+                        <div id="last-name-error"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom: 30px;">
+                <div class="row">
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="phone" class="form-control form-control-user" id="phone" aria-describedby="phone"
+                            placeholder="Phone">
+                        <div id="phone-error"></div>
+                    </div>
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="email" class="form-control form-control-user" id="email" aria-describedby="email"
+                            placeholder="Email">
+                        <div id="email-error"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom: 30px;">
+                <div class="row">
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="password" class="form-control form-control-user" id="password" aria-describedby="password"
+                            placeholder="Password" type="password">
+                        <div id="password-error"></div>
+                    </div>
+                    <div class="form-group col-lg-6" style="position: relative;">
+                        <input name="repeat-password" class="form-control form-control-user" id="repeat-password"
+                            aria-describedby="repeatPassword" placeholder="Repeat Password" type="password">
+                        <div id="repeat-password-error"></div>
+                    </div>
+                </div>
+            </div>
+            <a id="btn-sign-up" class="btn btn-block btn-user"
+                style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 95%;padding: 10px 20px;margin: 0 auto;">Sign
+                up</a>
+            <div class="mt-4">
+                <div class="text-center">
+                    <a class="small" href="register.html">Already a member?</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    if(localStorage.getItem('user_data'))
+        window.location.href = `@Url.ActionLink("Index", "Home")`
+</script>

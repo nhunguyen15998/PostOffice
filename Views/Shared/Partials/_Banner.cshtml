@@ -1,0 +1,36 @@
+@{
+    var bannerTitle = ViewData["BannerTitle"] ?? "Services";
+}
+<div class="themestek-titlebar-wrapper themestek-bg themestek-bgcolor-transparent themestek-titlebar-align-allleft themestek-textcolor-dark themestek-bgimage-yes">
+    <div class="themestek-titlebar-wrapper-bg-layer themestek-bg-layer"></div>
+    <div class="themestek-titlebar entry-header">
+        <div class="themestek-titlebar-inner-wrapper">
+            <div class="themestek-titlebar-main">
+                <div class="container">
+                    <div class="themestek-titlebar-main-inner">
+                        <div class="entry-title-wrapper">
+                            <div class="container">
+                                <h1 class="entry-title">@bannerTitle</h1>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-wrapper">
+                            <div class="container">
+                                <div class="breadcrumb-wrapper-inner">
+                                    <!-- Breadcrumb NavXT output -->
+                                    <span><a title="Go to MoversCO Demo 6." href='@Url.ActionLink("Index", "Home")' class="home">
+                                                <span>Post Office</span>
+                                         </a>
+                                    </span>
+                                    <span class="sep">-</span>
+                                    <span>
+                                        <span class="post post-page current-item">@bannerTitle</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .themestek-titlebar-main -->
+        </div><!-- .themestek-titlebar-inner-wrapper -->
+    </div><!-- .themestek-titlebar -->
+</div>

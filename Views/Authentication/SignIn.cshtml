@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Sign In";
+}
+<div style=" height: 500px; width: 40%;position: absolute;top: 150px;right: 80px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div style="padding: 35px 90px;">
+                <div class="text-center" style="margin-bottom: 50px;">
+                    <p class="h4 text-gray-900" style="font-size: 35px;">Welcome Back!</p>
+                </div>
+                <form>
+                    <div class="form-group" style="margin-bottom: 30px; position: relative;">
+                        <input name="sign-in-phone" class="form-control form-control-user" id="sign-in-phone" aria-describedby="sign-in-phone"
+                            placeholder="Phone">
+                        <div id="sign-in-phone-error"></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 30px; position: relative;">
+                        <input name="sign-in-password" class="form-control form-control-user" id="sign-in-password" aria-describedby="sign-in-password"
+                            placeholder="Password" type="password">
+                        <div id="sign-in-password-error"></div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="custom-control custom-checkbox small">
+                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                            <label class="custom-control-label" for="customCheck">Remember
+                                Me</label>
+                        </div>
+                    </div>
+                    <a id="btn-sign-in" class="btn btn-block btn-user"
+                        style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 100%;padding: 10px 20px;">
+                        Sign in
+                    </a>
+                </form>
+                <div class="mt-3">
+                    <div class="text-center">
+                        <a class="small" href="#">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="register.html">Create an Account!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if(localStorage.getItem('user_data'))
+        window.location.href = `@Url.ActionLink("Index", "Home")`
+</script>
