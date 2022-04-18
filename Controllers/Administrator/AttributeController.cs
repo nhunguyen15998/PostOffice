@@ -1,4 +1,4 @@
-﻿using post_office.Models;
+using post_office.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,3 +17,4 @@ namespace post_office.Controllers.Administrator
         }
     }
 }
+

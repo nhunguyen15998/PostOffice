@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\CSharp\\epjSem3\\post-office.csproj": {}
+    "C:\\CSharp\\Project_PostOffice\\post-office.csproj": {}
   },
   "projects": {
-    "C:\\CSharp\\epjSem3\\post-office.csproj": {
+    "C:\\CSharp\\Project_PostOffice\\post-office.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CSharp\\epjSem3\\post-office.csproj",
+        "projectUniqueName": "C:\\CSharp\\Project_PostOffice\\post-office.csproj",
         "projectName": "post-office",
-        "projectPath": "C:\\CSharp\\epjSem3\\post-office.csproj",
+        "projectPath": "C:\\CSharp\\Project_PostOffice\\post-office.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\CSharp\\epjSem3\\obj\\",
+        "outputPath": "C:\\CSharp\\Project_PostOffice\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
