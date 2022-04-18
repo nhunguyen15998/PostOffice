@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using post_office.Services;
 
 namespace post_office.Controllers.Administrator
 {
-    public class ProductController : Controller
+    public class ProductsController : Controller
     {
         public static int id = 0;
         List<AttributeModel> m = new List<AttributeModel>() {
@@ -22,6 +23,11 @@ namespace post_office.Controllers.Administrator
                 new AttributeModel() { id = 8, createdAt = DateTime.Now, name = "30", type = 3},
                 new AttributeModel() { id = 9, createdAt = DateTime.Now, name = "20", type = 4},
                 new AttributeModel() { id = 10, createdAt = DateTime.Now, name = "40", type = 4 }};
+        IProductService _Productsvc = null;
+        public ProductsController(IProductService ProductProduct)
+        {
+            _Productsvc = ProductProduct;
+        }
         public IActionResult Index()
         {
             return View();

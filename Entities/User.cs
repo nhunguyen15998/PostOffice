@@ -16,6 +16,7 @@ namespace post_office.Entities
         public string Password { get; set; }
         public int? RoleId { get; set; }
         public int? BranchId { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int Status { get; set; }
 

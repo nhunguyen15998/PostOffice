@@ -1,11 +1,20 @@
-﻿using System;
+﻿using post_office.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace epjSem3.Services
+namespace post_office.Services
 {
-    public class ProductCategoryServices
+    public interface IProductCategoryService
     {
+        ProductCategoryModel SaveProductCategory(ProductCategoryModel mdl);
+    }
+    public class ProductCategoryService : IProductCategoryService
+    {
+        public ProductCategoryModel SaveProductCategory(ProductCategoryModel mdl)
+        {
+            return null;
+        }
     }
 }

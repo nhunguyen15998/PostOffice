@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace post_office.Controllers.Administrator
     public class ProductCategoryController : Controller
     {
         public static int id = 0;
+        IProductCategoryService _ProductCategorysvc = null;
+        public ProductCategoryController(IProductCategoryService productCategory)
+        {
+            _ProductCategorysvc = productCategory;
+        }
         public IActionResult Index()
         {
             return View();

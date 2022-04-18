@@ -30,6 +30,10 @@ namespace post_office.Models
         [MinLength(6, ErrorMessage = "Field password needs a minimum of 6 characters")]
         public string password { get; set; }
 
+        //avt
+
+        public byte[] avatar { get; set; }
+
         //role id
         public int roleId { get; set; } 
         

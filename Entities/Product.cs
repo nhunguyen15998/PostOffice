@@ -13,7 +13,7 @@ namespace post_office.Entities
         public string Thumbnail { get; set; }
         public int CategoryId { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
         public int? Qty { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int Status { get; set; }

@@ -22,7 +22,14 @@ namespace post_office.Entities
         {
             
         }
-
+        //Attribute
+        public DbSet<Attribute> Attributes { get; set; }
+        //Role
+        public DbSet<Role> Roles { get; set; }
+        //User
+        public DbSet<User> Users { get; set; }
+        //Permissions
+        public DbSet<Permission> Permissions { get; set; }
         //Customer
         public DbSet<Customer> Customers { get; set; }
 

@@ -74,7 +74,6 @@ namespace post_office.Services
         public void Update(Customer customerParam, string password = null)
         {
             var customer = _context.Customers.Find(customerParam.Id);
-
             if (customer == null)
                 throw new AppException("User not found");
 

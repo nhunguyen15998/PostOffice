@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using post_office.Helpers;
 using post_office.Entities;
-using post_office.Services;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.Net.Http.Headers;
+using post_office.Services;
 
 namespace post_office
 {
@@ -82,7 +82,24 @@ namespace post_office
             });
 
             // configure DI for application services
+            services.AddMvc();
+            services.AddControllersWithViews().AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            });
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+            });
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAttributeService, AttributeService>();
+            services.AddScoped<IBranchService, BranchService>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,14 +126,14 @@ namespace post_office
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Auth}/{action=Dashboard}/{id?}");
             });
         }
     }

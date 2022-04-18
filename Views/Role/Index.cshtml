@@ -1,0 +1,466 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Role management";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model post_office.Models.RoleModel
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:60px">
+    <div style="height:50px;position:relative; padding:0">
+        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+
+    </div>
+    <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
+
+        <tr style="color: white; background: #747583">
+            <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
+            <th>#</th>
+            <th style="width:20vw">Code</th>
+            <th style="width:20vw">Name</th>
+            <th style="width:15vw">Created at</th>
+            <th>Action</th>
+        </tr>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Models.RoleModel>)ViewBag.lsRole)
+        {
+            <tr class="table-item">
+                <td><input type="checkbox" class="sub-check" post-item="post-" /></td>
+                <td>@k @{k++;} </td>
+                <td>@item.code</td>
+                <td>@item.name</td>
+                <td>@item.createdAt</td>
+                @*<i class="fas fa-check-square"></i>*@
+                <td>
+                    <span oid="object-@item.id" class="action-icon purple assign-role" style="padding:10px 8px 10px 13px">
+                        <i class="fa fa-shield"></i>
+                    </span>
+                    <span oid="object-@item.id" class="action-icon edit edit-role" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span oid="object-@item.id" class="action-icon delete delete-role">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
+
+        }
+
+    </table>
+    <div class="pagination-container" style="cursor:pointer">
+        <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
+            <ul class="pagination" id="paginations">
+                <li class="page-item page-link" data-page="prev">&lt;</li>
+                @for (int i = 1; i <= ViewBag.pagi; i++)
+                {
+                    if (i == 1)
+                    {
+                        <li class="page-item page-link" data-page="page-1" style="background:#ddd">@i</li>
+
+                    }
+                    else
+                    {
+                        <li class="page-item page-link" data-page="page-@i">@i</li>
+                    }
+                }
+                <li class="page-item page-link" data-page="next">&gt;</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div id="view-main">
+    <div id="view-sub" class="col-11">
+        <div class="col-12" id="view-title">
+            <label> </label>
+            <span style="float:right; cursor:pointer" id="CloseForm">
+                <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
+            </span>
+        </div>
+        <div id="content">
+            @using (Html.BeginForm("RoleCU", "Role", FormMethod.Post, new { @id = "form-role" }))
+            {
+                <div class="col-12" style="padding:20px;min-height:450px;display:table">
+                    <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit">
+                        @Html.AntiForgeryToken()
+                        <label class="text-color">Code:</label>
+                        @Html.TextBoxFor(d => d.code, new { @class = "input-form-cu", @type = "text", @placeholder = "code", @id = "role-code" })
+                        @Html.ValidationMessageFor(d => d.code, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Name:</label>
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name", @id = "role-name" })
+                        @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
+                        <br />
+
+                    </div> <div class="col-6"></div>
+                </div>
+                <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
+                    <button id="btnRoleSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                    <a id="btnRoleCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+<div id="create-role-permission">
+    <div id="sub-role-permission" class="col-10">
+        <div class="col-12 title-create">
+            <label>Permission Assign</label>
+            <span style="float:right; cursor:pointer" onclick="ResetFormCreate()">
+                <i class="fa fa-window-close" style="font-size:28px"></i>
+            </span>
+        </div>
+        <div id="content">
+
+            <div class="col-12" style="padding:10px;min-height:400px;display:table">
+                <label id="current-role-click" class="text-color" style="width:100%"></label>
+                <div style="height:inherit;float:left;width:46%">
+                    <label class="text-color">Left permission:</label>
+                    <div class="table-scroll">
+
+                        <table class="table" style=" border: 2px solid #ddd; width: 100%; padding: 0;" id="table-left">
+
+                            <tr style="color: white; background: #747583">
+                                <th class="tbl-20">#</th>
+                                <th style="width:20vw">Name</th>
+                                <th></th>
+                            </tr>
+                            @*<tr>
+                                    <td>1</td>
+                                    <td>View User</td>
+                                    <td style="float:right">
+                                        <span oid="object-" class="action-icon edit assign-role-left" style="padding:5px 10px">
+                                            <i class="fa fa-caret-right"></i>
+                                        </span>
+                                    </td>
+                                </tr>*@
+
+                        </table>
+                    </div>
+                </div>
+                <div style="min-height:inherit;float:left;width:8%;text-align:center; padding:13% 0">
+                    <div style="margin:auto 0">
+                        <button class="btn-action edit pl-3 pr-3 mb-3" id="right-all"><i class="fa fa-angle-double-right" style="font-size:20px"></i></button>
+                        <button class="btn-action edit pl-3 pr-3 mb-3" id="left-all"><i class="fa fa-angle-double-left" style="font-size:20px"></i></button>
+                        <button class="btn-action edit pl-2 pr-2" onclick="OpenPermission()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+                    </div>
+                </div>
+                <div style="float:left;width:46%">
+                    <label class="text-color">Permission current:</label>
+                    <div class="table-scroll">
+                        <table class="table" style=" border:2px solid #ddd;width:100%" id="table-permission-current">
+
+                            <tr style="color: white; background: #747583">
+                                <th class="tbl-20"></th>
+                                <th class="tbl-20">#</th>
+                                <th style="width:20vw">Name</th>
+                            </tr>
+                            @* <tr>
+                                    <td class="tbl-20">
+                                        <span oid="object-" class="action-icon edit  assign-role-right" style="padding:5px 10px">
+                                            <i class="fa fa-caret-left"></i>
+
+                                        </span>
+                                    </td>
+                                    <td>1</td>
+                                    <td>View User</td>
+
+                                </tr>*@
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
+                <button id="btnRolePermissionSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+                <a id="btnRolePermissionCancel" onclick="ResetFormCreate()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    var roleID = 0;
+    window.onload = function () {
+        if (localStorage.getItem("role_mess") == 1) ShowMessage(true, "Save Successfully!")
+        if (localStorage.getItem("role_mess") == 2) ShowMessage(true, "Delete Successfully!");
+
+    localStorage.removeItem("role_mess")
+
+    }
+    $("#btnCreate").click(function () {
+        OpenForm("Create role",0);
+    });
+    $(".edit-role").click(function () {
+        roleID = parseInt($(this).attr("oid").replace("object-", ""));
+        OpenForm("Update role",roleID)
+    });
+
+    function ResetFormCreate() {
+        $("#create-role-permission").css("display", "none");
+        ClearTable();
+        @{post_office.Controllers.Administrator.RoleController.roleId = 0; }
+
+    }
+    function ClearTable() {
+        var current = $("#table-permission-current").find("tr");
+        for (var i = 0; i < current.length; i++) {
+            if (i > 0) {
+                $(current[i]).remove();
+            }
+        }
+        var left = $("#table-left").find("tr");
+        for (var i = 0; i < left.length; i++) {
+            if (i > 0) {
+                $(left[i]).remove();
+            }
+        }
+    }
+    function OpenForm(type, id) {
+
+        if (id != 0) {
+            var fdt = new FormData();
+            fdt.append("id", id);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRole", "Role")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#role-code").val(data.code);
+                     $("#role-name").val(data.name);
+                }
+            });
+        }
+
+        $("#view-main").css("display", "block");
+        document.getElementById("view-title").children[0].innerHTML = type;
+        $(".sidebar").css("pointer-events", "none")
+
+    }
+    $('body').delegate('.assign-role', 'click', function () {
+        $("#create-role-permission").css("display", "block");
+        roleID = parseInt($(this).attr("oid").replace("object-", ""));
+        var fdt3 = new FormData();
+        fdt3.append("id", roleID);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRole", "Role")",
+                data: fdt3,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#current-role-click").html("Code: " + data.code +"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Name:"+data.name);
+
+                }
+            });
+        OpenPermission();
+    });
+    function OpenPermission() {
+        ClearTable();
+
+        var f = new FormData();
+        f.append("rID", roleID);
+        $.ajax({
+            type: "POST",
+            url: '/Role/GetListPermision',
+            data: f,
+            processData: false,
+            contentType: false,
+            success: function () {
+                var fdt = new FormData();
+                fdt.append("type", true);
+                $.ajax({
+                    type: "POST",
+                    url: "/Role/RenderListPermission",
+                    data: fdt,
+                    processData: false,
+                    contentType: false,
+                    success: function (dataleft) {
+                        var str = ""
+                        for (var i = 0; i < dataleft.length; i++) {
+                            str += '<tr><td>' + (i + 1) + '</td> <td>' + dataleft[i].name + '</td> <td style="float:right"><span oid="object-' + dataleft[i].id + '" class="action-icon edit assign-role-left" style="padding:5px 10px">' +
+                                '<i class="fa fa-caret-right"></i></span></td></tr>';
+                        }
+
+                        $("#table-left").append(str);
+                    }
+                });
+                var fdt2 = new FormData();
+                fdt2.append("type", false);
+                $.ajax({
+                    type: "POST",
+                    url: "/Role/RenderListPermission",
+                    data: fdt2,
+                    processData: false,
+                    contentType: false,
+                    success: function (datacurrent) {
+                        var str = ""
+                        for (var i = 0; i < datacurrent.length; i++) {
+                            str += '<tr><td style="float:right"><span oid="object-' + datacurrent[i].id + '" class="action-icon edit assign-role-right" style="padding:5px 10px">' +
+                                '<i class="fa fa-caret-left"></i></span><td>' + (i + 1) + '</td> <td>' + datacurrent[i].name + '</td> </td></tr>';
+                        }
+                        $("#table-permission-current").append(str);
+                    }
+                });
+
+            }
+        });
+    }
+    $("#CloseForm").click(function () {
+        ResetForm();
+    });
+
+    function ResetForm() {
+        CloseForm();
+        @{post_office.Controllers.Administrator.RoleController.roleId = 0; }
+            er = document.getElementsByClassName("_error");
+            for (var i = 0; i < er.length; i++) {
+            $(er).html("");
+            }
+        $("#form-role").trigger("reset");
+
+    }
+    function RefreshTable() {
+        left = $("#table-left").find("tr");
+        right = $("#table-permission-current").find("tr");
+        for (var i = 0; i < left.length; i++) {
+            if (i > 0) {
+                $(left[i]).children('td').first().html(i);
+            }
+        }
+        for (var i = 0; i < right.length; i++) {
+            if (i > 0) {
+                $(right[i]).children('td:nth-child(2)').html(i);
+            }
+        }
+    }
+    function ChangeEle(ele, type) {
+        //type true: left->right, false: right->left
+        str = "";
+
+        if (type) {
+            var temp = ele.children("td").last().html().replace('assign-role-left', 'assign-role-right');
+            str += '<td  style="float:right">' + temp.replace('fa-caret-right', 'fa-caret-left') + '</td>'
+            ele.children("td").last().remove();
+            str += ele.html();
+            $("#table-permission-current").append('<tr>' + str + '</tr>');
+        } else {
+            var temp = ele.children("td").first().html().replace('assign-role-right', 'assign-role-left');
+            ele.children("td").first().remove();
+            str += ele.html();
+            str += '<td style="float:right">' + temp.replace('fa-caret-left', 'fa-caret-right') + '</td>'
+            $("#table-left").append('<tr>' + str + '</tr>');
+
+        }
+        ele.remove();
+        RefreshTable();
+    }
+    $('body').delegate('.assign-role-left', 'click', function () {  ChangeEle($(this).closest("tr"), true) });
+    $('body').delegate('.assign-role-right', 'click', function () { ChangeEle($(this).closest("tr"), false) });
+    function ChangeList(type) {
+        //type true: left->right, false: right->left
+        str = "";
+
+        if (type) {
+            var left = $("#table-left").find("tr");
+            for (var i = 0; i < left.length; i++) {
+                if (i > 0) {
+                    var temp = $(left[i]).children("td").last().html().replace('assign-role-left', 'assign-role-right');
+                    str += '<tr><td style="float:right">' + temp.replace('fa-caret-right', 'fa-caret-left') + '</td>'
+                    $(left[i]).children("td").last().remove();
+                    str += $(left[i]).html()+'</tr>';
+                    $(left[i]).remove();
+                }
+
+            }
+            $("#table-permission-current").append(str);
+
+        } else {
+            var current = $("#table-permission-current").find("tr");
+            for (var i = 0; i < current.length; i++) {
+                if (i > 0) {
+                    var temp = $(current[i]).children("td").first().html().replace('assign-role-right', 'assign-role-left');
+                    $(current[i]).children("td").first().remove();
+                    str += '<tr>'+$(current[i]).html();
+                    str += '<td style="float:right">' + temp.replace('fa-caret-left', 'fa-caret-right') + '</td></tr>'
+                    $(current[i]).remove();
+                }
+            }
+            $("#table-left").append(str);
+
+
+
+        }
+        RefreshTable();
+    }
+    $("#right-all").click(function () { ChangeList(true) });
+    $("#left-all").click(function () { ChangeList(false) });
+    $("#btnRolePermissionSave").click(function () {
+        var current = $("#table-permission-current").find("tr");
+        var ls = [];
+        for (var i = 0; i < current.length; i++) {
+            if (i > 0) {
+                var temp = parseInt($(current[i]).children("td").find("span").attr('oid').replace('object-', ''));
+                ls.push(temp)
+            }
+        }
+        var fdata = new FormData();
+        fdata.append("af", JSON.stringify(ls));
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdatePermission","Role")",
+            data: fdata,
+            processData: false,
+            contentType: false,
+            success: function () {
+                    @{post_office.Controllers.Administrator.RoleController.roleId = 0; }
+                     localStorage.setItem("role_mess", 1)
+                     localStorage.setItem("mySession", "__role")
+                     localStorage.setItem("title", "ROLE")
+                     window.location.href = "@Url.Action("Index","Role")";
+            }
+        });
+    });
+    $('#btnRoleSave').click(function () {
+        er = document.getElementsByClassName("_error");
+        var count = 0;
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).html().length > 0) {
+                $(er[i]).shake();
+                count++;
+
+            }
+        }
+        if (count == 0) {
+            localStorage.setItem("role_mess", 1)
+            localStorage.setItem("mySession", "__role")
+            localStorage.setItem("title", "ROLE")
+        }
+    });
+    $('body').delegate('.delete-role', 'click', function () {
+        if (confirm("Are you sure to make this change?")) {
+            var id = parseInt($(this).attr("oid").replace("object-", ""));
+            var fdt = new FormData();
+            fdt.append("id", id);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteRole", "Role")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                     localStorage.setItem("role_mess", 2)
+                     localStorage.setItem("mySession", "__role")
+                     localStorage.setItem("title", "ROLE")
+                     window.location.href = "@Url.Action("Index","Role")";
+                }
+            });
+        }
+    });
+</script>

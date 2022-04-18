@@ -483,15 +483,8 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.RazorCoreGenerate.cach
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\SignIn.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\SignUp.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\_ViewStart.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Attributes.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Branches.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Dashboard.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Login.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\ProductCategory.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Products.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Roles.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Service.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Users.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\_ViewStart.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Detail.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Index.cshtml.g.cs
@@ -531,3 +524,11 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.RazorTargetAssemblyInf
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.Views.pdb
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.csproj.CopyComplete
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.genruntimeconfig.cache
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.csproj.AssemblyReference.cache
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Attribute\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Role\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Branch\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\ProductCategory\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Products\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\User\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Services\Index.cshtml.g.cs
