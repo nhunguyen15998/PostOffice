@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace post_office.Helpers
 {
@@ -38,6 +39,14 @@ namespace post_office.Helpers
         public static string RandomCode()
         {
             return DateTime.Now.Ticks.ToString();
+        }
+
+        public enum DefaultStatus
+        {
+            [Display(Name = "Deactivated")]
+            Deactivated,
+            [Display(Name = "Activated")]
+            Activated
         }
 
     }

@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace post_office.Entities
 {
-    public class OrderDetailPhoto
+    public class OrderPhoto
     {
         [Key]
         public int Id { get; set; }
-        public int OrderDetailId { get; set; }
+        public int OrderId { get; set; }
         public string Photo { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-        public OrderDetail OrderDetail { get; set; }
+        public OrderDetail Order { get; set; }
     }
 }

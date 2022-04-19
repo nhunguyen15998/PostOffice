@@ -10,7 +10,6 @@ namespace post_office.Entities
         public int Id { get; set; }
         public int Name { get; set; }
         public int CityId { get; set; }
-        public int DistrictId { get; set; }
         public int StateId { get; set; }
         public int CountryId { get; set; }
 

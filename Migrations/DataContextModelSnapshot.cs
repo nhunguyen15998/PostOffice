@@ -37,7 +37,7 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attribute");
+                    b.ToTable("Attributes");
                 });
 
             modelBuilder.Entity("post_office.Entities.Bill", b =>
@@ -90,7 +90,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("ProductBillId");
 
-                    b.ToTable("Bill");
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("post_office.Entities.BillOrder", b =>
@@ -161,11 +161,11 @@ namespace post_office.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -289,13 +289,13 @@ namespace post_office.Migrations
                     b.Property<string>("CompanyPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -360,7 +360,7 @@ namespace post_office.Migrations
                     b.Property<int>("FromCityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FromDistrictId")
+                    b.Property<int>("FromCountryId")
                         .HasColumnType("int");
 
                     b.Property<int>("FromProvinceId")
@@ -399,7 +399,7 @@ namespace post_office.Migrations
                     b.Property<int>("ToCityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ToDistrictId")
+                    b.Property<int>("ToCountryId")
                         .HasColumnType("int");
 
                     b.Property<int>("ToProvinceId")
@@ -423,7 +423,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("post_office.Entities.OrderDetail", b =>
@@ -439,10 +439,7 @@ namespace post_office.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OrderId1")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Qty")
@@ -450,12 +447,12 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId1");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("post_office.Entities.OrderDetailPhoto", b =>
+            modelBuilder.Entity("post_office.Entities.OrderPhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -465,7 +462,7 @@ namespace post_office.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderDetailId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Photo")
@@ -473,9 +470,9 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailId");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetailPhotos");
+                    b.ToTable("OrderPhotos");
                 });
 
             modelBuilder.Entity("post_office.Entities.OrderTracking", b =>
@@ -532,7 +529,7 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("post_office.Entities.PinCode", b =>
@@ -546,9 +543,6 @@ namespace post_office.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<int>("Name")
@@ -569,7 +563,7 @@ namespace post_office.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -584,7 +578,7 @@ namespace post_office.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("Qty")
@@ -600,7 +594,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("post_office.Entities.ProductAttribute", b =>
@@ -646,7 +640,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("WidthId");
 
-                    b.ToTable("ProductAttribute");
+                    b.ToTable("ProductAttributes");
                 });
 
             modelBuilder.Entity("post_office.Entities.ProductBill", b =>
@@ -672,7 +666,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("ProductBill");
+                    b.ToTable("ProductBills");
                 });
 
             modelBuilder.Entity("post_office.Entities.ProductBillDetail", b =>
@@ -735,7 +729,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("post_office.Entities.ProductPhoto", b =>
@@ -779,7 +773,7 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("post_office.Entities.RolePermission", b =>
@@ -850,6 +844,9 @@ namespace post_office.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -874,7 +871,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("post_office.Entities.Bill", b =>
@@ -950,20 +947,22 @@ namespace post_office.Migrations
                 {
                     b.HasOne("post_office.Entities.Order", "Order")
                         .WithMany()
-                        .HasForeignKey("OrderId1");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("post_office.Entities.OrderDetailPhoto", b =>
+            modelBuilder.Entity("post_office.Entities.OrderPhoto", b =>
                 {
-                    b.HasOne("post_office.Entities.OrderDetail", "OrderDetail")
+                    b.HasOne("post_office.Entities.OrderDetail", "Order")
                         .WithMany()
-                        .HasForeignKey("OrderDetailId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderDetail");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("post_office.Entities.OrderTracking", b =>
@@ -997,9 +996,7 @@ namespace post_office.Migrations
                 {
                     b.HasOne("post_office.Entities.ProductCategory", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
