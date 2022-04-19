@@ -12,6 +12,7 @@ namespace post_office.Services
         {
             AttributeModel SaveAttribute(AttributeModel mdl);
             DataContext GetDataContext();
+            List<AttributeModel> GetListAttribute();
         }
         public class AttributeService : IAttributeService
         {
@@ -30,6 +31,11 @@ namespace post_office.Services
                 ct.SaveChanges();
                 return mdl;
             }
+        public List<AttributeModel> GetListAttribute()
+        {
+            return ct.Attributes.Select(x => new AttributeModel() { id = x.Id, name = x.Name, type=x.Type, createdAt = (DateTime)x.CreatedAt }).ToList();
+
         }
+    }
     
 }

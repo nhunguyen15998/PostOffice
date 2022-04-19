@@ -10,7 +10,7 @@ namespace post_office.Models
 {
     public class AttributeModel
     {
-        public static Dictionary<int,string> ls_type = new Dictionary<int, string>() { { 1, "color" } , { 2, "size" } , { 3, "width" } , { 4, "height" } };
+        public static Dictionary<int,string> ls_type = new Dictionary<int, string>() { { 1, "color" } , { 2, "size" } , { 3, "length" } , { 4, "height" } };
         
         [Key]
         public int id { get; set; }

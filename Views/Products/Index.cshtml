@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Product management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    post_office.Services.IProductService pd = ViewBag.pd;
+    post_office.Services.IProductCategoryService pdcate = ViewBag.pdcate;
+
 }
 @model post_office.Models.ProductModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
@@ -26,31 +29,34 @@
             <th>Status</th>
             <th>Action</th>
         </tr>
-        <tr class="table-item">
-            <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-            <td class="tbl-30">1</td>
-            <td class="tbl-180">bababbabnannanasbbsbba</td>
-            <td class="tbl-200">babbababbabaabbabbbabba</td>
-            <td class="tbl-160">babbabababbabababbaba</td>
-            <td class="tbl-60">1500</td>
-            <td class="tbl-110">babababbaba</td>
-            <td class="tbl-140">annananaaa</td>
-            <td class="sts-item tbl-40" id="sts-"></td>
-            <td class="tbl-180">
-                <span oid="object-1" class="action-icon view view-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <span oid="object-1" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Models.ProductModel>)ViewBag.lsPD)
+        {
+            <tr class="table-item">
+                <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+                <td class="tbl-30">@k @{k++;}</td>
+                <td class="tbl-180">@item.code</td>
+                <td class="tbl-200">@item.name</td>
+                <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId).name</td>
+                <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
+                <td class="tbl-110">@pd.GetTotalQuantity(item.id)</td>
+                <td class="tbl-140">@item.createdAt</td>
+                <td class="sts-item tbl-40" id="sts-"></td>
+                <td class="tbl-180">
+                    <span oid="object-@item" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                    <span oid="object-@item" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
 
-                <span oid="object-1" class="action-icon delete delete-branch">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
-        </tr>
+                    <span oid="object-@item" class="action-icon delete delete-product">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
 
-
+        }
     </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
@@ -113,18 +119,14 @@
                 </div>
                 <div class="col-7" style="min-height:inherit;float:left">
                     <label class="text-color mt-2">Category:</label>
-                    @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Caterogy 1" },
-                                                                                              new SelectListItem { Value = "0", Text = "category 2" },
-                                                                                              new SelectListItem { Value = "2", Text = "category 3" } }, new { @style = "", @class = "dropdownlist", @id = "cate-select" })
+                    @Html.DropDownListFor(model => model.categoryId, new SelectList(ViewBag.lsCate, "Key", "Value"), new { @class = "dropdownlist" })
 
                     @*  @Html.DropDownList("accountid", new SelectList(ViewBag.Accounts, "AccountID", "AccountName"))
                                         @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
                         .Concat(db.categories.Where(x=>x.status==true&&Model.id!=x.id&&x.parent_id==0).Select(x => new SelectListItem { Text = x.name, Value = x.id.ToString() })), new { @style = "width: 300px; height: 45px; border: 2px solid #e76c39;border-radius:5px; cursor:pointer;" })
                     *@
                     <label class="text-color mt-3">Status:</label>
-                    @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
-                                                                                              new SelectListItem { Value = "0", Text = "Deactivated" },
-                                                                                              new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist", @id = "status-select" })
+                    @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist" })
 
 
 
@@ -195,7 +197,7 @@
                 lsAttr.push(
                     {
                         colorID: $(e[i]).find(".ip-color").val(),
-                        sizeID: $(e[i]).find(".ip-size").val(),
+                        lengthID: $(e[i]).find(".ip-length").val(),
                         widthID: $(e[i]).find(".ip-width").val(),
                         heightID: $(e[i]).find(".ip-height").val(),
                         qty: $(e[i]).find(".input-qty").val(),
@@ -208,7 +210,7 @@
             f.append("lsAttr", JSON.stringify(lsAttr));
                $.ajax({
                 type: "POST",
-                url: "@Url.Action("SaveProduct", "Product")",
+                url: "@Url.Action("SaveProduct", "Products")",
                 data: f,
                 async: false,
                 processData: false,
@@ -276,15 +278,15 @@
         }
 
         for (var i = 0; i < e.length; i++) {
-            if (isEmpty($(e[i]).find(".input-price").val()) || !($(e[i]).find(".input-price").val()).match(regex) || isEmpty($(e[i]).find(".input-qty").val()) || !($(e[i]).find(".input-qty").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-size").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
+            if (isEmpty($(e[i]).find(".input-price").val()) || !($(e[i]).find(".input-price").val()).match(regex) || isEmpty($(e[i]).find(".input-qty").val()) || !($(e[i]).find(".input-qty").val()).match(regex) || $(e[i]).find(".ip-color").val() == -1 || $(e[i]).find(".ip-length").val() == -1 || $(e[i]).find(".ip-width").val() == -1 || $(e[i]).find(".ip-height").val() == -1) {
                 $("#add-attr-error").html("Invalid input");
                 return false;
             }
         }
         for (var i = 0; i < e.length; i++) {
-            var slc1 = [$(e[i]).find(".ip-color").val(), $(e[i]).find(".ip-size").val(), $(e[i]).find(".ip-width").val(), $(e[i]).find(".ip-height").val()];
+            var slc1 = [$(e[i]).find(".ip-color").val(), $(e[i]).find(".ip-length").val(), $(e[i]).find(".ip-width").val(), $(e[i]).find(".ip-height").val()];
             for (var j = i + 1; j < e.length; j++) {
-                var slc2 = [$(e[j]).find(".ip-color").val(), $(e[j]).find(".ip-size").val(), $(e[j]).find(".ip-width").val(), $(e[j]).find(".ip-height").val()];
+                var slc2 = [$(e[j]).find(".ip-color").val(), $(e[j]).find(".ip-length").val(), $(e[j]).find(".ip-width").val(), $(e[j]).find(".ip-height").val()];
                 if (arraysEqual(slc1, slc2)) {
                     $("#add-attr-error").html("There are many identical classifications");
                     return false;
@@ -319,7 +321,7 @@
     $("#btnAttrSave").click(function () {
         $("#name-attr-error").html("");
         var name = $("#ip-name-attr-create").val();
-        var slt = attr_type == "color" ? 1 : (attr_type == "size" ? 2 : (attr_type == "width" ? 3 : 4))
+        var slt = attr_type == "color" ? 1 : (attr_type == "length" ? 2 : (attr_type == "width" ? 3 : 4))
         if (isEmpty(name)) {
             $("#name-attr-error").html("* required");
 
@@ -333,7 +335,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("SaveAttribute", "Product")",
+                url: "@Url.Action("SaveAttribute", "Products")",
                 data: f,
                 async: false,
                 processData: false,
@@ -355,7 +357,7 @@
         f.append("type", type);
         var q = $.ajax({
             type: "POST",
-            url: "@Url.Action("CheckExistsName", "Product")",
+            url: "@Url.Action("CheckExistsName", "Products")",
             data: f,
             async: false,
             processData: false,
@@ -388,8 +390,8 @@
             $("#pd-attr").append('<div class="attr-child mt-1"> <div class="choose-attr">'
                 + '<input type="checkbox" class="color-choose"/>'
                 + '<label class="text-color attr-choose">color</label>'
-                + '<input type="checkbox" class="size-choose" />'
-                + '<label class="text-color attr-choose">size</label>'
+                + '<input type="checkbox" class="length-choose" />'
+                + '<label class="text-color attr-choose">length</label>'
                 + '<input type="checkbox" class="width-choose"/>'
                 + '<label class="text-color attr-choose">width</label>'
                 + '<input type="checkbox" class="height-choose" />'
@@ -441,16 +443,15 @@
     });
       function GetListAttribute(id) {
         var f = new FormData();
-        f.append("id", id);
-
+          f.append("id", id);
            var q= $.ajax({
                 type: "POST",
-                url: "@Url.Action("GetListAttribute", "Product")",
+                url: "@Url.Action("GetListAttribute", "Products")",
                 data: f,
                 async: false,
                 processData: false,
                 contentType: false,
-                success: function (data) {
+               success: function (data) {
                     return data;
 
                }
@@ -460,16 +461,16 @@
 
     };
 
-    $('body').delegate(".size-choose", "click", function () {
+    $('body').delegate(".length-choose", "click", function () {
         if ($(this).prop("checked") == true) {
             var str = "";
             if (GetListChild($(this), true)==1) {
                 str = '<input type="text" placeholder="price" class="input-attr input-form-cu"/>';
             }
-            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-size">' + GetListAttribute(2) + '</select>' + str)
+            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-length">' + GetListAttribute(2) + '</select>' + str)
 
         } else {
-            $(this).closest(".attr-child").find(".item-child").find(".ip-size").remove();
+            $(this).closest(".attr-child").find(".item-child").find(".ip-length").remove();
             GetListChild($(this)) == 0 ? $(this).closest(".attr-child").find(".render-child").empty() : true
 
         }
@@ -508,8 +509,8 @@
         OpenFormCreateAttr($(this), "color")
 
     });
-    $('body').delegate(".ip-size", "change", function () {
-        OpenFormCreateAttr($(this), "size")
+    $('body').delegate(".ip-length", "change", function () {
+        OpenFormCreateAttr($(this), "length")
 
     });
     $('body').delegate(".ip-height", "change", function () {

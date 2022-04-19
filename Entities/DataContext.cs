@@ -24,6 +24,13 @@ namespace post_office.Entities
         }
         //Attribute
         public DbSet<Attribute> Attributes { get; set; }
+
+        //Product
+        public DbSet<Product> Products { get; set; }
+        //ProductCategory
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        //ProductAttribute
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
         //Role
         public DbSet<Role> Roles { get; set; }
         //User

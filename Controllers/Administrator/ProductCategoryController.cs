@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office.Models;
 using post_office.Services;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
+            /*ViewBag.lsPDCate = ProductCategoryModel.ls_status;*/
             return View();
         }
     }
