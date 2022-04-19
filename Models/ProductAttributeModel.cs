@@ -10,7 +10,7 @@ namespace post_office.Models
         public int id { get; set; }
         public int productId { get; set; }
         public int? colorID { get; set; }
-        public int? sizeID { get; set; }
+        public int? lengthID { get; set; }
         public int? widthID { get; set; }
         public int? heightID { get; set; }
         public int qty { get; set; }

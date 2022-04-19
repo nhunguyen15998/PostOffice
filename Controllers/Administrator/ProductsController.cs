@@ -6,36 +6,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using post_office.Services;
+using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace post_office.Controllers.Administrator
 {
     public class ProductsController : Controller
     {
+        private IWebHostEnvironment Environment;
         public static int id = 0;
-        List<AttributeModel> m = new List<AttributeModel>() {
-                new AttributeModel() { id = 1, createdAt = DateTime.Now, name = "red", type = 1},
-                new AttributeModel() { id = 2, createdAt = DateTime.Now, name = "pink", type = 1 },
-                new AttributeModel() { id = 3, createdAt = DateTime.Now, name = "blue", type = 1},
-                new AttributeModel() { id = 4, createdAt = DateTime.Now, name = "S", type = 2 },
-                new AttributeModel() { id = 5, createdAt = DateTime.Now, name = "M", type = 2 },
-                new AttributeModel() { id = 6, createdAt = DateTime.Now, name = "L", type = 2 },
-                new AttributeModel() { id = 7, createdAt = DateTime.Now, name = "10", type = 3 },
-                new AttributeModel() { id = 8, createdAt = DateTime.Now, name = "30", type = 3},
-                new AttributeModel() { id = 9, createdAt = DateTime.Now, name = "20", type = 4},
-                new AttributeModel() { id = 10, createdAt = DateTime.Now, name = "40", type = 4 }};
+        public static List<AttributeModel> m = new List<AttributeModel>();
+        public static List<ProductModel> lp = new List<ProductModel>();
+        public static List<ProductAttributeModel> la = new List<ProductAttributeModel>();
+
         IProductService _Productsvc = null;
-        public ProductsController(IProductService ProductProduct)
+        IAttributeService _attrsvc = null;
+        IProductCategoryService _pdcatesvc = null;
+        public ProductsController(IProductService ProductProduct, IAttributeService attr, IProductCategoryService pdcate, IWebHostEnvironment _environment)
+
         {
+            Environment = _environment;
+            _attrsvc = attr;
+            _pdcatesvc = pdcate;
             _Productsvc = ProductProduct;
         }
         public IActionResult Index()
         {
+            ViewBag.lsPD = _Productsvc.GetListProduct();
+            ViewBag.pd = _Productsvc;
+            ViewBag.pdcate = _pdcatesvc;
+            ViewBag.lsCate = new SelectList(_pdcatesvc.GetListProductCategory(), "id", "name");
+            ViewBag.ls_status = ProductModel.ls_status;
+            m = _attrsvc.GetListAttribute();
+            lp = _Productsvc.GetListProduct();
+            la = _Productsvc.GetListProductAttribute();
             return View();
         }
         public string GetListAttribute(int id)
         {
             var q= m.Where(x=>x.type==id).ToList();
-            var res = $"<option value='-1'>--*{q.FirstOrDefault(x => x.type == id).typeName}*--</option><option value='0'>--NEW--</option>";
+            var res = $"<option value='-1'>--*{AttributeModel.ls_type[id]}*--</option><option value='0'>--NEW--</option>";
 
             foreach (var item in q)
             {
@@ -49,26 +63,48 @@ namespace post_office.Controllers.Administrator
         }
         public AttributeModel SaveAttribute(AttributeModel mdl)
         {
-            m.Add(new AttributeModel() { id = 11, createdAt = DateTime.Now, name = mdl.name, type = mdl.type});
-            return m[m.Count - 1];
+            _attrsvc.SaveAttribute(mdl);
+            return mdl;
         }
-        public void SaveProduct(string mdl, string lsAttr)
+        public async Task<IActionResult> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
-            List<ProductModel> lp = new List<ProductModel>();
-            List<ProductAttributeModel> la = new List<ProductAttributeModel>();
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
+
+
+            string wwwPath = this.Environment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            string extension = Path.GetExtension(file.FileName);
+            p.thumbnail=fileName = fileName + Helpers.Helpers.RandomCode() + extension;
+            string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
-            lp.Add(new ProductModel() { id = 1, categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price });
-            if (p.price != null|| p.qty != null)
-                la.Add(new ProductAttributeModel() { createAt = DateTime.Now, price = (decimal)p.price, productId = p.id, qty=(int)p.qty });
-            
+            p = _Productsvc.SaveProduct(new ProductModel() { categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price, qty = p.qty, status = p.status, thumbnail = p.thumbnail });
+
 
             foreach (var item in ls)
             {
-                la.Add(new ProductAttributeModel() { qty=item.qty,colorID = item.colorID, heightID = item.heightID, sizeID = item.sizeID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = item.productId });
+                _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty = item.qty, colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = p.id });
             }
-            Console.WriteLine(lp);
-            Console.WriteLine(la);
+            return RedirectToAction("Index");
+
+        }
+        public static Image Base64ToImage(string base64String)
+        {
+
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+            Image image;
+            using (MemoryStream inStream = new MemoryStream())
+            {
+                inStream.Write(imageBytes, 0, imageBytes.Length);
+                image = Bitmap.FromStream(inStream);
+                image.Save(inStream, image.RawFormat);
+            }
+
+            return image;
         }
     }
 }

@@ -88,7 +88,22 @@ namespace post_office.Controllers.Administrator
         {
             return RedirectToAction("Index","Attribute");
         }
+        //Bills
 
+        public IActionResult Bills()
+        {
+            return RedirectToAction("Index", "Bills");
+        }
+        //Customers
+        public IActionResult Customers()
+        {
+            return RedirectToAction("Index", "Customers");
+        }
+        //SettingFee
+        public IActionResult SettingFee()
+        {
+            return RedirectToAction("Index", "SettingFee");
+        }
         /*END VIEW*/
 
     }

@@ -6,10 +6,19 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @model post_office.Models.AttributeModel
-<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:40px">
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:40px 60px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" id="search-by-name" placeholder="Search by name" />
+        <label class="text-color ml-5 mr-2" style="float:left">Search by type: </label>
+
+        <select class="dropdownlist" style="float:left;width:150px;" id="search-by-type">
+            <option value="0">all</option>
+            <option value="1">color</option>
+            <option value="2">length</option>
+            <option value="3">width</option>
+            <option value="4">height</option>
+        </select>
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
 
     </div>
@@ -22,28 +31,29 @@
             <th>Created At</th>
             <th>Action</th>
         </tr>
-        <tr class="table-item">
-            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-            <td class="tbl-30">1</td>
-            <td class="tbl-200">bababbabnannanasbbsbsbbsbbababbababba</td>
-            <td class="tbl-200">babbababbababbabba</td>
-            <td class="sts-item tbl-40" id="sts-"></td>
-            <td class="tbl-180">
-                <span oid="object-1" class="action-icon view view-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <span oid="object-1" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Models.AttributeModel>)ViewBag.ls_attr)
+        {
+    <tr class="table-item">
+        <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+        <td class="tbl-50">@k @{k++;} </td>
+        <td class="tbl-260">@item.name</td>
+        <td class="tbl-260">@item.typeName</td>
+        <td class="tbl-260">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
+        <td class="tbl-180">
 
-                <span oid="object-1" class="action-icon delete delete-branch">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
-        </tr>
+            <span oid="object-@item.id" class="action-icon edit edit-attr" style="padding:10px 5px 10px 10px">
+                <i class="fa fa-edit"></i>
+            </span>
 
+            <span oid="object-@item.id" class="action-icon delete delete-attr">
+                <i class="fa fa-trash"></i>
+            </span>
+        </td>
+    </tr>
+                    }
 
-    </table>
+        </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
             <ul class="pagination" id="paginations">
@@ -78,13 +88,13 @@
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
-                        @Html.AntiForgeryToken()@Html.HiddenFor(x => x.id)
+                        @Html.AntiForgeryToken()
                         <label class="text-color">Name:</label>
-                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name", @id="attr-name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Type:</label>
-                        @Html.DropDownListFor(m => m.type, new SelectList(ViewBag.attr, "Key", "Value"), new { @class = "dropdownlist" })
+                        @Html.DropDownListFor(m => m.type, new SelectList(ViewBag.attr, "Key", "Value"), new { @class = "dropdownlist", @id="slt-attr" })
                         <br />
                         @*<label class="text-color">Type:</label>
                             @Html.TextBoxFor(d => d.typeName, new { @class = "input-form-cu", @type = "text", @placeholder = "type" })
@@ -112,18 +122,38 @@
     $("#btnCreate").click(function () {
         OpenForm("Create attribute",0);
     });
-    $(".edit-role").click(function () {
+    $(".edit-attr").click(function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update attribute",id)
     });
     function OpenForm(type, id) {
-        $("#content").append('');
+
+        if (id != 0) {
+            
+            var fdt = new FormData();
+            fdt.append("id", id);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetAttribute", "Attribute")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#slt-attr").val(data.type);
+                     $("#attr-name").val(data.name);
+                }
+            });
+        }
+
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
-
-
     }
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            alert("entered")
+        }
+    });
     $("#CloseForm").click(function () {
         ResetForm();
     });
@@ -138,10 +168,7 @@
     });
     function ResetForm() {
         CloseForm();
-
         @{post_office.Controllers.Administrator.BranchController.id = 0; }
-
-
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
             $(er).html("");

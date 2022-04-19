@@ -7,29 +7,51 @@ using System.Threading.Tasks;
 
 namespace post_office.Services
 {
-  
-        public interface IAttributeService
+
+    public interface IAttributeService
+    {
+        AttributeModel SaveAttribute(AttributeModel mdl);
+        DataContext GetDataContext();
+        List<AttributeModel> GetListAttribute();
+        bool ModifyAttribute(AttributeModel model);
+    }
+    public class AttributeService : IAttributeService
+    {
+        private DataContext ct;
+        public AttributeService(DataContext context)
         {
-            AttributeModel SaveAttribute(AttributeModel mdl);
-            DataContext GetDataContext();
+            ct = context;
         }
-        public class AttributeService : IAttributeService
+        public DataContext GetDataContext()
         {
-            private  DataContext ct;
-            public AttributeService(DataContext context)
+            return ct;
+        }
+        public AttributeModel SaveAttribute(AttributeModel mdl)
+        {
+            var m = new Entities.Attribute() { Name = mdl.name, Type = mdl.type, CreatedAt = DateTime.Now };
+            ct.Attributes.Add(m);
+            ct.SaveChanges();
+            mdl.id = m.Id;
+            return mdl;
+        }
+        public List<AttributeModel> GetListAttribute()
+        {
+            var w= ct.Attributes.Select(x => new AttributeModel() { id = x.Id, name = x.Name, type = x.Type, createdAt = (DateTime)x.CreatedAt }).ToList();
+            return w ?? null;
+        }
+        public bool ModifyAttribute(AttributeModel mdl)
+        {
+            var w = ct.Attributes.FirstOrDefault(x => x.Id == mdl.id);
+            if (w != null)
             {
-                ct = context;
-            }
-            public DataContext GetDataContext()
-            {
-                return ct;
-            }
-            public AttributeModel SaveAttribute(AttributeModel mdl)
-            {
-                ct.Attributes.Add(new Entities.Attribute() { Name = mdl.name, Type = mdl.type, CreatedAt = DateTime.Now });
+                w.Name = mdl.name;
+                w.Type = mdl.type;
                 ct.SaveChanges();
-                return mdl;
+                return true;
             }
+
+            return false;
         }
-    
+    }
+
 }
