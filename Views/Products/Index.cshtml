@@ -115,7 +115,8 @@
                     <input class="input-form-cu" type="text" placeholder="quantity" id="ip-qty" />
                     <label class="_error" id="qty-error"></label>
                     <br />
-
+                  
+                        <input type="file" class="input-form-cu" accept="image/*" onchange="ReadImage(this)" id="ip-thumbnail" />
                 </div>
                 <div class="col-7" style="min-height:inherit;float:left">
                     <label class="text-color mt-2">Category:</label>
@@ -181,13 +182,28 @@
     function isEmpty(str) {
         return str.length==0?true:false;
     }
+    function ReadImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                $('#imagePreview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+   
+
     $("#btnPDSave").click(function () {
+     
         if (validated()) {
+           
             var mdl = {
-                name : $("#ip-name").val(),
-                price:$("#ip-price").val(),
-                description:$("#ip-des").val(),
-                qty:$("#ip-qty").val(),
+                name: $("#ip-name").val(),
+                price: $("#ip-price").val(),
+                description: $("#ip-des").val(),
+                qty: $("#ip-qty").val(),
                 categoryId:$("#cate-select").val(),
                 status:$("#status-select").val()
             };
@@ -208,6 +224,7 @@
             var f = new FormData();
             f.append("mdl", JSON.stringify(mdl));
             f.append("lsAttr", JSON.stringify(lsAttr));
+            f.append("file",document.getElementById("ip-thumbnail").files[0]);
                $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveProduct", "Products")",
@@ -233,8 +250,9 @@
         var price = $("#ip-price").val();
         var des = $("#ip-des").val();
         var qty = $("#ip-qty").val();
-       // alert(!validatedAttr() + " " + isEmpty(name) + " " + (!isEmpty(qty) && isEmpty(price)) +" "+ (isEmpty(qty) && !isEmpty(price))+" "+ (!price.match(regex) && !isEmpty(price)) +" "+ (!qty.match(regex) && !isEmpty(qty)) +" "+ (isEmpty(qty) && $("#add-attr").prop("checked") == false) +" "+ isEmpty(des) +" "+ (isEmpty(price) && $("#add-attr").prop("checked") == false)+" ");
-        if (!validatedAttr() || isEmpty(name) || (!isEmpty(qty) && isEmpty(price)) || (isEmpty(qty) && !isEmpty(price) ) || (!price.match(regex) && !isEmpty(price)) || (!qty.match(regex) && !isEmpty(qty)) || (isEmpty(qty) && $("#add-attr").prop("checked") == false) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false) ) {
+       
+        // alert(!validatedAttr() + " " + isEmpty(name) + " " + (!isEmpty(qty) && isEmpty(price)) +" "+ (isEmpty(qty) && !isEmpty(price))+" "+ (!price.match(regex) && !isEmpty(price)) +" "+ (!qty.match(regex) && !isEmpty(qty)) +" "+ (isEmpty(qty) && $("#add-attr").prop("checked") == false) +" "+ isEmpty(des) +" "+ (isEmpty(price) && $("#add-attr").prop("checked") == false)+" ");
+        if ( !validatedAttr() || isEmpty(name) || (!isEmpty(qty) && isEmpty(price)) || (isEmpty(qty) && !isEmpty(price)) || (!price.match(regex) && !isEmpty(price)) || (!qty.match(regex) && !isEmpty(qty)) || (isEmpty(qty) && $("#add-attr").prop("checked") == false) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false)) {
 
             if (isEmpty(name)) $("#name-error").html("* required");
             if (!qty.match(regex) && !isEmpty(qty)) $("#qty-error").html("invalid quantity");
@@ -465,7 +483,7 @@
         if ($(this).prop("checked") == true) {
             var str = "";
             if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="price" class="input-attr input-form-cu"/>';
+                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
             }
             $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-length">' + GetListAttribute(2) + '</select>' + str)
 
@@ -479,7 +497,7 @@
         if ($(this).prop("checked") == true) {
             var str = "";
             if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="price" class="input-attr input-form-cu"/>';
+                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
             }
             $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-height">' + GetListAttribute(4) + '</select>' + str)
 
@@ -494,7 +512,7 @@
         if ($(this).prop("checked") == true) {
             var str = "";
             if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="price" class="input-attr input-form-cu"/>';
+                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
             }
             $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-width">' + GetListAttribute(3) + '</select>' + str)
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,6 @@ namespace post_office.Models
         public DateTime createdAt { get; set; }
         public int status { get; set; }
 
-        //list attr public List<ProductAttribute> ls 
+        public IFormFile Thumbnail { get; set; }
     }
 }

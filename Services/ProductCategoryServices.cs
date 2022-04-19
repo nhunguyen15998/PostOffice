@@ -23,7 +23,11 @@ namespace post_office.Services
         }
         public ProductCategoryModel SaveProductCategory(ProductCategoryModel mdl)
         {
-            return null;
+            var c = new ProductCategory() { Name = mdl.name, ParentId = mdl.parent_id, CreatedAt = DateTime.Now, Status = mdl.status };
+            _context.ProductCategories.Add(c);
+            _context.SaveChanges();
+            mdl.id = c.Id;
+            return mdl;
         }
         public  ProductCategoryModel GetProductCategory(int id)
         {

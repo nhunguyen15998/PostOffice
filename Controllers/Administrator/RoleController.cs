@@ -61,6 +61,8 @@ namespace post_office.Controllers.Administrator
                 {
                     model.id = roleId;
                     _rolesvc.ModifyRole(model);
+                    roleId = 0;
+
                 }
                 else _rolesvc.SaveRole(model);
             }

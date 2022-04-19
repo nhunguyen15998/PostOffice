@@ -20,36 +20,38 @@ namespace post_office.Services
     public class ProductService : IProductService
     {
 
-        private DataContext _context;
+        private readonly DataContext ct;
 
         public ProductService(DataContext context)
         {
-            _context = context;
+            ct = context;
         }
         public DataContext GetDataContext()
         {
-            return _context;
+            return ct;
         }
         public ProductModel SaveProduct(ProductModel mdl)
         {
-            _context.Products.Add(new Product() { CategoryId = mdl.categoryId, Code = mdl.code, Description = mdl.description, Price = mdl.price, Qty = mdl.qty, Thumbnail = mdl.thumbnail, Name = mdl.name, Status = mdl.status, CreatedAt = DateTime.Now });
-            _context.SaveChanges();
+            var m= new Product() { CategoryId = mdl.categoryId, Code = mdl.code, Description = mdl.description, Price = mdl.price, Qty = mdl.qty, Thumbnail = mdl.thumbnail, Name = mdl.name, Status = mdl.status, CreatedAt = DateTime.Now };
+            ct.Products.Add(m);
+            ct.SaveChanges();
+            mdl.id = m.Id;
             return mdl;
         }
         public ProductAttributeModel SaveProductAttribute(ProductAttributeModel m)
         {
-            _context.ProductAttributes.Add(new ProductAttribute() { ColorId = m.colorID, HeightId = m.heightID, LengthId = m.lengthID, WidthId = m.widthID, CreatedAt = DateTime.Now, Price = m.price, Qty = m.qty, ProductId = m.productId });
-            _context.SaveChanges();
+            ct.ProductAttributes.Add(new ProductAttribute() { ColorId = m.colorID, HeightId = m.heightID, LengthId = m.lengthID, WidthId = m.widthID, CreatedAt = DateTime.Now, Price = m.price, Qty = m.qty, ProductId = m.productId });
+            ct.SaveChanges();
             return m;
         }
         public List<ProductModel> GetListProduct()
         {
-            return _context.Products.Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
+            return ct.Products.Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
 
         }
         public List<ProductAttributeModel> GetListProductAttribute()
         {
-            return _context.ProductAttributes.Select(x => new ProductAttributeModel() { id = x.Id, colorID = x.ColorId, heightID = x.HeightId, lengthID = x.LengthId, widthID = x.WidthId,price = x.Price, createAt=(DateTime) x.CreatedAt,productId=x.ProductId, qty=(int)x.Qty }).ToList();
+            return ct.ProductAttributes.Select(x => new ProductAttributeModel() { id = x.Id, colorID = x.ColorId, heightID = x.HeightId, lengthID = x.LengthId, widthID = x.WidthId,price = x.Price, createAt=(DateTime) x.CreatedAt,productId=x.ProductId, qty=(int)x.Qty }).ToList();
 
         }
         public int GetTotalQuantity(int pid)

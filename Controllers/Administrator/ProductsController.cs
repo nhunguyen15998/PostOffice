@@ -6,31 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using post_office.Services;
+using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace post_office.Controllers.Administrator
 {
     public class ProductsController : Controller
     {
+        private IWebHostEnvironment Environment;
         public static int id = 0;
-        List<AttributeModel> m = new List<AttributeModel>();
-        List<ProductModel> lp = new List<ProductModel>();
-        List<ProductAttributeModel> la = new List<ProductAttributeModel>();
+        public static List<AttributeModel> m = new List<AttributeModel>();
+        public static List<ProductModel> lp = new List<ProductModel>();
+        public static List<ProductAttributeModel> la = new List<ProductAttributeModel>();
 
         IProductService _Productsvc = null;
         IAttributeService _attrsvc = null;
         IProductCategoryService _pdcatesvc = null;
-        public ProductsController(IProductService ProductProduct, IAttributeService attr, IProductCategoryService pdcate)
+        public ProductsController(IProductService ProductProduct, IAttributeService attr, IProductCategoryService pdcate, IWebHostEnvironment _environment)
 
         {
+            Environment = _environment;
             _attrsvc = attr;
             _pdcatesvc = pdcate;
             _Productsvc = ProductProduct;
         }
         public IActionResult Index()
         {
+            ViewBag.lsPD = _Productsvc.GetListProduct();
             ViewBag.pd = _Productsvc;
             ViewBag.pdcate = _pdcatesvc;
-            ViewBag.lsCate = _pdcatesvc.GetListProductCategory();
+            ViewBag.lsCate = new SelectList(_pdcatesvc.GetListProductCategory(), "id", "name");
             ViewBag.ls_status = ProductModel.ls_status;
             m = _attrsvc.GetListAttribute();
             lp = _Productsvc.GetListProduct();
@@ -57,22 +66,45 @@ namespace post_office.Controllers.Administrator
             _attrsvc.SaveAttribute(mdl);
             return mdl;
         }
-        public void SaveProduct(string mdl, string lsAttr)
+        public async Task<IActionResult> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
-           
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
+
+
+            string wwwPath = this.Environment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            string extension = Path.GetExtension(file.FileName);
+            p.thumbnail=fileName = fileName + Helpers.Helpers.RandomCode() + extension;
+            string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
-           
-            
-            
-            if (ls.Count==0)
-                _Productsvc.SaveProduct(new ProductModel() { id = 1, categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price });
+            p = _Productsvc.SaveProduct(new ProductModel() { categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price, qty = p.qty, status = p.status, thumbnail = p.thumbnail });
 
 
             foreach (var item in ls)
             {
-                _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty=item.qty,colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = item.productId });
+                _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty = item.qty, colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = p.id });
             }
+            return RedirectToAction("Index");
+
+        }
+        public static Image Base64ToImage(string base64String)
+        {
+
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+            Image image;
+            using (MemoryStream inStream = new MemoryStream())
+            {
+                inStream.Write(imageBytes, 0, imageBytes.Length);
+                image = Bitmap.FromStream(inStream);
+                image.Save(inStream, image.RawFormat);
+            }
+
+            return image;
         }
     }
 }
