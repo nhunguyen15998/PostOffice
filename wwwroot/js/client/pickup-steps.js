@@ -520,6 +520,7 @@ $('#single-person').on('click', () => {
 })
 
 $('#multiple-people').on('click', () => {
+    index = 2
     $('#single-person').prop('checked', false)
     $('#multiple-people').prop('checked', true)
     if($('#btn-multiple').hasClass('step-hidden')){

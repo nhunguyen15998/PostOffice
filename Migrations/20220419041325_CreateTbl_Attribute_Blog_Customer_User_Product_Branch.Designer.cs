@@ -10,8 +10,8 @@ using post_office.Entities;
 namespace post_office.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220417030131_CreateTable_Contact_User")]
-    partial class CreateTable_Contact_User
+    [Migration("20220419041325_CreateTbl_Attribute_Blog_Customer_User_Product_Branch")]
+    partial class CreateTbl_Attribute_Blog_Customer_User_Product_Branch
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace post_office.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("post_office.Entities.Attribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attributes");
+                });
 
             modelBuilder.Entity("post_office.Entities.Blog", b =>
                 {
@@ -61,11 +82,11 @@ namespace post_office.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -189,13 +210,13 @@ namespace post_office.Migrations
                     b.Property<string>("CompanyPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -247,7 +268,7 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("post_office.Entities.PinCode", b =>
@@ -263,9 +284,6 @@ namespace post_office.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Name")
                         .HasColumnType("int");
 
@@ -275,6 +293,142 @@ namespace post_office.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PinCodes");
+                });
+
+            modelBuilder.Entity("post_office.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("HeightId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LengthId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WidthId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("HeightId");
+
+                    b.HasIndex("LengthId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WidthId");
+
+                    b.ToTable("ProductAttributes");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductAttributeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductAttributeId");
+
+                    b.ToTable("ProductPhotos");
                 });
 
             modelBuilder.Entity("post_office.Entities.Role", b =>
@@ -295,7 +449,7 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("post_office.Entities.RolePermission", b =>
@@ -366,6 +520,9 @@ namespace post_office.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -390,7 +547,7 @@ namespace post_office.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("post_office.Entities.Contact", b =>
@@ -413,6 +570,74 @@ namespace post_office.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("post_office.Entities.Product", b =>
+                {
+                    b.HasOne("post_office.Entities.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductAttribute", b =>
+                {
+                    b.HasOne("post_office.Entities.Attribute", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("post_office.Entities.Attribute", "Height")
+                        .WithMany()
+                        .HasForeignKey("HeightId");
+
+                    b.HasOne("post_office.Entities.Attribute", "Length")
+                        .WithMany()
+                        .HasForeignKey("LengthId");
+
+                    b.HasOne("post_office.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("post_office.Entities.Attribute", "Width")
+                        .WithMany()
+                        .HasForeignKey("WidthId");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Height");
+
+                    b.Navigation("Length");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Width");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductCategory", b =>
+                {
+                    b.HasOne("post_office.Entities.ProductCategory", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("post_office.Entities.ProductPhoto", b =>
+                {
+                    b.HasOne("post_office.Entities.ProductAttribute", "ProductAttribute")
+                        .WithMany()
+                        .HasForeignKey("ProductAttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductAttribute");
                 });
 
             modelBuilder.Entity("post_office.Entities.RolePermission", b =>

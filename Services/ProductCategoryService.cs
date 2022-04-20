@@ -10,7 +10,7 @@ namespace post_office.Services
     public interface IProductCategoryService
     {
         ProductCategoryModel SaveProductCategory(ProductCategoryModel mdl);
-        ProductCategoryModel GetProductCategory(int id);
+        ProductCategoryModel GetProductCategory(int? id);
         List<ProductCategoryModel> GetListProductCategory();
     }
     public class ProductCategoryService : IProductCategoryService
@@ -29,7 +29,7 @@ namespace post_office.Services
             mdl.id = c.Id;
             return mdl;
         }
-        public  ProductCategoryModel GetProductCategory(int id)
+        public  ProductCategoryModel GetProductCategory(int? id)
         {
             return _context.ProductCategories.Select(x => new ProductCategoryModel() { id = x.Id, name = x.Name, status = x.Status, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.id == id)??null; 
         }

@@ -16,7 +16,7 @@ namespace post_office.Models
         public int id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
-        public int categoryId { get; set; }
+        public int? categoryId { get; set; }
         public int? qty { get; set; }
         public decimal? price { get; set; }
         public string thumbnail { get; set; }

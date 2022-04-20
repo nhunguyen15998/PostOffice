@@ -109,7 +109,9 @@
 																<div class="row">
 																	<div class="col-sm-6">
 																		<div class="input-group">
-																			<label for="service" style="font-size: 14px;">Select service</label>
+																			<label for="service"
+																				style="font-size: 14px;">Select
+																				service</label>
 																			<span class="wpcf7-form-control-wrap">
 																				<select name="services" id="services"
 																					data-placeholder="Select a service…"
@@ -540,7 +542,8 @@
 																						</div>
 																					</div>
 																				</div>
-																				<div class="row justify-content-between" style="padding: 0 12px;">
+																				<div class="row justify-content-between"
+																					style="padding: 0 12px;">
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
@@ -555,8 +558,10 @@
 																					</div>
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
-																							<span class="wpcf7-form-control-wrap"><input
-																									type="text" name="length-1"
+																							<span
+																								class="wpcf7-form-control-wrap"><input
+																									type="text"
+																									name="length-1"
 																									class="wpcf7-form-control wpcf7-text"
 																									aria-invalid="false"
 																									placeholder="Weight">
@@ -567,7 +572,8 @@
 																						<div class="input-group">
 																							<span
 																								class="wpcf7-form-control-wrap"><input
-																									type="text" name="length-1"
+																									type="text"
+																									name="length-1"
 																									class="wpcf7-form-control wpcf7-text"
 																									aria-invalid="false"
 																									placeholder="Length">
@@ -578,7 +584,8 @@
 																						<div class="input-group">
 																							<span
 																								class="wpcf7-form-control-wrap"><input
-																									type="text" name="width-1"
+																									type="text"
+																									name="width-1"
 																									class="wpcf7-form-control wpcf7-text"
 																									aria-invalid="false"
 																									placeholder="Width">
@@ -589,7 +596,8 @@
 																						<div class="input-group">
 																							<span
 																								class="wpcf7-form-control-wrap"><input
-																									type="text" name="height-1"
+																									type="text"
+																									name="height-1"
 																									class="wpcf7-form-control wpcf7-text"
 																									aria-invalid="false"
 																									placeholder="Height">
@@ -599,27 +607,112 @@
 																				</div>
 																			</div>
 																		</div>
-																		<div class="">
+																		<!--Parcel detail-->
+																		<div class="row">
+																			<div class="d-flex">
+																				<label for="pickup"
+																					style="font-size: 14px;"
+																					class="mr-2">Add parcel
+																					details</label>
+																				<div class="d-flex">
+																					<button type="button"
+																						class="align-items-center btn d-flex justify-content-center p-0"
+																						id="btn-add-more-person"
+																						style=" border-radius: 50%; height: 20px;width: 20px;background-color: rgb(255, 205, 57);"><i
+																							class="fa-solid fa-plus"
+																							style="font-size: 10px;"></i></button>
+																				</div>
+																			</div>
+																			<div class="col-sm-7">
+																				<div class="input-group">
+																					<span
+																						class="wpcf7-form-control-wrap"><input
+																							type="text" name="name-"
+																							class="wpcf7-form-control wpcf7-text"
+																							aria-invalid="false"
+																							placeholder="Name">
+																					</span>
+																				</div>
+																			</div>
+																			<div class="col-sm-2">
+																				<div class="input-group">
+																					<span
+																						class="wpcf7-form-control-wrap"><input
+																							type="text" name="qty-"
+																							class="wpcf7-form-control wpcf7-text"
+																							aria-invalid="false"
+																							placeholder="Qty">
+																					</span>
+																				</div>
+																			</div>
+																			<div class="col-sm-3 d-flex"
+																				style="padding-top: 10px;">
+
+																				<button type="button"
+																					class="align-items-center btn btn-danger d-flex justify-content-center p-0"
+																					id="btn-add-more-person"
+																					style=" border-radius: 50%; height: 30px;width: 30px;"><i
+																						class="fa-solid fa-trash-can"
+																						style="font-size: 15px;"></i></button>
+																			</div>
+																		</div>
+																		<!--Notes-->
+																		<div class="row">
+																			<label for="pickup" style="font-size: 14px;"
+																				class="col-sm-9">Notes</label>
+																			<label for="pickup" style="font-size: 14px;"
+																				class="col-sm-3">Amount
+																				collected</label>
+																		</div>
+																		<div class="justify-content-between row">
+																			<div class="col-sm-9">
+																				<div class="input-group">
+																					<span
+																						class="wpcf7-form-control-wrap"><textarea
+																							type="text" name="name-"
+																							class="wpcf7-form-control wpcf7-text"
+																							aria-invalid="false"
+																							placeholder="Write some notes"
+																							style="font-size: 12px; height: 53px;"
+																							rows="1"></textarea>
+																					</span>
+																				</div>
+																			</div>
+																			<div class="col-sm-3">
+																				<div class="input-group">
+																					<span
+																						class="wpcf7-form-control-wrap"><input
+																							type="text" name="amount-"
+																							class="wpcf7-form-control wpcf7-text"
+																							aria-invalid="false"
+																							placeholder="Up to 3000k">
+																					</span>
+																				</div>
+																			</div>
 
 																		</div>
 																		<!--photo-->
 																		<div class="row">
-																			<div class="align-items-center col-sm-6 d-flex">
+																			<div
+																				class="align-items-center col-sm-6 d-flex">
 																				<div class="input-group"
 																					style="margin-bottom: 0 !important;">
 																					<label for="pickup"
-																						style="font-size: 14px;">Add some photos
+																						style="font-size: 14px;">Add
+																						some photos
 																						of pickup stuff</label>
-																					<span class="wpcf7-form-control-wrap">
-																						<input type="file" name="photos-1"
-																							multiple style="font-size: 13px;"
+																					<span
+																						class="wpcf7-form-control-wrap">
+																						<input type="file"
+																							name="photos-1" multiple
+																							style="font-size: 13px;"
 																							id="photos-1">
 																					</span>
 																				</div>
 																			</div>
 																		</div>
 																		<!--photos-->
-																		<div class="m-0 mb-5" id="receiver-photo-1">
+																		<div class="m-0 mb-4" id="receiver-photo-1">
 																			<div id="photo-scroll-1"
 																				class="align-items-center d-flex p-0">
 
@@ -677,23 +770,23 @@
 													<li class="nav-item">
 														<a class="active nav-link" aria-current="page">
 															<input type="radio">
-															<img src="../../img/defaults/one-pay.png"
-																width="80" height="80">
+															<img src="../../img/defaults/one-pay.png" width="80"
+																height="80">
 														</a>
 													</li>
 													<li class="nav-item">
 														<a class="active nav-link" aria-current="page">
 															<input type="radio">
-															<img src="../../img/defaults/momo-logo.png"
-																width="40" height="40">
+															<img src="../../img/defaults/momo-logo.png" width="40"
+																height="40">
 														</a>
 													</li>
 
 													<li class="nav-item">
 														<a class="active nav-link" aria-current="page">
 															<input type="radio">
-															<img src="../../img/defaults/cod-logo.jpeg"
-																width="100" height="100">
+															<img src="../../img/defaults/cod-logo.jpeg" width="100"
+																height="100">
 														</a>
 													</li>
 												</ul>
