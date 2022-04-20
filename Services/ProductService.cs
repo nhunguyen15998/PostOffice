@@ -70,8 +70,8 @@ namespace post_office.Services
             var pd = GetListProduct().FirstOrDefault(x => x.id == pid).price ?? 0;
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
             ls_PDattr.Add(pd);
-            string res =string.Format("0:n0", ls_PDattr[0]);
-            if (ls_PDattr.Count >= 2) res = string.Format("0:n0", ls_PDattr.Min())+" - "+ string.Format("0:n0", ls_PDattr.Max());
+            string res =string.Format("{0:n0}", ls_PDattr[0]);
+            if (ls_PDattr.Count >= 2) res = string.Format("{0:n0}", ls_PDattr.Min())+" - "+ string.Format("{0:n0}", ls_PDattr.Max());
             return res;
         }
 

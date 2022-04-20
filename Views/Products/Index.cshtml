@@ -20,6 +20,7 @@
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
             <th>#</th>
+            <th></th>
             <th>Code</th>
             <th>Name</th>
             <th>Category</th>
@@ -32,29 +33,30 @@
         @{int k = 1;}
         @foreach (var item in (List<post_office.Models.ProductModel>)ViewBag.lsPD)
         {
-            <tr class="table-item">
-                <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-                <td class="tbl-30">@k @{k++;}</td>
-                <td class="tbl-180">@item.code</td>
-                <td class="tbl-200">@item.name</td>
-                <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId).name</td>
-                <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
-                <td class="tbl-110">@pd.GetTotalQuantity(item.id)</td>
-                <td class="tbl-140">@item.createdAt</td>
-                <td class="sts-item tbl-40" id="sts-"></td>
-                <td class="tbl-180">
-                    <span oid="object-@item" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
-                        <i class="fa fa-eye"></i>
-                    </span>
-                    <span oid="object-@item" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
-                        <i class="fa fa-edit"></i>
-                    </span>
+    <tr class="table-item">
+        <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
+        <td class="tbl-40">@k @{k++;}</td>
+        <td class="tbl-40 p-2">@if (item.thumbnail != "") {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45"/>  }</td>
+        <td class="tbl-190">@item.code</td>
+        <td class="tbl-200">@item.name</td>
+        <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId).name</td>
+        <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
+        <td class="tbl-110">@pd.GetPrice(item.id)</td>
+        <td class="tbl-140">@item.createdAt</td>
+        <td class="sts-item tbl-40" id="sts-"></td>
+        <td class="tbl-180">
+            <span oid="object-@item" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
+                <i class="fa fa-eye"></i>
+            </span>
+            <span oid="object-@item" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                <i class="fa fa-edit"></i>
+            </span>
 
-                    <span oid="object-@item" class="action-icon delete delete-product">
-                        <i class="fa fa-trash"></i>
-                    </span>
-                </td>
-            </tr>
+            <span oid="object-@item" class="action-icon delete delete-product">
+                <i class="fa fa-trash"></i>
+            </span>
+        </td>
+    </tr>
 
         }
     </table>
@@ -120,14 +122,14 @@
                 </div>
                 <div class="col-7" style="min-height:inherit;float:left">
                     <label class="text-color mt-2">Category:</label>
-                    @Html.DropDownListFor(model => model.categoryId, new SelectList(ViewBag.lsCate, "Key", "Value"), new { @class = "dropdownlist" })
+                    @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select cate" } }, new { @class = "dropdownlist" ,@id="cate-select"})
 
                     @*  @Html.DropDownList("accountid", new SelectList(ViewBag.Accounts, "AccountID", "AccountName"))
                                         @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
                         .Concat(db.categories.Where(x=>x.status==true&&Model.id!=x.id&&x.parent_id==0).Select(x => new SelectListItem { Text = x.name, Value = x.id.ToString() })), new { @style = "width: 300px; height: 45px; border: 2px solid #e76c39;border-radius:5px; cursor:pointer;" })
                     *@
                     <label class="text-color mt-3">Status:</label>
-                    @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist" })
+                    @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist",@id="status-select" })
 
 
 
@@ -179,9 +181,7 @@
     $("#btnCreate").click(function () {
         OpenForm("Create product",0);
     });
-    function isEmpty(str) {
-        return str.length==0?true:false;
-    }
+
     function ReadImage(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -193,13 +193,14 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-   
+
 
     $("#btnPDSave").click(function () {
-     
+
         if (validated()) {
-           
+
             var mdl = {
+                id:@post_office.Controllers.Administrator.ProductsController._id,
                 name: $("#ip-name").val(),
                 price: $("#ip-price").val(),
                 description: $("#ip-des").val(),
@@ -232,8 +233,8 @@
                 async: false,
                 processData: false,
                 contentType: false,
-                success: function (data) {
-
+                   success: function () {
+                       window.location.href = "@Url.Action("Index","Products")"
 
                 }
             });
@@ -250,7 +251,7 @@
         var price = $("#ip-price").val();
         var des = $("#ip-des").val();
         var qty = $("#ip-qty").val();
-       
+
         // alert(!validatedAttr() + " " + isEmpty(name) + " " + (!isEmpty(qty) && isEmpty(price)) +" "+ (isEmpty(qty) && !isEmpty(price))+" "+ (!price.match(regex) && !isEmpty(price)) +" "+ (!qty.match(regex) && !isEmpty(qty)) +" "+ (isEmpty(qty) && $("#add-attr").prop("checked") == false) +" "+ isEmpty(des) +" "+ (isEmpty(price) && $("#add-attr").prop("checked") == false)+" ");
         if ( !validatedAttr() || isEmpty(name) || (!isEmpty(qty) && isEmpty(price)) || (isEmpty(qty) && !isEmpty(price)) || (!price.match(regex) && !isEmpty(price)) || (!qty.match(regex) && !isEmpty(qty)) || (isEmpty(qty) && $("#add-attr").prop("checked") == false) || isEmpty(des) || (isEmpty(price) && $("#add-attr").prop("checked") == false)) {
 
@@ -325,10 +326,40 @@
         OpenForm("Update product",id)
     });
     function OpenForm(type, id) {
+         var fdt = new FormData();
+        fdt.append("id", id);
+        if (id != 0) {
 
-        $("#view-main").css("display", "block");
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProduct", "Products")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#ip-name").val(data.name);
+                     $("#ip-price").val(data.price);
+                     $("#ip-des").val(data.description);
+                     $("#ip-qty").val(data.qty);
+                }
+            });
+        }
+        $.ajax({
+                type: "POST",
+            url: "@Url.Action("GetCategoryOption", "Products")",
+            data: fdt,
+                processData: false,
+                contentType: false,
+            success: function (data) {
+                     $("#cate-select").empty();
+                     $("#cate-select").append(data);
+
+                }
+        });
+
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
+        $("#view-main").css("display", "block");
 
 
     }
@@ -393,7 +424,7 @@
         $("#ip-price").val("");
         $("#ip-des").val("");
         $("#ip-qty").val("");
-        @{post_office.Controllers.Administrator.ProductsController.id = 0; }
+        @{post_office.Controllers.Administrator.ProductsController._id = 0; }
 
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {

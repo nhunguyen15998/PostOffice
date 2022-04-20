@@ -1,10 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace post_office.Helpers
 {
     public class Helpers
     {
+        private static readonly Regex _regex = new Regex("[^0-9]+");
+
         public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -40,7 +43,10 @@ namespace post_office.Helpers
         {
             return DateTime.Now.Ticks.ToString();
         }
-
+        public static bool IsNumber(string text)
+        {
+            return _regex.IsMatch(text);
+        }
         public enum DefaultStatus
         {
             [Display(Name = "Deactivated")]
