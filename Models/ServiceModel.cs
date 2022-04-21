@@ -8,6 +8,8 @@ namespace post_office.Models
 {
     public class ServiceModel
     {
+        public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
+
         [Key]
         public int id { get; set; }
         
@@ -22,7 +24,7 @@ namespace post_office.Models
 
         //slot
         [Required(ErrorMessage = "* required")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "The field slot must be a number.")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "The field slot must be a number > 0")]
         public int slot { get; set; }
 
         //content

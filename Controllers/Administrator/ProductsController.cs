@@ -68,14 +68,17 @@ namespace post_office.Controllers.Administrator
         public async Task<bool> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
-            string wwwPath = this.Environment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-            string extension = Path.GetExtension(file.FileName);
-            p.thumbnail=fileName = fileName + Helpers.Helpers.RandomCode() + extension;
-            string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            if (file != null)
             {
-                await file.CopyToAsync(fileStream);
+                string wwwPath = this.Environment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                p.thumbnail = fileName = fileName + Helpers.Helpers.RandomCode() + extension;
+                string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
             }
 
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
@@ -97,7 +100,7 @@ namespace post_office.Controllers.Administrator
 
             if (id != 0)
             {
-                var obj = _pdcatesvc.GetProductCategory(_pdcatesvc.GetProductCategory(id).parent_id);
+                var obj = _pdcatesvc.GetProductCategory(id);
                 if (obj != null ? obj.status == 0 : false)
                 {
                     res += "<option selected='selected' value=" + obj.id + ">" + obj.name + "</option>";
@@ -105,11 +108,18 @@ namespace post_office.Controllers.Administrator
             }
             foreach (var item in w)
             {
-                if(item.status==1)
+                if (item.status == 1)
                     res += "<option value=" + item.id + ">" + item.name + "</option>";
             }
             return res;
         }
-     
+        public ProductModel GetProduct(int id)
+        {
+            var e = _Productsvc.GetProduct(id);
+            _id = e.id;
+            return e;
+        }
+
+
     }
 }

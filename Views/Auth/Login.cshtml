@@ -68,17 +68,17 @@
             }
     </style>
     <main id="page">
-        <img src="~/lib/imgs/bgc.jpg" style="width:100%" />
-        <div style="top:10px; position:absolute;" class="col-12">
+        <img src="~/img/bgc.jpg" style="width:100%" />
+       @* <div style="top:10px; position:absolute;" class="col-12">
             <div class="container col-5" id="message" style="background: #61B4B9;display:none">
                 <label class="container mb-2 mt-1" >
                     <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
                    error
                 </label>
             </div>
-        </div>
+        </div>*@
 
-        <div class="col-12" style="top:17vh; position:absolute;">
+        <div class="col-12" style="top:21vh; position:absolute;">
             <div class="col-5" style="background-image: linear-gradient(150deg, #f2fffe, #bbffde); opacity: 0.85; border-radius: 15px; height: 62vh; left: 8vw; display: table; box-shadow: 0 0 8rem 2rem rgb(218 255 246);border:3px solid #d7fdfa ">
                 <form action="@Url.Action("LoginAction","Auth")" method="post" class="container form-signup col-8" style="min-height:300px; text-align:left">
 
@@ -89,19 +89,21 @@
                     <input class="inputType col-lg-12  contaiter" placeholder="password" name="psw" type="password" value="" />
                     <a href="#" class="mb-3" style="color: #993829; font-size: 13px; ">Forgot password?</a>
 
-                    @if (TempData["ErrorLogin"] != null)
+                      @if (TempData["ErrorLogin"] != null)
                     {
-                        <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40)" id="msgerror">
-                            <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
-                            @TempData["ErrorLogin"]
-                        </label>
-                        TempData["ErrorLogin"] = null;
-                        <script type="text/javascript">
-                            $("#msgerror").delay(2000).fadeOut(300);
-                        </script>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-                    }
+                    <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40)" id="msgerror">
+                        <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                         @TempData["ErrorLogin"] 
+                    </label>
+                     TempData["ErrorLogin"] = null;
+                    <script type="text/javascript">
+                        $("#msgerror").delay(2000).fadeOut(300);
+                    </script>
 
+                       }
+                    
                     <button type="submit" class="btnSignup col-lg-12">Login</button>
 
                 </form>
@@ -111,29 +113,23 @@
     <footer style="background:rgb(107 159 141 / 0.63); color: white; height: 60px; z-index: 10; position: fixed; bottom: 0; text-align: center; padding: 18px 0" class="col-12">
         © 2022 Copyright: !!! web name
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <script type="text/javascript">
         $("#show").click(function () {
             $("#message").css("display", "block");
             $("#message").delay(2000).fadeOut(300);
         });
-        jQuery.fn.shake = function (shakes, distance, duration) {
-            if (shakes > 0) {
-                this.each(function () {
-                    var $el = $(this);
-                    var left = $el.css('left');
-                    $el.animate({ left: "-=" + distance }, duration, function () {
-                        $el.animate({ left: "+=" + distance * 2 }, duration, function () {
-                            $el.animate({ left: left }, duration, function () {
-                                $el.shake(shakes - 1, distance, duration);
-                            });
-                        });
-                    });
-                });
+        jQuery.fn.shake = function (interval, distance, times) {
+            interval = typeof interval == "undefined" ? 100 : interval;
+            distance = typeof distance == "undefined" ? 10 : distance;
+            times = typeof times == "undefined" ? 3 : times;
+            var jTarget = $(this);
+            jTarget.css('position', 'relative');
+            for (var iter = 0; iter < (times + 1); iter++) {
+                jTarget.animate({ left: ((iter % 2 == 0 ? distance : distance * -1)) }, interval);
             }
-            return this;
-        };
+            return jTarget.animate({ left: 0 }, interval);
+        }
     </script>
 
 </body>

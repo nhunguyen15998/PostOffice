@@ -186,10 +186,11 @@
 
             var fdt = new FormData();
             fdt.append("id", id);
+            fdt.append("id", id);
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetAttribute", "Attribute")",
-                data: fdt,
+                data:fdt,
                 processData: false,
                 contentType: false,
                  success: function (data) {

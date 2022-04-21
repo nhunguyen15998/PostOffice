@@ -57,12 +57,12 @@ namespace post_office.Controllers.Administrator
         public List<AttributeModel> LoadDataAttribute(int p, int type, string name)
         {
             int currentSkip = 10 * (p - 1);
-            return _attrsvc.GetListAttribute().Where(x => x.name.ToLower().Contains(name==null?"":name.ToLower()) && type==0?true:x.type==type).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
+            return _attrsvc.GetListAttribute().Where(x => x.name.ToLower().Contains(name==null?"":name.ToLower()) && (type==0?true:x.type==type)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
            
         }
         public int GetCountAttribute(int type, string name)
         {
-            return _attrsvc.GetListAttribute().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) && type == 0 ? true : x.type == type).ToList().Count;
+            return _attrsvc.GetListAttribute().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) &&( type == 0 ? true : x.type == type)).ToList().Count;
 
 
         }

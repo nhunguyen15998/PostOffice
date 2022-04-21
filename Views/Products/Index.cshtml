@@ -26,7 +26,7 @@
             <th>Category</th>
             <th>Qty</th>
             <th>Price</th>
-            <th>Created at</th>
+           @* <th>Created at</th>*@
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -36,23 +36,23 @@
     <tr class="table-item">
         <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
         <td class="tbl-40">@k @{k++;}</td>
-        <td class="tbl-40 p-2">@if (item.thumbnail != "") {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45"/>  }</td>
+        <td class="tbl-40 p-2">@if (item.thumbnail != null) {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45"/>  }</td>
         <td class="tbl-190">@item.code</td>
         <td class="tbl-200">@item.name</td>
         <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId).name</td>
         <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
         <td class="tbl-110">@pd.GetPrice(item.id)</td>
-        <td class="tbl-140">@item.createdAt</td>
+        @*<td class="tbl-140">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>*@
         <td class="sts-item tbl-40" id="sts-"></td>
         <td class="tbl-180">
-            <span oid="object-@item" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
+            <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
                 <i class="fa fa-eye"></i>
             </span>
-            <span oid="object-@item" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+            <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
                 <i class="fa fa-edit"></i>
             </span>
 
-            <span oid="object-@item" class="action-icon delete delete-product">
+            <span oid="object-@item.id" class="action-icon delete delete-product">
                 <i class="fa fa-trash"></i>
             </span>
         </td>
@@ -321,41 +321,43 @@
             $(er[i]).html("");
         }
     }
-    $(".edit-role").click(function () {
+    $(".edit-product").click(function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update product",id)
     });
     function OpenForm(type, id) {
-         var fdt = new FormData();
+        var fdt = new FormData();
         fdt.append("id", id);
-        if (id != 0) {
+         @*$.ajax({
+            type: "POST",
+            url: "@Url.Action("GetCategoryOption", "Products")",
+            data: fdt,
+            processData: false,
+            contentType: false,
+             success: function (data) {
+                $("#cate-select").empty();
+                $("#cate-select").append(data);
 
+            }
+        });*@
+        if (id != 0) {
              $.ajax({
                 type: "POST",
-                url: "@Url.Action("GetProduct", "Products")",
-                data: fdt,
+                url: "@Url.Action("GetProduct", "Products")"+"?id="+id,
+               @* data: fdt,*@
                 processData: false,
                 contentType: false,
                  success: function (data) {
-                     $("#ip-name").val(data.name);
-                     $("#ip-price").val(data.price);
-                     $("#ip-des").val(data.description);
-                     $("#ip-qty").val(data.qty);
-                }
+                     alert(data);
+                    
+                 },
+                 error: function () {
+                     console.log("error")
+                 }
             });
+            
         }
-        $.ajax({
-                type: "POST",
-            url: "@Url.Action("GetCategoryOption", "Products")",
-            data: fdt,
-                processData: false,
-                contentType: false,
-            success: function (data) {
-                     $("#cate-select").empty();
-                     $("#cate-select").append(data);
 
-                }
-        });
 
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
@@ -363,6 +365,10 @@
 
 
     }
+@*    $("#ip-name").val(data.name);
+    $("#ip-price").val(data.price);
+    $("#ip-des").val(data.description);
+    $("#ip-qty").val(data.qty);*@
 
     $("#CloseForm").click(function () {
         ResetForm();
