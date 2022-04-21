@@ -16,7 +16,7 @@ namespace post_office.Models
         [Required(ErrorMessage = "* required")]
         [Remote("NamePDCateExists", "ProductCategory", ErrorMessage = "This name already exist.")]
         public string name { get; set; }
-        public int parent_id { get; set; }
+        public int? parent_id { get; set; }
         public DateTime createdAt { get; set; }
         public int status { get; set; }
     }

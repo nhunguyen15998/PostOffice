@@ -6,20 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using post_office.Models;
+using post_office.Services;
 
 namespace post_office.Controllers.Client
 {
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
-
-        public ContactController(ILogger<ContactController> logger)
+        private ILocationService _locationService;
+        public ContactController(ILogger<ContactController> logger, ILocationService locationService)
         {
             _logger = logger;
+            _locationService = locationService;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 

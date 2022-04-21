@@ -261,13 +261,13 @@
 																				<div class="input-group">
 																					<span
 																						class="wpcf7-form-control-wrap">
-																						<select name="from-ward"
+																						<select name="from-province"
 																							id="from-ward"
-																							data-placeholder="Select ward…"
+																							data-placeholder="Select state/province…"
 																							tabindex="-1"
 																							aria-hidden="true">
 																							<option value="">Select
-																								ward…
+																								state/province…
 																							</option>
 																							<option value="EH">Western
 																								Sahara
@@ -294,11 +294,11 @@
 																						class="wpcf7-form-control-wrap">
 																						<select name="from-district"
 																							id="from-district"
-																							data-placeholder="Select district…"
+																							data-placeholder="Select city/district…"
 																							tabindex="-1"
 																							aria-hidden="true">
 																							<option value="">Select
-																								district…
+																								city/district…
 																							</option>
 																							<option value="EH">Western
 																								Sahara
@@ -317,13 +317,13 @@
 																				<div class="input-group">
 																					<span
 																						class="wpcf7-form-control-wrap">
-																						<select name="from-province"
+																						<select name="from-ward"
 																							id="from-province"
-																							data-placeholder="Select province…"
+																							data-placeholder="Select ward…"
 																							tabindex="-1"
 																							aria-hidden="true">
 																							<option value="">Select
-																								province…
+																								ward…
 																							</option>
 																							<option value="EH">Western
 																								Sahara
@@ -609,58 +609,54 @@
 																		</div>
 																		<!--Parcel detail-->
 																		<div class="row">
-																			<div class="d-flex">
-																				<label for="pickup"
+																			<div class="d-flex" style="padding: 0 15px;">
+																				<label for="parcel"
 																					style="font-size: 14px;"
 																					class="mr-2">Add parcel
 																					details</label>
 																				<div class="d-flex">
 																					<button type="button"
 																						class="align-items-center btn d-flex justify-content-center p-0"
-																						id="btn-add-more-person"
+																						id="btn-add-more-parcel-1"
 																						style=" border-radius: 50%; height: 20px;width: 20px;background-color: rgb(255, 205, 57);"><i
 																							class="fa-solid fa-plus"
 																							style="font-size: 10px;"></i></button>
 																				</div>
 																			</div>
-																			<div class="col-sm-7">
-																				<div class="input-group">
-																					<span
-																						class="wpcf7-form-control-wrap"><input
-																							type="text" name="name-"
-																							class="wpcf7-form-control wpcf7-text"
-																							aria-invalid="false"
-																							placeholder="Name">
-																					</span>
+																			<div class="col-sm-12" id="parcel-detail-1">
+																				<div class="row" id="details-1-1">
+																					<div class="col-sm-7">
+																						<div class="input-group">
+																							<span
+																								class="wpcf7-form-control-wrap"><input
+																									type="text"
+																									name="name-1-1"
+																									class="wpcf7-form-control wpcf7-text"
+																									aria-invalid="false"
+																									placeholder="Name">
+																							</span>
+																						</div>
+																					</div>
+																					<div class="col-sm-2">
+																						<div class="input-group">
+																							<span
+																								class="wpcf7-form-control-wrap"><input
+																									type="text"
+																									name="qty-1-1"
+																									class="wpcf7-form-control wpcf7-text"
+																									aria-invalid="false"
+																									placeholder="Qty">
+																							</span>
+																						</div>
+																					</div>
 																				</div>
-																			</div>
-																			<div class="col-sm-2">
-																				<div class="input-group">
-																					<span
-																						class="wpcf7-form-control-wrap"><input
-																							type="text" name="qty-"
-																							class="wpcf7-form-control wpcf7-text"
-																							aria-invalid="false"
-																							placeholder="Qty">
-																					</span>
-																				</div>
-																			</div>
-																			<div class="col-sm-3 d-flex"
-																				style="padding-top: 10px;">
-
-																				<button type="button"
-																					class="align-items-center btn btn-danger d-flex justify-content-center p-0"
-																					id="btn-add-more-person"
-																					style=" border-radius: 50%; height: 30px;width: 30px;"><i
-																						class="fa-solid fa-trash-can"
-																						style="font-size: 15px;"></i></button>
 																			</div>
 																		</div>
 																		<!--Notes-->
 																		<div class="row">
-																			<label for="pickup" style="font-size: 14px;"
+																			<label for="notes" style="font-size: 14px;"
 																				class="col-sm-9">Notes</label>
-																			<label for="pickup" style="font-size: 14px;"
+																			<label for="amount" style="font-size: 14px;"
 																				class="col-sm-3">Amount
 																				collected</label>
 																		</div>
@@ -669,7 +665,7 @@
 																				<div class="input-group">
 																					<span
 																						class="wpcf7-form-control-wrap"><textarea
-																							type="text" name="name-"
+																							type="text" name="notes-1"
 																							class="wpcf7-form-control wpcf7-text"
 																							aria-invalid="false"
 																							placeholder="Write some notes"
@@ -682,7 +678,7 @@
 																				<div class="input-group">
 																					<span
 																						class="wpcf7-form-control-wrap"><input
-																							type="text" name="amount-"
+																							type="text" name="amount-1"
 																							class="wpcf7-form-control wpcf7-text"
 																							aria-invalid="false"
 																							placeholder="Up to 3000k">

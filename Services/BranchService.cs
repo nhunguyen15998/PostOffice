@@ -11,6 +11,7 @@ namespace post_office.Services
     {
         //client
         IEnumerable<ReadBranchModel> GetAll();
+        IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId);
         BranchModel SaveBranch(BranchModel mdl);
     }
 
@@ -36,16 +37,31 @@ namespace post_office.Services
                                                     phone = y.Phone,
                                                     //headUserName = y.,
                                                     address = y.Address,
+                                                    wardId = y.WardId,
                                                     wardName = x.wardName,
+                                                    cityId = y.CityId, 
                                                     cityName = x.cityName,
+                                                    provinceId = y.ProvinceId,
                                                     provinceName = x.stateName,
+                                                    countryId = y.CountryId,
                                                     countryName = x.countryName,
                                                     statusValue = y.Status == (int)Helpers.Helpers.DefaultStatus.Activated ?
                                                             Helpers.Helpers.DefaultStatus.Activated.ToString() : Helpers.Helpers.DefaultStatus.Deactivated.ToString()
                                                 })
+                                                .Where(x => x.statusValue == Helpers.Helpers.DefaultStatus.Activated.ToString())
                                                 .ToList<ReadBranchModel>();
                 return branches;
 
+            }catch(Exception ex){
+                var a = ex.Message;
+                throw;
+            }
+        }
+        public IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId)
+        {
+            try{
+                var branches = this.GetAll().Where(x => x.cityId == cityId).ToList();
+                return branches;
             }catch(Exception ex){
                 var a = ex.Message;
                 throw;

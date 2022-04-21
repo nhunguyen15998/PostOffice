@@ -155,7 +155,6 @@ function readFile(input, index) {
             //div
             var div = document.createElement('div')
             div.classList.add('col-sm-2', 'justify-content-center',  'p-0')  
-            div.style.position = "relative" 
             div.id = `div-img-${index}-`+ count
             $(`#photo-scroll-${index}`).append(div)
             //btn
@@ -188,7 +187,7 @@ function readFile(input, index) {
 
 // Change Event to Read file content from File input
 $(document).on('change', '#photos-1', function () { 
-    readFile(document.getElementById('photos-1'), index)
+    readFile(document.getElementById('photos-1'), 1)
 })
 function changePhoto(index){
     readFile(document.getElementById(`photos-${index}`), index)
@@ -428,6 +427,85 @@ function receiverInfo(index){
             </div>
         </div>
     </div>
+    <!--Parcel detail-->
+    <div class="row">
+        <div class="d-flex" style="padding: 0 15px;">
+            <label for="pickup"
+                style="font-size: 14px;"
+                class="mr-2">Add parcel
+                details</label>
+            <div class="d-flex">
+                <button type="button"
+                    class="align-items-center btn d-flex justify-content-center p-0"
+                    id="btn-add-more-parcel-${index}" onclick="addMoreParcel(${index})"
+                    style=" border-radius: 50%; height: 20px;width: 20px;background-color: rgb(255, 205, 57);"><i
+                        class="fa-solid fa-plus"
+                        style="font-size: 10px;"></i></button>
+            </div>
+        </div>
+        <div class="col-sm-12" id="parcel-detail-${index}">
+            <div class="row" id="details-${index}-1">
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span
+                            class="wpcf7-form-control-wrap"><input
+                                type="text"
+                                name="name-${index}-1"
+                                class="wpcf7-form-control wpcf7-text"
+                                aria-invalid="false"
+                                placeholder="Name">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <span
+                            class="wpcf7-form-control-wrap"><input
+                                type="text"
+                                name="qty-${index}-1"
+                                class="wpcf7-form-control wpcf7-text"
+                                aria-invalid="false"
+                                placeholder="Qty">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Notes-->
+    <div class="row">
+        <label for="notes" style="font-size: 14px;"
+            class="col-sm-9">Notes</label>
+        <label for="amount" style="font-size: 14px;"
+            class="col-sm-3">Amount
+            collected</label>
+    </div>
+    <div class="justify-content-between row">
+        <div class="col-sm-9">
+            <div class="input-group">
+                <span
+                    class="wpcf7-form-control-wrap"><textarea
+                        type="text" name="notes-${index}"
+                        class="wpcf7-form-control wpcf7-text"
+                        aria-invalid="false"
+                        placeholder="Write some notes"
+                        style="font-size: 12px; height: 53px;"
+                        rows="1"></textarea>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <span
+                    class="wpcf7-form-control-wrap"><input
+                        type="text" name="amount-${index}"
+                        class="wpcf7-form-control wpcf7-text"
+                        aria-invalid="false"
+                        placeholder="Up to 3000k">
+                </span>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="align-items-center col-sm-6 d-flex">
             <div class="input-group"
@@ -453,10 +531,8 @@ function receiverInfo(index){
 let btnBack = `<input type="button" value="BACK" id="btn-receiver-back" class="mr-3">`
 let btnNext = `<input type="button" value="NEXT" id="btn-receiver-next">`
 function loadBtnDelete(index){
-    return `<div class="col-sm-6">
-                    <div class="d-flex align-items-center" id="div-remove-record-${index}">
-                    </div>
-                </div>`
+    return `<div class="d-flex align-items-center" id="div-remove-record-${index}" 
+                style="position: absolute;top: 85px;left: -55px;"></div>`
 }
 
 //btnadd
@@ -478,13 +554,13 @@ btnAddMorePerson.addEventListener('click', () => {
     if(index > 2){
         //btndelete
         let iconDelete = document.createElement('i')
-        iconDelete.classList.add('fa-solid', 'fa-trash-can')
+        iconDelete.classList.add('fa-solid', 'fa-xmark')
         let btnRemoveRecord = document.createElement('button')
         btnRemoveRecord.type = "button"
-        btnRemoveRecord.classList.add('align-items-center', 'btn', 'btn-danger', 'd-flex', 'justify-content-center')
+        btnRemoveRecord.classList.add('align-items-center', 'btn', 'btn-secondary', 'd-flex', 'justify-content-center')
         btnRemoveRecord.style.borderRadius = "50%"
-        btnRemoveRecord.style.width = "45px"
-        btnRemoveRecord.style.height = "45px"
+        btnRemoveRecord.style.width = "25px"
+        btnRemoveRecord.style.height = "25px"
         btnRemoveRecord.append(iconDelete)
 
         let divRemove = loadBtnDelete(index)
@@ -539,6 +615,7 @@ function loadReceiverForm(divId, index){
     var div = document.createElement('div')
     div.classList.add('each')
     div.id = divId
+    div.style.position = "relative"
     $('#add-person-info').append(div)
     let receiver = receiverInfo(index)
     $(`#${divId}`).append(`<hr id="hr-${index}" style="margin-bottom: 70px;"/>`)
@@ -549,12 +626,76 @@ function addMorePerson(divId, index){
     $('#add-person-info').children('#div-btn-add').remove()
     loadReceiverForm(divId, index)
     var divBtn = document.createElement('div')
-    divBtn.classList.add('d-flex', 'mb-5', 'align-items-center')
+    divBtn.classList.add('d-flex', 'mb-5', 'align-items-center', 'mt-5')
     divBtn.id = "div-btn-add"
     $('#add-person-info').append(divBtn)
     let records = document.getElementById("add-person-info").childElementCount - 1
     document.getElementById('div-btn-add').insertAdjacentHTML('afterbegin', `<p class="mb-0 mr-4">Total receivers: <span>${records}</span></p>`)
     document.getElementById('div-btn-add').appendChild(btnAddMorePerson)
+}
+
+//parcel
+function parcelDetail(index, count)
+{
+    return `<div class="row" id="details-${index}-${count}">
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span
+                            class="wpcf7-form-control-wrap"><input
+                                type="text"
+                                name="name-${index}-${count}"
+                                class="wpcf7-form-control wpcf7-text"
+                                aria-invalid="false"
+                                placeholder="Name">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <span
+                            class="wpcf7-form-control-wrap"><input
+                                type="text"
+                                name="qty-${index}-${count}"
+                                class="wpcf7-form-control wpcf7-text"
+                                aria-invalid="false"
+                                placeholder="Qty">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-3 d-flex" style="padding-top: 10px;">
+                    
+                </div>
+            </div>`
+}
+
+//btn-add-more-parcel-1
+$('#btn-add-more-parcel-1').on('click', () => {
+    loadParcelDetail(1)
+})
+
+//btn-add-more-parcel-
+function addMoreParcel(index){
+    loadParcelDetail(index)
+}
+
+function loadParcelDetail(index){
+    let num = $(`#parcel-detail-${index}`).children('.row').length + 1
+    $(`#parcel-detail-${index}`).append(parcelDetail(index, num))
+
+    let btnRemoveParcel = document.createElement('button')
+    btnRemoveParcel.classList.add('align-items-center', 'btn', 'btn-danger', 'd-flex', 'justify-content-center' ,'p-0')
+    btnRemoveParcel.id = `btn-rm-parcel-${index}-${num}`
+    btnRemoveParcel.style.borderRadius = "50%"
+    btnRemoveParcel.style.height = "30px"
+    btnRemoveParcel.style.width= "30px"
+    let btnRemoveParcelIcon = document.createElement('i')
+    btnRemoveParcelIcon.classList.add('fa-solid', 'fa-trash-can')
+    btnRemoveParcelIcon.style.fontSize = "15px"
+    btnRemoveParcel.append(btnRemoveParcelIcon)
+    $(`#details-${index}-${num}`).children('.col-sm-3').append(btnRemoveParcel)
+    btnRemoveParcel.addEventListener('click', () => {
+        $(`#parcel-detail-${index}`).children(`#details-${index}-${num}`).remove()
+    })
 }
 
 //=======================receiver======================

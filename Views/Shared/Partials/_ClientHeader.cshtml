@@ -20,14 +20,13 @@
                     <div class="site-branding themestek-table-cell">
                         <div class="headerlogo themestek-logotype-image themestek-stickylogo-no">
                             <h1 class="site-title">
-                                <a class="home-link" href="https://moversco.themestek.com/demo6/"
-                                    title="MoversCO Demo 6">
-                                    <span class="themestek-sc-logo themestek-sc-logo-type-image">
-                                        <img class="themestek-logo-img standardlogo" alt="MoversCO Demo 6"
-                                            src="../../img/defaults/logo.png">
-                                        <img class="themestek-logo-img crosslogo" alt="MoversCO Demo 6"
-                                            src="../../img/defaults/logo-white-dark.png">
-                                    </span>
+                                <a class="home-link" href='@Url.ActionLink("Index", "Home")'
+                                    title="MoversCO Demo 6"></a>
+                                <span class="align-items-center d-flex themestek-sc-logo themestek-sc-logo-type-image"
+                                    style="height: 100%;">
+                                    <img src="../../img/defaults/logo.png"
+                                        style="max-height: 60px !important;height: 100%;">
+                                </span>
                                 </a>
                             </h1>
                             <h2 class="site-description">Movers, Relocation, Transport &amp; Packers WordPress Theme
@@ -54,25 +53,32 @@
                                         <a href='@Url.ActionLink("Index", "Service")'>Services</a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href='@Url.ActionLink("Detail", "Service")'>Parcels & Mails</a></li>
+                                                <a href='@Url.ActionLink("Detail", "Service")'>Parcels & Mails</a>
+                                            </li>
                                             <li>
                                                 <a href='@Url.ActionLink("Detail", "Service")'>Every Door Direct
-                                                    Mails</a></li>
+                                                    Mails</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Detail", "Service")'>Product Samples</a></li>
+                                                <a href='@Url.ActionLink("Detail", "Service")'>Product Samples</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#">Send</a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href='@Url.ActionLink("Tracking", "Send")'>Tracking</a></li>
+                                                <a href='@Url.ActionLink("Tracking", "Send")'>Tracking</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Index", "Send")'>Schedule an order</a></li>
+                                                <a href='@Url.ActionLink("Index", "Send")'>Schedule an order</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("PinCode", "Send")'>Find Pin Code</a></li>
+                                                <a href='@Url.ActionLink("PinCode", "Send")'>Find Pin Code</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Index", "Send")'>Request a Refund</a></li>
+                                                <a href='@Url.ActionLink("Index", "Send")'>Request a Refund</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
@@ -80,29 +86,38 @@
                                         <ul class="sub-menu">
                                             <li>
                                                 <a href="https://moversco.themestek.com/demo6/projects-style-1/">Informed
-                                                    Delivery</a></li>
+                                                    Delivery</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Tracking", "Send")'>Tracking</a></li>
+                                                <a href='@Url.ActionLink("Tracking", "Send")'>Tracking</a>
+                                            </li>
                                             <li>
                                                 <a href="https://moversco.themestek.com/demo6/projects-style-3/">Intercept
-                                                    a Package</a></li>
-                                            <li >
-                                                <a href="https://moversco.themestek.com/demo6/projects-style-3/">Schedule
-                                                    a Redelivery</a></li>
+                                                    a Package</a>
+                                            </li>
                                             <li>
-                                                <a href="https://moversco.themestek.com/demo6/project/office-furniture-moving/">Request
-                                                    a Refund</a></li>
+                                                <a href="https://moversco.themestek.com/demo6/projects-style-3/">Schedule
+                                                    a Redelivery</a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="https://moversco.themestek.com/demo6/project/office-furniture-moving/">Request
+                                                    a Refund</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#">Products</a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Stamps</a></li>
+                                                <a href='@Url.ActionLink("Index", "Product")'>Stamps</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Supplies</a></li>
+                                                <a href='@Url.ActionLink("Index", "Product")'>Supplies</a>
+                                            </li>
                                             <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Cards & Envelopes</a></li>
+                                                <a href='@Url.ActionLink("Index", "Product")'>Cards & Envelopes</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
@@ -119,7 +134,7 @@
                                     </li>
                                     <script type="text/javascript">
                                         let customer = JSON.parse(localStorage.getItem('user_data'))
-                                        if(customer){
+                                        if (customer) {
                                             $('#btn-signin-signup').children('a').attr('href', '')
                                             let dropdown = `<ul class="sub-menu">
                                                                 <li>
@@ -142,20 +157,30 @@
                                             })
                                         }
                                     </script>
-                                    <li>
+                                    <li style="width: 200px;" id="choose-branch">
                                         <a class="align-items-center d-flex" href="#">
                                             <i class="fa-solid fa-location-dot mb-1 mr-1"></i>
-                                            <p class="m-0" id="choose-branch">Choose branch</p>
+                                            <p class="limit-text m-0" id="choose-branch"
+                                                style="font-size: 14px;line-height: 27px;height: 25px; -webkit-line-clamp: 1;">
+                                                Choose branch</p>
                                         </a>
-                                        <ul class="sub-menu" style="height: 200px;overflow: hidden scroll;">
-                                            <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Stamps</a></li>
-                                            <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Supplies</a></li>
-                                            <li>
-                                                <a href='@Url.ActionLink("Index", "Product")'>Cards & Envelopes</a></li>
+                                        <ul class="sub-menu" style="width: 300px;left: -75px;">
+                                            <li id="title-location" class="d-flex">
+                                                <button style="background-color: transparent;border-color: transparent;width: 35%;" class="p-0">
+                                                   <i class="fa-solid fa-chevron-left" style="color: #ffdc39;font-size: 10px;"></i>
+                                                </button>
+                                                <p class="text-white" style="font-size: 14px;padding-top: 15px;width: 100%;">Country</p>
+                                            </li>
+                                            <li style="padding: 0 15px;" id="search-location">
+                                                <input type="search" placeholder="Search" style="padding: 10px;"
+                                                    id="search-location">
+                                            </li>
+                                            <div style="overflow: hidden scroll;height: 135px; color: white;" id="location-list">
+                                                
+                                            </div>
                                         </ul>
                                     </li>
+                                    <script src="../../js/client/location-address.js"></script>
                                 </ul>
                             </div>
                         </nav><!-- .main-navigation -->
