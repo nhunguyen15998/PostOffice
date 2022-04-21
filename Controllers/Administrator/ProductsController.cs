@@ -18,7 +18,7 @@ namespace post_office.Controllers.Administrator
     public class ProductsController : Controller
     {
         private IWebHostEnvironment Environment;
-        public static int id = 0;
+        public static int _id = 0;
         public static List<AttributeModel> m = new List<AttributeModel>();
         public static List<ProductModel> lp = new List<ProductModel>();
         public static List<ProductAttributeModel> la = new List<ProductAttributeModel>();
@@ -39,7 +39,6 @@ namespace post_office.Controllers.Administrator
             ViewBag.lsPD = _Productsvc.GetListProduct();
             ViewBag.pd = _Productsvc;
             ViewBag.pdcate = _pdcatesvc;
-            ViewBag.lsCate = new SelectList(_pdcatesvc.GetListProductCategory(), "id", "name");
             ViewBag.ls_status = ProductModel.ls_status;
             m = _attrsvc.GetListAttribute();
             lp = _Productsvc.GetListProduct();
@@ -66,19 +65,20 @@ namespace post_office.Controllers.Administrator
             _attrsvc.SaveAttribute(mdl);
             return mdl;
         }
-        public async Task<IActionResult> SaveProduct(IFormFile file, string mdl, string lsAttr)
+        public async Task<bool> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
-
-
-            string wwwPath = this.Environment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-            string extension = Path.GetExtension(file.FileName);
-            p.thumbnail=fileName = fileName + Helpers.Helpers.RandomCode() + extension;
-            string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            if (file != null)
             {
-                await file.CopyToAsync(fileStream);
+                string wwwPath = this.Environment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                p.thumbnail = fileName = fileName + Helpers.Helpers.RandomCode() + extension;
+                string path = Path.Combine(wwwPath + "/img/ProductThumbnail/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
             }
 
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
@@ -89,22 +89,37 @@ namespace post_office.Controllers.Administrator
             {
                 _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty = item.qty, colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = p.id });
             }
-            return RedirectToAction("Index");
+            return true;
 
         }
-        public static Image Base64ToImage(string base64String)
+        public string GetCategoryOption(int id)
         {
+            var w = _pdcatesvc.GetListProductCategory();
 
-            byte[] imageBytes = Convert.FromBase64String(base64String);
-            Image image;
-            using (MemoryStream inStream = new MemoryStream())
+            string res = "";
+
+            if (id != 0)
             {
-                inStream.Write(imageBytes, 0, imageBytes.Length);
-                image = Bitmap.FromStream(inStream);
-                image.Save(inStream, image.RawFormat);
+                var obj = _pdcatesvc.GetProductCategory(id);
+                if (obj != null ? obj.status == 0 : false)
+                {
+                    res += "<option selected='selected' value=" + obj.id + ">" + obj.name + "</option>";
+                }
             }
-
-            return image;
+            foreach (var item in w)
+            {
+                if (item.status == 1)
+                    res += "<option value=" + item.id + ">" + item.name + "</option>";
+            }
+            return res;
         }
+        public ProductModel GetProduct(int id)
+        {
+            var e = _Productsvc.GetProduct(id);
+            _id = e.id;
+            return e;
+        }
+
+
     }
 }

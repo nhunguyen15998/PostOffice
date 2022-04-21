@@ -13,6 +13,7 @@ namespace post_office.Controllers.Administrator
     {
         //parameters
         public static int roleId = 0;
+        public static string mess = string.Empty;
         public static List<int> before = new List<int>();
         public static IRoleService _rolesvc = null;
         public static List<RolePermissionModel> ls_role_pms = new List<RolePermissionModel>() ;
@@ -65,6 +66,7 @@ namespace post_office.Controllers.Administrator
 
                 }
                 else _rolesvc.SaveRole(model);
+                mess = "Save successfully!";
             }
 
             ModelState.Clear();
@@ -73,6 +75,7 @@ namespace post_office.Controllers.Administrator
         public void DeleteRole(int id)
         {
             _rolesvc.RemoveRole(id);
+            mess = "Delete successfully!";
             /*return RedirectToAction("Index");*/
         }
         public RoleModel GetRole(int id)

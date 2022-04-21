@@ -5,7 +5,7 @@
     ViewData["Title"] = "Attribute management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model post_office.Models.AttributeModel
+@model post_office.Models.AttributeModel 
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:40px 60px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
@@ -35,7 +35,7 @@
         @foreach (var item in (List<post_office.Models.AttributeModel>)ViewBag.ls_attr)
         {
     <tr class="table-item">
-        <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+        <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
         <td class="tbl-50">@k @{k++;} </td>
         <td class="tbl-260">@item.name</td>
         <td class="tbl-260">@item.typeName</td>
@@ -51,7 +51,7 @@
             </span>
         </td>
     </tr>
-                    }
+            }
 
         </table>
     <div class="pagination-container" style="cursor:pointer">
@@ -84,21 +84,22 @@
             </span>
         </div>
         <div id="content">
-            @using (Html.BeginForm("AttributeCU", "Attribute", FormMethod.Post, new { @id = "form-attribute" }))
-            {
+           
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
                         @Html.AntiForgeryToken()
                         <label class="text-color">Name:</label>
-                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name", @id="attr-name" })
-                        @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name", @id = "attr-name" })
+                        @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" ,@id="name-error" })
                         <br />
                         <label class="text-color">Type:</label>
-                        @Html.DropDownListFor(m => m.type, new SelectList(ViewBag.attr, "Key", "Value"), new { @class = "dropdownlist", @id="slt-attr" })
+                        @Html.DropDownListFor(m => m.type,new SelectList(ViewBag.attr, "Key", "Value"), new { @class = "dropdownlist", @id = "slt-attr" })
+                        
+
                         <br />
                         @*<label class="text-color">Type:</label>
-                            @Html.TextBoxFor(d => d.typeName, new { @class = "input-form-cu", @type = "text", @placeholder = "type" })
-                            @Html.ValidationMessageFor(d => d.typeName, "", new { @class = "_error" })
+        @Html.TextBoxFor(d => d.typeName, new { @class = "input-form-cu", @type = "text", @placeholder = "type" })
+        @Html.ValidationMessageFor(d => d.typeName, "", new { @class = "_error" })
                         *@
 
                     </div>
@@ -110,7 +111,7 @@
                     <button id="btnAttributeSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
                     <a id="btnAttributeCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
                 </div>
-            }
+            
         </div>
 
     </div>
@@ -118,24 +119,78 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+    var pages = 1;
+    window.onload = function () {
+        var mess = "@(post_office.Controllers.Administrator.AttributeController.mess)";
+        if (mess == "Saved successfully!" || mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
+           @{post_office.Controllers.Administrator.AttributeController.mess = "";}
+        
+
+    }
 
     $("#btnCreate").click(function () {
-        OpenForm("Create attribute",0);
+        OpenForm("Create attribute", 0);
+
     });
-    $(".edit-attr").click(function () {
+    $('body').delegate('.edit-attr', 'click', function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update attribute",id)
     });
+    $('body').delegate('.delete-attr', 'click', function () {
+        if (confirm("Are you sure to delete this item?")) {
+
+            var id = $(this).attr("oid").replace("object-", "");
+            var fdt = new FormData();
+            fdt.append("ls", id);
+            DeleteAttribute(fdt)
+        }
+    });
+    $("#btnDelete").click(function () {
+        if (CheckCheckbox()) {
+           
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to delete these item(s)?")) {
+                var fdt = new FormData();
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                DeleteAttribute(fdt);
+
+                ResetCheckbox();
+            }
+        }
+    });
+    function DeleteAttribute(formData) {
+         $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteAttribute", "Attribute")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                                window.location.href = "@Url.Action("Index","Attribute")"
+
+                }
+            });
+    }
     function OpenForm(type, id) {
 
         if (id != 0) {
-            
+
             var fdt = new FormData();
+            fdt.append("id", id);
             fdt.append("id", id);
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetAttribute", "Attribute")",
-                data: fdt,
+                data:fdt,
                 processData: false,
                 contentType: false,
                  success: function (data) {
@@ -151,13 +206,65 @@
     }
     $("#search-by-name").on('keyup', function (e) {
         if (e.key === 'Enter' || e.keyCode === 13) {
-            alert("entered")
+            var select = $("#search-by-type").val();
+            var nameSearch = $("#search-by-name").val();
+            LoadDataAttribute(1, select, nameSearch)
         }
+
+    });
+    $("#search-by-type").change(function () {
+        var select = $("#search-by-type").val();
+        var nameSearch = $("#search-by-name").val();
+        LoadDataAttribute(1, select, nameSearch)
     });
     $("#CloseForm").click(function () {
         ResetForm();
     });
     $('#btnAttributeSave').click(function () {
+
+        ResetValidate();
+        var name = $("#attr-name").val();
+        var type = parseInt($("#slt-attr").val());
+        if (isEmpty(name)) {
+            $("#name-error").html(" * required");
+        } else {
+            var fdt = new FormData()
+            fdt.append("name", name);
+            fdt.append("type", type);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("NameAttrExists", "Attribute")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data == false) {
+                        $("#name-error").html("This attribute already exists!");
+                        $("#name-error").shake()
+                    } else {
+                        var f = new FormData();
+                        mdl = {
+                            id:@(post_office.Controllers.Administrator.AttributeController._id),
+                            name: name,
+                            type: type
+
+                        };
+                        f.append("m", JSON.stringify(mdl))
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AttributeCU", "Attribute")",
+                            data: f,
+                            processData: false,
+                            contentType: false,
+                            success: function () {
+                                window.location.href = "@Url.Action("Index","Attribute")"
+                            }
+                        });
+                    }
+                }
+            });
+
+        }
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
             if ($(er[i]).html().length > 0) {
@@ -165,9 +272,11 @@
 
             }
         }
+        localStorage.setItem("mySession", "__attr")
+        localStorage.setItem("title", "ATTRIBUTES")
     });
     function ResetForm() {
-        CloseForm();
+        CloseForm()
         @{post_office.Controllers.Administrator.BranchController.id = 0; }
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
@@ -175,6 +284,130 @@
         }
         $("#form-attribute").trigger("reset");
 
+        $("#attr-name").val("");
+
+    }
+
+      
+    $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+        var select = $("#search-by-type").val();
+        var nameSearch = $("#search-by-name").val();
+        LoadDataAttribute(pages, select, nameSearch);
+
+    });
+    function LoadDataAttribute( page,  selectType,sort) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("type", selectType);
+            formDT.append("name", sort);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataAttribute", "Attribute")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#table-id").append('<tr class="table-item"><td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td> <td class="tbl-50">'+row+' </td>'
+                            + '<td class="tbl-260">' + data[i].name + '</td> <td class="tbl-260">' + data[i].typeName + '</td> <td class="tbl-260">' + moment(data[i].createdAt).format('DD/MM/YYYY HH:mm')+'</td>'
+                            +'<td class="tbl-180"> <span oid="object-'+data[i].id+'" class="action-icon edit edit-attr" style="padding:10px 5px 10px 10px"> <i class="fa fa-edit"></i>'
+                            +'</span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>'
+                            +'</td> </tr>')
+                        row = row + 1;
+
+
+                    }
+
+                    var f = new FormData();
+                    f.append("type", selectType);
+                    f.append("name", sort);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountAttribute", "Attribute")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Attribute")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
     }
 
 </script>

@@ -186,10 +186,12 @@
 <script type="text/javascript">
     var roleID = 0;
     window.onload = function () {
-        if (localStorage.getItem("role_mess") == 1) ShowMessage(true, "Save Successfully!")
-        if (localStorage.getItem("role_mess") == 2) ShowMessage(true, "Delete Successfully!");
+        var mess = "@(post_office.Controllers.Administrator.RoleController.mess)";
+        if (mess!="") {
+           ShowMessage(true, mess)
+           @{post_office.Controllers.Administrator.RoleController.mess = "";}
+        }
 
-    localStorage.removeItem("role_mess")
 
     }
     $("#btnCreate").click(function () {
@@ -420,7 +422,6 @@
             contentType: false,
             success: function () {
                     @{post_office.Controllers.Administrator.RoleController.roleId = 0; }
-                     localStorage.setItem("role_mess", 1)
                      localStorage.setItem("mySession", "__role")
                      localStorage.setItem("title", "ROLE")
                      window.location.href = "@Url.Action("Index","Role")";
@@ -429,19 +430,15 @@
     });
     $('#btnRoleSave').click(function () {
         er = document.getElementsByClassName("_error");
-        var count = 0;
         for (var i = 0; i < er.length; i++) {
             if ($(er[i]).html().length > 0) {
                 $(er[i]).shake();
-                count++;
 
             }
         }
-        if (count == 0) {
-            localStorage.setItem("role_mess", 1)
             localStorage.setItem("mySession", "__role")
             localStorage.setItem("title", "ROLE")
-        }
+        
     });
     $('body').delegate('.delete-role', 'click', function () {
         if (confirm("Are you sure to make this change?")) {

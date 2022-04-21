@@ -97,10 +97,10 @@
         }
         var title = localStorage.getItem("title");
         $("#title-bar").html(title);
-
+       
         localStorage.removeItem("mySession");
         localStorage.removeItem("title");
-        
+       
         SearchAction(false);
     });
     $("#search-show").click(function () {
@@ -168,4 +168,40 @@
         }
         return jTarget.animate({ left: 0 }, interval);
     }
+    function isEmpty(str) {
+        return str.length == 0 ? true : false;
+    }
+    function CheckCheckbox() {
+        checkboxes = document.getElementsByClassName('sub-check');
+        var count = 0;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked == true) {
+                count++;
+            }
+        }
+        if (count == 0) {
+            alert("Please select at least 1 item");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function ResetCheckbox() {
+        document.getElementById("check-all").checked = false;
+
+        checkboxes = document.getElementsByClassName('sub-check');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+
+        }
+    }
+    function ResetValidate() {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            $(er[i]).html("");
+        }
+
+
+    }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

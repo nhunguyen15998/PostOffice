@@ -14,6 +14,7 @@ namespace post_office.Services
         DataContext GetDataContext();
         List<AttributeModel> GetListAttribute();
         bool ModifyAttribute(AttributeModel model);
+        bool RemoveAttribute(List<int> ls);
     }
     public class AttributeService : IAttributeService
     {
@@ -52,6 +53,27 @@ namespace post_office.Services
 
             return false;
         }
+        //If the Product has attributeID, don't delete that attribute
+        public bool RemoveAttribute(List<int> ls)
+        {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var r = ct.Attributes.FirstOrDefault(x => x.Id == item);
+                if (r != null){
+                    var attr = ct.ProductAttributes.FirstOrDefault(x => x.ColorId == r.Id || x.HeightId == r.Id || x.LengthId == r.Id || x.WidthId == r.Id);
+                    if (attr == null)
+                    {
+                        ct.Attributes.Remove(r);
+                        ct.SaveChanges();
+                    }
+                    else
+                        check = false;
+                }
+            }
+            return check;
+        }
+
     }
 
 }

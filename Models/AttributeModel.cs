@@ -14,12 +14,11 @@ namespace post_office.Models
         
         [Key]
         public int id { get; set; }
-        [Required(ErrorMessage = "* required")]
-        [Remote("NameAttrExists", "Attribute", ErrorMessage = "This name already exist.")]
-        public string name { get; set; }
-        public string typeName =>type!=0?ls_type[type]:string.Empty;
-        [Required(ErrorMessage = "* required")]
+        public string typeName =>ls_type[type];
         public int type { get; set; }
+        [Required(ErrorMessage = "* required")]
+        [Remote("NameAttrExists", "Attribute", ErrorMessage = "This attribute already exist.")]
+        public string name { get; set; }
         public DateTime createdAt { get; set; }
     }
 }

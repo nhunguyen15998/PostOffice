@@ -16,6 +16,7 @@ namespace post_office.Services
         ProductAttributeModel SaveProductAttribute(ProductAttributeModel m);
         int GetTotalQuantity(int pid);
         string GetPrice(int pid);
+        ProductModel GetProduct(int id);
     }
     public class ProductService : IProductService
     {
@@ -54,6 +55,10 @@ namespace post_office.Services
             return ct.ProductAttributes.Select(x => new ProductAttributeModel() { id = x.Id, colorID = x.ColorId, heightID = x.HeightId, lengthID = x.LengthId, widthID = x.WidthId,price = x.Price, createAt=(DateTime) x.CreatedAt,productId=x.ProductId, qty=(int)x.Qty }).ToList();
 
         }
+        public ProductModel GetProduct(int id)
+        {
+            return ct.Products.Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId = x.CategoryId, description = x.Description, price = x.Price, qty = x.Qty, thumbnail = x.Thumbnail, status = x.Status, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.id == id) ?? null;
+        }
         public int GetTotalQuantity(int pid)
         {
             var pd = GetListProduct().FirstOrDefault(x => x.id == pid).qty ?? 0;
@@ -70,8 +75,8 @@ namespace post_office.Services
             var pd = GetListProduct().FirstOrDefault(x => x.id == pid).price ?? 0;
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
             ls_PDattr.Add(pd);
-            string res =string.Format("0:n0", ls_PDattr[0]);
-            if (ls_PDattr.Count >= 2) res = string.Format("0:n0", ls_PDattr.Min())+" - "+ string.Format("0:n0", ls_PDattr.Max());
+            string res =string.Format("{0:n0}", ls_PDattr[0]);
+            if (ls_PDattr.Count >= 2) res = string.Format("{0:n0}", ls_PDattr.Min())+" - "+ string.Format("{0:n0}", ls_PDattr.Max());
             return res;
         }
 

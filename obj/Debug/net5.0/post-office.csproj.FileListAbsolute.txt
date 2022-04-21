@@ -546,3 +546,8 @@ C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\Sys
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Bills\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customers\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\SettingFee\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\bin\Debug\net5.0\Microsoft.Win32.SystemEvents.dll
+C:\CSharp\Project_PostOffice\bin\Debug\net5.0\System.Drawing.Common.dll
+C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
