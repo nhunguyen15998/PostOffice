@@ -92,6 +92,12 @@ namespace post_office.Controllers.Administrator
             return true;
 
         }
+        public ProductModel GetProduct(int id)
+        {
+            var e = lp.FirstOrDefault(x => x.id == id);
+            _id = e.id;
+            return e;
+        }
         public string GetCategoryOption(int id)
         {
             var w = _pdcatesvc.GetListProductCategory();
@@ -113,12 +119,7 @@ namespace post_office.Controllers.Administrator
             }
             return res;
         }
-        public ProductModel GetProduct(int id)
-        {
-            var e = _Productsvc.GetProduct(id);
-            _id = e.id;
-            return e;
-        }
+       
 
 
     }

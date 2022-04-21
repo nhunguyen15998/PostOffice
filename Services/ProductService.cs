@@ -21,7 +21,7 @@ namespace post_office.Services
     public class ProductService : IProductService
     {
 
-        private readonly DataContext ct;
+        private  DataContext ct;
 
         public ProductService(DataContext context)
         {

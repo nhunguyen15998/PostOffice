@@ -328,47 +328,43 @@
     function OpenForm(type, id) {
         var fdt = new FormData();
         fdt.append("id", id);
-         @*$.ajax({
+          $.ajax({
             type: "POST",
             url: "@Url.Action("GetCategoryOption", "Products")",
             data: fdt,
             processData: false,
             contentType: false,
-             success: function (data) {
+            success: function (data) {
                 $("#cate-select").empty();
                 $("#cate-select").append(data);
 
             }
-        });*@
-        if (id != 0) {
+        });
+         if (id != 0) {
              $.ajax({
                 type: "POST",
-                url: "@Url.Action("GetProduct", "Products")"+"?id="+id,
-               @* data: fdt,*@
+                url: "@Url.Action("GetProduct", "Products")",
+                data: fdt,
                 processData: false,
                 contentType: false,
-                 success: function (data) {
-                     alert(data);
-                    
+                success: function (data) {
+                     $("#ip-name").val(data.name);
+                    $("#ip-price").val(data.price);
+                    $("#ip-des").val(data.description);
+                    $("#ip-qty").val(data.qty);
+
                  },
                  error: function () {
                      console.log("error")
                  }
             });
-            
+
         }
-
-
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
         $("#view-main").css("display", "block");
-
-
     }
-@*    $("#ip-name").val(data.name);
-    $("#ip-price").val(data.price);
-    $("#ip-des").val(data.description);
-    $("#ip-qty").val(data.qty);*@
+
 
     $("#CloseForm").click(function () {
         ResetForm();
