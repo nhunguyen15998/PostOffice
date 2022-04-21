@@ -42,15 +42,13 @@ namespace post_office.Models
         public int headUserID { get; set; }
         public string headUserName { get; set; }
         public string address { get; set; }
-        public int wardId { get; set; }
+        public int? wardId { get; set; }
         public string wardName { get; set; }
-        public int cityId { get; set; }
+        public int? cityId { get; set; }
         public string cityName { get; set; }
-        public int provinceId { get; set; }
+        public int? provinceId { get; set; }
         public string provinceName { get; set; }
-        public int countryId { get; set; }
-        public string countryName { get; set; }
-        public DateTime createdAt { get; set; }
+        public DateTime? createdAt { get; set; }
         public int status { get; set; }
         public string statusValue { get; set; }
     }

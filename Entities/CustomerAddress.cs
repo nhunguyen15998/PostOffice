@@ -21,7 +21,6 @@ namespace post_office.Entities
         public int WardId { get; set; }
         public int CityId { get; set; }
         public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
         [DefaultValue(true)]
         public bool IsDefault { get; set; }
         public DateTime? CreatedAt { get; set; }

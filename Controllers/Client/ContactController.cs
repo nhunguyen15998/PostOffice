@@ -13,16 +13,13 @@ namespace post_office.Controllers.Client
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
-        private ILocationService _locationService;
-        public ContactController(ILogger<ContactController> logger, ILocationService locationService)
+        public ContactController(ILogger<ContactController> logger)
         {
             _logger = logger;
-            _locationService = locationService;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 

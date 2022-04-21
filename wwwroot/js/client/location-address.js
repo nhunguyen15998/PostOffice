@@ -1,73 +1,43 @@
 //header
-let _countryId = 0
 let _stateId = 0
-//return list countries 
-function loadCountries(){
-    $('#search-location').addClass('step-hidden')
-    $('#title-location').children('button').addClass('step-hidden')
-    $('#title-location').children('p').css('width', '100%')
+getStateBranches()
+//return list states has branches
+function getStateBranches(){
+    if(!$('#search-location').hasClass('step-hidden')) 
+        $('#search-location').addClass('step-hidden')
+    if(!$('#title-location').children('button').hasClass('step-hidden'))
+        $('#title-location').children('button').addClass('step-hidden')
+    $('#title-location').children('p').text("State/Province")
     $('#title-location').children('p').css('text-align', 'center')
     $.ajax({
-        url: 'https://localhost:5001/Location/GetCountries',
+        url: `https://localhost:5001/Location/StatesHaveBranches`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
         success: function (response) {
             $('#location-list').empty()
-            $('#title-location').children('p').text("Country")
-            response.forEach(country => {
-                let li = `<li style="position: relative;">
-                            <a type="button"
-                        onclick="getStateBranches(${country.Id})">${country.Name}</a>
-                            <i class="fa-solid fa-chevron-right"
-                        style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
-                        </li>`
-                $('#location-list').append(li)
-            })
-        },
-        error: function (data) {
-            alert(data.responseText.message)
-        }
-    })
-}
-loadCountries()
-//return list states has branches
-function getStateBranches(countryId){
-    $.ajax({
-        url: `https://localhost:5001/Location/StatesHaveBranches?countryId=${countryId}`,
-        type: 'get',
-        dataType: 'json',
-        contentType: 'applicaton/json',
-        success: function (response) {
-            console.log(response)
-            $('#location-list').empty()
-            $('#search-location').removeClass('step-hidden')
-            $('#title-location').children('button').removeClass('step-hidden')
-            $('#title-location').children('p').text("State/Province")
-            $('#title-location').children('p').css('width', '65%')
-            $('#title-location').children('p').css('text-align', '')
-            let arr = new Array()
             response.forEach(item => {
-                if(!arr.includes(item.Id)){
-                    let a = `<li style="position: relative;">
-                            <a type="button"
-                                onclick="getCitiesBranches(${item.Id})">${item.Name}</a>
-                            <i class="fa-solid fa-chevron-right"
-                                style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
-                        </li>`
-                    $('#location-list').append(a)
-                    arr.push(item.Id)
-                }
+                let a = `<li style="position: relative;">
+                        <a type="button"
+                            onclick="getCitiesBranches(${item.Id})">${item.Name}</a>
+                        <i class="fa-solid fa-chevron-right"
+                            style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
+                    </li>`
+                $('#location-list').append(a)
             })
         },
         error: function (data) {
             alert(data.responseText.message)
         }
     })
-    _countryId = countryId
 }
 //return list cities has branches
 function getCitiesBranches(stateId) {
+    $('#title-location').children('p').text("City/District")
+    $('#search-location').removeClass('step-hidden')
+    $('#title-location').children('button').removeClass('step-hidden')
+    $('#title-location').children('p').css('width', '65%')
+    $('#title-location').children('p').css('text-align', '')
     $.ajax({
         url: `https://localhost:5001/Location/CitiesHaveBranches?stateId=${stateId}`,
         type: 'get',
@@ -75,18 +45,13 @@ function getCitiesBranches(stateId) {
         contentType: 'applicaton/json',
         success: function (response) {
             $('#location-list').empty()
-            $('#title-location').children('p').text("City/District")
-            let arr = new Array()
             response.forEach(item => {
-                if(!arr.includes(item.Id)){
-                    let a = `<li style="position: relative;">
-                            <a type="button" onclick="getWardsByCity(${item.Id})">${item.Name}</a>
-                                <i class="fa-solid fa-chevron-right"
-                                    style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
-                            </li>`
-                    $('#location-list').append(a)
-                    arr.push(item.Id)
-                }
+                let a = `<li style="position: relative;">
+                        <a type="button" onclick="getBranchesByCity(${item.Id})">${item.Name}</a>
+                            <i class="fa-solid fa-chevron-right"
+                                style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
+                        </li>`
+                $('#location-list').append(a)
             })
         },
         error: function (data) {
@@ -96,7 +61,7 @@ function getCitiesBranches(stateId) {
     _stateId = stateId
 }
 //return list branches
-function getWardsByCity(cityId) {
+function getBranchesByCity(cityId) {
     $.ajax({
         url: `https://localhost:5001/Location/GetBranchesByCities?cityId=${cityId}`,
         type: 'get',
@@ -107,8 +72,11 @@ function getWardsByCity(cityId) {
             $('#title-location').children('p').text("Branch")
             if(response == null) return
             response.forEach(item => {
+                let branch = `${item.name}, ${item.address}, ${item.wardName}, ${item.cityName}, ${item.provinceName}`
                 let a = `<li>
-                            <a type="button" onclick="">${item.Name}</a>
+                            <a type="button" onclick="getBranches(${item.id})">
+                                ${branch}                                                             
+                            </a>
                         </li>`
                 $('#location-list').append(a)
             })
@@ -119,22 +87,42 @@ function getWardsByCity(cityId) {
     })
 } 
 
+function getBranches(id){
+    $.ajax({
+        url: `https://localhost:5001/Location/GetBranchesByCities?cityId=0&branchId=`+id,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'applicaton/json',
+        success: function (response) {
+            $('#choose-branch').children('a').find('p').css('font-size', '12px')
+            $('#choose-branch').children('a').find('p').css('line-height', '18px')
+            $('#choose-branch').children('a').find('p').css('height', '35px')
+            response.forEach(item => {
+                console.log(item)
+                let branch = `${item.name}, ${item.address}, ${item.wardName}, ${item.cityName}, ${item.provinceName}`
+                $('#choose-branch').children('a').find('p').text(branch)
+                document.cookie = "branch="+JSON.stringify(item);
+            })
+        },
+        error: function (data) {
+            alert(data.responseText.message)
+        }
+    })
+}
+
 $('#title-location').children('button').on('click', () => {
     let title = $('#title-location').children('p').text()
     switch(title){
-        case "State/Province":
-            loadCountries()
-            break
         case "City/District":
-            getStateBranches(_countryId)
+            getStateBranches()
             break
-        case "Ward":
+        case "Branch":
             getCitiesBranches(_stateId)
     }
 })
 
 $('#choose-branch').children('ul').on('mouseleave', () => {
-    loadCountries()
+    getStateBranches()
 })
 
 

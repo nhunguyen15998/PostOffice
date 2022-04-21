@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using post_office.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace post_office.Services
 {
     public interface IBranchService
     {
         //client
-        IEnumerable<ReadBranchModel> GetAll();
-        IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId);
+        IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId, int branchId);
         BranchModel SaveBranch(BranchModel mdl);
     }
 
@@ -25,43 +25,29 @@ namespace post_office.Services
         }
         
         //client
-        public IEnumerable<ReadBranchModel> GetAll()
+        public IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId, int branchId)
         {
             try{
-                var branches = _context.Wards.Join(_context.Cities, x => x.city_id, y => y.id, (x, y) => new {wardName = x.name, cityName = y.name, stateId = y.state_id})
-                                                .Join(_context.States, x => x.stateId, y => y.id, (x, y) => new {wardName = x.wardName, cityName = y.name, stateName = y.name, countryId = y.country_id})
-                                                .Join(_context.Countries, x => x.countryId, y => y.id, (x, y) => new {wardName = x.wardName, cityName = y.name, stateName = y.name, countryName = y.name, countryId = y.id})
-                                                .Join(_context.Branches, x => x.countryId, y => y.CountryId, (x, y) => new ReadBranchModel{
+                var branches = _context.Branches.Where(x => x.Status == (int)Helpers.Helpers.DefaultStatus.Activated)
+                                                .Where(x => cityId != 0 ? x.CityId == cityId : true)
+                                                .Where(x => branchId != 0 ? x.Id == branchId : true)
+                                                .Select(y => new ReadBranchModel{
                                                     id = y.Id,
                                                     name = y.Name,
                                                     phone = y.Phone,
-                                                    //headUserName = y.,
                                                     address = y.Address,
                                                     wardId = y.WardId,
-                                                    wardName = x.wardName,
+                                                    wardName = y.Ward.Name,
                                                     cityId = y.CityId, 
-                                                    cityName = x.cityName,
+                                                    cityName = y.City.Name,
                                                     provinceId = y.ProvinceId,
-                                                    provinceName = x.stateName,
-                                                    countryId = y.CountryId,
-                                                    countryName = x.countryName,
+                                                    provinceName = y.Province.Name,
                                                     statusValue = y.Status == (int)Helpers.Helpers.DefaultStatus.Activated ?
                                                             Helpers.Helpers.DefaultStatus.Activated.ToString() : Helpers.Helpers.DefaultStatus.Deactivated.ToString()
                                                 })
-                                                .Where(x => x.statusValue == Helpers.Helpers.DefaultStatus.Activated.ToString())
-                                                .ToList<ReadBranchModel>();
+                                                .ToList();
                 return branches;
 
-            }catch(Exception ex){
-                var a = ex.Message;
-                throw;
-            }
-        }
-        public IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId)
-        {
-            try{
-                var branches = this.GetAll().Where(x => x.cityId == cityId).ToList();
-                return branches;
             }catch(Exception ex){
                 var a = ex.Message;
                 throw;

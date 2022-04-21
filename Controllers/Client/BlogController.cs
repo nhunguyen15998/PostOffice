@@ -13,22 +13,18 @@ namespace post_office.Controllers.Client
     public class BlogController : Controller
     {
         private readonly ILogger<BlogController> _logger;
-        private ILocationService _locationService;
 
-        public BlogController(ILogger<BlogController> logger, ILocationService locationService)
+        public BlogController(ILogger<BlogController> logger)
         {
             _logger = logger;
-            _locationService = locationService;
         }
         public IActionResult Index()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 
         public IActionResult Detail()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 

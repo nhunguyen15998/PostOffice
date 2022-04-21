@@ -23,16 +23,11 @@ namespace post_office.Controllers.Client
             _branchService = branchService;
         }
 
+        //location
         [HttpGet]
-        public IEnumerable<LocationModel> GetCountries()
+        public IEnumerable<LocationModel> GetStates()
         {
-            return _locationService.GetCountries(DefaultCountries.countryIds);
-        }
-
-        [HttpGet]
-        public IEnumerable<LocationModel> GetStatesByCountry([FromQuery] int countryId)
-        {
-            return _locationService.GetStates(countryId);
+            return _locationService.GetStates();
         }
 
         [HttpGet]
@@ -54,14 +49,14 @@ namespace post_office.Controllers.Client
             return _locationService.CitiesHaveBranches(stateId);
         }
         [HttpGet]
-        public IEnumerable<LocationModel> StatesHaveBranches([FromQuery] int countryId)
+        public IEnumerable<LocationModel> StatesHaveBranches()
         {
-            return _locationService.StatesHaveBranches(countryId);
+            return _locationService.StatesHaveBranches();
         }
         [HttpGet]
-        public IEnumerable<ReadBranchModel> GetBranchesByCities([FromQuery] int cityId)
+        public IEnumerable<ReadBranchModel> GetBranchesByCities([FromQuery] int cityId, int branchId)
         {
-            return _branchService.GetBranchesByConditions(cityId);
+            return _branchService.GetBranchesByConditions(cityId, branchId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

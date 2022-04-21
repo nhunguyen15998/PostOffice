@@ -13,29 +13,24 @@ namespace post_office.Controllers.Client
     public class SendController : Controller
     {
         private readonly ILogger<SendController> _logger;
-        private ILocationService _locationService;
 
-        public SendController(ILogger<SendController> logger, ILocationService locationService)
+        public SendController(ILogger<SendController> logger)
         {
             _logger = logger;
-            _locationService = locationService;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View("Views/Send/Pickup.cshtml");
         }
 
         public IActionResult Tracking()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 
         public IActionResult PinCode()
         {
-            ViewBag.Countries = _locationService.GetCountries(DefaultCountries.countryIds);
             return View();
         }
 

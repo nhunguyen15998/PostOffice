@@ -29,7 +29,6 @@ namespace post_office.Entities
         public int ToWardId { get; set; }
         public int ToCityId { get; set; }
         public int ToProvinceId { get; set; }
-        public int ToCountryId { get; set; }
         public string PinCode { get; set; }
 
         public int DeliveryStatus { get; set; }

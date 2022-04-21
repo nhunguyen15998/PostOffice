@@ -74,9 +74,8 @@ namespace post_office.Entities
         public DbSet<User> Users { get; set; }      
 
         //ward - city - province - country ###COMMENT WHEN RUN MIGRATION
-        public DbSet<Ward> Wards { get; set; }  
-        public DbSet<City> Cities { get; set; }  
-        public DbSet<State> States { get; set; }  
-        public DbSet<Country> Countries { get; set; }  
+        public DbSet<VNWard> VNWards { get; set; }  
+        public DbSet<VNCity> VNCities { get; set; }  
+        public DbSet<VNState> VNStates { get; set; }  
     }
 }

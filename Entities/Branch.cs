@@ -12,11 +12,14 @@ namespace post_office.Entities
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public int WardId { get; set; }
-        public int CityId { get; set; }
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        public int? WardId { get; set; }
+        public int? CityId { get; set; }
+        public int? ProvinceId { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int Status { get; set; }
+
+        public VNCity City { get; set; }
+        public VNWard Ward { get; set; }
+        public VNState Province { get; set; }
     }
 }

@@ -10,12 +10,11 @@ namespace post_office.Services
 {
     public interface ILocationService
     {
-        IEnumerable<LocationModel> GetCountries(List<int> ids);
-        IEnumerable<LocationModel> GetStates(int countryId);
+        IEnumerable<LocationModel> GetStates();
         IEnumerable<LocationModel> GetCities(int stateId);
         IEnumerable<LocationModel> GetWards(int cityId);
         IEnumerable<LocationModel> CitiesHaveBranches(int stateId);
-        IEnumerable<LocationModel> StatesHaveBranches(int countryId);
+        IEnumerable<LocationModel> StatesHaveBranches();
     }
 
     public class LocationService : ILocationService
@@ -27,23 +26,10 @@ namespace post_office.Services
             _context = context;
         }
 
-        public IEnumerable<LocationModel> GetCountries(List<int> ids)
+        public IEnumerable<LocationModel> GetStates()
         {
             try{
-                return _context.Countries.Where(x => ids.Contains(x.id))
-                                        .Select(x => new LocationModel { Id = x.id, Name = x.name })
-                                        .ToList();
-            }catch(Exception e){
-                var a = e.Message;
-                throw;
-            }
-        }
-
-        public IEnumerable<LocationModel> GetStates(int countryId)
-        {
-            try{
-                return _context.States.Where(x => x.country_id == countryId)
-                                      .Select(x => new LocationModel { Id = x.id, Name = x.name })
+                return _context.VNStates.Select(x => new LocationModel { Id = x.Id, Name = x.Name })
                                       .ToList();
             }catch(Exception e){
                 var a = e.Message;
@@ -54,8 +40,8 @@ namespace post_office.Services
         public IEnumerable<LocationModel> GetCities(int stateId)
         {
             try{
-                return _context.Cities.Where(x => x.state_id == stateId)
-                                      .Select(x => new LocationModel { Id = x.id, Name = x.name })
+                return _context.VNCities.Where(x => x.StateId == stateId)
+                                      .Select(x => new LocationModel { Id = x.Id, Name = x.Name })
                                       .ToList();
             }catch(Exception e){
                 var a = e.Message;
@@ -66,8 +52,8 @@ namespace post_office.Services
         public IEnumerable<LocationModel> GetWards(int cityId)
         {
             try{
-                return _context.Wards.Where(x => x.city_id == cityId)
-                                     .Select(x => new LocationModel { Id = x.id, Name = x.name })
+                return _context.VNWards.Where(x => x.CityId == cityId)
+                                     .Select(x => new LocationModel { Id = x.Id, Name = x.Name })
                                      .ToList();
             }catch(Exception e){
                 var a = e.Message;
@@ -79,12 +65,13 @@ namespace post_office.Services
         public IEnumerable<LocationModel> CitiesHaveBranches(int stateId)
         {
             try{
-                var cities = _context.Cities.Where(x => x.state_id == stateId)
-                                      .Join(_context.Branches, x => x.id, y => y.CityId, 
+                var cities = _context.VNCities.Where(x => x.StateId == stateId)
+                                      .Join(_context.Branches, x => x.Id, y => y.CityId, 
                                             (x, y) => new LocationModel {
                                                                             Id = y.CityId,
-                                                                            Name = x.name
+                                                                            Name = x.Name
                                                                         })
+                                      .Distinct()
                                       .ToList();
                 return cities;
             }catch(Exception e){
@@ -93,15 +80,15 @@ namespace post_office.Services
             }
         }
 
-        public IEnumerable<LocationModel> StatesHaveBranches(int countryId)
+        public IEnumerable<LocationModel> StatesHaveBranches()
         {
             try{
-                var states = _context.States.Where(x => x.country_id == countryId)
-                                      .Join(_context.Branches, x => x.id, y => y.ProvinceId, 
+                var states = _context.VNStates.Join(_context.Branches, x => x.Id, y => y.ProvinceId, 
                                             (x, y) => new LocationModel {
                                                                             Id = y.ProvinceId,
-                                                                            Name = x.name
+                                                                            Name = x.Name
                                                                         })
+                                        .Distinct()
                                       .ToList();
                 return states;
             }catch(Exception e){

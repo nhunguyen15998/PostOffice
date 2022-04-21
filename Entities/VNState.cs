@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace post_office.Entities
 {
-    public class State
+    public class VNState
     {
-        [Key]
-        public int id { get; set; }
-        public string name { get; set; }
-        public int country_id { get; set; }
-        public char country_code { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? CountryId { get; set; }
+        public char? CountryCode { get; set; }
         [DefaultValue(null)]
         public string fips_code { get; set; }
         [DefaultValue(null)]
