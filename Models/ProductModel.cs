@@ -24,6 +24,5 @@ namespace post_office.Models
         public DateTime createdAt { get; set; }
         public int status { get; set; }
 
-        public IFormFile Thumbnail { get; set; }
     }
 }

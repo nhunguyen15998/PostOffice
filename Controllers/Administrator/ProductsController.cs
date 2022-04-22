@@ -19,6 +19,7 @@ namespace post_office.Controllers.Administrator
     {
         private IWebHostEnvironment Environment;
         public static int _id = 0;
+        public static string mess;
         public static List<AttributeModel> m = new List<AttributeModel>();
         public static List<ProductModel> lp = new List<ProductModel>();
         public static List<ProductAttributeModel> la = new List<ProductAttributeModel>();
@@ -45,16 +46,18 @@ namespace post_office.Controllers.Administrator
             la = _Productsvc.GetListProductAttribute();
             return View();
         }
-        public string GetListAttribute(int id)
+        public string GetListAttribute(int id, int type)
         {
-            var q= m.Where(x=>x.type==id).ToList();
+            var q = m.Where(x => x.type == id).ToList();
             var res = $"<option value='-1'>--*{AttributeModel.ls_type[id]}*--</option><option value='0'>--NEW--</option>";
 
             foreach (var item in q)
             {
-                res += $"<option value='{item.id}'>{item.name}</option>";
+                if (item.id == type)
+                    res += $"<option selected='selected' value='{item.id}'>{item.name}</option>";
+                else res += $"<option value='{item.id}'>{item.name}</option>";
             }
-            return res ;
+            return res;
         }
         public bool CheckExistsName(string name, int type)
         {
@@ -68,6 +71,7 @@ namespace post_office.Controllers.Administrator
         public async Task<bool> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
+
             if (file != null)
             {
                 string wwwPath = this.Environment.WebRootPath;
@@ -80,15 +84,34 @@ namespace post_office.Controllers.Administrator
                     await file.CopyToAsync(fileStream);
                 }
             }
+            if (_id != 0)
+            {
+                if (file != null)
+                {
+                    string _Path = this.Environment.WebRootPath + "/img/ProductThumbnail/" + _Productsvc.GetProduct(_id).thumbnail;
+                    if (System.IO.File.Exists(Path.Combine(_Path)))
+                    {
+                        System.IO.File.Delete(Path.Combine(_Path));
+                    }
+
+                }
+                else
+                {
+                    p.thumbnail = _Productsvc.GetProduct(_id).thumbnail;
+                }
+                _Productsvc.RemoveProductAttribute(_id);
+                p.id = _id;
+                _Productsvc.ModifyProduct(p);
+                _id = 0;
+            }
+            else p = _Productsvc.SaveProduct(new ProductModel() { categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price, qty = p.qty, status = p.status, thumbnail = p.thumbnail });
 
             List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
-            p = _Productsvc.SaveProduct(new ProductModel() { categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price, qty = p.qty, status = p.status, thumbnail = p.thumbnail });
-
-
             foreach (var item in ls)
             {
                 _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty = item.qty, colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = p.id });
             }
+            mess = "Saved successfully!";
             return true;
 
         }
@@ -97,6 +120,19 @@ namespace post_office.Controllers.Administrator
             var e = lp.FirstOrDefault(x => x.id == id);
             _id = e.id;
             return e;
+        }
+        public List<ProductAttributeModel> GetProductAttribute(int id)
+        {
+            return _Productsvc.GetListProductAttribute().Where(x => x.productId == id).ToList();
+
+        }
+        public string GetCategory(int id)
+        {
+            return _pdcatesvc.GetProductCategory(id).name;
+        }
+        public string GetAttributeName(int id)
+        {
+            return _attrsvc.GetAttribute(id).name;
         }
         public string GetCategoryOption(int id)
         {
@@ -119,7 +155,7 @@ namespace post_office.Controllers.Administrator
             }
             return res;
         }
-       
+
 
 
     }

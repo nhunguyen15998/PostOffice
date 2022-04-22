@@ -24,16 +24,21 @@
         <section class="home-section">
             @{ Html.RenderPartial("_LayoutNavBarAdmin");}
             <!--message-->
-            <div style="top: 70px; position: absolute; z-index: 220; display: none;" class="col-12" id="message">
+            <div style="top: 70px; position: absolute;position:fixed; z-index: 220; display: none;" class="col-10" id="message">
                 <div class="container pt-2 pb-1" style="width:50%;">
                     <label id="msg_status">
 
                     </label>
                 </div>
             </div>
+            <div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none; text-align:center" class="col-10"  id="waiting">
+                <span class="container" style="background: rgb(109 99 71 / 0.70); color:#f8f8f8;  padding: 20px 30px; ">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 20px "></i> Waiting...
+                </span>
+            </div>
             <main style="padding:60px 20px">
                 @RenderBody()
-              
+
             </main>
 
         </section>
@@ -76,7 +81,6 @@
             sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
     }*@
     document.addEventListener("DOMContentLoaded", function () {
-     
         var ele = document.getElementById(localStorage.getItem("mySession"));
         if (ele == null) {
             document.getElementById("__dash").classList.add("active-item");
@@ -130,6 +134,10 @@
         ele.classList.add(type == true ? "success" : "error");
         $("#message").css("display", "block");
         $("#message").delay(3000).fadeOut(300);
+    }
+    function ShowWaiting(duration) {
+        $("#waiting").css("display", "block");
+        $("#waiting").delay(duration).fadeOut(300);
     }
     function CloseForm() {
         $("#view-main").css("display", "none");
@@ -202,6 +210,19 @@
         }
 
 
+    } 
+    function ShakeError() {
+        er = document.getElementsByClassName("_error");
+        for (var i = 0; i < er.length; i++) {
+            if ($(er[i]).html().length > 0) {
+                $(er[i]).shake();
+
+            }
+        }
+    }
+    function sleep(delay) {
+        var start = new Date().getTime();
+        while (new Date().getTime() < start + delay);
     }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

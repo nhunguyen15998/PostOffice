@@ -137,6 +137,10 @@ i{
     width: 280px;
     word-break: break-word
 }
+.table-attr,.table-attr th, .table-attr td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
 /*form cu*/
 #view-main {
     display: none;
@@ -146,7 +150,7 @@ i{
     top: 0;
     left:0;
     width:100%;
-    padding: 2% 0 15% 0
+    padding: 3% 0 15% 0
 }
 .view-create {
     display: none;
@@ -156,7 +160,7 @@ i{
     top: 0;
     left: 0;
     width: 100%;
-    padding: 2% 0 5% 0
+    padding: 3% 0 5% 0
 }
 .table-scroll {
     height: 350px;
@@ -414,22 +418,22 @@ body::-webkit-scrollbar-thumb {
 }
 .search-item {
     font-size: 20px !important;
-    color: #b55942;
+    color: #fad118;
     cursor: pointer
 }
 .active-item {
     background: rgb(147 147 149 / 0.41);
-    border-left: 5px solid #f09d32;
+    border-left: 5px solid #ffdc39;
 }
 .i-active {
-    font-size: 16.5px!important;
-    color: #f09d32!important;
+    font-size: 16.5px !important;
+    color: #ffdc39 !important;
 }
 .title-active {
     font-size: 15px !important;
-    font-weight:600!important;
-    letter-spacing:1.3px;
-    color:#f09d32!important
+    font-weight: 600 !important;
+    letter-spacing: 1.3px;
+    color: #ffdc39 !important
 }
 .sidebar {
     position: fixed;

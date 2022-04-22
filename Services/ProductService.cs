@@ -11,12 +11,15 @@ namespace post_office.Services
     {
         DataContext GetDataContext();
         ProductModel SaveProduct(ProductModel mdl);
+        ProductModel ModifyProduct(ProductModel mdl);
         List<ProductModel> GetListProduct();
         List<ProductAttributeModel> GetListProductAttribute();
+        ProductAttributeModel GetProductAttribute(int id);
         ProductAttributeModel SaveProductAttribute(ProductAttributeModel m);
         int GetTotalQuantity(int pid);
         string GetPrice(int pid);
         ProductModel GetProduct(int id);
+        bool RemoveProductAttribute(int pid);
     }
     public class ProductService : IProductService
     {
@@ -39,6 +42,26 @@ namespace post_office.Services
             mdl.id = m.Id;
             return mdl;
         }
+        public ProductModel ModifyProduct(ProductModel mdl)
+        {
+            var w = ct.Products.FirstOrDefault(x => x.Id == mdl.id);
+            if (w != null)
+            {
+                w.Name = mdl.name;
+                w.Price = mdl.price;
+                w.Qty = mdl.qty;
+                w.Status = mdl.status;
+                w.Thumbnail = mdl.thumbnail;
+                w.Description = mdl.description;
+                w.CategoryId = mdl.categoryId;
+                ct.SaveChanges();
+
+
+
+            }
+            return mdl;
+        }
+
         public ProductAttributeModel SaveProductAttribute(ProductAttributeModel m)
         {
             ct.ProductAttributes.Add(new ProductAttribute() { ColorId = m.colorID, HeightId = m.heightID, LengthId = m.lengthID, WidthId = m.widthID, CreatedAt = DateTime.Now, Price = m.price, Qty = m.qty, ProductId = m.productId });
@@ -72,15 +95,25 @@ namespace post_office.Services
         }
         public string GetPrice(int pid)
         {
-            var pd = GetListProduct().FirstOrDefault(x => x.id == pid).price ?? 0;
+            var pd = GetListProduct().FirstOrDefault(x => x.id == pid).price;
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
-            ls_PDattr.Add(pd);
+            if(pd!=null) ls_PDattr.Add((decimal)pd);
             string res =string.Format("{0:n0}", ls_PDattr[0]);
             if (ls_PDattr.Count >= 2) res = string.Format("{0:n0}", ls_PDattr.Min())+" - "+ string.Format("{0:n0}", ls_PDattr.Max());
             return res;
         }
+        public ProductAttributeModel GetProductAttribute(int id)
+        {
+            return ct.ProductAttributes.Select(x => new ProductAttributeModel() { id = x.Id, colorID = x.Id, heightID = x.HeightId, lengthID = x.LengthId,widthID = x.WidthId, createAt = (DateTime)x.CreatedAt, price = x.Price, qty = (int)x.Qty, productId = x.Id }).FirstOrDefault(x=>x.id==id)??null;
+        }
 
-
+        public bool RemoveProductAttribute(int pid)
+        {
+            var pd_attr = ct.ProductAttributes.Where(x => x.ProductId == pid).ToList(); 
+            ct.ProductAttributes.RemoveRange(pd_attr);
+            ct.SaveChanges();
+            return true;
+        }
 
     }
 }
