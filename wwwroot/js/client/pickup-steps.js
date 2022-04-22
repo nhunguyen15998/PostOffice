@@ -221,10 +221,10 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap"><input
+                        class="post-office-form-control-wrap"><input
                             type="text"
                             name="receiver-first-name-${index}"
-                            class="wpcf7-form-control wpcf7-text"
+                            class="post-office-form-control post-office-text"
                             aria-invalid="false"
                             placeholder="First name">
                     </span>
@@ -233,10 +233,10 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap"><input
+                        class="post-office-form-control-wrap"><input
                             type="text"
                             name="receiver-last-name-${index}"
-                            class="wpcf7-form-control wpcf7-text"
+                            class="post-office-form-control post-office-text"
                             aria-invalid="false"
                             placeholder="Last name">
                     </span>
@@ -251,9 +251,9 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap"><input
+                        class="post-office-form-control-wrap"><input
                             type="text" name="to-phone-${index}"
-                            class="wpcf7-form-control wpcf7-text"
+                            class="post-office-form-control post-office-text"
                             aria-invalid="false"
                             placeholder="Phone">
                     </span>
@@ -262,9 +262,9 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap"><input
+                        class="post-office-form-control-wrap"><input
                             type="text" name="to-email-${index}"
-                            class="wpcf7-form-control wpcf7-text"
+                            class="post-office-form-control post-office-text"
                             aria-invalid="false"
                             placeholder="Email">
                     </span>
@@ -279,10 +279,10 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap"><input
+                        class="post-office-form-control-wrap"><input
                             type="text"
                             name="to-address-${index}"
-                            class="wpcf7-form-control wpcf7-text"
+                            class="post-office-form-control post-office-text"
                             aria-invalid="false"
                             placeholder="Address">
                     </span>
@@ -291,7 +291,7 @@ function receiverInfo(index){
             <div class="col-sm-6">
                 <div class="input-group">
                     <span
-                        class="wpcf7-form-control-wrap">
+                        class="post-office-form-control-wrap">
                         <select name="to-ward-${index}"
                             id="to-ward-${index}"
                             data-placeholder="Select ward…"
@@ -322,7 +322,7 @@ function receiverInfo(index){
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap">
+                            class="post-office-form-control-wrap">
                             <select name="to-district-${index}"
                                 id="to-district-${index}"
                                 data-placeholder="Select district…"
@@ -347,7 +347,7 @@ function receiverInfo(index){
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap">
+                            class="post-office-form-control-wrap">
                             <select name="to-province-${index}"
                                 id="to-province-${index}"
                                 data-placeholder="Select province…"
@@ -375,9 +375,9 @@ function receiverInfo(index){
     <div class="row row-btn justify-content-between" style="padding: 0 12px;">
         <div class="col-sm-2 p-0">
             <div class="input-group">
-                <span class="wpcf7-form-control-wrap"><input
+                <span class="post-office-form-control-wrap"><input
                         type="text" name="pin-code-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Pin code">
                 </span>
@@ -385,9 +385,9 @@ function receiverInfo(index){
         </div>
         <div class="col-sm-2 p-0">
             <div class="input-group">
-                <span class="wpcf7-form-control-wrap"><input
+                <span class="post-office-form-control-wrap"><input
                         type="text" name="length-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Weight">
                 </span>
@@ -396,9 +396,9 @@ function receiverInfo(index){
         <div class="col-sm-2 p-0">
             <div class="input-group">
                 <span
-                    class="wpcf7-form-control-wrap"><input
+                    class="post-office-form-control-wrap"><input
                         type="text" name="length-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Length">
                 </span>
@@ -407,9 +407,9 @@ function receiverInfo(index){
         <div class="col-sm-2 p-0">
             <div class="input-group">
                 <span
-                    class="wpcf7-form-control-wrap"><input
+                    class="post-office-form-control-wrap"><input
                         type="text" name="width-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Width">
                 </span>
@@ -418,9 +418,9 @@ function receiverInfo(index){
         <div class="col-sm-2 p-0">
             <div class="input-group">
                 <span
-                    class="wpcf7-form-control-wrap"><input
+                    class="post-office-form-control-wrap"><input
                         type="text" name="height-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Height">
                 </span>
@@ -448,10 +448,10 @@ function receiverInfo(index){
                 <div class="col-sm-7">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap"><input
+                            class="post-office-form-control-wrap"><input
                                 type="text"
                                 name="name-${index}-1"
-                                class="wpcf7-form-control wpcf7-text"
+                                class="post-office-form-control post-office-text"
                                 aria-invalid="false"
                                 placeholder="Name">
                         </span>
@@ -460,10 +460,10 @@ function receiverInfo(index){
                 <div class="col-sm-2">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap"><input
+                            class="post-office-form-control-wrap"><input
                                 type="text"
                                 name="qty-${index}-1"
-                                class="wpcf7-form-control wpcf7-text"
+                                class="post-office-form-control post-office-text"
                                 aria-invalid="false"
                                 placeholder="Qty">
                         </span>
@@ -484,9 +484,9 @@ function receiverInfo(index){
         <div class="col-sm-9">
             <div class="input-group">
                 <span
-                    class="wpcf7-form-control-wrap"><textarea
+                    class="post-office-form-control-wrap"><textarea
                         type="text" name="notes-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Write some notes"
                         style="font-size: 12px; height: 53px;"
@@ -497,9 +497,9 @@ function receiverInfo(index){
         <div class="col-sm-3">
             <div class="input-group">
                 <span
-                    class="wpcf7-form-control-wrap"><input
+                    class="post-office-form-control-wrap"><input
                         type="text" name="amount-${index}"
-                        class="wpcf7-form-control wpcf7-text"
+                        class="post-office-form-control post-office-text"
                         aria-invalid="false"
                         placeholder="Up to 3000k">
                 </span>
@@ -513,7 +513,7 @@ function receiverInfo(index){
                 <label for="pickup"
                     style="font-size: 14px;">Add some photos
                     of pickup stuff</label>
-                <span class="wpcf7-form-control-wrap">
+                <span class="post-office-form-control-wrap">
                     <input type="file" name="photos-${index}"
                         multiple style="font-size: 13px;"
                         id="photos-${index}" onchange="changePhoto(${index})">
@@ -641,10 +641,10 @@ function parcelDetail(index, count)
                 <div class="col-sm-7">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap"><input
+                            class="post-office-form-control-wrap"><input
                                 type="text"
                                 name="name-${index}-${count}"
-                                class="wpcf7-form-control wpcf7-text"
+                                class="post-office-form-control post-office-text"
                                 aria-invalid="false"
                                 placeholder="Name">
                         </span>
@@ -653,10 +653,10 @@ function parcelDetail(index, count)
                 <div class="col-sm-2">
                     <div class="input-group">
                         <span
-                            class="wpcf7-form-control-wrap"><input
+                            class="post-office-form-control-wrap"><input
                                 type="text"
                                 name="qty-${index}-${count}"
-                                class="wpcf7-form-control wpcf7-text"
+                                class="post-office-form-control post-office-text"
                                 aria-invalid="false"
                                 placeholder="Qty">
                         </span>
@@ -699,3 +699,38 @@ function loadParcelDetail(index){
 }
 
 //=======================receiver======================
+
+
+//AJAX
+    //service
+let serviceId = 0
+function getServiceList(serviceId){
+    $.ajax({
+        url: `https://localhost:5001/Service/GetServiceList?serviceId=`+serviceId,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response){
+            let count  = 1
+            $('#service-list').children('ul').empty()
+            response.forEach(item => {
+                let li = `<li style="padding: 0 20px;font-size: 14px;" id="selected-service-${count}">
+                            <a role="button">${item.name}</a>
+                        </li>`
+                $('#service-list').children('ul').append(li)
+                $(`#selected-service-${count}`).on('click', () => {
+                    serviceId = item.id
+                    $('#select-service').find('button').text(item.name)
+                })
+                count++
+            })
+        },
+        error: function(data){
+            alert(data.responseText.message)
+        }
+    })
+}
+getServiceList(0)
+
+    //product
+    

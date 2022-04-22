@@ -86,26 +86,14 @@
                         @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
-                        <label class="text-color">Price:</label>
-                        @Html.TextBoxFor(d => d.price, new { @class = "input-form-cu", @type = "text", @placeholder = "price" })
-                        @Html.ValidationMessageFor(d => d.price, "", new { @class = "_error" })
-                        <br />
                         <label class="text-color">Status:</label>
                         @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
                                                                                                 new SelectListItem { Value = "0", Text = "Deactivated" },
                                                                                                 new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
-
-                    </div>
-                    <div class="col-6" style="min-height:inherit;float:left">
-                        <label class="text-color">Slot:</label>
-                        @Html.TextBoxFor(d => d.slot, new { @class = "input-form-cu", @type = "text", @placeholder = "slot" })
-                        @Html.ValidationMessageFor(d => d.slot, "", new { @class = "_error" })
-                        <br />
-                        <label class="text-color">Content:</label>
+                         <label class="text-color">Content:</label>
                         @Html.TextAreaFor(d => d.content, new { @class = "input-form-cu txt-area", @type = "text", @placeholder = "content" })
                         @Html.ValidationMessageFor(d => d.content, "", new { @class = "_error" })
                         <br />
-
                     </div>
                 </div>
                 <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">

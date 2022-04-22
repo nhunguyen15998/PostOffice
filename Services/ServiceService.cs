@@ -10,7 +10,7 @@ namespace post_office.Services
     public interface IServiceService
     {
         ServiceModel SaveService(ServiceModel mdl);
-
+        IEnumerable<ServiceModel> GetService(int serviceId);
     }
     public class ServiceService : IServiceService
     {
@@ -26,6 +26,18 @@ namespace post_office.Services
             _context.Services.Add(w);
            mdl.id =w.Id ;
             return mdl;
+        }
+
+        public IEnumerable<ServiceModel> GetService(int serviceId)
+        {
+            try{
+                return _context.Services.Where(x => serviceId != 0 ? x.Id == serviceId : true)
+                                        .Where(x => x.Status == (int) Helpers.Helpers.DefaultStatus.Activated)
+                                        .Select(x => new ServiceModel{id = x.Id, name = x.Name}).ToList();
+            }catch(Exception ex){
+                var a = ex.Message;
+                throw;
+            }
         }
     }
 }

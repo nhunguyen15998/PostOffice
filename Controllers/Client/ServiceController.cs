@@ -13,10 +13,11 @@ namespace post_office.Controllers.Client
     public class ServiceController : Controller
     {
         private readonly ILogger<ServiceController> _logger;
-
-        public ServiceController(ILogger<ServiceController> logger)
+        public IServiceService _serviceService;
+        public ServiceController(ILogger<ServiceController> logger, IServiceService serviceService)
         {
             _logger = logger;
+            _serviceService = serviceService;
         }
 
         public IActionResult Index()
@@ -27,6 +28,12 @@ namespace post_office.Controllers.Client
         public IActionResult Detail()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IEnumerable<ServiceModel> GetServiceList([FromQuery] int serviceId)
+        {
+            return _serviceService.GetService(serviceId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

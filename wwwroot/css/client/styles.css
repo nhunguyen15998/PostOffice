@@ -1,4 +1,4 @@
-.wpcf7 .screen-reader-response {
+.post-office .screen-reader-response {
 	position: absolute;
 	overflow: hidden;
 	clip: rect(1px, 1px, 1px, 1px);
@@ -9,48 +9,48 @@
 	border: 0;
 }
 
-.wpcf7 form .wpcf7-response-output {
+.post-office form .post-office-response-output {
 	margin: 2em 0.5em 1em;
 	padding: 0.2em 1em;
 	border: 2px solid #00a0d2; /* Blue */
 }
 
-.wpcf7 form.init .wpcf7-response-output,
-.wpcf7 form.resetting .wpcf7-response-output,
-.wpcf7 form.submitting .wpcf7-response-output {
+.post-office form.init .post-office-response-output,
+.post-office form.resetting .post-office-response-output,
+.post-office form.submitting .post-office-response-output {
 	display: none;
 }
 
-.wpcf7 form.sent .wpcf7-response-output {
+.post-office form.sent .post-office-response-output {
 	border-color: #46b450; /* Green */
 }
 
-.wpcf7 form.failed .wpcf7-response-output,
-.wpcf7 form.aborted .wpcf7-response-output {
+.post-office form.failed .post-office-response-output,
+.post-office form.aborted .post-office-response-output {
 	border-color: #dc3232; /* Red */
 }
 
-.wpcf7 form.spam .wpcf7-response-output {
+.post-office form.spam .post-office-response-output {
 	border-color: #f56e28; /* Orange */
 }
 
-.wpcf7 form.invalid .wpcf7-response-output,
-.wpcf7 form.unaccepted .wpcf7-response-output {
+.post-office form.invalid .post-office-response-output,
+.post-office form.unaccepted .post-office-response-output {
 	border-color: #ffb900; /* Yellow */
 }
 
-.wpcf7-form-control-wrap {
+.post-office-form-control-wrap {
 	position: relative;
 }
 
-.wpcf7-not-valid-tip {
+.post-office-not-valid-tip {
 	color: #dc3232;
 	font-size: 1em;
 	font-weight: normal;
 	display: block;
 }
 
-.use-floating-validation-tip .wpcf7-not-valid-tip {
+.use-floating-validation-tip .post-office-not-valid-tip {
 	position: relative;
 	top: -2ex;
 	left: 1em;
@@ -61,17 +61,17 @@
 	width: 24em;
 }
 
-.wpcf7-list-item {
+.post-office-list-item {
 	display: inline-block;
 	margin: 0 0 0 1em;
 }
 
-.wpcf7-list-item-label::before,
-.wpcf7-list-item-label::after {
+.post-office-list-item-label::before,
+.post-office-list-item-label::after {
 	content: " ";
 }
 
-.wpcf7 .ajax-loader {
+.post-office .ajax-loader {
 	visibility: hidden;
 	display: inline-block;
 	background-color: #23282d; /* Dark Gray 800 */
@@ -85,11 +85,11 @@
 	position: relative;
 }
 
-.wpcf7 form.submitting .ajax-loader {
+.post-office form.submitting .ajax-loader {
 	visibility: visible;
 }
 
-.wpcf7 .ajax-loader::before {
+.post-office .ajax-loader::before {
 	content: '';
 	position: absolute;
 	background-color: #fbfbfc; /* Light Gray 100 */
@@ -107,7 +107,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.wpcf7 .ajax-loader::before {
+	.post-office .ajax-loader::before {
 		animation-name: blink;
 		animation-duration: 2000ms;
 	}
@@ -137,20 +137,20 @@
 	}
 }
 
-.wpcf7 input[type="file"] {
+.post-office input[type="file"] {
 	cursor: pointer;
 }
 
-.wpcf7 input[type="file"]:disabled {
+.post-office input[type="file"]:disabled {
 	cursor: default;
 }
 
-.wpcf7 .wpcf7-submit:disabled {
+.post-office .post-office-submit:disabled {
 	cursor: not-allowed;
 }
 
-.wpcf7 input[type="url"],
-.wpcf7 input[type="email"],
-.wpcf7 input[type="tel"] {
+.post-office input[type="url"],
+.post-office input[type="email"],
+.post-office input[type="tel"] {
 	direction: ltr;
 }

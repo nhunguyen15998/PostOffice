@@ -4285,7 +4285,7 @@ ol.comment-list li #respond{
     background-color: #14212a;
 }
 /*** Single Team De ***/
-.single-themestek-team .wpcf7{
+.single-themestek-team .post-office{
 	margin-top: 30px;
 }
 .themestek-team-member-view-default .themestek-box-img-left {
@@ -7032,10 +7032,10 @@ span.themestek-vc_label_units.vc_label_units {
     display: table;
     border-collapse: separate;
 }
-.wpcf7-form .input-group {
+.post-office-form .input-group {
     margin-bottom: 25px !important;
 }
-.wpcf7-form .input-group {
+.post-office-form .input-group {
     display: block;
 }
 /*** ts-form-style1 (Moversco special) ***/
@@ -7093,17 +7093,17 @@ span.themestek-vc_label_units.vc_label_units {
 .ts-form-style2 textarea {
     height: 150px;
 }
-.ts-form-style2 .wpcf7-form .input-group {
+.ts-form-style2 .post-office-form .input-group {
     margin-bottom: 20px !important;
 }
 .ts-form-style2 input[type="submit"]{
     background-color: #313437;
     padding: 21px 50px 21px;
 }
-.wpcf7-form .ts-form-submitbt .input-group {
+.post-office-form .ts-form-submitbt .input-group {
     margin-bottom: 0px !important;
 }
-div.wpcf7-response-output {
+div.post-office-response-output {
     margin: 0;
     margin-bottom: 10px;
 }
@@ -7157,7 +7157,7 @@ input[type="checkbox"]:checked+label:after {
     z-index: 1;
     cursor: pointer;
 }
-.quotation-form input.wpcf7-form-control.wpcf7-submit {
+.quotation-form input.post-office-form-control.post-office-submit {
     width: 100%;
     font-size: 14px;
     font-weight: 700;

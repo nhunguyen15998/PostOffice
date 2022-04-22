@@ -2,6 +2,28 @@
 	ViewData["Title"] = "Pickup";
 	ViewData["BannerTitle"] = "Schedule a Pickup";
 }
+@section toggleService{
+<style>
+	.tg-service::after {
+		top: 20px !important;
+	}
+	div#service-list > ul[data-popper-placement="top-start"],
+	div#product-list > ul[data-popper-placement="top-start"] {
+		transform: translate3d(0px, -51px, 0px) !important;
+	}
+	div#service-list > ul[data-popper-placement="bottom-start"]{
+		transform: translate3d(0px, 51px, 0px) !important;
+	}
+	#service-list ul > li a:hover {
+		background-color: transparent;
+		background-image: none;
+	} 
+	#service-list ul > li:hover {
+		background-color: #ffdc39;
+		color: #fff;
+	}
+</style>
+}
 <div id="content-wrapper" class="site-content-wrapper">
 	<div id="content" class="site-content ">
 		<div id="content-inner" class="site-content-inner ">
@@ -12,7 +34,7 @@
 							<h2 class="entry-title">Quote Form</h2>
 						</header><!-- .entry-header -->
 						<!--form-->
-						<form class="wpcf7-form">
+						<form class="post-office-form">
 							<div class="entry-content">
 								<div data-vc-full-width="true" data-vc-full-width-init="true"
 									class="themestek-row wpb_row vc_row-fluid vc_column-gap-0px themestek-total-col-2 themestek-zindex-0 themestek-bgimage-position-center_center vc_row-o-content-bottom"
@@ -61,21 +83,21 @@
 											class="themestek-column ts-custom-heading-style wpb_column vc_column_container vc_col-sm-8 vc_col-has-fill themestek-zindex-0">
 											<div class="vc_column-inner vc_custom_1614156135890 ">
 												<div class="wpb_wrapper">
-													<div role="form" class="wpcf7" id="wpcf7-f10177-p8187-o2"
+													<div role="form" class="post-office" id="post-office-f10177-p8187-o2"
 														lang="en-US" dir="ltr">
 														<div class="screen-reader-response">
 															<p role="status" aria-live="polite" aria-atomic="true"></p>
 															<ul></ul>
 														</div>
 														<div style="display: none;">
-															<input type="hidden" name="_wpcf7" value="10177">
-															<input type="hidden" name="_wpcf7_version" value="5.4">
-															<input type="hidden" name="_wpcf7_locale" value="en_US">
-															<input type="hidden" name="_wpcf7_unit_tag"
-																value="wpcf7-f10177-p8187-o2">
-															<input type="hidden" name="_wpcf7_container_post"
+															<input type="hidden" name="_post-office" value="10177">
+															<input type="hidden" name="_post-office_version" value="5.4">
+															<input type="hidden" name="_post-office_locale" value="en_US">
+															<input type="hidden" name="_post-office_unit_tag"
+																value="post-office-f10177-p8187-o2">
+															<input type="hidden" name="_post-office_container_post"
 																value="8187">
-															<input type="hidden" name="_wpcf7_posted_data_hash"
+															<input type="hidden" name="_post-office_posted_data_hash"
 																value="">
 														</div>
 														<div class="main-form">
@@ -112,19 +134,21 @@
 																			<label for="service"
 																				style="font-size: 14px;">Select
 																				service</label>
-																			<span class="wpcf7-form-control-wrap">
-																				<select name="services" id="services"
-																					data-placeholder="Select a service…"
-																					tabindex="-1" aria-hidden="true">
-																					<option value="">Select a service…
-																					</option>
-																					<option value="EH">Western Sahara
-																					</option>
-																					<option value="YE">Yemen</option>
-																					<option value="ZM">Zambia</option>
-																					<option value="ZW">Zimbabwe</option>
-																				</select>
-																			</span>
+																			<div
+																				style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+																				<div class="dropdown" id="service-list"
+																					style="height: 51px;">
+																					<a class="btn dropdown-toggle tg-service" href="#" role="button"
+																						id="select-service" data-bs-toggle="dropdown" aria-expanded="false"
+																						style="height: 100%; width: 100%;">
+																						<button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;" class="btn-sm">Select service</button>
+																					</a>
+																					<ul class="dropdown-menu p-0" aria-labelledby="select-service"
+																						style="overflow: auto scroll; height: 100px; width: 100%; border-radius: 0px;">
+
+																					</ul>
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																	<div class="col-sm-6">
@@ -132,10 +156,10 @@
 																			<label for="pickup" style="font-size: 14px;"
 																				id="sending-date-label">Pickup
 																				date</label>
-																			<span class="wpcf7-form-control-wrap"><input
+																			<span class="post-office-form-control-wrap"><input
 																					type="date" name="sending-date"
 																					value=""
-																					class="wpcf7-form-control wpcf7-date wpcf7-validates-as-date"
+																					class="post-office-form-control post-office-date post-office-validates-as-date"
 																					aria-invalid="false">
 																			</span>
 																		</div>
@@ -152,10 +176,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="sender-first-name"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="First name">
 																					</span>
@@ -164,10 +188,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="sender-last-name"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Last name">
 																					</span>
@@ -182,10 +206,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="from-phone"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Phone">
 																					</span>
@@ -194,10 +218,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="from-email"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Email">
 																					</span>
@@ -218,10 +242,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="company-name"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Company name">
 																					</span>
@@ -230,10 +254,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="company-phone"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Company phone">
 																					</span>
@@ -248,10 +272,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text"
 																							name="from-address"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Address">
 																					</span>
@@ -260,7 +284,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap">
+																						class="post-office-form-control-wrap">
 																						<select name="from-province"
 																							id="from-ward"
 																							data-placeholder="Select state/province…"
@@ -291,7 +315,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap">
+																						class="post-office-form-control-wrap">
 																						<select name="from-district"
 																							id="from-district"
 																							data-placeholder="Select city/district…"
@@ -316,7 +340,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap">
+																						class="post-office-form-control-wrap">
 																						<select name="from-ward"
 																							id="from-province"
 																							data-placeholder="Select ward…"
@@ -376,10 +400,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="receiver-first-name-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="First name">
 																							</span>
@@ -388,10 +412,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="receiver-last-name-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Last name">
 																							</span>
@@ -406,10 +430,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="to-phone-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Phone">
 																							</span>
@@ -418,10 +442,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="to-email-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Email">
 																							</span>
@@ -436,10 +460,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="to-address-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Address">
 																							</span>
@@ -448,7 +472,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap">
+																								class="post-office-form-control-wrap">
 																								<select name="to-ward-1"
 																									id="to-ward-1"
 																									data-placeholder="Select ward…"
@@ -484,7 +508,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap">
+																								class="post-office-form-control-wrap">
 																								<select
 																									name="to-district-1"
 																									id="to-district-1"
@@ -513,7 +537,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap">
+																								class="post-office-form-control-wrap">
 																								<select
 																									name="to-province-1"
 																									id="to-province-1"
@@ -547,10 +571,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="pin-code-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Pin code">
 																							</span>
@@ -559,10 +583,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="length-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Weight">
 																							</span>
@@ -571,10 +595,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="length-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Length">
 																							</span>
@@ -583,10 +607,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="width-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Width">
 																							</span>
@@ -595,10 +619,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="height-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Height">
 																							</span>
@@ -609,7 +633,8 @@
 																		</div>
 																		<!--Parcel detail-->
 																		<div class="row">
-																			<div class="d-flex" style="padding: 0 15px;">
+																			<div class="d-flex"
+																				style="padding: 0 15px;">
 																				<label for="parcel"
 																					style="font-size: 14px;"
 																					class="mr-2">Add parcel
@@ -628,10 +653,10 @@
 																					<div class="col-sm-7">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="name-1-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Name">
 																							</span>
@@ -640,10 +665,10 @@
 																					<div class="col-sm-2">
 																						<div class="input-group">
 																							<span
-																								class="wpcf7-form-control-wrap"><input
+																								class="post-office-form-control-wrap"><input
 																									type="text"
 																									name="qty-1-1"
-																									class="wpcf7-form-control wpcf7-text"
+																									class="post-office-form-control post-office-text"
 																									aria-invalid="false"
 																									placeholder="Qty">
 																							</span>
@@ -664,9 +689,9 @@
 																			<div class="col-sm-9">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><textarea
+																						class="post-office-form-control-wrap"><textarea
 																							type="text" name="notes-1"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Write some notes"
 																							style="font-size: 12px; height: 53px;"
@@ -677,9 +702,9 @@
 																			<div class="col-sm-3">
 																				<div class="input-group">
 																					<span
-																						class="wpcf7-form-control-wrap"><input
+																						class="post-office-form-control-wrap"><input
 																							type="text" name="amount-1"
-																							class="wpcf7-form-control wpcf7-text"
+																							class="post-office-form-control post-office-text"
 																							aria-invalid="false"
 																							placeholder="Up to 3000k">
 																					</span>
@@ -698,7 +723,7 @@
 																						some photos
 																						of pickup stuff</label>
 																					<span
-																						class="wpcf7-form-control-wrap">
+																						class="post-office-form-control-wrap">
 																						<input type="file"
 																							name="photos-1" multiple
 																							style="font-size: 13px;"
@@ -722,7 +747,7 @@
 																	id="btn-receiver-next">
 															</div>
 														</div>
-														<div class="wpcf7-response-output" aria-hidden="true"></div>
+														<div class="post-office-response-output" aria-hidden="true"></div>
 													</div>
 												</div>
 											</div>
@@ -825,9 +850,9 @@
 											<h5 class="mb-4">Message</h5>
 
 											<div class="input-group input-button">
-												<span class="wpcf7-form-control-wrap message">
+												<span class="post-office-form-control-wrap message">
 													<textarea name="message" cols="40" rows="5"
-														class="wpcf7-form-control wpcf7-textarea" aria-invalid="false"
+														class="post-office-form-control post-office-textarea" aria-invalid="false"
 														placeholder="Message">													</textarea>
 												</span>
 											</div>
@@ -996,7 +1021,7 @@
 											<input type="button" value="BACK" id="btn-payment-back" class="mr-3">
 											<div class="input-button input-group"
 												style="margin-bottom: 0px !important;"><input type="submit"
-													value="SEND MESSAGE" class="wpcf7-form-control wpcf7-submit"
+													value="SEND MESSAGE" class="post-office-form-control post-office-submit"
 													aria-invalid="false"><span class="ajax-loader"></span></div>
 										</div>
 									</div>
@@ -1007,7 +1032,7 @@
 									<div class="row mb-3">
 										<div class="col-sm-3">
 											<div class="input-group">
-												<span class="wpcf7-form-control-wrap">
+												<span class="post-office-form-control-wrap">
 													<select name="from-ward" id="from-ward"
 														data-placeholder="Select ward…" tabindex="-1"
 														aria-hidden="true">
@@ -1054,7 +1079,7 @@
 																		<div style="width: 35%;">
 																			<div class="input-group"
 																				style="margin-bottom: 0 !important;height: 35px;">
-																				<span class="wpcf7-form-control-wrap">
+																				<span class="post-office-form-control-wrap">
 																					<select name="from-ward"
 																						id="from-ward"
 																						data-placeholder="Select ward…"
@@ -1399,3 +1424,4 @@
 	</div><!-- .site-content -->
 </div>
 <script type="text/javascript" src="../../js/client/pickup-steps.js"></script>
+<script src="../../js/client/location-address.js"></script>

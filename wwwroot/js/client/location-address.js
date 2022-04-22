@@ -126,84 +126,10 @@ $('#choose-branch').children('ul').on('mouseleave', () => {
 })
 
 
-////////////////////
+////////////////////PICKUP---PROVINCE---DISTRICT---WARD
 
-// function getStatesByCountry(countryId) {
-//     $.ajax({
-//         url: `https://localhost:5001/Location/GetStatesByCountry?countryId=${countryId}`,
-//         type: 'get',
-//         dataType: 'json',
-//         contentType: 'applicaton/json',
-//         success: function (response) {
-//             $('#location-list').empty()
-//             $('#search-location').removeClass('step-hidden')
-//             $('#title-location').children('button').removeClass('step-hidden')
-//             $('#title-location').children('p').text("State/Province")
-//             $('#title-location').children('p').css('width', '65%')
-//             $('#title-location').children('p').css('text-align', '')
-//             response.forEach(item => {
-//                 let a = `<li style="position: relative;">
-//                             <a type="button"
-//                                 onclick="getCitiesByState(${item.Id})">${item.Name}</a>
-//                             <i class="fa-solid fa-chevron-right"
-//                                 style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
-//                         </li>`
-//                 $('#location-list').append(a)
-//             })
-//         },
-//         error: function (data) {
-//             alert(data.responseText.message)
-//         }
-//     })
-// }
 
-// function getCitiesByState(stateId) {
-//     $.ajax({
-//         url: `https://localhost:5001/Location/GetCitiesByState?stateId=${stateId}`,
-//         type: 'get',
-//         dataType: 'json',
-//         contentType: 'applicaton/json',
-//         success: function (response) {
-//             $('#location-list').empty()
-//             $('#title-location').children('p').text("City/District")
-//             response.forEach(item => {
-//                 let a = `<li style="position: relative;">
-//                             <a type="button" onclick="getWardsByCity(${item.Id})">${item.Name}</a>
-//                             <i class="fa-solid fa-chevron-right"
-//                                 style="position: absolute;top: 18px;right: 16px;color: #ffdc39;font-size: 10px;"></i>
-//                         </li>`
-//                 $('#location-list').append(a)
-//             })
-//         },
-//         error: function (data) {
-//             alert(data.responseText.message)
-//         }
-//     })
-//     _stateId = stateId
-// }
 
-// function getWardsByCity(cityId) {
-//     $.ajax({
-//         url: `https://localhost:5001/Location/GetWardsByCity?cityId=${cityId}`,
-//         type: 'get',
-//         dataType: 'json',
-//         contentType: 'applicaton/json',
-//         success: function (response) {
-//             $('#location-list').empty()
-//             $('#title-location').children('p').text("Ward")
-//             if(response == null) return
-//             response.forEach(item => {
-//                 let a = `<li>
-//                             <a type="button" onclick="">${item.Name}</a>
-//                         </li>`
-//                 $('#location-list').append(a)
-//             })
-//         },
-//         error: function (data) {
-//             alert(data.responseText.message)
-//         }
-//     })
-// }
 
 
 
