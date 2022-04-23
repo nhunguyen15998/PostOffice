@@ -13,6 +13,7 @@ namespace post_office.Services
         ProductCategoryModel SavePDCategory(ProductCategoryModel mdl);
         ProductCategoryModel GetProductCategory(int? id);
         List<ProductCategoryModel> GetListProductCategory();
+        List<ProductCategoryModel> GetParentCategories(int parentId);
         List<ProductCategoryModel> GetListParent();
         bool RemovePDCategory(List<int> ls);
     }
@@ -55,8 +56,26 @@ namespace post_office.Services
         {
             return _context.ProductCategories.Select(x => new ProductCategoryModel() { id = x.Id, name = x.Name, parent_id=x.ParentId,status = x.Status, createdAt = (DateTime)x.CreatedAt }).ToList() ?? null;
         }
+
+        //client
+        public List<ProductCategoryModel> GetParentCategories(int parentId)
+        {
+            return _context.ProductCategories//.Where(x => parentId == 0 ? x.ParentId == null : x.ParentId == parentId)
+                                             .Where(x => x.Status != 0)
+                                             .Select(x => new ProductCategoryModel() { 
+                                                 id = x.Id, 
+                                                 name = x.Name, 
+                                                 parent_id = x.ParentId,
+                                                 status = x.Status}).ToList() ?? null;
+        }
         public List<ProductCategoryModel> GetListParent() {
-            var w= _context.ProductCategories.Select(x => new ProductCategoryModel() { id = x.Id, name = x.Name, parent_id = x.ParentId, status = x.Status, createdAt = (DateTime)x.CreatedAt }).Where(x => x.parent_id != null).ToList();
+            var w= _context.ProductCategories.Select(x => new ProductCategoryModel() { 
+                                                            id = x.Id, 
+                                                            name = x.Name, 
+                                                            parent_id = x.ParentId, 
+                                                            status = x.Status, 
+                                                            createdAt = (DateTime)x.CreatedAt })
+                                             .Where(x => x.parent_id != null).ToList();
             List<int> ls = new List<int>();
             foreach (var item in w)
             {

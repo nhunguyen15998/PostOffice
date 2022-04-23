@@ -7,18 +7,30 @@
 	.tg-service::after {
 		top: 20px !important;
 	}
-	div#service-list > ul[data-popper-placement="top-start"],
-	div#product-list > ul[data-popper-placement="top-start"] {
+	.tg-pattribute::after {
+		top: 18px !important;
+	}
+	div#service-list>ul[data-popper-placement="top-start"] {
 		transform: translate3d(0px, -51px, 0px) !important;
 	}
-	div#service-list > ul[data-popper-placement="bottom-start"]{
+
+	div#product-list>ul[data-popper-placement="top-start"] {
+		transform: translate3d(0px, -248px, 0px) !important;
+	}
+
+	div#service-list>ul[data-popper-placement="bottom-start"],
+	div#product-cate-list>ul[data-popper-placement="bottom-start"] {
 		transform: translate3d(0px, 51px, 0px) !important;
 	}
-	#service-list ul > li a:hover {
+
+	#service-list ul>div li a:hover,
+	#product-cate-list ul>div li a:hover {
 		background-color: transparent;
 		background-image: none;
-	} 
-	#service-list ul > li:hover {
+	}
+
+	#service-list ul>div li:hover,
+	#product-cate-list ul>div li:hover {
 		background-color: #ffdc39;
 		color: #fff;
 	}
@@ -83,16 +95,18 @@
 											class="themestek-column ts-custom-heading-style wpb_column vc_column_container vc_col-sm-8 vc_col-has-fill themestek-zindex-0">
 											<div class="vc_column-inner vc_custom_1614156135890 ">
 												<div class="wpb_wrapper">
-													<div role="form" class="post-office" id="post-office-f10177-p8187-o2"
-														lang="en-US" dir="ltr">
+													<div role="form" class="post-office"
+														id="post-office-f10177-p8187-o2" lang="en-US" dir="ltr">
 														<div class="screen-reader-response">
 															<p role="status" aria-live="polite" aria-atomic="true"></p>
 															<ul></ul>
 														</div>
 														<div style="display: none;">
 															<input type="hidden" name="_post-office" value="10177">
-															<input type="hidden" name="_post-office_version" value="5.4">
-															<input type="hidden" name="_post-office_locale" value="en_US">
+															<input type="hidden" name="_post-office_version"
+																value="5.4">
+															<input type="hidden" name="_post-office_locale"
+																value="en_US">
 															<input type="hidden" name="_post-office_unit_tag"
 																value="post-office-f10177-p8187-o2">
 															<input type="hidden" name="_post-office_container_post"
@@ -138,14 +152,26 @@
 																				style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
 																				<div class="dropdown" id="service-list"
 																					style="height: 51px;">
-																					<a class="btn dropdown-toggle tg-service" href="#" role="button"
-																						id="select-service" data-bs-toggle="dropdown" aria-expanded="false"
+																					<a class="btn dropdown-toggle tg-service"
+																						href="#" role="button"
+																						id="select-service"
+																						data-bs-toggle="dropdown"
+																						aria-expanded="false"
 																						style="height: 100%; width: 100%;">
-																						<button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;" class="btn-sm">Select service</button>
+																						<button
+																							style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+																							class="btn-sm">Select
+																							service</button>
 																					</a>
-																					<ul class="dropdown-menu p-0" aria-labelledby="select-service"
-																						style="overflow: auto scroll; height: 100px; width: 100%; border-radius: 0px;">
-
+																					<ul class="dropdown-menu p-0"
+																						aria-labelledby="select-service"
+																						style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
+																						<li
+																							style="padding: 0 20px;font-size: 14px;">
+																							--Select service</li>
+																						<div
+																							style="overflow: hidden scroll;height: 100px;">
+																						</div>
 																					</ul>
 																				</div>
 																			</div>
@@ -156,7 +182,8 @@
 																			<label for="pickup" style="font-size: 14px;"
 																				id="sending-date-label">Pickup
 																				date</label>
-																			<span class="post-office-form-control-wrap"><input
+																			<span
+																				class="post-office-form-control-wrap"><input
 																					type="date" name="sending-date"
 																					value=""
 																					class="post-office-form-control post-office-date post-office-validates-as-date"
@@ -747,7 +774,8 @@
 																	id="btn-receiver-next">
 															</div>
 														</div>
-														<div class="post-office-response-output" aria-hidden="true"></div>
+														<div class="post-office-response-output" aria-hidden="true">
+														</div>
 													</div>
 												</div>
 											</div>
@@ -852,7 +880,8 @@
 											<div class="input-group input-button">
 												<span class="post-office-form-control-wrap message">
 													<textarea name="message" cols="40" rows="5"
-														class="post-office-form-control post-office-textarea" aria-invalid="false"
+														class="post-office-form-control post-office-textarea"
+														aria-invalid="false"
 														placeholder="Message">													</textarea>
 												</span>
 											</div>
@@ -1021,7 +1050,8 @@
 											<input type="button" value="BACK" id="btn-payment-back" class="mr-3">
 											<div class="input-button input-group"
 												style="margin-bottom: 0px !important;"><input type="submit"
-													value="SEND MESSAGE" class="post-office-form-control post-office-submit"
+													value="SEND MESSAGE"
+													class="post-office-form-control post-office-submit"
 													aria-invalid="false"><span class="ajax-loader"></span></div>
 										</div>
 									</div>
@@ -1032,24 +1062,25 @@
 									<div class="row mb-3">
 										<div class="col-sm-3">
 											<div class="input-group">
-												<span class="post-office-form-control-wrap">
-													<select name="from-ward" id="from-ward"
-														data-placeholder="Select ward…" tabindex="-1"
-														aria-hidden="true">
-														<option value="">Select
-															ward…
-														</option>
-														<option value="EH">Western
-															Sahara
-														</option>
-														<option value="YE">Yemen
-														</option>
-														<option value="ZM">Zambia
-														</option>
-														<option value="ZW">Zimbabwe
-														</option>
-													</select>
-												</span>
+												<div
+													style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+													<div class="dropdown" id="product-cate-list" style="height: 51px;">
+														<a class="btn dropdown-toggle tg-service" href="#" role="button"
+															id="select-product-cate" data-bs-toggle="dropdown"
+															aria-expanded="false" style="height: 100%; width: 100%;">
+															<button
+																style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+																class="btn-sm">Select product category</button>
+														</a>
+														<ul class="dropdown-menu p-0"
+															aria-labelledby="select-product-cate"
+															style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden">
+															<li style="padding: 0 20px;font-size: 14px;">--Select
+																product category</li>
+															<div style="overflow: hidden scroll;height: 100px;"></div>
+														</ul>
+													</div>
+												</div>
 											</div>
 										</div>
 										<div class="col-sm-9" style="">
@@ -1058,58 +1089,17 @@
 												<div class="dropdown" id="product-list" style="height: 51px;">
 													<a class="btn dropdown-toggle" href="#" role="button"
 														id="select-product" data-bs-toggle="dropdown"
-														aria-expanded="true">
+														aria-expanded="false">
 														<input type="search" placeholder="Search product…"
 															style="border: none;padding: 0;">
 													</a>
 													<ul class="dropdown-menu" aria-labelledby="select-product"
-														style="overflow: auto scroll; height: 250px;"
+														style="overflow: hidden; height: 250px; line-height: 40px;"
 														data-popper-placement="bottom-start">
-														<li class="mb-2">
-															<a class="dropdown-item">
-																<div class="align-items-center row"
-																	style="line-height: 30px;">
-																	<div class="col-1">
-																		<img src="../../img/defaults/shop-07-1-1-768x768.jpeg"
-																			alt="" width="30" height="30">
-																	</div>
-																	<div
-																		class="align-items-center col-11 d-flex justify-content-between">
-																		<p class="m-0">Hahaha</p>
-																		<div style="width: 35%;">
-																			<div class="input-group"
-																				style="margin-bottom: 0 !important;height: 35px;">
-																				<span class="post-office-form-control-wrap">
-																					<select name="from-ward"
-																						id="from-ward"
-																						data-placeholder="Select ward…"
-																						tabindex="-1" aria-hidden="true"
-																						style="height: 35px;padding: 5px 10px;">
-																						<option value="">Select
-																							attribute…
-																						</option>
-																						<option value="EH">Western
-																							Sahara
-																						</option>
-																						<option value="YE">Yemen
-																						</option>
-																						<option value="ZM">Zambia
-																						</option>
-																						<option value="ZW">Zimbabwe
-																						</option>
-																					</select>
-																				</span>
-																			</div>
-																		</div>
-																		<p class="m-0">4 items left</p>
-																		<p class="m-0">$25</p>
-																		<button class="btn"
-																			style="background-color: #ffcd39;height: 40px;font-size: 12px;">Add
-																			to cart</button>
-																	</div>
-																</div>
-															</a>
-														</li>
+														<li style="padding: 0 20px;font-size: 14px;">--Select product</li>
+														<div style="overflow: hidden scroll;height: 200px;font-size: 13px;" id="div-product">
+															
+														</div>
 													</ul>
 												</div>
 											</div>

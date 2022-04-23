@@ -13,10 +13,15 @@ namespace post_office.Controllers.Client
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
-
-        public ProductController(ILogger<ProductController> logger)
+        private IProductCategoryService _productCategoryService;
+        private IProductService _productService;
+        public ProductController(ILogger<ProductController> logger, 
+               IProductCategoryService productCategoryService, 
+               IProductService productService)
         {
             _logger = logger;
+            _productCategoryService = productCategoryService;
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -27,6 +32,20 @@ namespace post_office.Controllers.Client
         public IActionResult Detail()
         {
             return View();
+        }
+
+        //pickup -product
+        [HttpGet]
+        public List<ProductCategoryModel> GetProductCategoryByParent([FromQuery] int parentId)
+        {
+            return _productCategoryService.GetParentCategories(parentId);
+        }
+
+        [HttpGet]
+        public List<ProductModel> GetProductsByPCate([FromQuery] int categoryId)
+        {
+            var a = _productService.GetListProduct(categoryId, 1);
+            return a;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

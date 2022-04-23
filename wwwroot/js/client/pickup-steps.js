@@ -712,12 +712,12 @@ function getServiceList(serviceId){
         contentType: 'application/json',
         success: function(response){
             let count  = 1
-            $('#service-list').children('ul').empty()
+            $('#service-list').children('ul').find('div').empty()
             response.forEach(item => {
                 let li = `<li style="padding: 0 20px;font-size: 14px;" id="selected-service-${count}">
                             <a role="button">${item.name}</a>
                         </li>`
-                $('#service-list').children('ul').append(li)
+                $('#service-list').children('ul').find('div').append(li)
                 $(`#selected-service-${count}`).on('click', () => {
                     serviceId = item.id
                     $('#select-service').find('button').text(item.name)
@@ -733,4 +733,122 @@ function getServiceList(serviceId){
 getServiceList(0)
 
     //product
-    
+        //product cate
+let pCateId = 0
+function getProductCateList(parentId){
+    $.ajax({
+        url: `https://localhost:5001/Product/GetProductCategoryByParent?parentId=`+parentId,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response){
+            let count  = 0
+            $('#product-cate-list').children('ul').find('div').empty()
+            $('#product-cate-list').children('ul').find('div').append(`<li style="padding: 0 20px;font-size: 13px;" id="product-cate-${count}">
+                                                                            <a role="button" onClick="getProductByPCate(0)">All</a>
+                                                                        </li>`)
+            response.forEach(item => {
+                count++
+                let li = `<li style="padding: 0 20px;font-size: 13px;" id="product-cate-${count}">
+                            <a role="button">${item.name}</a>
+                        </li>`
+                        // <ul>
+                        //         <li>
+                        //             <a></a>
+                        //             <ul>
+                        //                 <li><a></a></li>
+                        //                 <li><a></a></li>
+                        //             </ul>
+                        //         </li>
+                        //     </ul>
+                $('#product-cate-list').children('ul').find('div').append(li)
+                $(`#product-cate-${count}`).on('click', () => {
+                    $('#product-cate-list').find('button').text(item.name)
+                    getProductByPCate(item.id)
+                })
+            })
+        },
+        error: function(data){
+            alert(data.responseText.message)
+        }
+    })
+}
+getProductCateList(0)
+getProductByPCate(0)
+function getProductByPCate(pCateId){
+    $.ajax({
+        url: 'https://localhost:5001/Product/GetProductsByPCate?categoryId='+pCateId,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response){
+            let count = 1
+            $('#product-list').children('ul').find('#div-product').empty()
+            console.log(response)
+            response.forEach(item=>{
+                let li = `<li class="col-sm-12 mb-3">
+                            <div class="align-items-center row"
+                                style="line-height: 30px;">
+                                <div class="col-1 d-flex justify-content-center">
+                                    <img src="../../img/defaults/shop-07-1-1-768x768.jpeg"
+                                        alt="" width="30" height="30">
+                                </div>
+                                <div class="align-items-center col-11 d-flex justify-content-between text-center">
+                                    <p class="m-0 text-left" style="flex:2;">${item.name}</p>
+                                    <div class="input-group" style="margin-bottom: 0 !important;width: 30%; flex:2;">
+                                        <div style="border: 1px solid rgba(119, 119, 119, 0.2);">
+                                            <div class="dropdown" id="product-attribute-list-${count}" style="height: 40px;">
+                                                <a class="btn dropdown-toggle p-0 tg-pattribute"
+                                                    href="#" role="button"
+                                                    id="select-product-attribute-${count}"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                    style="height: 100%; width: 100%;">
+                                                    <button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 11px;padding: 12px 10px;"
+                                                        class="btn-sm">Select product attribute</button>
+                                                </a>
+                                                <ul class="dropdown-menu p-0"
+                                                    aria-labelledby="select-product-attribute-${count}"
+                                                    style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden">
+                                                    <li style="padding: 0 20px;font-size: 14px;">
+                                                        Select product attribute</li>
+                                                    <div style="overflow: hidden scroll;height: 100px;"> </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="m-0" style="flex:1;">${item.qty} items left</p>
+                                    <p class="m-0" style="flex:1;">$${item.price}</p>
+                                    <button class="btn" id="btn-add-to-cart-${count}"
+                                        style="background-color: #ffcd39;height: 40px;font-size: 12px;">Add
+                                        to cart</button>
+                                </div>
+                            </div>
+                        </li>`
+                $('#product-list').children('ul').find('#div-product').append(li)
+                count++
+            })
+        },
+        error: function(data){
+            alert(data.responseText.message)
+        }
+    })
+}
+
+window.addEventListener('click', function(e){   
+    if (document.getElementById('product-cate-list').contains(e.target)){
+        $('#product-cate-list').children('ul').css('display', 'block')
+    } else{
+        $('#product-cate-list').children('ul').css('display', 'none')
+    }
+    if (document.getElementById('product-list').contains(e.target)){
+        $('#product-list').children('ul').css('display', 'block')
+    } else{
+        $('#product-list').children('ul').css('display', 'none')
+    }
+    // if (document.getElementById('product-attribute-list').contains(e.target)){
+    //     $('#product-attribute-list').children('ul').css('display', 'block')
+    // } else{
+    //     $('#product-attribute-list').children('ul').css('display', 'none')
+    // }
+})

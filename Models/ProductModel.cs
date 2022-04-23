@@ -9,8 +9,7 @@ namespace post_office.Models
 {
     public class ProductModel
     {
-        public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
-
+        //public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
 
         [Key]
         public int id { get; set; }
@@ -24,6 +23,5 @@ namespace post_office.Models
         public DateTime createdAt { get; set; }
         public int status { get; set; }
 
-        public IFormFile Thumbnail { get; set; }
     }
 }

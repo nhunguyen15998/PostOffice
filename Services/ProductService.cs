@@ -11,7 +11,7 @@ namespace post_office.Services
     {
         DataContext GetDataContext();
         ProductModel SaveProduct(ProductModel mdl);
-        List<ProductModel> GetListProduct();
+        List<ProductModel> GetListProduct(int categoryId, int status);
         List<ProductAttributeModel> GetListProductAttribute();
         ProductAttributeModel SaveProductAttribute(ProductAttributeModel m);
         int GetTotalQuantity(int pid);
@@ -45,10 +45,12 @@ namespace post_office.Services
             ct.SaveChanges();
             return m;
         }
-        public List<ProductModel> GetListProduct()
+        public List<ProductModel> GetListProduct(int categoryId, int status)
         {
-            return ct.Products.Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
-
+            var a = ct.Products.Where(x => categoryId != 0 ? x.CategoryId == categoryId : true)
+                              .Where(x => status == 1 ? x.Status == status : true)
+                              .Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
+            return a;
         }
         public List<ProductAttributeModel> GetListProductAttribute()
         {
@@ -61,7 +63,7 @@ namespace post_office.Services
         }
         public int GetTotalQuantity(int pid)
         {
-            var pd = GetListProduct().FirstOrDefault(x => x.id == pid).qty ?? 0;
+            var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).qty ?? 0;
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).ToList();
             var res = 0;
             foreach (var item in ls_PDattr)
@@ -72,7 +74,7 @@ namespace post_office.Services
         }
         public string GetPrice(int pid)
         {
-            var pd = GetListProduct().FirstOrDefault(x => x.id == pid).price ?? 0;
+            var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).price ?? 0;
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
             ls_PDattr.Add(pd);
             string res =string.Format("{0:n0}", ls_PDattr[0]);

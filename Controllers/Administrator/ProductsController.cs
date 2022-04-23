@@ -36,12 +36,12 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            ViewBag.lsPD = _Productsvc.GetListProduct();
+            ViewBag.lsPD = _Productsvc.GetListProduct(0,0);
             ViewBag.pd = _Productsvc;
             ViewBag.pdcate = _pdcatesvc;
-            ViewBag.ls_status = ProductModel.ls_status;
+            ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
             m = _attrsvc.GetListAttribute();
-            lp = _Productsvc.GetListProduct();
+            lp = _Productsvc.GetListProduct(0,0);
             la = _Productsvc.GetListProductAttribute();
             return View();
         }
