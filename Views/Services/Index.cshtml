@@ -9,9 +9,10 @@
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:200px;" type="text" placeholder="Search by name, content" id="search-by-name" />
+        <input class="input-search form-control" style="float:left;width:230px;" type="text" placeholder="Search by name, content" id="search-by-name" />
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
-        <select class="dropdownlist" style="float:left;width:115px;" id="search-by-status">
+        <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
+        <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
             <option value="-1">all</option>
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
@@ -119,6 +120,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+    var pages = 1;
        window.onload = function () {
         var mess = "@(post_office.Controllers.Administrator.ServicesController.mess)";
 
@@ -219,7 +221,26 @@
          SearchFilter(pages);
 
 
+        });
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            ShowWaiting(800);
+            SearchFilter(1);
+
+        }
+
     });
+
+    $("#search-by-status").change(function () {
+        ShowWaiting(800);
+
+        SearchFilter(1);
+    });
+    function SearchFilter(page) {
+        var nameSearch = $("#search-by-name").val();
+        var selectStatus = $("#search-by-status").val();
+        LoadDataService(page,  nameSearch, selectStatus);
+    }
     function LoadDataService( page,sort,status) {
 
         if (page > 0 && page <=@ViewBag.pagi) {
@@ -259,7 +280,7 @@
 
 
                     var f = new FormData();
-                    f.append("type", selectType);
+                    f.append("status", status);
                     f.append("name", sort);
                     $.ajax({
                         type: "POST",
@@ -303,5 +324,48 @@
             });
 
         }
+    }
+    //delete
+    $('body').delegate('.delete-service', 'click', function () {
+        if (confirm("Are you sure to delete this item?")) {
+            var id = $(this).attr("oid").replace("object-", "");
+            var fdt = new FormData();
+            fdt.append("ls", id);
+            DeletePDCate(fdt)
+        }
+    });
+
+    $("#btnDelete").click(function () {
+        if (CheckCheckbox()) {
+
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to delete these item(s)?")) {
+                var fdt = new FormData();
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                DeletePDCate(fdt);
+                ResetCheckbox();
+            }
+        }
+    });
+    function DeletePDCate(formData) {
+        localStorage.setItem("mySession", "__svc")
+        localStorage.setItem("title", "SERVICES")
+         $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteService", "Services")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                                window.location.href = "@Url.Action("Index","Services")"
+
+                }
+            });
     }
 </script>

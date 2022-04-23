@@ -12,9 +12,14 @@
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
-
+        <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
+        <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
+            <option value="-1">all</option>
+            <option value="1">Activated</option>
+            <option value="0">Deactivated</option>
+        </select>
     </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
@@ -35,8 +40,9 @@
         {
             <tr class="table-item">
                 <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
-                <td class="tbl-40">@k @{k++;}</td>
-                <td class="tbl-40 p-2">@if (item.thumbnail != null)
+                <td class="tbl-60">@k @{k++;}</td>
+                <td class="tbl-40 p-2">
+                @if (item.thumbnail != null)
                 {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45" />}</td>
                 <td class="tbl-190">@item.code</td>
                 <td class="tbl-200">@item.name</td>
@@ -174,7 +180,7 @@
                 <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
             </span>
         </div>
-        <div id="content-details" class="col-12" style="padding:20px;min-height:450px;display:table;">
+        <div id="content-details" class="col-12" style="padding:20px 20px 40px 20px;min-height:450px;display:table;">
             <div class="col-5 container" style="min-height:inherit;float:left">
             </div>
             <div class="col-7" style="min-height:inherit;float:left">
@@ -186,7 +192,7 @@
 
 
 
-<div class="view-create col-12">
+<div class="view-create col-12" id="view-create-attr">
     <div class="col-6 container sub-create-attr" style="display:block">
         <div class="col-12 title-create">
             <label>Create attribute</label>
@@ -212,6 +218,7 @@
 
     var obj = null;
     var attr_type = "";
+    var pages = 1;
        window.onload = function () {
 
         var mess = "@(post_office.Controllers.Administrator.ProductsController.mess)";
@@ -274,26 +281,57 @@
                                  });
                              }
                              if (data[i].lengthID != null) {
-                                 ls_attr.push({
-                                     num: 2,
-                                     slt: data[i].lengthID
-                                 });
+                                 if (data[i].widthID == null && data[i].heightID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 2,
+                                         slt: data[i].lengthID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 2,
+                                         slt: data[i].lengthID
+                                     });
+                                 }
+                                
                              }
                              if (data[i].widthID != null) {
-                                 ls_attr.push({
-                                     num: 3,
-                                     slt: data[i].widthID
-                                 });
+                                 if (data[i].lengthID == null && data[i].heightID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 3,
+                                         slt: data[i].widthID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 3,
+                                         slt: data[i].widthID
+                                     });
+                                 }
                              }
                              if (data[i].heightID != null) {
-                                 ls_attr.push({
-                                     num: 4,
-                                     slt: data[i].heightID
-                                 });
+                                 if (data[i].lengthID == null && data[i].widthID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 4,
+                                         slt: data[i].heightID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 4,
+                                         slt: data[i].heightID
+                                     });
+                                 }
                              }
                          }
 
-                        ShowDetailSupport(ls_attr)
+                         $("#content-details").find("div").last().append(ShowDetailSupport(ls_attr))
 
                      }
 
@@ -450,8 +488,6 @@
             $("#trashimg").css("display", "none");
 
         }
-
-
         var fdt = new FormData();
         fdt.append("id", id);
           $.ajax({
@@ -466,7 +502,9 @@
 
             }
         });
-         if (id != 0) {
+        if (id != 0) {
+            ShowWaiting(1000);
+
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetProduct", "Products")",
@@ -507,7 +545,8 @@
                          ShowAddAttr('#add-attr');
                          var ls_attr = [];
                          for (var i = 0; i < data.length; i++) {
-                             if (data[i].colorID != null) { CheckAttrCheck(1);
+                             if (data[i].colorID != null) {
+                                 CheckAttrCheck(1);
                                  ls_attr.push({
                                      num: 1,
                                      slt: data[i].colorID,
@@ -515,23 +554,60 @@
                                      qt: data[i].qty
                                  });
                              }
-                             if (data[i].lengthID != null) { CheckAttrCheck(2);
-                                 ls_attr.push({
-                                     num: 2,
-                                     slt: data[i].lengthID
-                                 });
+                             if (data[i].lengthID != null) {
+                                 CheckAttrCheck(2);
+
+                                 if (data[i].widthID == null && data[i].heightID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 2,
+                                         slt: data[i].lengthID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 2,
+                                         slt: data[i].lengthID
+                                     });
+                                 }
+
                              }
-                             if (data[i].widthID != null) {  CheckAttrCheck(3);
-                                 ls_attr.push({
-                                     num: 3,
-                                     slt: data[i].widthID
-                                 });
+                             if (data[i].widthID != null) {
+                                 CheckAttrCheck(3);
+
+                                 if (data[i].lengthID == null && data[i].heightID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 3,
+                                         slt: data[i].widthID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 3,
+                                         slt: data[i].widthID
+                                     });
+                                 }
                              }
-                             if (data[i].heightID != null) {   CheckAttrCheck(4);
-                                 ls_attr.push({
-                                     num: 4,
-                                     slt: data[i].heightID
-                                 });
+                             if (data[i].heightID != null) {
+                                 CheckAttrCheck(4);
+
+                                 if (data[i].lengthID == null && data[i].widthID == null && data[i].colorID == null) {
+                                     ls_attr.push({
+                                         num: 4,
+                                         slt: data[i].heightID,
+                                         pr: data[i].price,
+                                         qt: data[i].qty
+                                     });
+
+                                 } else {
+                                     ls_attr.push({
+                                         num: 4,
+                                         slt: data[i].heightID
+                                     });
+                                 }
                              }
                          }
                          AddAttrUpdate(SupportAddAttrUpdate(ls_attr));
@@ -563,16 +639,10 @@
             });
            }
 
-        var str = "";
-        var str2 = "";
-        var str3 = "";
-        var str4 = "";
-       var str5 = "";
-           var str6 = "";
-           var str7 = "";
+        var str = str2 =  str3 = str4 =str5 = str6 = str7 = "";
            var count = 1;
            var temp = 0;
-        
+
         var ls_name = [];
 
         for (var i = 0; i < ls.length; i++) {
@@ -618,11 +688,8 @@
 
 
         }
-
-
-
-           res = '<table class="col-12 table-bordered"  ><tr> ' + _name + '<th style="color:#bc4f0f">quantity</th><th  style="color:#bc4f0f">price</th></tr>' + (uniqueChars.length == 1 ? str5 : (uniqueChars.length == 2 ? str4 : str7)) + "<table>";
-           $("#content-details").find("div").last().append(res)
+           return '<table class="col-12 table-bordered"  ><tr> ' + _name + '<th style="color:#bc4f0f">quantity</th><th  style="color:#bc4f0f">price</th></tr>' + (uniqueChars.length == 1 ? str5 : (uniqueChars.length == 2 ? str4 : str7)) + "<table>";
+           
     }
     function SupportAddAttrUpdate(ls_attr) {
         ls = [];
@@ -656,6 +723,7 @@
             $("#name-attr-error").html("This attribute is already exists");
 
         } else {
+            ShowWaiting(1500);
             var f = new FormData();
             f.append("name", name);
             f.append("type", slt);
@@ -702,6 +770,40 @@
         var q = $.ajax({
             type: "POST",
             url: "@Url.Action("GetCategory", "Products")",
+            data: f,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                return data;
+
+            }
+        }).responseText;
+        return q;
+    }
+    function GetPrice(id) {
+        var f = new FormData();
+        f.append("id", id);
+        var q = $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetPrice", "Products")",
+            data: f,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                return data;
+
+            }
+        }).responseText;
+        return q;
+    }
+     function GetTotalQuantity(id) {
+        var f = new FormData();
+        f.append("id", id);
+        var q = $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetTotalQuantity", "Products")",
             data: f,
             async: false,
             processData: false,
@@ -882,7 +984,7 @@
     });
     function OpenFormCreateAttr(obj_value, val) {
         if (obj_value.val() == 0) {
-            $(".view-create").css("display", "block");
+            $("#view-create-attr").css("display", "block");
             obj = obj_value;
             attr_type = val;
             $("#select-attr").html(attr_type)
@@ -902,7 +1004,7 @@
 
                 });
     function CloseFormCreate() {
-        $('.view-create').css("display", "none");
+        $('#view-create-attr').css("display", "none");
         $('#ip-name-attr-create').val("");
         obj.val(-1);
     }
@@ -921,4 +1023,153 @@
             document.getElementById("check-all").checked = true;
         }
     });
+    /*PAGINATION*/
+     $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+        });
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            ShowWaiting(800);
+            SearchFilter(1);
+
+        }
+
+    });
+
+    $("#search-by-status").change(function () {
+        ShowWaiting(800);
+
+        SearchFilter(1);
+    });
+    function SearchFilter(page) {
+        var nameSearch = $("#search-by-name").val();
+        var selectStatus = $("#search-by-status").val();
+        LoadDataService(page,  nameSearch, selectStatus);
+    }
+    function LoadDataService(page, sort, status) {
+        ShowWaiting(2000)
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("name", sort);
+            formDT.append("status", status);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataProducts", "Products")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    var res = "";
+                    for (var i = 0; i < data.length; i++) {
+                            var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
+                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            var thumbnail = "";
+                            if (data[i].thumbnail != null) { thumbnail = '<img src="/img/ProductThumbnail/' + data[i].thumbnail + '" width="45" height="45" />' }
+                             res += '<tr class="table-item">  <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
+                                + '<td class="tbl-60">' + row + '</td>  <td class="tbl-40 p-2"> ' + thumbnail + '</td>  <td class="tbl-190">' + data[i].code + '</td>'
+                                + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + GetCategory(data[i].categoryId) + '</td>'
+                                + '<td class="tbl-60">' + GetTotalQuantity(data[i].id) + '</td>  <td class="tbl-110">' + GetPrice(data[i].id) + '</td>  <td class="sts-item tbl-40" id="sts-">' + str
+                                        +'</td>  <td class="tbl-180">  <span oid="object-'+data[i].id+'" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
+                                        +'<i class="fa fa-eye"></i>  </span> <span oid="object-'+data[i].id+'" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">'
+                                         +'<i class="fa fa-edit"></i>   </span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-product">'
+                                           +' <i class="fa fa-trash"></i> </span> </td>  </tr>';
+                            row = row + 1;
+
+
+                    }
+                    $("#table-id").append(res);
+
+
+
+                    var f = new FormData();
+                    f.append("status", status);
+                    f.append("name", sort);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountProducts", "Products")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Products")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
 </script>

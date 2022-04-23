@@ -51,13 +51,13 @@ namespace post_office.Controllers.Administrator
         public List<ServiceModel> LoadDataServices(int p,  string name, int status)
         {
             int currentSkip = 10 * (p - 1);
-            var w = _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())
-                                                                             && (status == -1 ? true : x.status == status)  ).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
+            var w = _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower())
+                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
             return w;
         }
         public int GetCountServices( string name, int status)
         {
-            return _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())
+            return _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower())
                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).ToList().Count;
 
 
@@ -85,6 +85,13 @@ namespace post_office.Controllers.Administrator
             var obj = lsSvc.FirstOrDefault(x => x.name.ToLower() == model.name.ToLower());
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
+        }
+        //delete
+        public void DeleteService(List<int> ls)
+        {
+            _Servicesvc.RemoveServices(ls);
+            mess = "Deleted successfully!";
+            
         }
     }
 }

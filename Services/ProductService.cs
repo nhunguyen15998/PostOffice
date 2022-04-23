@@ -101,7 +101,12 @@ namespace post_office.Services
             var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
             if(pd!=null) ls_PDattr.Add((decimal)pd);
             string res =string.Format("{0:n0}", ls_PDattr[0]);
-            if (ls_PDattr.Count >= 2) res = string.Format("{0:n0}", ls_PDattr.Min())+" - "+ string.Format("{0:n0}", ls_PDattr.Max());
+            if (ls_PDattr.Count >= 2) {
+                decimal min = ls_PDattr.Min();
+                decimal max = ls_PDattr.Max();
+                if (min == max)   res = string.Format("{0:n0}", min);
+                else res = string.Format("{0:n0}", min) + " - " + string.Format("{0:n0}", max);
+                }
             return res;
         }
         public ProductAttributeModel GetProductAttribute(int id)

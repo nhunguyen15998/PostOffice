@@ -22,7 +22,8 @@ namespace post_office.Controllers.Administrator
         public static string mess;
         public static List<AttributeModel> m = new List<AttributeModel>();
         public static List<ProductModel> lp = new List<ProductModel>();
-        public static List<ProductAttributeModel> la = new List<ProductAttributeModel>();
+        public static int page = 1;
+
 
         IProductService _Productsvc = null;
         IAttributeService _attrsvc = null;
@@ -34,20 +35,21 @@ namespace post_office.Controllers.Administrator
             _attrsvc = attr;
             _pdcatesvc = pdcate;
             _Productsvc = ProductProduct;
+            lp = _Productsvc.GetListProduct(0, 0);
         }
         public IActionResult Index()
         {
-            ViewBag.lsPD = _Productsvc.GetListProduct(0,0);
+            ViewBag.lsPD = LoadDataProducts(page, string.Empty, -1);
+            ViewBag.pagi = RowEvent(_Productsvc.GetListProduct(0,0).Count);
             ViewBag.pd = _Productsvc;
             ViewBag.pdcate = _pdcatesvc;
             ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
-            m = _attrsvc.GetListAttribute();
-            lp = _Productsvc.GetListProduct(0,0);
-            la = _Productsvc.GetListProductAttribute();
             return View();
         }
         public string GetListAttribute(int id, int type)
         {
+            m = _attrsvc.GetListAttribute();
+
             var q = m.Where(x => x.type == id).ToList();
             var res = $"<option value='-1'>--*{AttributeModel.ls_type[id]}*--</option><option value='0'>--NEW--</option>";
 
@@ -59,6 +61,32 @@ namespace post_office.Controllers.Administrator
             }
             return res;
         }
+        //Pagination
+        public List<ProductModel> LoadDataProducts(int p, string name, int status)
+        {
+            int currentSkip = 10 * (p - 1);
+            var w = lp.Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.ToLower().Contains(name == null ? "" : name.ToLower())
+                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
+            return w;
+        }
+        public int GetCountProducts(string name, int status)
+        {
+            var e= lp.Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.Contains(name == null ? "" : name)
+                                                                            && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).ToList().Count;
+
+            return e;
+        }
+        public int RowEvent(int i)
+        {
+            double pagi = i / 10.0;
+            if (Helpers.Helpers.IsNumber(pagi.ToString()))
+            {
+                pagi = (int)pagi;
+                pagi += 1;
+            }
+            return (int)pagi;
+        }
+        //End pagination
         public bool CheckExistsName(string name, int type)
         {
             return m.FirstOrDefault(x => x.name.ToLower() == name.ToLower() && x.type == type) == null ? false : true;
@@ -128,7 +156,15 @@ namespace post_office.Controllers.Administrator
         }
         public string GetCategory(int id)
         {
-            return _pdcatesvc.GetProductCategory(id).name;
+            return _pdcatesvc.GetProductCategory(id).name??"";
+        }
+        public string GetPrice(int id)
+        {
+            return _Productsvc.GetPrice(id);
+        }
+        public int GetTotalQuantity(int id)
+        {
+            return _Productsvc.GetTotalQuantity(id);
         }
         public string GetAttributeName(int id)
         {
