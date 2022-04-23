@@ -29,7 +29,7 @@ namespace post_office.Controllers.Administrator
             ViewBag.lsPDCate = ls = LoadDataPDCategories(page, 0, string.Empty,-1);
             ViewBag.pagi = RowEvent(_ProductCategorysvc.GetListProductCategory().Count);
 
-            ViewBag.lsSTS = ProductCategoryModel.ls_status;
+            ViewBag.lsSTS = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
             ViewBag.svc = _ProductCategorysvc;
             return View();
         }
@@ -82,20 +82,22 @@ namespace post_office.Controllers.Administrator
         {
             var w = id == 0 ? _ProductCategorysvc.GetListProductCategory().Where(x=>x.status==1) : _ProductCategorysvc.GetListProductCategory().Where(x => x.id != id&&x.parent_id!=id&&x.status==1);
            
-            string res = "<option value='0'>Select parent</option>";
-            
+            string res = "<option value='0'>None</option>";
+            var ele = id != 0?_ProductCategorysvc.GetProductCategory(id).parent_id:0;
             if (id != 0)
             {
-                var obj = _ProductCategorysvc.GetProductCategory(_ProductCategorysvc.GetProductCategory(id).parent_id);
+                var obj = _ProductCategorysvc.GetProductCategory(ele??0);
                 if (obj!=null?obj.status == 0:false)
                 {
                     res += "<option selected='selected' value=" +obj.id + ">" +obj.name + "</option>";
                 }
-                }
+            }
             foreach (var item in w)
             {
-                
-                res += "<option value="+item.id+">"+item.name+"</option>";
+                if (ele== item.id)
+                    res += "<option selected='selected' value=" + item.id+">"+item.name+"</option>";
+               else res += "<option value=" + item.id + ">" + item.name + "</option>";
+
             }
             return res;
         }
@@ -118,14 +120,11 @@ namespace post_office.Controllers.Administrator
         }
         public int RowEvent(int i)
         {
-
             double pagi = i / 10.0;
             if (Helpers.Helpers.IsNumber(pagi.ToString()))
             {
                 pagi = (int)pagi;
-
                 pagi += 1;
-
             }
             return (int)pagi;
         }

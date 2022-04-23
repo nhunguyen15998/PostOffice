@@ -11,7 +11,7 @@ namespace post_office.Services
     {
         bool ModifyPDCategory(ProductCategoryModel mdl);
         ProductCategoryModel SavePDCategory(ProductCategoryModel mdl);
-        ProductCategoryModel GetProductCategory(int? id);
+        ProductCategoryModel GetProductCategory(int id);
         List<ProductCategoryModel> GetListProductCategory();
         List<ProductCategoryModel> GetParentCategories(int parentId);
         List<ProductCategoryModel> GetListParent();
@@ -48,7 +48,7 @@ namespace post_office.Services
             return check ;
         }
 
-        public ProductCategoryModel GetProductCategory(int? id)
+        public ProductCategoryModel GetProductCategory(int id)
         {
             return _context.ProductCategories.Select(x => new ProductCategoryModel() { id = x.Id, name = x.Name, parent_id = x.ParentId,status = x.Status, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.id == id)??null; 
         }

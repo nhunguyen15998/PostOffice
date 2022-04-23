@@ -10,12 +10,12 @@
 @model post_office.Models.ProductCategoryModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:50px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:250px;" type="text" id="search-by-name" placeholder="Search by name" />
-        <label class="text-color ml-3 mr-2" style="float:left;font-size:15px">Search by parent:</label>
-        @Html.DropDownList("Parent", (IEnumerable<SelectListItem>)ViewBag.ls_parent, null, new { @class = "dropdownlist", @style = "float:left;width:150px", @id = "search-by-parent" })
-        <label class="text-color ml-3 mr-2" style="float: left; font-size: 15px">Search by status:</label>
-        <select class="dropdownlist" style="float:left;width:120px;" id="search-by-status">
+        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:1.5vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:240px;" type="text" id="search-by-name" placeholder="Search by name" />
+        <label class="text-color ml-3 mr-2" style="float:left;font-size:14px">Search by parent:</label>
+        @Html.DropDownList("Parent", (IEnumerable<SelectListItem>)ViewBag.ls_parent, null, new { @class = "dropdownlist", @style = "float:left;width:135px", @id = "search-by-parent" })
+        <label class="text-color ml-3 mr-2" style="float: left; font-size: 14px">Search by status:</label>
+        <select class="dropdownlist" style="float:left;width:115px;" id="search-by-status">
             <option value="-1">all</option>
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
@@ -41,7 +41,7 @@
         <td class="tbl-30"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
         <td class="tbl-60">@k @{k++;} </td>
         <td class="tbl-280">@item.name</td>
-        <td class="tbl-280">@(item.parent_id == null ? "" : pdcate.GetProductCategory(item.parent_id).name)</td>
+        <td class="tbl-280">@(item.parent_id == null ? "" : pdcate.GetProductCategory(item.parent_id??0).name)</td>
         <td class="tbl-280">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
 
         <td class="tbl-40">
@@ -104,7 +104,7 @@
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error",@id="name-error" })
                         <br />
                         <label class="text-color">Parent:</label>
-                        @Html.DropDownListFor(model => model.parent_id, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }, new { @class = "dropdownlist" ,@id="slt-parent"})
+                        @Html.DropDownListFor(model => model.parent_id, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "None" } }, new { @class = "dropdownlist" ,@id="slt-parent"})
 
                         <br />
                         <label class="text-color">Status:</label>
@@ -131,14 +131,10 @@
             ShowMessage(true, mess)
         else if (mess != "Saved successfully!" && mess != "")
             ShowMessage(false, mess)
-
-
            @{post_office.Controllers.Administrator.ProductCategoryController.mess = "";}
-
-
-
     }
     $("#btnCreate").click(function () {
+        @{post_office.Controllers.Administrator.ProductCategoryController._id = 0; }
         OpenForm("Create product category",0);
     });
     $('body').delegate('.edit-pd-cate', 'click', function () {
@@ -190,7 +186,23 @@
     function OpenForm(type, id) {
         var fdt = new FormData();
         fdt.append("id", id);
-          $.ajax({
+
+        if (id != 0) {
+
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetPDCategory", "ProductCategory")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#slt-sts").val(data.status);
+                     $("#pdcate-name").val(data.name);
+
+                }
+            });
+        }
+        $.ajax({
                 type: "POST",
             url: "@Url.Action("GetParentOption", "ProductCategory")",
             data: fdt,
@@ -202,25 +214,9 @@
 
                 }
             });
-        if (id != 0) {
-
-             $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetPDCategory", "ProductCategory")",
-                data: fdt,
-                processData: false,
-                contentType: false,
-                 success: function (data) {
-                     $("#slt-parent").val(data.parent_id == null ? 0 : data.parent_id);
-                     $("#slt-sts").val(data.status);
-                     $("#pdcate-name").val(data.name);
-
-                }
-            });
-        }
-
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
+        sleep(400);
         $("#view-main").css("display", "block");
 
 
@@ -237,6 +233,7 @@
             $(er).html("");
             }
         $("#form-pd-cate").trigger("reset");
+        $("#pdcate-name").val("");
 
     }
     $('#btnPDCateSave').click(function () {
@@ -258,15 +255,12 @@
                 success: function (data) {
                     if (data == false) {
                         $("#name-error").html("This product category already exists!");
-                        $("#name-error").shake()
                     } else {
                         var f = new FormData();
                         mdl = {
-                            id:@(post_office.Controllers.Administrator.ProductCategoryController._id),
                             name: name,
                             parent_id: parent,
                             status: $("#slt-sts").val()
-
                         };
                         f.append("m", JSON.stringify(mdl))
                         $.ajax({
@@ -276,6 +270,7 @@
                             processData: false,
                             contentType: false,
                             success: function () {
+                                ResetForm();
                                 window.location.href = "@Url.Action("Index", "ProductCategory")"
                             }
                         });
@@ -284,19 +279,9 @@
             });
 
         }
-
-
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).html().length > 0) {
-                $(er[i]).shake();
-
-            }
-        }
-
-            localStorage.setItem("mySession", "__pc")
-            localStorage.setItem("title", "PRODUCT CATEGORIES")
-
+        ShakeError();
+        localStorage.setItem("mySession", "__pc")
+        localStorage.setItem("title", "PRODUCT CATEGORIES")
     });
      $('body').delegate('.page-item', 'click', function () {
 

@@ -121,6 +121,7 @@
 <script type="text/javascript">
     var pages = 1;
     window.onload = function () {
+        
         var mess = "@(post_office.Controllers.Administrator.AttributeController.mess)";
         if (mess == "Saved successfully!" || mess == "Deleted successfully!")
             ShowMessage(true, mess)
@@ -244,10 +245,8 @@
                     } else {
                         var f = new FormData();
                         mdl = {
-                            id:@(post_office.Controllers.Administrator.AttributeController._id),
                             name: name,
                             type: type
-
                         };
                         f.append("m", JSON.stringify(mdl))
                         $.ajax({
@@ -257,6 +256,7 @@
                             processData: false,
                             contentType: false,
                             success: function () {
+                                ResetForm();
                                 window.location.href = "@Url.Action("Index","Attribute")"
                             }
                         });
@@ -265,13 +265,7 @@
             });
 
         }
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).html().length > 0) {
-                $(er[i]).shake();
-
-            }
-        }
+        ShakeError();
         localStorage.setItem("mySession", "__attr")
         localStorage.setItem("title", "ATTRIBUTES")
     });

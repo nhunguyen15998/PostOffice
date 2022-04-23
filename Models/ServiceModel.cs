@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,13 +9,13 @@ namespace post_office.Models
 {
     public class ServiceModel
     {
-        public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
 
         [Key]
         public int id { get; set; }
         
         //name
         [Required(ErrorMessage = "* required")]
+        [Remote("NameServiceExists", "Services", ErrorMessage = "This name already exist.")]
         public string name { get; set; }
 
         //content

@@ -26,37 +26,43 @@
             <th>Category</th>
             <th>Qty</th>
             <th>Price</th>
-           @* <th>Created at</th>*@
+            @* <th>Created at</th>*@
             <th>Status</th>
             <th>Action</th>
         </tr>
         @{int k = 1;}
         @foreach (var item in (List<post_office.Models.ProductModel>)ViewBag.lsPD)
         {
-    <tr class="table-item">
-        <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
-        <td class="tbl-40">@k @{k++;}</td>
-        <td class="tbl-40 p-2">@if (item.thumbnail != null) {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45"/>  }</td>
-        <td class="tbl-190">@item.code</td>
-        <td class="tbl-200">@item.name</td>
-        <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId).name</td>
-        <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
-        <td class="tbl-110">@pd.GetPrice(item.id)</td>
-        @*<td class="tbl-140">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>*@
-        <td class="sts-item tbl-40" id="sts-"></td>
-        <td class="tbl-180">
-            <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
-                <i class="fa fa-eye"></i>
-            </span>
-            <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
-                <i class="fa fa-edit"></i>
-            </span>
+            <tr class="table-item">
+                <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
+                <td class="tbl-40">@k @{k++;}</td>
+                <td class="tbl-40 p-2">@if (item.thumbnail != null)
+                {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45" />}</td>
+                <td class="tbl-190">@item.code</td>
+                <td class="tbl-200">@item.name</td>
+                <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId ?? 0).name</td>
+                <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
+                <td class="tbl-110">@pd.GetPrice(item.id)</td>
+                @*<td class="tbl-140">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>*@
+                <td class="sts-item tbl-40" id="sts-">
+                      @if (item.status == 1)
+            {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+            else
+            { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
+                <td class="tbl-180">
+                    <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                    <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
 
-            <span oid="object-@item.id" class="action-icon delete delete-product">
-                <i class="fa fa-trash"></i>
-            </span>
-        </td>
-    </tr>
+                    <span oid="object-@item.id" class="action-icon delete delete-product">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
 
         }
     </table>
@@ -98,7 +104,7 @@
 
                     <label class="text-color">
                         Code:
-                        <span class="text-readonly">4444111558755874</span>
+                        <span class="text-readonly" id="ip-code"></span>
                     </label>
                     <br />
                     <label class="text-color mt-0">Name:</label>
@@ -112,24 +118,35 @@
                     <label class="text-color mt-0">Description:</label>
                     <textarea class="input-form-cu txt-area" type="text" placeholder="name" id="ip-des"></textarea>
                     <label class="_error" id="des-error"></label>
-                    <br />
-                    <label class="text-color mt-0">Quantity:</label>
-                    <input class="input-form-cu" type="text" placeholder="quantity" id="ip-qty" />
-                    <label class="_error" id="qty-error"></label>
-                    <br />
-                  
-                        <input type="file" class="input-form-cu" accept="image/*" onchange="ReadImage(this)" id="ip-thumbnail" />
+
+                    <div style="display:table-row; height: auto; min-height: 50px; background: none; float: left;padding:0 " class="col-12">
+                        <div id="viewer" style="border: 2px dashed #eed192;border-radius: 6px; min-height: 20px;height:inherit;padding-top:10px; text-align:center">
+
+
+                            <div style="margin-bottom:10px" id="content">Click or drag to upload</div>
+
+                            <img id="imgViewer" style="border:none; width:90%;height:auto;margin-bottom:5vh;border-radius:20px;" />
+                        </div>
+                        <input type="file" id="ip-thumbnail" onchange="ReadImage(this)" class="main-post" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp" aria-hidden="true" tabindex="-1" style="cursor: pointer; height: 100%; opacity: 0;
+                        position: absolute; width: 100%; left: 0px; top: 0px; font-size: 0px;">
+                    </div>
+                    <div class="col-12 container" style=" text-align:center;height: auto;float: left;margin-top:-30px;display:table-row;">
+                        <button id="trashimg" style="padding: 10px 17px; background: #e12c2c; border-radius: 50%; border: 0; font-size: 20px; display: none"><i style="color:white;pointer-events:none" class="fa fa-trash"></i></button>
+                    </div>
                 </div>
                 <div class="col-7" style="min-height:inherit;float:left">
-                    <label class="text-color mt-2">Category:</label>
-                    @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select cate" } }, new { @class = "dropdownlist" ,@id="cate-select"})
+                    <label class="text-color mt-2">Quantity:</label>
+                    <input class="input-form-cu" type="text" placeholder="quantity" id="ip-qty" />
+                    <label class="_error" id="qty-error"></label>
+                    <label class="text-color mt-0">Category:</label>
+                    @Html.DropDownListFor(model => model.categoryId, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select cate" } }, new { @class = "dropdownlist", @id = "cate-select" })
 
                     @*  @Html.DropDownList("accountid", new SelectList(ViewBag.Accounts, "AccountID", "AccountName"))
                                         @Html.DropDownListFor(model=>model.parent_id,new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select parent" } }
                         .Concat(db.categories.Where(x=>x.status==true&&Model.id!=x.id&&x.parent_id==0).Select(x => new SelectListItem { Text = x.name, Value = x.id.ToString() })), new { @style = "width: 300px; height: 45px; border: 2px solid #e76c39;border-radius:5px; cursor:pointer;" })
                     *@
                     <label class="text-color mt-3">Status:</label>
-                    @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist",@id="status-select" })
+                    @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist", @id = "status-select" })
 
 
 
@@ -149,6 +166,26 @@
         </div>
     </div>
 </div>
+<div class="view-create" id="view-detail" style="display:none;">
+    <div class="sub-create-attr col-10" style="margin:2% auto 5% auto">
+        <div class="col-12 title-create">
+            <label>Product details</label>
+            <span style="float:right; cursor:pointer" id="CloseFormDetails">
+                <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
+            </span>
+        </div>
+        <div id="content-details" class="col-12" style="padding:20px;min-height:450px;display:table;">
+            <div class="col-5 container" style="min-height:inherit;float:left">
+            </div>
+            <div class="col-7" style="min-height:inherit;float:left">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="view-create col-12">
     <div class="col-6 container sub-create-attr" style="display:block">
         <div class="col-12 title-create">
@@ -172,22 +209,113 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
     var obj = null;
     var attr_type = "";
+       window.onload = function () {
+
+        var mess = "@(post_office.Controllers.Administrator.ProductsController.mess)";
+        if (mess == "Saved successfully!" || mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
+           @{post_office.Controllers.Administrator.ProductsController.mess = "";}
+
+
+    }
     $('body').delegate(".close-attr", "click", function () {
         $(this).closest(".attr-child").remove();
         $("#add-attr").prop("checked", false);
     });
+
+     $('body').delegate(".view-product", "click", function () {
+         var id = $(this).attr("oid").replace("object-", "");
+         var fdt = new FormData();
+         fdt.append("id", id)
+         ShowWaiting(1500);
+
+          $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProduct", "Products")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+              success: function (data) {
+                  $("#content-details").find("div").first().append('<img src="/img/ProductThumbnail/' + (data.thumbnail != null ? data.thumbnail : "no_image.png") + '" style="width:90%; height:auto; border:10px solid #ebe2c3"/>')
+                    $("#content-details").find("div").last().append('<label class="text-color"> Code: <span class="text-readonly">' + data.code + '</span></label ><br/><label class="text-color"> Name: <span class="text-readonly">' + data.name + '</span></label ><br/><label class="text-color"> Description: <span class="text-readonly">' + data.description + '</span></label ><br/>' +
+                        '<label class="text-color"> Category: <span class="text-readonly">' + GetCategory(data.categoryId) + '</span></label ><br/><label class="text-color"> Price: <span class="text-readonly">' + (data.price == null ? "" : data.price) + '</span></label ><br/><label class="text-color"> Quantity: <span class="text-readonly">' + (data.qty == null ? "" : data.qty) + '</span></label ><br/><label class="text-color"> Created at: <span class="text-readonly">' + moment(data.createdAt).format("DD/MM/YYYY HH:mm") + '</span></label ><br/>'+
+                        '<label class="text-color"> Status: <span class="text-readonly">' + (data.status == 1 ? "Activated" : "Deactivated") + '</span></label ><br/><label class="text-color"> Attribute(s):<br/> ');
+
+                 },
+                 error: function () {
+                     console.log("error")
+                 }
+          });
+          //GetProductAttribute
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProductAttribute", "Products")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                     if (data.length == 0) {
+                         $("#content-details").find("div").last().append('<span class="text-readonly">None</span></label >');
+
+                     } else {
+                         var ls_attr = [];
+                         for (var i = 0; i < data.length; i++) {
+                             if (data[i].colorID != null) {
+                                 ls_attr.push({
+                                     num: 1,
+                                     slt: data[i].colorID,
+                                     pr: data[i].price,
+                                     qt: data[i].qty
+                                 });
+                             }
+                             if (data[i].lengthID != null) {
+                                 ls_attr.push({
+                                     num: 2,
+                                     slt: data[i].lengthID
+                                 });
+                             }
+                             if (data[i].widthID != null) {
+                                 ls_attr.push({
+                                     num: 3,
+                                     slt: data[i].widthID
+                                 });
+                             }
+                             if (data[i].heightID != null) {
+                                 ls_attr.push({
+                                     num: 4,
+                                     slt: data[i].heightID
+                                 });
+                             }
+                         }
+
+                        ShowDetailSupport(ls_attr)
+
+                     }
+
+                 },
+                 error: function () {
+                     console.log("error")
+                 }
+             });
+         $(".sidebar").css("pointer-events", "none")
+         $("#view-detail").css("display", "block")
+     });
     $("#btnCreate").click(function () {
         OpenForm("Create product",0);
     });
 
     function ReadImage(input) {
+        document.getElementById("trashimg").style.removeProperty("display");
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
 
-                $('#imagePreview').attr('src', e.target.result);
+                $('#imgViewer').attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -195,7 +323,8 @@
     }
 
 
-    $("#btnPDSave").click(function () {
+                $("#btnPDSave").click(function () {
+                    ShowWaiting(3500);
 
         if (validated()) {
 
@@ -243,6 +372,11 @@
 
 
     });
+    $("#trashimg").click(function () {
+        $("#imgViewer").attr("src", null);
+        $("#ip-thumbnail").val("");
+        $(this).css("display","none")
+    });
     function validated() {
         ResetValidate();
 
@@ -268,17 +402,7 @@
         }
         return true;
     }
-    @*jQuery.fn.shake = function (interval, distance, times) {
-        interval = typeof interval == "undefined" ? 100 : interval;
-        distance = typeof distance == "undefined" ? 10 : distance;
-        times = typeof times == "undefined" ? 3 : times;
-        var jTarget = $(this);
-        jTarget.css('position', 'relative');
-        for (var iter = 0; iter < (times + 1); iter++) {
-            jTarget.animate({ left: ((iter % 2 == 0 ? distance : distance * -1)) }, interval);
-        }
-        return jTarget.animate({ left: 0 }, interval);
-    }*@
+
     function arraysEqual(a, b) {
         if (a === b) return true;
         if (a == null || b == null) return false;
@@ -315,17 +439,19 @@
         return true;
 
     }
-    function ResetValidate() {
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            $(er[i]).html("");
-        }
-    }
+
+
     $(".edit-product").click(function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update product",id)
     });
     function OpenForm(type, id) {
+        if (document.getElementById("ip-thumbnail").files[0] == null) {
+            $("#trashimg").css("display", "none");
+
+        }
+
+
         var fdt = new FormData();
         fdt.append("id", id);
           $.ajax({
@@ -349,22 +475,172 @@
                 contentType: false,
                 success: function (data) {
                      $("#ip-name").val(data.name);
+                     $("#ip-code").html(data.code);
                     $("#ip-price").val(data.price);
                     $("#ip-des").val(data.description);
                     $("#ip-qty").val(data.qty);
+                    $("#trashimg").css("display", "none");
+                    if (data.thumbnail != null) {
+                        $("#imgViewer").attr("src", "/img/ProductThumbnail/" + data.thumbnail);
+                        document.getElementById("trashimg").style.removeProperty("display");
+
+                    }
+
 
                  },
                  error: function () {
                      console.log("error")
                  }
             });
+             //GetProductAttribute
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProductAttribute", "Products")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     if (data.length == 0) {
+                         $("#add-attr").prop("checked", false);
+                     } else {
+                         $("#add-attr").prop("checked", true);
+                         ShowAddAttr('#add-attr');
+                         var ls_attr = [];
+                         for (var i = 0; i < data.length; i++) {
+                             if (data[i].colorID != null) { CheckAttrCheck(1);
+                                 ls_attr.push({
+                                     num: 1,
+                                     slt: data[i].colorID,
+                                     pr: data[i].price,
+                                     qt: data[i].qty
+                                 });
+                             }
+                             if (data[i].lengthID != null) { CheckAttrCheck(2);
+                                 ls_attr.push({
+                                     num: 2,
+                                     slt: data[i].lengthID
+                                 });
+                             }
+                             if (data[i].widthID != null) {  CheckAttrCheck(3);
+                                 ls_attr.push({
+                                     num: 3,
+                                     slt: data[i].widthID
+                                 });
+                             }
+                             if (data[i].heightID != null) {   CheckAttrCheck(4);
+                                 ls_attr.push({
+                                     num: 4,
+                                     slt: data[i].heightID
+                                 });
+                             }
+                         }
+                         AddAttrUpdate(SupportAddAttrUpdate(ls_attr));
 
+                     }
+
+                 },
+                 error: function () {
+                     console.log("error")
+                 }
+            });
         }
+
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
         $("#view-main").css("display", "block");
-    }
 
+
+                }
+       function ShowDetailSupport(ls_attr) {
+
+        ls = [];
+        for (var j = 0; j < ls_attr.length; j++) {
+            ls.push({
+                name: ls_attr[j].num == 1 ? "color" : (ls_attr[j].num == 2 ? "length" : (ls_attr[j].num == 3 ? "width" : "height")),
+                price: ls_attr[j].pr != null ? ls_attr[j].pr : null,
+                select: ls_attr[j].slt,
+                qty: ls_attr[j].qt != null ? ls_attr[j].qt : null
+            });
+           }
+
+        var str = "";
+        var str2 = "";
+        var str3 = "";
+        var str4 = "";
+       var str5 = "";
+           var str6 = "";
+           var str7 = "";
+           var count = 1;
+           var temp = 0;
+        
+        var ls_name = [];
+
+        for (var i = 0; i < ls.length; i++) {
+            ls_name.push(ls[ls.length-i-1].name);
+           }
+        var _name = "";
+        let uniqueChars = [...new Set(ls_name)];
+
+        for (var i = 0; i < uniqueChars.length; i++) {
+            _name += '<th  style="color:#bc4f0f">' + ls_name[i] + '</th>'
+        }
+        for (var i = 0; i < ls.length; i++) {
+            if (ls[i].price != null) {
+                str = '<td>' + ls[i].qty + '</td><td>' + ls[i].price + '</td>'
+            }
+            str2 = '<td>' + GetAttributeName(ls[i].select) + '</td>'
+
+
+            if (str == "") {
+                count++;
+                str3 = str3.slice(0, 26) + str2 + str3.slice(26, str3.length);
+                str4 += str3;
+                if (uniqueChars.length == 3 && count>=3&&count%2==1) {
+                    str6 = str3;
+                    str7 += str6;
+                }
+
+                if (uniqueChars.length == 4 && count==4||(count >=4 && count == temp + 3)) {
+
+                    temp = count;
+                    str6 = str3;
+                    str7 += str6;
+                }
+                str2 = "";
+
+            }
+            else {
+                str3 = '<tr style="color:#cf7c33">' + str2 + str + '</tr>';
+                str5 += str3;
+                str = str2 = "";
+
+            }
+
+
+        }
+
+
+
+           res = '<table class="col-12 table-bordered"  ><tr> ' + _name + '<th style="color:#bc4f0f">quantity</th><th  style="color:#bc4f0f">price</th></tr>' + (uniqueChars.length == 1 ? str5 : (uniqueChars.length == 2 ? str4 : str7)) + "<table>";
+           $("#content-details").find("div").last().append(res)
+    }
+    function SupportAddAttrUpdate(ls_attr) {
+        ls = [];
+        for (var j = 0; j < ls_attr.length; j++) {
+            ls.push({
+                name: ls_attr[j].num == 1 ? "color" : (ls_attr[j].num == 2 ? "length" : (ls_attr[j].num == 3 ? "width" : "height")),
+                number: ls_attr[j].num,
+                select: ls_attr[j].slt,
+                price: ls_attr[j].pr!=null ? ls_attr[j].pr : null,
+                qty: ls_attr[j].qt!=null ? ls_attr[j].qt : null
+            });
+        }
+        return ls;
+    }
+    function CheckAttrCheck(type) {
+        var str = type == 1 ? "color-choose" : (type == 2 ? "length-choose" : (type == 3 ? "width-choose" : "height-choose"));
+         $("." + str).prop("checked",true);
+    }
 
     $("#CloseForm").click(function () {
         ResetForm();
@@ -419,12 +695,32 @@
             }
         }).responseText;
         return q;
+                }
+       function GetCategory(id) {
+        var f = new FormData();
+        f.append("id", id);
+        var q = $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetCategory", "Products")",
+            data: f,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                return data;
+
+            }
+        }).responseText;
+        return q;
     }
     function ResetForm() {
         CloseForm();
          $("#ip-name").val("");
         $("#ip-price").val("");
         $("#ip-des").val("");
+        $("#ip-code").html("");
+        $("#imgViewer").attr("src", null);
+        $("#ip-thumbnail").val("");
         $("#ip-qty").val("");
         @{post_office.Controllers.Administrator.ProductsController._id = 0; }
 
@@ -437,7 +733,10 @@
 
     }
     $("#add-attr").click(function () {
-        if ($(this).prop("checked") == true) {
+        ShowAddAttr(this)
+    });
+    function ShowAddAttr(ele) {
+        if ($(ele).prop("checked") == true) {
             $("#pd-attr").append('<div class="attr-child mt-1"> <div class="choose-attr">'
                 + '<input type="checkbox" class="color-choose"/>'
                 + '<label class="text-color attr-choose">color</label>'
@@ -455,8 +754,7 @@
             $("#pd-attr").empty();
         }
 
-    });
-
+    }
     function GetListChild(ele,bool) {
         var e = ele.closest(".attr-child").find(".choose-attr");
         if (e.find("input:checked").length == 1&&bool==true) {
@@ -464,11 +762,6 @@
         }
         return e.find("input:checked").length;
 
-    }
-    function ChildAction(ele,val, type) {
-        @*if (type == true) {
-            ele.
-        }*@
     }
     $('body').delegate(".add-more", "click", function () {
         if (GetListChild($(this), false)==0) {
@@ -480,21 +773,44 @@
     });
     $('body').delegate(".color-choose", "click", function () {
 
-        if ($(this).prop("checked") == true) {
+        AddAttr(this, 1, "color");
+    });
+
+    function AddAttr(ele, number, type) {
+        if ($(ele).prop("checked") == true) {
             var str = "";
-            if (GetListChild($(this), true) == 1) {
-                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu input-price"/><span class="subtract"><i class="fa fa-times-circle"></i></span>';
+            if (GetListChild($(ele), true) == 1) {
+                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price"  class="input-attr input-form-cu input-price"/><span class="subtract"><i class="fa fa-times-circle"></i></span>';
             }
-            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-color">' + GetListAttribute(1) + '</select>' + str)
+
+            $(ele).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-' + type + '">' + GetListAttribute(number, -1) + '</select>' + str)
 
         } else {
-            $(this).closest(".attr-child").find(".item-child").find(".ip-color").remove();
-            GetListChild($(this)) == 0 ? $(this).closest(".attr-child").find(".render-child").empty() : true
+            $(ele).closest(".attr-child").find(".item-child").find(".ip-"+type).remove();
+            GetListChild($(ele)) == 0 ? $(ele).closest(".attr-child").find(".render-child").empty() : true
         }
-    });
-      function GetListAttribute(id) {
+    }
+    function AddAttrUpdate(ls) {
+        var str = "";
+        var str2 = "";
+
+        for (var i = 0; i < ls.length; i++) {
+            if (ls[i].price != null) {
+                $(".attr-child").find(".render-child").append('<div class="item-child"></div>')
+                str += '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty" value="' + ls[i].qty + '"/><input type="text" placeholder="price"  class="input-attr input-form-cu input-price" value="' + ls[i].price + '"/><span class="subtract"><i class="fa fa-times-circle"></i></span>'
+            }
+            str2 += '<select class="dropdownlist input-attr ip-' + ls[i].name + '">' + GetListAttribute(ls[i].number, ls[i].select) + '</select>'
+            $(".attr-child").find(".item-child").last().prepend(str2 + str)
+            str = str2 = "";
+        }
+
+
+    }
+
+      function GetListAttribute(id, type) {
         var f = new FormData();
           f.append("id", id);
+          f.append("type", type);
            var q= $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetListAttribute", "Products")",
@@ -510,52 +826,45 @@
 
         return q;
 
+                };
+      function GetAttributeName(id) {
+        var f = new FormData();
+          f.append("id", id);
+           var q= $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetAttributeName", "Products")",
+                data: f,
+                async: false,
+                processData: false,
+                contentType: false,
+               success: function (data) {
+                    return data;
+
+               }
+           }).responseText;
+
+        return q;
+
     };
+                $("#CloseFormDetails").click(function () {
+                    $('#view-detail').css("display", "none");
+                    $('#content-details').find('div').empty();
+                    $(".sidebar").css("pointer-events", "inherit")
 
+                })
     $('body').delegate(".length-choose", "click", function () {
-        if ($(this).prop("checked") == true) {
-            var str = "";
-            if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
-            }
-            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-length">' + GetListAttribute(2) + '</select>' + str)
+        AddAttr(this, 2, "length")
 
-        } else {
-            $(this).closest(".attr-child").find(".item-child").find(".ip-length").remove();
-            GetListChild($(this)) == 0 ? $(this).closest(".attr-child").find(".render-child").empty() : true
-
-        }
-    });
-    $('body').delegate(".height-choose", "click", function () {
-        if ($(this).prop("checked") == true) {
-            var str = "";
-            if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
-            }
-            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-height">' + GetListAttribute(4) + '</select>' + str)
-
-        } else {
-            $(this).closest(".attr-child").find(".item-child").find(".ip-height").remove();
-            GetListChild($(this)) == 0 ? $(this).closest(".attr-child").find(".render-child").empty() : true
-
-
-        }
     });
     $('body').delegate(".width-choose", "click", function () {
-        if ($(this).prop("checked") == true) {
-            var str = "";
-            if (GetListChild($(this), true)==1) {
-                str = '<input type="text" placeholder="qty" style="width:12%!important" class="input-attr input-form-cu input-qty"/><input type="text" placeholder="price" class="input-attr input-form-cu"/>';
-            }
-            $(this).closest(".attr-child").find(".item-child").prepend('<select class="dropdownlist input-attr ip-width">' + GetListAttribute(3) + '</select>' + str)
+        AddAttr(this, 3, "width")
 
-        } else {
-            $(this).closest(".attr-child").find(".item-child").find(".ip-width").remove();
-            GetListChild($(this)) == 0 ? $(this).closest(".attr-child").find(".render-child").empty() : true
-
-
-        }
     });
+    $('body').delegate(".height-choose", "click", function () {
+        AddAttr(this, 4, "height")
+
+    });
+
     $('body').delegate(".ip-color", "change", function () {
         OpenFormCreateAttr($(this), "color")
 

@@ -9,8 +9,6 @@ namespace post_office.Models
 {
     public class ProductCategoryModel
     {
-        public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" }};
-
         [Key]
         public int id { get; set; }
         [Required(ErrorMessage = "* required")]

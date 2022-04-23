@@ -9,8 +9,6 @@ namespace post_office.Models
 {
     public class ProductModel
     {
-        //public static Dictionary<int, string> ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
-
         [Key]
         public int id { get; set; }
         public string code { get; set; }

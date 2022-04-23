@@ -33,7 +33,7 @@ namespace post_office.Controllers.Client
         [HttpGet]
         public IEnumerable<ServiceModel> GetServiceList([FromQuery] int serviceId)
         {
-            return _serviceService.GetService(serviceId);
+            return _serviceService.GetServiceById(serviceId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -11,6 +11,7 @@ namespace post_office.Services
     public interface IAttributeService
     {
         AttributeModel SaveAttribute(AttributeModel mdl);
+        AttributeModel GetAttribute(int id);
         DataContext GetDataContext();
         List<AttributeModel> GetListAttribute();
         bool ModifyAttribute(AttributeModel model);
@@ -35,6 +36,12 @@ namespace post_office.Services
             mdl.id = m.Id;
             return mdl;
         }
+        public AttributeModel GetAttribute(int id)
+        {
+            var w= ct.Attributes.Select(x => new AttributeModel() { id = x.Id, name = x.Name, type = x.Type, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x=>x.id==id);
+            return w;
+        }
+
         public List<AttributeModel> GetListAttribute()
         {
             var w= ct.Attributes.Select(x => new AttributeModel() { id = x.Id, name = x.Name, type = x.Type, createdAt = (DateTime)x.CreatedAt }).ToList();
