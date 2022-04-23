@@ -29,7 +29,7 @@ namespace post_office.Controllers.Administrator
             ViewBag.lsPDCate = ls = LoadDataPDCategories(page, 0, string.Empty,-1);
             ViewBag.pagi = RowEvent(_ProductCategorysvc.GetListProductCategory().Count);
 
-            ViewBag.lsSTS = ProductCategoryModel.ls_status;
+            ViewBag.lsSTS = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
             ViewBag.svc = _ProductCategorysvc;
             return View();
         }
@@ -120,14 +120,11 @@ namespace post_office.Controllers.Administrator
         }
         public int RowEvent(int i)
         {
-
             double pagi = i / 10.0;
             if (Helpers.Helpers.IsNumber(pagi.ToString()))
             {
                 pagi = (int)pagi;
-
                 pagi += 1;
-
             }
             return (int)pagi;
         }

@@ -429,15 +429,9 @@
         });
     });
     $('#btnRoleSave').click(function () {
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).html().length > 0) {
-                $(er[i]).shake();
-
-            }
-        }
-            localStorage.setItem("mySession", "__role")
-            localStorage.setItem("title", "ROLE")
+        ShakeError();
+        localStorage.setItem("mySession", "__role")
+        localStorage.setItem("title", "ROLE")
         
     });
     $('body').delegate('.delete-role', 'click', function () {

@@ -125,21 +125,13 @@
 <script type="text/javascript">
     var pages = 1;
     window.onload = function () {
-
-        
-        
         var mess = "@(post_office.Controllers.Administrator.ProductCategoryController.mess)";
 
         if (mess == "Saved successfully!"||mess == "Deleted successfully!")
             ShowMessage(true, mess)
         else if (mess != "Saved successfully!" && mess != "")
             ShowMessage(false, mess)
-
-
            @{post_office.Controllers.Administrator.ProductCategoryController.mess = "";}
-
-
-
     }
     $("#btnCreate").click(function () {
         @{post_office.Controllers.Administrator.ProductCategoryController._id = 0; }

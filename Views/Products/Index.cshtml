@@ -44,7 +44,12 @@
                 <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
                 <td class="tbl-110">@pd.GetPrice(item.id)</td>
                 @*<td class="tbl-140">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>*@
-                <td class="sts-item tbl-40" id="sts-"></td>
+                <td class="sts-item tbl-40" id="sts-">
+                      @if (item.status == 1)
+            {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+            else
+            { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
                 <td class="tbl-180">
                     <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
                         <i class="fa fa-eye"></i>
@@ -565,9 +570,9 @@
        var str5 = "";
            var str6 = "";
            var str7 = "";
-           var str8 = "";
            var count = 1;
-        var str9 = "";
+           var temp = 0;
+        
         var ls_name = [];
 
         for (var i = 0; i < ls.length; i++) {
@@ -590,11 +595,14 @@
                 count++;
                 str3 = str3.slice(0, 26) + str2 + str3.slice(26, str3.length);
                 str4 += str3;
-                if (uniqueChars.length == 3 && (count ==3||count==5)) {
+                if (uniqueChars.length == 3 && count>=3&&count%2==1) {
                     str6 = str3;
                     str7 += str6;
                 }
-                if (uniqueChars.length == 4 && (count == 4 || count == 7)) {
+
+                if (uniqueChars.length == 4 && count==4||(count >=4 && count == temp + 3)) {
+
+                    temp = count;
                     str6 = str3;
                     str7 += str6;
                 }

@@ -40,7 +40,7 @@ namespace post_office.Controllers.Administrator
             ViewBag.lsPD = _Productsvc.GetListProduct();
             ViewBag.pd = _Productsvc;
             ViewBag.pdcate = _pdcatesvc;
-            ViewBag.ls_status = ProductModel.ls_status;
+            ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
             m = _attrsvc.GetListAttribute();
             lp = _Productsvc.GetListProduct();
             la = _Productsvc.GetListProductAttribute();

@@ -9,9 +9,13 @@
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <input class="input-search form-control" style="float:left;width:200px;" type="text" placeholder="Search by name, content" id="search-by-name" />
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
-
+        <select class="dropdownlist" style="float:left;width:115px;" id="search-by-status">
+            <option value="-1">all</option>
+            <option value="1">Activated</option>
+            <option value="0">Deactivated</option>
+        </select>
     </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
@@ -23,26 +27,35 @@
             <th>Status</th>
             <th>Action</th>
         </tr>
-        <tr class="table-item">
-            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-            <td class="tbl-30">1</td>
-            <td class="tbl-200">bababbabnannanasbbsbsbbsbbababbababba</td>
-            <td class="tbl-120">babababbaba</td>
-            <td class="tbl-120">11 11 1111 11:11 </td>
-            <td class="sts-item tbl-40" id="sts-"></td>
-            <td class="tbl-180">
-                <span oid="object-1" class="action-icon edit edit-service" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{ int k = 1;}
+        @foreach (var item in (List<post_office.Models.ServiceModel>)ViewBag.lsSvc)
+        {
 
-                <span oid="object-1" class="action-icon delete delete-service">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
-        </tr>
+            <tr class="table-item">
+                <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
+                <td class="tbl-30">@k @{k++;} </td>
+                <td class="tbl-200">@item.name</td>
+                <td class="tbl-120">@item.content</td>
+                <td class="tbl-120">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="sts-item tbl-40" id="sts-">
+                @if (item.status == 1)
+                {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+                else
+                { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
+                <td class="tbl-180">
+                    <span oid="object-@item.id" class="action-icon edit edit-service" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
 
+                    <span oid="object-@item.id" class="action-icon delete delete-service">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
 
-    </table>
+        }
+        </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
             <ul class="pagination" id="paginations">
@@ -73,21 +86,21 @@
             </span>
         </div>
         <div id="content">
-            @using (Html.BeginForm("ServiceCU", "Service", FormMethod.Post, new { @id = "form-svc" }))
+            @using (Html.BeginForm("ServiceCU", "Services", FormMethod.Post, new { @id = "form-svc" }))
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
                         @Html.AntiForgeryToken()
                         <label class="text-color">Name:</label>
-                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name",@id="svc-name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Content:</label>
-                        @Html.TextAreaFor(d => d.content, new { @class = "input-form-cu txt-area", @type = "text", @placeholder = "content" })
+                        @Html.TextAreaFor(d => d.content, new { @class = "input-form-cu txt-area", @type = "text", @placeholder = "content",@id="svc-content" })
                         @Html.ValidationMessageFor(d => d.content, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Status:</label>
-                        @Html.DropDownListFor(model => model.status, null, new { @style = "", @class = "dropdownlist" })
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @class = "dropdownlist", @id = "status-select" })
 
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
@@ -106,16 +119,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+       window.onload = function () {
+        var mess = "@(post_office.Controllers.Administrator.ServicesController.mess)";
 
+        if (mess == "Saved successfully!"||mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
+           @{post_office.Controllers.Administrator.ServicesController.mess = "";}
+    }
     $("#btnCreate").click(function () {
         OpenForm("Create service",0);
     });
     $(".edit-service").click(function () {
-        var id = $(this).attr("oid").replace("object-", "");
+        var id = parseInt($(this).attr("oid").replace("object-", ""));
         OpenForm("Update service",id)
     });
     function OpenForm(type, id) {
-        $("#content").append('');
+         var fdt = new FormData();
+        fdt.append("id", id);
+        if (id != 0) {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetService", "Services")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#status-select").val(data.status);
+                     $("#svc-name").val(data.name);
+                     $("#svc-content").val(data.content);
+                }
+            });
+        }
+        ShowWaiting(1000);
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
@@ -128,7 +165,7 @@
 
     function ResetForm() {
         CloseForm();
-        @{post_office.Controllers.Administrator.ServicesController.id = 0; }
+        @{post_office.Controllers.Administrator.ServicesController._id = 0; }
 
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
@@ -138,12 +175,133 @@
 
     }
     $('#btnServiceSave').click(function () {
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).length > 0) {
-                $(er[i]).shake();
-            }
-        }
+        ShakeError();
+        localStorage.setItem("mySession", "__svc")
+        localStorage.setItem("title", "SERVICES")
     });
+        $('body').delegate('.page-item', 'click', function () {
 
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+    });
+    function LoadDataService( page,sort,status) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("name", sort);
+            formDT.append("status", status);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataServices", "Services")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
+                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            var value = ' <tr class="table-item">  <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
+                             +'<td class="tbl-30">'+row+' </td>  <td class="tbl-200">'+data[i].name+'</td> <td class="tbl-120">'+data[i].content+'</td><td class="tbl-120">'+moment(data[i].createAt).format("DD/MM/YYYY HH:mm")+'</td>'
+                            +' <td class="sts-item tbl-40" id="sts-"> '+str+' </td> <td class="tbl-180">  <span oid="object-'+data[i].id+'" class="action-icon edit edit-service" style="padding:10px 5px 10px 10px">'
+                           +' <i class="fa fa-edit"></i>  </span>  <span oid="object-'+data[i].id+'" class="action-icon delete delete-service">  <i class="fa fa-trash"></i>'
+                            +' </span> </td> </tr>';
+
+                            $("#table-id").append(value);
+                            row = row + 1;
+
+
+                        }
+
+
+                    var f = new FormData();
+                    f.append("type", selectType);
+                    f.append("name", sort);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountServices", "Services")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Services")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
 </script>
