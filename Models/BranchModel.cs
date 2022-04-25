@@ -24,10 +24,12 @@ namespace post_office.Models
         public string headUserName { get; set; }
         [Required(ErrorMessage = "* required")]
         public string address { get; set; }
-        public string wardId { get; set; }
-        public string cityId { get; set; }
-        public string provinceId { get; set; }
-        public string countryId { get; set; }
+        [Range(1, Int32.MaxValue, ErrorMessage =" * required")]
+        public int wardId { get; set; }
+        [Range(1, Int32.MaxValue, ErrorMessage = " * required")]
+        public int cityId { get; set; }
+        [Range(1, Int32.MaxValue, ErrorMessage = " * required")]
+        public int provinceId { get; set; }
         public DateTime createdAt { get; set; }
         public int status { get; set; }
     }

@@ -295,7 +295,7 @@
                                          slt: data[i].lengthID
                                      });
                                  }
-                                
+
                              }
                              if (data[i].widthID != null) {
                                  if (data[i].lengthID == null && data[i].heightID == null && data[i].colorID == null) {
@@ -479,7 +479,7 @@
     }
 
 
-    $(".edit-product").click(function () {
+    $('body').delegate(".edit-product", "click", function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update product",id)
     });
@@ -689,7 +689,7 @@
 
         }
            return '<table class="col-12 table-bordered"  ><tr> ' + _name + '<th style="color:#bc4f0f">quantity</th><th  style="color:#bc4f0f">price</th></tr>' + (uniqueChars.length == 1 ? str5 : (uniqueChars.length == 2 ? str4 : str7)) + "<table>";
-           
+
     }
     function SupportAddAttrUpdate(ls_attr) {
         ls = [];
@@ -781,40 +781,28 @@
         }).responseText;
         return q;
     }
-    function GetPrice(id) {
+    function GetProductInfo(cateID,id) {
         var f = new FormData();
         f.append("id", id);
-        var q = $.ajax({
+        f.append("cateID", cateID);
+        var ls = [];
+         $.ajax({
             type: "POST",
-            url: "@Url.Action("GetPrice", "Products")",
+            url: "@Url.Action("GetProductInfo", "Products")",
             data: f,
             async: false,
             processData: false,
             contentType: false,
             success: function (data) {
-                return data;
+                for (var i = 0; i < data.length; i++) {
+                    ls.push(data[i]);
+                }
 
             }
-        }).responseText;
-        return q;
+        })
+        return ls;
     }
-     function GetTotalQuantity(id) {
-        var f = new FormData();
-        f.append("id", id);
-        var q = $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetTotalQuantity", "Products")",
-            data: f,
-            async: false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                return data;
-
-            }
-        }).responseText;
-        return q;
-    }
+  
     function ResetForm() {
         CloseForm();
          $("#ip-name").val("");
@@ -1082,9 +1070,9 @@
     function SearchFilter(page) {
         var nameSearch = $("#search-by-name").val();
         var selectStatus = $("#search-by-status").val();
-        LoadDataService(page,  nameSearch, selectStatus);
+        LoadDataProducts(page,  nameSearch, selectStatus);
     }
-    function LoadDataService(page, sort, status) {
+    function LoadDataProducts(page, sort, status) {
         ShowWaiting(2000)
         if (page > 0 && page <=@ViewBag.pagi) {
             document.getElementById("check-all").checked = false;
@@ -1096,7 +1084,7 @@
             formDT.append("p", page);
             formDT.append("name", sort);
             formDT.append("status", status);
-            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            var row = page == 1 ? 1 : 5 * (page - 1) + 1;
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("LoadDataProducts", "Products")",
@@ -1106,14 +1094,15 @@
                 success: function (data) {
                     var res = "";
                     for (var i = 0; i < data.length; i++) {
+                        var ls = GetProductInfo(data[i].categoryId, data[i].id);
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
                             var thumbnail = "";
                             if (data[i].thumbnail != null) { thumbnail = '<img src="/img/ProductThumbnail/' + data[i].thumbnail + '" width="45" height="45" />' }
                              res += '<tr class="table-item">  <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
                                 + '<td class="tbl-60">' + row + '</td>  <td class="tbl-40 p-2"> ' + thumbnail + '</td>  <td class="tbl-190">' + data[i].code + '</td>'
-                                + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + GetCategory(data[i].categoryId) + '</td>'
-                                + '<td class="tbl-60">' + GetTotalQuantity(data[i].id) + '</td>  <td class="tbl-110">' + GetPrice(data[i].id) + '</td>  <td class="sts-item tbl-40" id="sts-">' + str
+                                + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + ls[0] + '</td>'
+                                + '<td class="tbl-60">' + ls[2] + '</td>  <td class="tbl-110">' + ls[1]+ '</td>  <td class="sts-item tbl-40" id="sts-">' + str
                                         +'</td>  <td class="tbl-180">  <span oid="object-'+data[i].id+'" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
                                         +'<i class="fa fa-eye"></i>  </span> <span oid="object-'+data[i].id+'" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">'
                                          +'<i class="fa fa-edit"></i>   </span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-product">'

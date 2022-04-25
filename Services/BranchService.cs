@@ -13,6 +13,7 @@ namespace post_office.Services
         //client
         IEnumerable<ReadBranchModel> GetBranchesByConditions(int cityId, int branchId);
         BranchModel SaveBranch(BranchModel mdl);
+        List<BranchModel> GetListBranch();
     }
 
     public class BranchService : IBranchService
@@ -57,6 +58,10 @@ namespace post_office.Services
         public BranchModel SaveBranch(BranchModel mdl)
         {
             return null;
+        }
+        public List<BranchModel> GetListBranch()
+        {
+            return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name, phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, status = x.Status }).ToList();
         }
     }
 }

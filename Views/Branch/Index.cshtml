@@ -20,7 +20,6 @@
             <th>Code</th>
             <th>Name</th>
             <th>Phone</th>
-            <th>User Head</th>
             <th>Province</th>
             <th>Status</th>
             <th>Action</th>
@@ -30,7 +29,6 @@
             <td class="tbl-30">1</td>
             <td class="tbl-200">bababbabnannanasbbsbsbbsbbababbababba</td>
             <td class="tbl-200">babbababbababbabba</td>
-            <td class="tbl-120">babbabababbabababbaba</td>
             <td class="tbl-120">babababbaba</td>
             <td class="tbl-120">annananaaa</td>
             <td class="sts-item tbl-40" id="sts-"></td>
@@ -80,12 +78,12 @@
             </span>
         </div>
         <div id="content">
-            @using (Html.BeginForm("RoleCU", "Auth", FormMethod.Post, new { @id = "form-branch" }))
+            @using (Html.BeginForm("BranchCU", "Auth", FormMethod.Post, new { @id = "form-branch" }))
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
                         @Html.AntiForgeryToken()@Html.HiddenFor(x => x.id)
-                        <label class="text-color">
+                        <label class="text-color mt-3">
                             Code:
                             <span class="text-readonly">4444111558755874</span>
                         </label>
@@ -100,13 +98,26 @@
                         <br />
 
                         <label class="text-color">Status:</label>
-                        @Html.DropDownListFor(model => model.status, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Activated" },
-                                                                                                  new SelectListItem { Value = "0", Text = "Deactivated" },
-                                                                                                  new SelectListItem { Value = "2", Text = "status 3" } }, new { @style = "", @class = "dropdownlist" })
-
-
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @style = "", @class = "dropdownlist" })
+                       
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
+                        <label class="text-color mt-5">Address:</label>
+                        @Html.TextBoxFor(d => d.address, new { @class = "input-form-cu", @type = "text", @placeholder = "address" })
+                        @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Province:</label>
+                        @Html.DropDownListFor(model => model.provinceId, (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @id = "provinceSlt" })
+                        @Html.ValidationMessageFor(d => d.provinceId, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">City:</label>
+                        @Html.DropDownListFor(model => model.cityId, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select city" } }, new { @class = "dropdownlist", @id = "citySlt" })
+                        @Html.ValidationMessageFor(d => d.cityId, "", new { @class = "_error" })
+                        <br />
+                        <label class="text-color">Ward :</label>
+                        @Html.DropDownListFor(model => model.wardId, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "Select ward" } }, new { @class = "dropdownlist", @id = "wardSlt" })
+                        @Html.ValidationMessageFor(d => d.wardId, "", new { @class = "_error" })
+                        <br />
                     </div>
                 </div>
                 <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
@@ -121,7 +132,73 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+     var pages = 1;
+    window.onload = function () {
 
+        var mess = "@(post_office.Controllers.Administrator.BranchController.mess)";
+        if (mess == "Saved successfully!" || mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
+           @{post_office.Controllers.Administrator.BranchController.mess = "";}
+        $("#citySlt").attr("disabled","disabled")
+        $("#wardSlt").attr("disabled","disabled")
+
+    }
+    $("#provinceSlt").change(function () {
+        if ($(this).val() != 0) {
+            $("#citySlt").removeAttr("disabled");
+            var formData = new FormData();
+            formData.append("stateID",$(this).val())
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCityByStateID", "Branch")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#citySlt").empty();
+                    $("#citySlt").append('<option value="0">Select city</option>');
+                    for (var i = 0; i < data.length; i++) {
+                        $("#citySlt").append('<option value="'+data[i].Id+'">'+data[i].Name+'</option>')
+
+                    }
+
+                }
+            });
+        } else {
+            $("#citySlt").val(0);
+            $("#wardSlt").val(0);
+            $("#citySlt").attr("disabled", "disabled")
+            $("#wardSlt").attr("disabled", "disabled")
+        };
+    });
+    $("#citySlt").change(function () {
+        if ($(this).val() != 0) {
+            $("#wardSlt").removeAttr("disabled");
+            var formData = new FormData();
+            formData.append("cityID",$(this).val())
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetWardByCityID", "Branch")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#wardSlt").empty();
+                    $("#wardSlt").append('<option value="0">Select ward</option>');
+                    for (var i = 0; i < data.length; i++) {
+                        $("#wardSlt").append('<option value="'+data[i].Id+'">'+data[i].Name+'</option>')
+
+                    }
+
+                }
+            });
+        } else {
+            $("#wardSlt").val(0);
+            $("#wardSlt").attr("disabled", "disabled")
+        };
+    });
     $("#btnCreate").click(function () {
         OpenForm("Create branch",0);
     });

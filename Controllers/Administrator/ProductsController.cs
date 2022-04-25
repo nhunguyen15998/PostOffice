@@ -64,21 +64,21 @@ namespace post_office.Controllers.Administrator
         //Pagination
         public List<ProductModel> LoadDataProducts(int p, string name, int status)
         {
-            int currentSkip = 10 * (p - 1);
-            var w = lp.Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.ToLower().Contains(name == null ? "" : name.ToLower())
-                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
+            int currentSkip = 5 * (p - 1);
+            var w = lp.Where(x => (x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.ToLower().Contains(name == null ? "" : name.ToLower()))
+                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(5).ToList();
             return w;
         }
         public int GetCountProducts(string name, int status)
         {
-            var e= lp.Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.Contains(name == null ? "" : name)
+            var e= lp.Where(x =>( x.name.ToLower().Contains(name == null ? "" : name.ToLower()) || x.code.Contains(name == null ? "" : name))
                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).ToList().Count;
 
             return e;
         }
         public int RowEvent(int i)
         {
-            double pagi = i / 10.0;
+            double pagi = i / 5.0;
             if (Helpers.Helpers.IsNumber(pagi.ToString()))
             {
                 pagi = (int)pagi;
@@ -154,17 +154,14 @@ namespace post_office.Controllers.Administrator
             return _Productsvc.GetListProductAttribute().Where(x => x.productId == id).ToList();
 
         }
-        public string GetCategory(int id)
+        
+        public List<string> GetProductInfo(int cateID, int id)
         {
-            return _pdcatesvc.GetProductCategory(id).name??"";
-        }
-        public string GetPrice(int id)
-        {
-            return _Productsvc.GetPrice(id);
-        }
-        public int GetTotalQuantity(int id)
-        {
-            return _Productsvc.GetTotalQuantity(id);
+            List<string> ls = new List<string>();
+            ls.Add(_pdcatesvc.GetProductCategory(cateID).name ?? "");
+            ls.Add( _Productsvc.GetPrice(id));
+            ls.Add(_Productsvc.GetTotalQuantity(id).ToString());
+            return ls;
         }
         public string GetAttributeName(int id)
         {
