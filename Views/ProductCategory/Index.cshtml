@@ -141,9 +141,6 @@
         var pdCateId = parseInt($(this).attr("oid").replace("object-", ""));
         OpenForm("Update product category",pdCateId)
     });
-    $('body').delegate('.delete-attr', 'click', function () {
-
-    });
     $('body').delegate('.delete-pd-cate', 'click', function () {
         if (confirm("Are you sure to delete this item?")) {
             var id = $(this).attr("oid").replace("object-", "");

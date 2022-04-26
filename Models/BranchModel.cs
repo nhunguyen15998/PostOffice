@@ -13,12 +13,13 @@ namespace post_office.Models
         [Key]
         public int id { get; set; }
         [Required(ErrorMessage = "* required")]
-        [Remote("CodeBrandExists", "Auth", ErrorMessage = "This code already exist.")]
+        [Remote("CodeBranchExists", "Branch", ErrorMessage = "This code already exist.")]
         public string code { get; set; }
         [Required(ErrorMessage = "* required")]
         public string name { get; set; }
         [Required(ErrorMessage = "* required")]
         [RegularExpression(@"^(0[3|5|7|8|9])+([0-9]{8})$", ErrorMessage = "Invalid phone number")]
+        [Remote("PhoneBranchExists", "Branch", ErrorMessage = "This phone already exist.")]
         public string phone { get; set; }
         public int headUserID { get; set; }
         public string headUserName { get; set; }

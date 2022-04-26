@@ -4,12 +4,14 @@
 @{
     ViewData["Title"] = "Branch management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    post_office.Services.IBranchService brn = ViewBag.branchsvc;
+
 }
 @model post_office.Models.BranchModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <input class="input-search form-control" style="float:left;width:330px;" type="text" placeholder="Search by code, name, phone" />
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
 
     </div>
@@ -20,34 +22,38 @@
             <th>Code</th>
             <th>Name</th>
             <th>Phone</th>
-            <th>Province</th>
+            <th>Address</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
-        <tr class="table-item">
-            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-            <td class="tbl-30">1</td>
-            <td class="tbl-200">bababbabnannanasbbsbsbbsbbababbababba</td>
-            <td class="tbl-200">babbababbababbabba</td>
-            <td class="tbl-120">babababbaba</td>
-            <td class="tbl-120">annananaaa</td>
-            <td class="sts-item tbl-40" id="sts-"></td>
-            <td class="tbl-180">
-                <span oid="object-1" class="action-icon view view-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <span oid="object-1" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Models.BranchModel>)ViewBag.data)
+        {
+            <tr class="table-item">
+                <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
+                <td class="tbl-60">@k @{k++;} </td>
+                <td class="tbl-150">@item.code</td>
+                <td class="tbl-200">@item.name</td>
+                <td class="tbl-120">@item.phone</td>
+                <td class="tbl-170">@brn.GetAddressBranch(item.id)</td>
+                <td class="sts-item tbl-40" id="sts-">
+                    @if (item.status == 1)
+                    {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+                    else
+                    { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
+                <td class="tbl-180">
+                    <span oid="object-@item.id" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span oid="object-@item.id" class="action-icon delete delete-branch">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
 
-                <span oid="object-1" class="action-icon delete delete-branch">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
-        </tr>
-
-
-    </table>
+        }
+        </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
             <ul class="pagination" id="paginations">
@@ -78,33 +84,31 @@
             </span>
         </div>
         <div id="content">
-            @using (Html.BeginForm("BranchCU", "Auth", FormMethod.Post, new { @id = "form-branch" }))
+            @using (Html.BeginForm("BranchCU", "Branch", FormMethod.Post, new { @id = "form-branch" }))
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
-                        @Html.AntiForgeryToken()@Html.HiddenFor(x => x.id)
-                        <label class="text-color mt-3">
-                            Code:
-                            <span class="text-readonly">4444111558755874</span>
-                        </label>
+                        
+                        <label class="text-color mt-2">Code:</label>
+                        @Html.TextBoxFor(d => d.code, new { @class = "input-form-cu", @type = "text", @placeholder = "code" ,@id="ip-code"})
+                        @Html.ValidationMessageFor(d => d.code, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Name:</label>
-                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name" })
+                        @Html.TextBoxFor(d => d.name, new { @class = "input-form-cu", @type = "text", @placeholder = "name", @id = "ip-name" })
                         @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Phone:</label>
-                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone" })
+                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone", @id = "ip-phone" })
                         @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
                         <br />
-
                         <label class="text-color">Status:</label>
-                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @style = "", @class = "dropdownlist" })
-                       
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_status, "Key", "Value"), new { @style = "", @class = "dropdownlist",  @id = "statusSlt" })
+
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
-                        <label class="text-color mt-5">Address:</label>
-                        @Html.TextBoxFor(d => d.address, new { @class = "input-form-cu", @type = "text", @placeholder = "address" })
-                        @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
+                        <label class="text-color">Address:</label>
+                        @Html.TextBoxFor(d => d.address, new { @class = "input-form-cu", @type = "text", @placeholder = "address" ,@id="ip-address"})
+                        @Html.ValidationMessageFor(d => d.address, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Province:</label>
                         @Html.DropDownListFor(model => model.provinceId, (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @id = "provinceSlt" })
@@ -147,25 +151,7 @@
     }
     $("#provinceSlt").change(function () {
         if ($(this).val() != 0) {
-            $("#citySlt").removeAttr("disabled");
-            var formData = new FormData();
-            formData.append("stateID",$(this).val())
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetCityByStateID", "Branch")",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $("#citySlt").empty();
-                    $("#citySlt").append('<option value="0">Select city</option>');
-                    for (var i = 0; i < data.length; i++) {
-                        $("#citySlt").append('<option value="'+data[i].Id+'">'+data[i].Name+'</option>')
-
-                    }
-
-                }
-            });
+            LoadCity($(this).val(),0);
         } else {
             $("#citySlt").val(0);
             $("#wardSlt").val(0);
@@ -173,11 +159,45 @@
             $("#wardSlt").attr("disabled", "disabled")
         };
     });
+    function LoadCity(id, slt) {
+        $("#citySlt").removeAttr("disabled");
+
+        $("#citySlt").find('option').not(':first').remove();
+         var formData = new FormData();
+            formData.append("stateID",id)
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCityByStateID", "Branch")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (slt == data[i].Id) {
+                            $("#citySlt").append('<option selected="selected" value="' + data[i].Id + '">' + data[i].Name + '</option>')
+                            $("#citySlt").removeAttr("disabled");
+                        }
+                        else
+                            $("#citySlt").append('<option value="' + data[i].Id + '">' + data[i].Name + '</option>')
+
+                    }
+
+                }
+            });
+    }
     $("#citySlt").change(function () {
         if ($(this).val() != 0) {
-            $("#wardSlt").removeAttr("disabled");
-            var formData = new FormData();
-            formData.append("cityID",$(this).val())
+            LoadWard($(this).val())
+        } else {
+            $("#wardSlt").val(0);
+            $("#wardSlt").attr("disabled", "disabled")
+        };
+    });
+    function LoadWard(id, slt) {
+        $("#wardSlt").removeAttr("disabled");
+        $("#wardSlt").find('option').not(':first').remove();
+          var formData = new FormData();
+            formData.append("cityID",id)
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetWardByCityID", "Branch")",
@@ -185,20 +205,19 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    $("#wardSlt").empty();
-                    $("#wardSlt").append('<option value="0">Select ward</option>');
                     for (var i = 0; i < data.length; i++) {
-                        $("#wardSlt").append('<option value="'+data[i].Id+'">'+data[i].Name+'</option>')
+                        if (slt == data[i].Id) {
+                            $("#wardSlt").append('<option selected="selected" value="' + data[i].Id + '">' + data[i].Name + '</option>')
+                        }
+                        else
+                            $("#wardSlt").append('<option value="' + data[i].Id + '">' + data[i].Name + '</option>')
+
 
                     }
 
                 }
             });
-        } else {
-            $("#wardSlt").val(0);
-            $("#wardSlt").attr("disabled", "disabled")
-        };
-    });
+    }
     $("#btnCreate").click(function () {
         OpenForm("Create branch",0);
     });
@@ -207,10 +226,43 @@
         OpenForm("Update branch",id)
     });
     function OpenForm(type, id) {
-        $("#content").append('');
+        $("#wardSlt").find('option').not(':first').remove();
+        $("#citySlt").find('option').not(':first').remove();
+        $("#provinceSlt").val(0);
+        $("#ip-code").removeAttr("disabled");
+        $("#wardSlt").attr("disabled", "disabled");
+        $("#citySlt").attr("disabled", "disabled");
+
+
+         if (id != 0) {
+
+            var fdt = new FormData();
+            fdt.append("id", id);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetBranch", "Branch")",
+                data:fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     LoadCity(data.provinceId, data.cityId);
+                     LoadWard(data.cityId, data.wardId);
+                     $("#statusSlt").val(data.status);
+                     $("#ip-code").val(data.code);
+                     $("#ip-code").attr("disabled", "disabled");
+                     $("#ip-name").val(data.name);
+                     $("#ip-address").val(data.address);
+                     $("#ip-phone").val(data.phone);
+                     $("#citySlt").val(data.cityId);
+                     $("#wardSlt").val(data.wardId);
+                     $("#provinceSlt").val(data.provinceId);
+
+                }
+            });
+        }
+
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
-        $(".sidebar").css("pointer-events", "none")
 
 
     }
@@ -220,22 +272,55 @@
 
     function ResetForm() {
         CloseForm();
-        @{post_office.Controllers.Administrator.BranchController.id = 0; }
-
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            $(er).html("");
-        }
+        @{post_office.Controllers.Administrator.BranchController._id = 0; }
+        ResetValidate();
         $("#form-branch").trigger("reset");
 
     }
     $('#btnBranchSave').click(function () {
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).html().length > 0) {
-                $(er[i]).shake();
+        ShowWaiting(1800);
+        ShakeError();
+    });
+    $('body').delegate('.delete-branch', 'click', function () {
+        if (confirm("Are you sure to delete this item?")) {
+            var id = $(this).attr("oid").replace("object-", "");
+            var fdt = new FormData();
+            fdt.append("ls", id);
+            DeleteBranch(fdt)
+        }
+    });
 
+    $("#btnDelete").click(function () {
+        if (CheckCheckbox()) {
+
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to delete these item(s)?")) {
+                var fdt = new FormData();
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                DeleteBranch(fdt);
+                ResetCheckbox();
             }
         }
     });
+    function DeleteBranch(formData) {
+        localStorage.setItem("mySession", "__branches")
+        localStorage.setItem("title", "BRANCHES")
+         $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteBranches", "Branch")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                                window.location.href = "@Url.Action("Index","Branch")"
+
+                }
+            });
+    }
 </script>

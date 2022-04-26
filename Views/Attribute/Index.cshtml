@@ -187,7 +187,6 @@
 
             var fdt = new FormData();
             fdt.append("id", id);
-            fdt.append("id", id);
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetAttribute", "Attribute")",
@@ -271,7 +270,7 @@
     });
     function ResetForm() {
         CloseForm()
-        @{post_office.Controllers.Administrator.BranchController.id = 0; }
+        @{post_office.Controllers.Administrator.BranchController._id = 0; }
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
             $(er).html("");
