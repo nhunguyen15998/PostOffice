@@ -14,6 +14,7 @@ namespace post_office.Services
         List<ServiceModel> GetListService();
         ServiceModel GetService(int id);
         bool ModifyService(ServiceModel model);
+        bool RemoveServices(List<int> ls);
     }
     public class ServiceService : IServiceService
     {
@@ -67,6 +68,22 @@ namespace post_office.Services
         public ServiceModel GetService(int id)
         {
             return _context.Services.Select(mdl => new ServiceModel() { id = mdl.Id, name = mdl.Name, content = mdl.Content, createdAt = (DateTime)mdl.CreatedAt, status = mdl.Status }).FirstOrDefault(x => x.id == id);
+        }
+        public bool  RemoveServices(List<int> ls)
+        {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var r = _context.Services.FirstOrDefault(x => x.Id == item);
+                if (r != null)
+                {
+                    
+                        _context.Services.Remove(r);
+                        _context.SaveChanges();
+                   
+                }
+            }
+            return check;
         }
     }
 }

@@ -149,9 +149,7 @@
             DeletePDCate(fdt)
         }
     });
-     $('body').delegate('.delete-attr', 'click', function () {
-
-    });
+    
     $("#btnDelete").click(function () {
         if (CheckCheckbox()) {
 
@@ -171,6 +169,8 @@
         }
     });
     function DeletePDCate(formData) {
+        localStorage.setItem("mySession", "__pc")
+        localStorage.setItem("title", "PRODUCT CATEGORIES")
          $.ajax({
                 type: "POST",
                 url: "@Url.Action("DeletePDCategory", "ProductCategory")",
@@ -431,12 +431,14 @@
     };
     $("#search-by-name").on('keyup', function (e) {
         if (e.key === 'Enter' || e.keyCode === 13) {
+            ShowWaiting(800);
             SearchFilter(1);
 
         }
 
     });
     $("#search-by-parent").change(function () {
+        ShowWaiting(800);
         SearchFilter(1);
 
     });

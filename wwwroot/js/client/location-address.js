@@ -10,7 +10,7 @@ function getStateBranches(){
     $('#title-location').children('p').text("State/Province")
     $('#title-location').children('p').css('text-align', 'center')
     $.ajax({
-        url: `https://localhost:5001/Location/StatesHaveBranches`,
+        url: `Location/StatesHaveBranches`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -39,7 +39,7 @@ function getCitiesBranches(stateId) {
     $('#title-location').children('p').css('width', '65%')
     $('#title-location').children('p').css('text-align', '')
     $.ajax({
-        url: `https://localhost:5001/Location/CitiesHaveBranches?stateId=${stateId}`,
+        url: `Location/CitiesHaveBranches?stateId=${stateId}`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -63,7 +63,7 @@ function getCitiesBranches(stateId) {
 //return list branches
 function getBranchesByCity(cityId) {
     $.ajax({
-        url: `https://localhost:5001/Location/GetBranchesByCities?cityId=${cityId}`,
+        url: `Location/GetBranchesByCities?cityId=${cityId}`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -89,7 +89,7 @@ function getBranchesByCity(cityId) {
 
 function getBranches(id){
     $.ajax({
-        url: `https://localhost:5001/Location/GetBranchesByCities?cityId=0&branchId=`+id,
+        url: `Location/GetBranchesByCities?cityId=0&branchId=`+id,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
