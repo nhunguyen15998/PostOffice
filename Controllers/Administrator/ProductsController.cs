@@ -43,7 +43,7 @@ namespace post_office.Controllers.Administrator
             ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
             m = _attrsvc.GetListAttribute();
             lp = _Productsvc.GetListProduct(0,0);
-            la = _Productsvc.GetListProductAttribute();
+            la = _Productsvc.GetListProductAttribute(0);
             return View();
         }
         public string GetListAttribute(int id, int type)
@@ -123,7 +123,7 @@ namespace post_office.Controllers.Administrator
         }
         public List<ProductAttributeModel> GetProductAttribute(int id)
         {
-            return _Productsvc.GetListProductAttribute().Where(x => x.productId == id).ToList();
+            return _Productsvc.GetListProductAttribute(0).Where(x => x.productId == id).ToList();
 
         }
         public string GetCategory(int id)

@@ -7,7 +7,7 @@
 				$button
 					.addClass( 'vc-gitem-add-to-cart-loading-btn' )
 					.parents( '.vc_grid-item-mini' )
-					.addClass( 'vc-woocommerce-add-to-cart-loading' )
+					.addClass( 'vc-postalservice-add-to-cart-loading' )
 					.append( $( '<div class="vc_wc-load-add-to-loader-wrapper"><div class="vc_wc-load-add-to-loader"></div></div>' ) );
 			}
 		} ).on( 'added_to_cart', function ( event, fragments, cart_hash, $button ) {
@@ -18,7 +18,7 @@
 				$button
 					.removeClass( 'vc-gitem-add-to-cart-loading-btn' )
 					.parents( '.vc_grid-item-mini' )
-					.removeClass( 'vc-woocommerce-add-to-cart-loading' )
+					.removeClass( 'vc-postalservice-add-to-cart-loading' )
 					.find( '.vc_wc-load-add-to-loader-wrapper' ).remove();
 			}
 		} );

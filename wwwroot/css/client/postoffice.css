@@ -87,7 +87,7 @@ a{
     margin: 0px !important; 
     transform: translate3d(0px, 47px, 0px);
 }
-#product-list a{
+#product-list a:first-child{
     font-size: 12px;
     color: #999;
     font-family: "Biryani", Arial, Helvetica, sans-serif;

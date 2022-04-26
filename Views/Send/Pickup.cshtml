@@ -24,15 +24,19 @@
 	}
 
 	#service-list ul>div li a:hover,
-	#product-cate-list ul>div li a:hover {
+	#product-cate-list ul > div li a:hover {
 		background-color: transparent;
 		background-image: none;
 	}
 
 	#service-list ul>div li:hover,
-	#product-cate-list ul>div li:hover {
-		background-color: #ffdc39;
-		color: #fff;
+	#product-cate-list ul > div li:hover 
+	.ul-dropdown li>div li:hover {
+		background-color: #ffdc39 !important;
+		color: #fff !important;
+	}
+	.postalservice table.shop_table td {
+		border-top: none !important;
 	}
 </style>
 }
@@ -46,7 +50,7 @@
 							<h2 class="entry-title">Quote Form</h2>
 						</header><!-- .entry-header -->
 						<!--form-->
-						<form class="post-office-form">
+						<form class="postoffice-form">
 							<div class="entry-content">
 								<div data-vc-full-width="true" data-vc-full-width-init="true"
 									class="themestek-row wpb_row vc_row-fluid vc_column-gap-0px themestek-total-col-2 themestek-zindex-0 themestek-bgimage-position-center_center vc_row-o-content-bottom"
@@ -95,23 +99,23 @@
 											class="themestek-column ts-custom-heading-style wpb_column vc_column_container vc_col-sm-8 vc_col-has-fill themestek-zindex-0">
 											<div class="vc_column-inner vc_custom_1614156135890 ">
 												<div class="wpb_wrapper">
-													<div role="form" class="post-office"
-														id="post-office-f10177-p8187-o2" lang="en-US" dir="ltr">
+													<div role="form" class="postoffice"
+														id="postoffice-f10177-p8187-o2" lang="en-US" dir="ltr">
 														<div class="screen-reader-response">
 															<p role="status" aria-live="polite" aria-atomic="true"></p>
 															<ul></ul>
 														</div>
 														<div style="display: none;">
-															<input type="hidden" name="_post-office" value="10177">
-															<input type="hidden" name="_post-office_version"
+															<input type="hidden" name="_postoffice" value="10177">
+															<input type="hidden" name="_postoffice_version"
 																value="5.4">
-															<input type="hidden" name="_post-office_locale"
+															<input type="hidden" name="_postoffice_locale"
 																value="en_US">
-															<input type="hidden" name="_post-office_unit_tag"
-																value="post-office-f10177-p8187-o2">
-															<input type="hidden" name="_post-office_container_post"
+															<input type="hidden" name="_postoffice_unit_tag"
+																value="postoffice-f10177-p8187-o2">
+															<input type="hidden" name="_postoffice_container_post"
 																value="8187">
-															<input type="hidden" name="_post-office_posted_data_hash"
+															<input type="hidden" name="_postoffice_posted_data_hash"
 																value="">
 														</div>
 														<div class="main-form">
@@ -183,10 +187,10 @@
 																				id="sending-date-label">Pickup
 																				date</label>
 																			<span
-																				class="post-office-form-control-wrap"><input
+																				class="postoffice-form-control-wrap"><input
 																					type="date" name="sending-date"
 																					value=""
-																					class="post-office-form-control post-office-date post-office-validates-as-date"
+																					class="postoffice-form-control postoffice-date postoffice-validates-as-date"
 																					aria-invalid="false">
 																			</span>
 																		</div>
@@ -203,10 +207,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="sender-first-name"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="First name">
 																					</span>
@@ -215,10 +219,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="sender-last-name"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Last name">
 																					</span>
@@ -233,10 +237,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="from-phone"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Phone">
 																					</span>
@@ -245,10 +249,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="from-email"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Email">
 																					</span>
@@ -269,10 +273,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="company-name"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Company name">
 																					</span>
@@ -281,10 +285,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="company-phone"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Company phone">
 																					</span>
@@ -299,10 +303,10 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text"
 																							name="from-address"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Address">
 																					</span>
@@ -311,7 +315,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap">
+																						class="postoffice-form-control-wrap">
 																						<select name="from-province"
 																							id="from-ward"
 																							data-placeholder="Select state/province…"
@@ -342,7 +346,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap">
+																						class="postoffice-form-control-wrap">
 																						<select name="from-district"
 																							id="from-district"
 																							data-placeholder="Select city/district…"
@@ -367,7 +371,7 @@
 																			<div class="col-sm-6">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap">
+																						class="postoffice-form-control-wrap">
 																						<select name="from-ward"
 																							id="from-province"
 																							data-placeholder="Select ward…"
@@ -427,10 +431,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="receiver-first-name-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="First name">
 																							</span>
@@ -439,10 +443,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="receiver-last-name-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Last name">
 																							</span>
@@ -457,10 +461,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="to-phone-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Phone">
 																							</span>
@@ -469,10 +473,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="to-email-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Email">
 																							</span>
@@ -487,10 +491,10 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="to-address-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Address">
 																							</span>
@@ -499,7 +503,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap">
+																								class="postoffice-form-control-wrap">
 																								<select name="to-ward-1"
 																									id="to-ward-1"
 																									data-placeholder="Select ward…"
@@ -535,7 +539,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap">
+																								class="postoffice-form-control-wrap">
 																								<select
 																									name="to-district-1"
 																									id="to-district-1"
@@ -564,7 +568,7 @@
 																					<div class="col-sm-6">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap">
+																								class="postoffice-form-control-wrap">
 																								<select
 																									name="to-province-1"
 																									id="to-province-1"
@@ -598,10 +602,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="pin-code-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Pin code">
 																							</span>
@@ -610,10 +614,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="length-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Weight">
 																							</span>
@@ -622,10 +626,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="length-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Length">
 																							</span>
@@ -634,10 +638,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="width-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Width">
 																							</span>
@@ -646,10 +650,10 @@
 																					<div class="col-sm-2 p-0">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="height-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Height">
 																							</span>
@@ -680,10 +684,10 @@
 																					<div class="col-sm-7">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="name-1-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Name">
 																							</span>
@@ -692,10 +696,10 @@
 																					<div class="col-sm-2">
 																						<div class="input-group">
 																							<span
-																								class="post-office-form-control-wrap"><input
+																								class="postoffice-form-control-wrap"><input
 																									type="text"
 																									name="qty-1-1"
-																									class="post-office-form-control post-office-text"
+																									class="postoffice-form-control postoffice-text"
 																									aria-invalid="false"
 																									placeholder="Qty">
 																							</span>
@@ -716,9 +720,9 @@
 																			<div class="col-sm-9">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><textarea
+																						class="postoffice-form-control-wrap"><textarea
 																							type="text" name="notes-1"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Write some notes"
 																							style="font-size: 12px; height: 53px;"
@@ -729,9 +733,9 @@
 																			<div class="col-sm-3">
 																				<div class="input-group">
 																					<span
-																						class="post-office-form-control-wrap"><input
+																						class="postoffice-form-control-wrap"><input
 																							type="text" name="amount-1"
-																							class="post-office-form-control post-office-text"
+																							class="postoffice-form-control postoffice-text"
 																							aria-invalid="false"
 																							placeholder="Up to 3000k">
 																					</span>
@@ -750,7 +754,7 @@
 																						some photos
 																						of pickup stuff</label>
 																					<span
-																						class="post-office-form-control-wrap">
+																						class="postoffice-form-control-wrap">
 																						<input type="file"
 																							name="photos-1" multiple
 																							style="font-size: 13px;"
@@ -774,7 +778,7 @@
 																	id="btn-receiver-next">
 															</div>
 														</div>
-														<div class="post-office-response-output" aria-hidden="true">
+														<div class="postoffice-response-output" aria-hidden="true">
 														</div>
 													</div>
 												</div>
@@ -878,9 +882,9 @@
 											<h5 class="mb-4">Message</h5>
 
 											<div class="input-group input-button">
-												<span class="post-office-form-control-wrap message">
+												<span class="postoffice-form-control-wrap message">
 													<textarea name="message" cols="40" rows="5"
-														class="post-office-form-control post-office-textarea"
+														class="postoffice-form-control postoffice-textarea"
 														aria-invalid="false"
 														placeholder="Message">													</textarea>
 												</span>
@@ -1051,7 +1055,7 @@
 											<div class="input-button input-group"
 												style="margin-bottom: 0px !important;"><input type="submit"
 													value="SEND MESSAGE"
-													class="post-office-form-control post-office-submit"
+													class="postoffice-form-control postoffice-submit"
 													aria-invalid="false"><span class="ajax-loader"></span></div>
 										</div>
 									</div>
@@ -1105,144 +1109,25 @@
 											</div>
 										</div>
 									</div>
-									<div class="woocommerce">
-										<div class="woocommerce-notices-wrapper"></div>
-										<form class="woocommerce-cart-form">
+									<div class="postalservice">
+										<div class="postalservice-notices-wrapper"></div>
+										<form class="postalservice-cart-form">
 											<table
-												class="shop_table shop_table_responsive cart woocommerce-cart-form__contents"
+												class="shop_table shop_table_responsive cart postalservice-cart-form__contents"
 												cellspacing="0">
 												<thead>
 													<tr>
 														<th class="product-remove">&nbsp;</th>
 														<th class="product-thumbnail">&nbsp;</th>
 														<th class="product-name">Product</th>
-														<th class="product-name">Type</th>
+														<th class="product-name">Attribute</th>
 														<th class="product-price">Price</th>
 														<th class="product-quantity">Quantity</th>
 														<th class="product-subtotal">Subtotal</th>
 													</tr>
 												</thead>
-												<tbody>
-													<tr class="woocommerce-cart-form__cart-item cart_item">
-														<td class="product-remove">
-															<a href="https://moversco.themestek.com/demo5/cart/?remove_item=a3f390d88e4c41f2747bfa2f1b5f87db&amp;_wpnonce=b2531b3420"
-																class="remove" aria-label="Remove this item"
-																data-product_id="68"
-																data-product_sku="woo-long-sleeve-tee">×</a>
-														</td>
-														<td class="product-thumbnail">
-															<a
-																href="https://moversco.themestek.com/demo5/product/free-line-box/"><img
-																	width="40" height="40"
-																	src="https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1.jpg"
-																	class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-																	alt="" loading="lazy"
-																	srcset="https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1.jpg 1000w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1-300x300.jpg 300w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1-150x150.jpg 150w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1-768x768.jpg 768w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-07-1-1-800x800.jpg 800w"
-																	sizes="(max-width: 300px) 100vw, 300px"
-																	data-id="9258"></a>
-														</td>
-														<td class="product-name" data-title="Product">
-															<a
-																href="https://moversco.themestek.com/demo5/product/free-line-box/">Free
-																Line Box</a>
-														</td>
-														<td class="product-type" data-title="Type">
-															<span>Red, w:12 x h:23 x l:30</span>
-														</td>
-
-														<td class="product-price" data-title="Price">
-															<span class="woocommerce-Price-amount amount"><bdi><span
-																		class="woocommerce-Price-currencySymbol">£</span>25.00</bdi></span>
-														</td>
-
-														<td class="product-quantity" data-title="Quantity">
-															<div class="quantity">
-																<label class="screen-reader-text"
-																	for="quantity_624f0d8bd9cdc">Free Line Box
-																	quantity</label>
-																<input type="number" id="quantity_624f0d8bd9cdc"
-																	class="input-text qty text" step="1" min="0" max=""
-																	name="cart[a3f390d88e4c41f2747bfa2f1b5f87db][qty]"
-																	value="1" title="Qty" size="4" placeholder=""
-																	inputmode="numeric">
-															</div>
-														</td>
-
-														<td class="product-subtotal" data-title="Subtotal">
-															<span class="woocommerce-Price-amount amount"><bdi><span
-																		class="woocommerce-Price-currencySymbol">£</span>25.00</bdi></span>
-														</td>
-													</tr>
-													<tr class="woocommerce-cart-form__cart-item cart_item">
-
-														<td class="product-remove">
-															<a href="https://moversco.themestek.com/demo5/cart/?remove_item=072b030ba126b2f4b2374f342be9ed44&amp;_wpnonce=b2531b3420"
-																class="remove" aria-label="Remove this item"
-																data-product_id="60" data-product_sku="woo-cap">×</a>
-														</td>
-
-														<td class="product-thumbnail">
-															<a
-																href="https://moversco.themestek.com/demo5/product/eco-gray-box/"><img
-																	width="40" height="40"
-																	src="https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1.jpg"
-																	class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-																	alt="" loading="lazy"
-																	srcset="https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1.jpg 1000w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1-300x300.jpg 300w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1-150x150.jpg 150w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1-768x768.jpg 768w, https://moversco.themestek.com/demo5/wp-content/uploads/sites/8/2017/12/shop-09-1-1-800x800.jpg 800w"
-																	sizes="(max-width: 300px) 100vw, 300px"
-																	data-id="9262"></a>
-														</td>
-
-														<td class="product-name" data-title="Product">
-															<a
-																href="https://moversco.themestek.com/demo5/product/eco-gray-box/">Eco
-																Gray Box</a>
-														</td>
-														<td class="product-type" data-title="Type">
-															<span>Red, w:12 x h:23 x l:30</span>
-														</td>
-
-														<td class="product-price" data-title="Price">
-															<span class="woocommerce-Price-amount amount"><bdi><span
-																		class="woocommerce-Price-currencySymbol">£</span>16.00</bdi></span>
-														</td>
-
-														<td class="product-quantity" data-title="Quantity">
-															<div class="quantity">
-																<label class="screen-reader-text"
-																	for="quantity_624f0d8bd9fc4">Eco Gray Box
-																	quantity</label>
-																<input type="number" id="quantity_624f0d8bd9fc4"
-																	class="input-text qty text" step="1" min="0" max=""
-																	name="cart[072b030ba126b2f4b2374f342be9ed44][qty]"
-																	value="1" title="Qty" size="4" placeholder=""
-																	inputmode="numeric">
-															</div>
-														</td>
-
-														<td class="product-subtotal" data-title="Subtotal">
-															<span class="woocommerce-Price-amount amount"><bdi><span
-																		class="woocommerce-Price-currencySymbol">£</span>16.00</bdi></span>
-														</td>
-													</tr>
-													<tr>
-														<td colspan="6" class="actions">
-															@* <div class="coupon">
-																<label for="coupon_code">Coupon:</label> <input
-																type="text" name="coupon_code" class="input-text"
-																id="coupon_code" value="" placeholder="Coupon code">
-																<button type="submit" class="button" name="apply_coupon"
-																value="Apply coupon">Apply coupon</button>
-																</div> *@
-															<button type="submit" class="button" name="update_cart"
-																value="Update cart" disabled=""
-																aria-disabled="true">Update cart</button>
-															<input type="hidden" id="woocommerce-cart-nonce"
-																name="woocommerce-cart-nonce" value="b2531b3420"><input
-																type="hidden" name="_wp_http_referer"
-																value="/demo5/cart/">
-														</td>
-													</tr>
+												<tbody id="tbody-product" data-rows="0">
+													<tr id="tbody-default"><td colspan="7" class="text-center">Empty cart</td></tr>
 												</tbody>
 											</table>
 										</form>
@@ -1254,15 +1139,15 @@
 														<tr class="cart-subtotal">
 															<th>Subtotal</th>
 															<td data-title="Subtotal"><span
-																	class="woocommerce-Price-amount amount"><bdi><span
-																			class="woocommerce-Price-currencySymbol">£</span>41.00</bdi></span>
+																	class="postalservice-Price-amount amount"><bdi><span
+																			class="postalservice-Price-currencySymbol">£</span>41.00</bdi></span>
 															</td>
 														</tr>
 														<tr class="order-total">
 															<th>Total</th>
 															<td data-title="Total"><strong><span
-																		class="woocommerce-Price-amount amount"><bdi><span
-																				class="woocommerce-Price-currencySymbol">£</span>41.00</bdi></span></strong>
+																		class="postalservice-Price-amount amount"><bdi><span
+																				class="postalservice-Price-currencySymbol">£</span>41.00</bdi></span></strong>
 															</td>
 														</tr>
 													</tbody>

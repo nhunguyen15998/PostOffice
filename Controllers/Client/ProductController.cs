@@ -15,13 +15,16 @@ namespace post_office.Controllers.Client
         private readonly ILogger<ProductController> _logger;
         private IProductCategoryService _productCategoryService;
         private IProductService _productService;
+        private IProductService _productAttributeService;
         public ProductController(ILogger<ProductController> logger, 
                IProductCategoryService productCategoryService, 
-               IProductService productService)
+               IProductService productService,
+               IProductService productAttributeService)
         {
             _logger = logger;
             _productCategoryService = productCategoryService;
             _productService = productService;
+            _productAttributeService = productAttributeService;
         }
 
         public IActionResult Index()
@@ -44,8 +47,19 @@ namespace post_office.Controllers.Client
         [HttpGet]
         public List<ProductModel> GetProductsByPCate([FromQuery] int categoryId)
         {
-            var a = _productService.GetListProduct(categoryId, 1);
-            return a;
+            return _productService.GetListProduct(categoryId, 1);
+        }
+
+        [HttpGet]
+        public List<ProductAttributeModel> GetProductAttributeByProduct([FromQuery] int productId)
+        {
+            return _productAttributeService.GetListProductAttribute(productId);
+        }
+
+        [HttpGet]
+        public ProductModel GetProduct([FromQuery] int productId)
+        {
+            return _productService.GetProduct(productId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -56,7 +56,7 @@ div.themestek-titlebar-wrapper > .themestek-bg-layer{background-color:transparen
  .themestek-element-heading-wrapper .themestek-vc_general .themestek-vc_cta3_content-container .themestek-vc_cta3-content .themestek-vc_cta3-content-header h4, .themestek-vc_general.themestek-vc_cta3.themestek-vc_cta3-color-transparent.themestek-cta3-only .themestek-vc_cta3-content .themestek-vc_cta3-headers h4{font-family:"Biryani", Arial, Helvetica, sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;line-height:20px;color:#1b2024;}
  .themestek-element-heading-wrapper .themestek-vc_general.themestek-vc_cta3 .themestek-vc_cta3-content p{font-family:"Nunito Sans", Arial, Helvetica, sans-serif;font-weight:400;font-size:18px;line-height:24px;color:#666666;}
  body .widget .widget-title, body .widget .widgettitle, #site-header-menu #site-navigation .mega-menu-wrap .mega-menu.mega-menu-horizontal .mega-sub-menu > li.mega-menu-item > h4.mega-block-title, .portfolio-description h2, .themestek-portfolio-details h2, .themestek-portfolio-related h2{font-family:"Biryani", Arial, Helvetica, sans-serif;font-weight:700;font-size:18px;line-height:24px;color:#313437;}
- .woocommerce button.button, .woocommerce-page button.button, .themestek-vc_btn, .themestek-vc_btn3, .woocommerce-page a.button, .button, .wpb_button, button, .woocommerce input.button, .woocommerce-page input.button, .tp-button.big, .woocommerce #content input.button, .woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button, .woocommerce-page #content input.button, .woocommerce-page #respond input#submit, .woocommerce-page a.button, .woocommerce-page button.button, .woocommerce-page input.button, .themestek-post-readmore a{font-family:"Nunito Sans", Arial, Helvetica, sans-serif;font-weight:400;text-transform:uppercase;}
+ .postalservice button.button, .postalservice-page button.button, .themestek-vc_btn, .themestek-vc_btn3, .postalservice-page a.button, .button, .wpb_button, button, .postalservice input.button, .postalservice-page input.button, .tp-button.big, .postalservice #content input.button, .postalservice #respond input#submit, .postalservice a.button, .postalservice button.button, .postalservice input.button, .postalservice-page #content input.button, .postalservice-page #respond input#submit, .postalservice-page a.button, .postalservice-page button.button, .postalservice-page input.button, .themestek-post-readmore a{font-family:"Nunito Sans", Arial, Helvetica, sans-serif;font-weight:400;text-transform:uppercase;}
  .wpb_tabs_nav a.ui-tabs-anchor, body .wpb_accordion .wpb_accordion_wrapper .wpb_accordion_header a, .vc_progress_bar .vc_label, .vc_tta.vc_general .vc_tta-tab > a, .vc_toggle_title > h4{font-family:"Biryani", Arial, Helvetica, sans-serif;font-weight:400;text-transform:uppercase;font-size:14px;}/**
  * 0. Text link and hover color properties
  * ----------------------------------------------------------------------------
@@ -309,7 +309,7 @@ a.underline:hover,
 .themestek-ihbox-style-7:hover,
 .themestek-vc_btn3.themestek-vc_btn3-color-black.themestek-vc_btn3-style-flat:hover,
 .quotation-form .checkbox label:after,
-.quotation-form input.post-office-form-control.post-office-submit:hover,
+.quotation-form input.postoffice-form-control.postoffice-submit:hover,
 .ts-new-block-list.themestek-list li i,
 .ts-carousel-block .slick-dots li.slick-active button,
 .themestek-header-style-6 #site-header-menu #site-navigation .themestek-header-icon a:hover,
@@ -322,8 +322,8 @@ a.underline:hover,
 .themestek-ptablebox-featured-col .themestek-ptablebox-style-1 .themestek-vc_btn3.themestek-vc_btn3-color-inverse.themestek-vc_btn3-style-flat,
 .themestek-ptablebox-style-1 .themestek-vc_btn3.themestek-vc_btn3-color-inverse.themestek-vc_btn3-style-flat:hover,
 .themestek-ptablebox-featured-col .themestek-ptablebox-style-1 .themestek-ptable-main,
-.main-holder .site-content nav.woocommerce-pagination ul li .page-numbers.current, 
-.main-holder .site-content nav.woocommerce-pagination ul li a:hover, 
+.main-holder .site-content nav.postalservice-pagination ul li .page-numbers.current, 
+.main-holder .site-content nav.postalservice-pagination ul li a:hover, 
 .themestek-pagination .page-numbers.current, 
 .themestek-pagination .page-numbers:hover,
 .themestek-header-wc-cart-link .number-cart,
@@ -558,37 +558,37 @@ div.nav-menu > ul li ul li a,
 #bbpress-forums li.bbp-header,
 #bbpress-forums .bbp-search-form input[type="submit"]:hover,
 .ts-header-icons .ts-header-wc-cart-link span.number-cart,
-.woocommerce button.button.alt.disabled,
-.woocommerce button.button.alt:disabled,
-.woocommerce #respond input#submit,
-.woocommerce a.button,
-.woocommerce button.button,
-.woocommerce input.button,
-.woocommerce .woocommerce-message  .button,
-.woocommerce div.product .woocommerce-tabs ul.tabs li a:before,
-.woocommerce div.product .woocommerce-tabs ul.tabs li a,
-.woocommerce #respond input#submit.alt,
-.woocommerce a.button.alt,
-.woocommerce button.button.alt,
-.woocommerce input.button.alt{
+.postalservice button.button.alt.disabled,
+.postalservice button.button.alt:disabled,
+.postalservice #respond input#submit,
+.postalservice a.button,
+.postalservice button.button,
+.postalservice input.button,
+.postalservice .postalservice-message  .button,
+.postalservice div.product .postalservice-tabs ul.tabs li a:before,
+.postalservice div.product .postalservice-tabs ul.tabs li a,
+.postalservice #respond input#submit.alt,
+.postalservice a.button.alt,
+.postalservice button.button.alt,
+.postalservice input.button.alt{
 	background: #ffdc39;
 }
-.woocommerce-info,
-.woocommerce-message{
+.postalservice-info,
+.postalservice-message{
 	border-top-color: #ffdc39; 
 }
-.woocommerce ul.products li.product a:hover,
-.woocommerce ul.product_list_widget li a:hover h2,
-.woocommerce .star-rating span,
-.woocommerce-info::before,
-.woocommerce-message::before{
+.postalservice ul.products li.product a:hover,
+.postalservice ul.product_list_widget li a:hover h2,
+.postalservice .star-rating span,
+.postalservice-info::before,
+.postalservice-message::before{
 	color: #ffdc39;
 }
-.woocommerce-pagination ul li a:hover,
-.woocommerce-pagination ul li span,
-.woocommerce nav.woocommerce-pagination ul li a:focus,
-.woocommerce nav.woocommerce-pagination ul li a:hover,
-.woocommerce nav.woocommerce-pagination ul li span.current{
+.postalservice-pagination ul li a:hover,
+.postalservice-pagination ul li span,
+.postalservice nav.postalservice-pagination ul li a:focus,
+.postalservice nav.postalservice-pagination ul li a:hover,
+.postalservice nav.postalservice-pagination ul li span.current{
    background: #ffdc39;
    border-color: #ffdc39; 
 }

@@ -1,4 +1,4 @@
-.post-office .screen-reader-response {
+.postoffice .screen-reader-response {
 	position: absolute;
 	overflow: hidden;
 	clip: rect(1px, 1px, 1px, 1px);
@@ -9,48 +9,48 @@
 	border: 0;
 }
 
-.post-office form .post-office-response-output {
+.postoffice form .postoffice-response-output {
 	margin: 2em 0.5em 1em;
 	padding: 0.2em 1em;
 	border: 2px solid #00a0d2; /* Blue */
 }
 
-.post-office form.init .post-office-response-output,
-.post-office form.resetting .post-office-response-output,
-.post-office form.submitting .post-office-response-output {
+.postoffice form.init .postoffice-response-output,
+.postoffice form.resetting .postoffice-response-output,
+.postoffice form.submitting .postoffice-response-output {
 	display: none;
 }
 
-.post-office form.sent .post-office-response-output {
+.postoffice form.sent .postoffice-response-output {
 	border-color: #46b450; /* Green */
 }
 
-.post-office form.failed .post-office-response-output,
-.post-office form.aborted .post-office-response-output {
+.postoffice form.failed .postoffice-response-output,
+.postoffice form.aborted .postoffice-response-output {
 	border-color: #dc3232; /* Red */
 }
 
-.post-office form.spam .post-office-response-output {
+.postoffice form.spam .postoffice-response-output {
 	border-color: #f56e28; /* Orange */
 }
 
-.post-office form.invalid .post-office-response-output,
-.post-office form.unaccepted .post-office-response-output {
+.postoffice form.invalid .postoffice-response-output,
+.postoffice form.unaccepted .postoffice-response-output {
 	border-color: #ffb900; /* Yellow */
 }
 
-.post-office-form-control-wrap {
+.postoffice-form-control-wrap {
 	position: relative;
 }
 
-.post-office-not-valid-tip {
+.postoffice-not-valid-tip {
 	color: #dc3232;
 	font-size: 1em;
 	font-weight: normal;
 	display: block;
 }
 
-.use-floating-validation-tip .post-office-not-valid-tip {
+.use-floating-validation-tip .postoffice-not-valid-tip {
 	position: relative;
 	top: -2ex;
 	left: 1em;
@@ -61,17 +61,17 @@
 	width: 24em;
 }
 
-.post-office-list-item {
+.postoffice-list-item {
 	display: inline-block;
 	margin: 0 0 0 1em;
 }
 
-.post-office-list-item-label::before,
-.post-office-list-item-label::after {
+.postoffice-list-item-label::before,
+.postoffice-list-item-label::after {
 	content: " ";
 }
 
-.post-office .ajax-loader {
+.postoffice .ajax-loader {
 	visibility: hidden;
 	display: inline-block;
 	background-color: #23282d; /* Dark Gray 800 */
@@ -85,11 +85,11 @@
 	position: relative;
 }
 
-.post-office form.submitting .ajax-loader {
+.postoffice form.submitting .ajax-loader {
 	visibility: visible;
 }
 
-.post-office .ajax-loader::before {
+.postoffice .ajax-loader::before {
 	content: '';
 	position: absolute;
 	background-color: #fbfbfc; /* Light Gray 100 */
@@ -107,7 +107,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-office .ajax-loader::before {
+	.postoffice .ajax-loader::before {
 		animation-name: blink;
 		animation-duration: 2000ms;
 	}
@@ -137,20 +137,20 @@
 	}
 }
 
-.post-office input[type="file"] {
+.postoffice input[type="file"] {
 	cursor: pointer;
 }
 
-.post-office input[type="file"]:disabled {
+.postoffice input[type="file"]:disabled {
 	cursor: default;
 }
 
-.post-office .post-office-submit:disabled {
+.postoffice .postoffice-submit:disabled {
 	cursor: not-allowed;
 }
 
-.post-office input[type="url"],
-.post-office input[type="email"],
-.post-office input[type="tel"] {
+.postoffice input[type="url"],
+.postoffice input[type="email"],
+.postoffice input[type="tel"] {
 	direction: ltr;
 }

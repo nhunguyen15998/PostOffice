@@ -13,7 +13,7 @@ namespace post_office.Services
         ProductModel SaveProduct(ProductModel mdl);
         List<ProductModel> GetListProduct(int categoryId, int status);
         ProductModel ModifyProduct(ProductModel mdl);
-        List<ProductAttributeModel> GetListProductAttribute();
+        List<ProductAttributeModel> GetListProductAttribute(int productId);
         ProductAttributeModel GetProductAttribute(int id);
         ProductAttributeModel SaveProductAttribute(ProductAttributeModel m);
         int GetTotalQuantity(int pid);
@@ -70,14 +70,27 @@ namespace post_office.Services
         }
         public List<ProductModel> GetListProduct(int categoryId, int status)
         {
-            var a = ct.Products.Where(x => categoryId != 0 ? x.CategoryId == categoryId : true)
+            return ct.Products.Where(x => categoryId != 0 ? x.CategoryId == categoryId : true)
                               .Where(x => status == 1 ? x.Status == status : true)
                               .Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
-            return a;
         }
-        public List<ProductAttributeModel> GetListProductAttribute()
+        public List<ProductAttributeModel> GetListProductAttribute(int productId)
         {
-            return ct.ProductAttributes.Select(x => new ProductAttributeModel() { id = x.Id, colorID = x.ColorId, heightID = x.HeightId, lengthID = x.LengthId, widthID = x.WidthId,price = x.Price, createAt=(DateTime) x.CreatedAt,productId=x.ProductId, qty=(int)x.Qty }).ToList();
+            return ct.ProductAttributes.Where(x => productId != 0 ? x.ProductId == productId : true)
+                                       .Select(x => new ProductAttributeModel() { 
+                                                            id = x.Id, 
+                                                            colorID = x.ColorId, 
+                                                            colorValue = x.Color.Name,
+                                                            heightID = x.HeightId, 
+                                                            heightValue = x.Height.Name,
+                                                            lengthID = x.LengthId, 
+                                                            lengthValue = x.Length.Name,
+                                                            widthID = x.WidthId,
+                                                            widthValue = x.Width.Name,
+                                                            price = x.Price, 
+                                                            createAt=(DateTime) x.CreatedAt,
+                                                            productId=x.ProductId, 
+                                                            qty=(int)x.Qty }).ToList();
 
         }
         public ProductModel GetProduct(int id)
@@ -87,7 +100,7 @@ namespace post_office.Services
         public int GetTotalQuantity(int pid)
         {
             var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).qty ?? 0;
-            var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).ToList();
+            var ls_PDattr = GetListProductAttribute(0).Where(x => x.productId == pid).ToList();
             var res = 0;
             foreach (var item in ls_PDattr)
             {
@@ -98,7 +111,7 @@ namespace post_office.Services
         public string GetPrice(int pid)
         {
             var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).price;
-            var ls_PDattr = GetListProductAttribute().Where(x => x.productId == pid).Select(x=>x.price).ToList();
+            var ls_PDattr = GetListProductAttribute(0).Where(x => x.productId == pid).Select(x=>x.price).ToList();
             if(pd!=null) ls_PDattr.Add((decimal)pd);
             string res =string.Format("{0:n0}", ls_PDattr[0]);
             if (ls_PDattr.Count >= 2) res = string.Format("{0:n0}", ls_PDattr.Min())+" - "+ string.Format("{0:n0}", ls_PDattr.Max());

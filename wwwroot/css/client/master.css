@@ -1329,8 +1329,8 @@ ul.themestek-recent-post-list > li .post-date{
 .sidebar .widget.widget_display_replies li,
 .sidebar .widget.widget_display_topics li,
 .sidebar .widget.widget_display_views li,
-/*woocommerce*/
-.sidebar .widget.woocommerce li,
+/*postalservice*/
+.sidebar .widget.postalservice li,
 .sidebar .widget_recent_comments li,
 .sidebar .widget_rss li,
 .sidebar .widget_archive li,
@@ -4285,7 +4285,7 @@ ol.comment-list li #respond{
     background-color: #14212a;
 }
 /*** Single Team De ***/
-.single-themestek-team .post-office{
+.single-themestek-team .postoffice{
 	margin-top: 30px;
 }
 .themestek-team-member-view-default .themestek-box-img-left {
@@ -7032,10 +7032,10 @@ span.themestek-vc_label_units.vc_label_units {
     display: table;
     border-collapse: separate;
 }
-.post-office-form .input-group {
+.postoffice-form .input-group {
     margin-bottom: 25px !important;
 }
-.post-office-form .input-group {
+.postoffice-form .input-group {
     display: block;
 }
 /*** ts-form-style1 (Moversco special) ***/
@@ -7093,17 +7093,17 @@ span.themestek-vc_label_units.vc_label_units {
 .ts-form-style2 textarea {
     height: 150px;
 }
-.ts-form-style2 .post-office-form .input-group {
+.ts-form-style2 .postoffice-form .input-group {
     margin-bottom: 20px !important;
 }
 .ts-form-style2 input[type="submit"]{
     background-color: #313437;
     padding: 21px 50px 21px;
 }
-.post-office-form .ts-form-submitbt .input-group {
+.postoffice-form .ts-form-submitbt .input-group {
     margin-bottom: 0px !important;
 }
-div.post-office-response-output {
+div.postoffice-response-output {
     margin: 0;
     margin-bottom: 10px;
 }
@@ -7157,7 +7157,7 @@ input[type="checkbox"]:checked+label:after {
     z-index: 1;
     cursor: pointer;
 }
-.quotation-form input.post-office-form-control.post-office-submit {
+.quotation-form input.postoffice-form-control.postoffice-submit {
     width: 100%;
     font-size: 14px;
     font-weight: 700;
@@ -8079,36 +8079,36 @@ button, input, select, textarea,
     Woocommece 
 ====================================================================
  ***/ 
-.woocommerce .woocommerce-ordering {
+.postalservice .postalservice-ordering {
     margin-bottom: 40px;
 }
- .woocommerce #respond input#submit.alt.disabled, .woocommerce #respond input#submit.alt.disabled:hover, 
- .woocommerce #respond input#submit.alt:disabled,
- .woocommerce #respond input#submit.alt:disabled:hover, .woocommerce #respond input#submit.alt:disabled[disabled], 
- .woocommerce #respond input#submit.alt:disabled[disabled]:hover, .woocommerce a.button.alt.disabled, 
- .woocommerce a.button.alt.disabled:hover, .woocommerce a.button.alt:disabled, .woocommerce a.button.alt:disabled:hover, 
- .woocommerce a.button.alt:disabled[disabled], .woocommerce a.button.alt:disabled[disabled]:hover, 
- .woocommerce button.button.alt.disabled, .woocommerce button.button.alt.disabled:hover, 
- .woocommerce button.button.alt:disabled, .woocommerce button.button.alt:disabled:hover, 
- .woocommerce button.button.alt:disabled[disabled], 
- .woocommerce button.button.alt:disabled[disabled]:hover, 
- .woocommerce input.button.alt.disabled, .woocommerce input.button.alt.disabled:hover, 
- .woocommerce input.button.alt:disabled, .woocommerce input.button.alt:disabled:hover, 
- .woocommerce input.button.alt:disabled[disabled], .woocommerce input.button.alt:disabled[disabled]:hover {
+ .postalservice #respond input#submit.alt.disabled, .postalservice #respond input#submit.alt.disabled:hover, 
+ .postalservice #respond input#submit.alt:disabled,
+ .postalservice #respond input#submit.alt:disabled:hover, .postalservice #respond input#submit.alt:disabled[disabled], 
+ .postalservice #respond input#submit.alt:disabled[disabled]:hover, .postalservice a.button.alt.disabled, 
+ .postalservice a.button.alt.disabled:hover, .postalservice a.button.alt:disabled, .postalservice a.button.alt:disabled:hover, 
+ .postalservice a.button.alt:disabled[disabled], .postalservice a.button.alt:disabled[disabled]:hover, 
+ .postalservice button.button.alt.disabled, .postalservice button.button.alt.disabled:hover, 
+ .postalservice button.button.alt:disabled, .postalservice button.button.alt:disabled:hover, 
+ .postalservice button.button.alt:disabled[disabled], 
+ .postalservice button.button.alt:disabled[disabled]:hover, 
+ .postalservice input.button.alt.disabled, .postalservice input.button.alt.disabled:hover, 
+ .postalservice input.button.alt:disabled, .postalservice input.button.alt:disabled:hover, 
+ .postalservice input.button.alt:disabled[disabled], .postalservice input.button.alt:disabled[disabled]:hover {
     background-color: #222;
     color: #fff;
 }
-.entry-content .woocommerce h2,
+.entry-content .postalservice h2,
 .single-product h2{
  	 font-size: 20px;
     line-height: 36px;
     font-weight: 600;
  }
-.woocommerce a.button.add_to_cart_button,
-.woocommerce #respond input#submit,
-.woocommerce a.button,
-.woocommerce button.button,
-.woocommerce input.button{
+.postalservice a.button.add_to_cart_button,
+.postalservice #respond input#submit,
+.postalservice a.button,
+.postalservice button.button,
+.postalservice input.button{
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 700 !important;
@@ -8117,11 +8117,11 @@ button, input, select, textarea,
     color: #fff;
     border-radius: 0px;
 }
-.woocommerce ul.products li.product, 
-.woocommerce-page ul.products li.product{
+.postalservice ul.products li.product, 
+.postalservice-page ul.products li.product{
 	text-align: center;
 }
-.woocommerce ul.products li.product .onsale{
+.postalservice ul.products li.product .onsale{
     min-height: auto;
     min-width: auto;
     line-height: normal;
@@ -8132,52 +8132,52 @@ button, input, select, textarea,
     right: 12px;
     font-size: 12px;
 }
-.woocommerce .products .star-rating{
+.postalservice .products .star-rating{
 	display: inline-block;
 }
-.woocommerce ul.products li.product .woocommerce-loop-category__title,
-.woocommerce ul.products li.product .woocommerce-loop-product__title,
-.woocommerce ul.products li.product h3{
+.postalservice ul.products li.product .postalservice-loop-category__title,
+.postalservice ul.products li.product .postalservice-loop-product__title,
+.postalservice ul.products li.product h3{
 	 font-size: 18px;
 }
-.woocommerce ul.products li.product .button {
+.postalservice ul.products li.product .button {
     margin-top: 0;
 }
-.woocommerce ul.products li.product .button:hover {
+.postalservice ul.products li.product .button:hover {
 	background-color: #42464e;
 	color: #fff;
 }
-.woocommerce ul.products li.product .button.loading {
+.postalservice ul.products li.product .button.loading {
     padding-right: 30px;
     opacity: 0.7;
 }
-.woocommerce #respond input#submit.loading::after, 
-.woocommerce a.button.loading::after, 
-.woocommerce button.button.loading::after, 
-.woocommerce input.button.loading::after{
+.postalservice #respond input#submit.loading::after, 
+.postalservice a.button.loading::after, 
+.postalservice button.button.loading::after, 
+.postalservice input.button.loading::after{
     top: 12px;
     right: 10px;
 }
-.woocommerce a.added_to_cart{
+.postalservice a.added_to_cart{
 	display: block;
 }
-.woocommerce ul.products li.product .price{
+.postalservice ul.products li.product .price{
 	color: #313131;
 	font-size: 16px;
 }
-.woocommerce ul.products li.product .price ins{
+.postalservice ul.products li.product .price ins{
 	color: #313131;
     font-weight: 400;
 }
-.woocommerce nav.woocommerce-pagination ul {
+.postalservice nav.postalservice-pagination ul {
     border: none !important;
     margin-bottom: 50px;
 }
-.woocommerce nav.woocommerce-pagination ul li{
+.postalservice nav.postalservice-pagination ul li{
 	border: none;
 	margin: 0 4px !important;
 }
-.woocommerce-pagination ul li a, .woocommerce-pagination ul li span {
+.postalservice-pagination ul li a, .postalservice-pagination ul li span {
     position: relative;
     display: inline-block;
     line-height: 26px !important;
@@ -8197,21 +8197,21 @@ button, input, select, textarea,
     -o-transition: all 500ms ease;
     -moz-transition: all 500ms ease;
 }
-.woocommerce .woocommerce-result-count{
+.postalservice .postalservice-result-count{
 	font-weight: bold;	
 }
-.woocommerce-ordering .select2-container.select2-container--below{
+.postalservice-ordering .select2-container.select2-container--below{
 	width: 234px !important; 
 }
-/* Woocommerce Details Page*/
-.woocommerce div.product .product_title{
+/* postalservice Details Page*/
+.postalservice div.product .product_title{
 	font-size: 26px;
     line-height: 40px;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li {
+.postalservice div.product .postalservice-tabs ul.tabs li {
 	 margin-right: 8px;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+.postalservice div.product .postalservice-tabs ul.tabs li a {
     position: relative;
     top: 1px;
     display: block;
@@ -8227,22 +8227,22 @@ button, input, select, textarea,
     transition: all 500ms ease;
     border-radius: 0;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li {
+.postalservice div.product .postalservice-tabs ul.tabs li {
     background: none;
     border-radius: 0;
     margin: 0;
     padding: 0;
     border: none;    
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li:hover a,
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+.postalservice div.product .postalservice-tabs ul.tabs li:hover a,
+.postalservice div.product .postalservice-tabs ul.tabs li.active a {
     color: #242424;
     background: #ffffff !important;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active a:before {
+.postalservice div.product .postalservice-tabs ul.tabs li.active a:before {
     opacity: 1;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li a:before {
+.postalservice div.product .postalservice-tabs ul.tabs li a:before {
     position: absolute;
     content: '';
     left: 0px;
@@ -8252,19 +8252,19 @@ button, input, select, textarea,
     opacity: 0;
     background-color: #f7bd00;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs {
+.postalservice div.product .postalservice-tabs ul.tabs {
     padding: 0px !important;
     margin: 0px 0 0px !important;
     border: none !important;
     line-height: 0;
 }
-.woocommerce div.product .woocommerce-tabs ul.tabs li:before,
-.woocommerce div.product .woocommerce-tabs ul.tabs li:after,
-.woocommerce div.product .woocommerce-tabs ul.tabs:before{
+.postalservice div.product .postalservice-tabs ul.tabs li:before,
+.postalservice div.product .postalservice-tabs ul.tabs li:after,
+.postalservice div.product .postalservice-tabs ul.tabs:before{
 	display: none;
 	border: none;
 }
-.woocommerce div.product .woocommerce-tabs .panel{
+.postalservice div.product .postalservice-tabs .panel{
     background: #fff !important;
     margin-top: 0px;
     padding: 30px;
@@ -8272,49 +8272,49 @@ button, input, select, textarea,
     border-radius: 0;
     margin-top: -1px;
 }
-.woocommerce-Tabs-panel h2{
+.postalservice-Tabs-panel h2{
 	font-size: 20px;
 	margin-top: 0;
 	line-height: 28px;
 }
-.woocommerce div.product div.images .flex-control-thumbs li {
+.postalservice div.product div.images .flex-control-thumbs li {
     width: 22%;
     margin-right: 4%;
 }
-.woocommerce div.product .woocommerce-product-gallery .flex-viewport,
-.woocommerce div.product div.images .woocommerce-product-gallery__image:first-child {
+.postalservice div.product .postalservice-product-gallery .flex-viewport,
+.postalservice div.product div.images .postalservice-product-gallery__image:first-child {
     margin-bottom: 20px;
 }
-.woocommerce div.product div.images .woocommerce-product-gallery__image:nth-child(n+2){
+.postalservice div.product div.images .postalservice-product-gallery__image:nth-child(n+2){
 	width: 22%;
     margin-right: 4%;
 }
-.woocommerce div.product div.images .woocommerce-product-gallery__image:nth-child(5) {
+.postalservice div.product div.images .postalservice-product-gallery__image:nth-child(5) {
     margin: 0;
 }
-.woocommerce .quantity .qty {
+.postalservice .quantity .qty {
     width: 5em;
     text-align: center;
     background: 0;
     padding: 10px 0;
 }
-.woocommerce div.product form.cart .button {
+.postalservice div.product form.cart .button {
     padding: 17px 40px;
     font-weight: 600;
 }
-.woocommerce #respond input#submit.alt:hover,
-.woocommerce a.button.alt:hover,
-.woocommerce button.button.alt:hover,
-.woocommerce input.button.alt:hover {
+.postalservice #respond input#submit.alt:hover,
+.postalservice a.button.alt:hover,
+.postalservice button.button.alt:hover,
+.postalservice input.button.alt:hover {
     background-color: #222;
     color: #fff;
 }
-.woocommerce span.onsale{
+.postalservice span.onsale{
     min-height: 4em;
     min-width: 4em;
     line-height: 4em;
 }
-.woocommerce .woocommerce-message  .button {
+.postalservice .postalservice-message  .button {
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 600;
@@ -8325,20 +8325,20 @@ button, input, select, textarea,
     line-height: normal;
     letter-spacing: 1px;
 }
-.woocommerce-error, .woocommerce-info, .woocommerce-message{
+.postalservice-error, .postalservice-info, .postalservice-message{
 	line-height: 36px;
 }
-.woocommerce div.product form.cart .variations td.label {
+.postalservice div.product form.cart .variations td.label {
     padding-right: 1em;
 }
-.woocommerce div.product form.cart table.variations  tbody tr,
-.woocommerce div.product form.cart table.variations  thead tr{
+.postalservice div.product form.cart table.variations  tbody tr,
+.postalservice div.product form.cart table.variations  thead tr{
 	border: none;
 }
-.woocommerce div.product form.cart .variations label {
+.postalservice div.product form.cart .variations label {
     padding-top: 10px;
 }
-.woocommerce #review_form #respond {
+.postalservice #review_form #respond {
     margin-top: 30px;
 }
 .comment-form .comment-form-comment{
@@ -8352,62 +8352,62 @@ button, input, select, textarea,
     text-transform: inherit;
     line-height: 28px;
 }
-.woocommerce div.product form.cart .variations .select2-container{
+.postalservice div.product form.cart .variations .select2-container{
 	max-width: 100%;
     min-width: 100%;
     width: 100% !important; 
 }
-.woocommerce table.shop_attributes td{
+.postalservice table.shop_attributes td{
 	padding: 5px 10px;
 }
 /* product_list_widget */
-.woocommerce ul.cart_list li .star-rating, 
-.woocommerce ul.product_list_widget li .star-rating {
+.postalservice ul.cart_list li .star-rating, 
+.postalservice ul.product_list_widget li .star-rating {
     float: none;
     margin-bottom: 13px;
 }
-.woocommerce ul.cart_list li img, 
-.woocommerce ul.product_list_widget li img {
+.postalservice ul.cart_list li img, 
+.postalservice ul.product_list_widget li img {
     width: 80px;
     float: left;
     margin-left: 0;
     margin-right: 15px;
 }
-.woocommerce ul.product_list_widget li a{
+.postalservice ul.product_list_widget li a{
 	font-size: 14px;	
     font-weight: 500;
     padding-bottom: 6px;
 }
-.widget.woocommerce li a{
+.widget.postalservice li a{
 	color: #313131;
 }
-.woocommerce div.product form.cart .reset_variations{
+.postalservice div.product form.cart .reset_variations{
 	float: right;
 }
-.woocommerce div.product form.cart .variations .label ,
-.woocommerce div.product form.cart .variations label {
+.postalservice div.product form.cart .variations .label ,
+.postalservice div.product form.cart .variations label {
     font-weight: 500;
     font-size: 14px;
     color: #222;
 }
-.woocommerce div.product form.cart table.variations td{
+.postalservice div.product form.cart table.variations td{
 	padding-left: 0;
 }
-/* woocommerce cart */
-.woocommerce .cart.shop_table {
+/* postalservice cart */
+.postalservice .cart.shop_table {
     margin-bottom: 40px;
     border: 0;
     border-collapse: collapse;
 }
-.woocommerce .cart.shop_table thead {
+.postalservice .cart.shop_table thead {
     border-radius: 0;
 }
-.woocommerce table.shop_table thead tr,
-.woocommerce table.shop_table tbody tr,
-.woocommerce table.shop_table tfoot tr {	
+.postalservice table.shop_table thead tr,
+.postalservice table.shop_table tbody tr,
+.postalservice table.shop_table tfoot tr {	
     border-bottom: 1px solid #ededed;
 }
-.woocommerce .cart.shop_table th {
+.postalservice .cart.shop_table th {
     padding: 20px 0;
     text-transform: uppercase;
     letter-spacing: 1.75px;
@@ -8416,22 +8416,22 @@ button, input, select, textarea,
     line-height: 1.2;
     color: #313437;
 }
-.woocommerce #coupon_code {
+.postalservice #coupon_code {
     margin: 0 10px 0 0;
     width: 270px !important;
 }
-.woocommerce .cart .button,
-.woocommerce .cart input.button,
-.woocommerce button.button:disabled,
-.woocommerce button.button:disabled[disabled],
-.woocommerce .coupon .button{
+.postalservice .cart .button,
+.postalservice .cart input.button,
+.postalservice button.button:disabled,
+.postalservice button.button:disabled[disabled],
+.postalservice .coupon .button{
 	padding: 15px 16px;
 	color: #fff;
 } 
-.woocommerce .cart .button, .woocommerce .cart input.button, 
-.woocommerce button.button:disabled, 
-.woocommerce button.button:disabled[disabled], 
-.woocommerce .coupon .button {
+.postalservice .cart .button, .postalservice .cart input.button, 
+.postalservice button.button:disabled, 
+.postalservice button.button:disabled[disabled], 
+.postalservice .coupon .button {
     padding: 22px 28px;
 }
 .widget_product_categories li.cat-item a{
@@ -8450,85 +8450,85 @@ button, input, select, textarea,
 .widget_product_categories li.cat-item ul.children{
 	display: none;
 }
-.woocommerce form.woocommerce-form-coupon .form-row-last{
+.postalservice form.postalservice-form-coupon .form-row-last{
 	float: left;
 }
-.woocommerce form.woocommerce-form-coupon .form-row-first {
+.postalservice form.postalservice-form-coupon .form-row-first {
     width: 37%;
 }
-.woocommerce form.woocommerce-form-coupon button.button{
+.postalservice form.postalservice-form-coupon button.button{
     padding: 20px 25px;
 }
-.woocommerce .woocommerce-form-coupon-toggle .showcoupon{
+.postalservice .postalservice-form-coupon-toggle .showcoupon{
 	font-weight: bold;
 }
-/* woocommerce checkout */
-.woocommerce-checkout h3{
+/* postalservice checkout */
+.postalservice-checkout h3{
 	font-size: 18px;
     line-height: 32px;
 }
-.woocommerce-checkout h3 label{
+.postalservice-checkout h3 label{
 	font-size: 16px;
 }
-.woocommerce-checkout label{
+.postalservice-checkout label{
 	font-weight: 500;
 }
-.woocommerce form .form-row {
+.postalservice form .form-row {
     padding: 0 3px;
     margin: 0 0 15px;
 }
-.woocommerce .woocommerce-order-details table.shop_table th,
-.woocommerce .woocommerce-order-details table.shop_table td,
-.woocommerce .woocommerce-checkout-review-order table.shop_table th,
-.woocommerce .woocommerce-checkout-review-order table.shop_table td{
+.postalservice .postalservice-order-details table.shop_table th,
+.postalservice .postalservice-order-details table.shop_table td,
+.postalservice .postalservice-checkout-review-order table.shop_table th,
+.postalservice .postalservice-checkout-review-order table.shop_table td{
 	padding: 12px 10px;
 }
-.woocommerce .woocommerce-order-details table.shop_table th,
-.woocommerce .woocommerce-checkout-review-order table.shop_table th,
-#add_payment_method #payment, .woocommerce-cart #payment, .woocommerce-checkout #payment {
+.postalservice .postalservice-order-details table.shop_table th,
+.postalservice .postalservice-checkout-review-order table.shop_table th,
+#add_payment_method #payment, .postalservice-cart #payment, .postalservice-checkout #payment {
     background: #f7f7f7;
 }
-.woocommerce .woocommerce-order-details table.shop_table thead th{
+.postalservice .postalservice-order-details table.shop_table thead th{
 	background: #e4e4e4;
 	color: #0e0e0e;
 }
-.woocommerce ul.order_details {
+.postalservice ul.order_details {
     padding: 24px 30px;
     background: #42474d;
     color: #fff;
 }
-.woocommerce ul.order_details li {
+.postalservice ul.order_details li {
     font-size: 12px;
     line-height: 22px;
     border-right: 1px dashed #fff;
     padding-right: 4em;
 }
-.logged-in .woocommerce ul.order_details li {
+.logged-in .postalservice ul.order_details li {
     padding-right: 1.0em;
     margin-right: 1.0em;
 }
-.woocommerce-shipping-fields .checkbox input[type="checkbox"]{
+.postalservice-shipping-fields .checkbox input[type="checkbox"]{
 	position: relative;
 	margin-left: 0;
 }
-.woocommerce form .form-row textarea {
+.postalservice form .form-row textarea {
     height: 138px;
 }
-.woocommerce form .form-row .select2-container{
+.postalservice form .form-row .select2-container{
 	width: 100% !important;
 }
-.woocommerce table.shop_table td {
+.postalservice table.shop_table td {
     border-right: 0;
 }
-/* woocommerce Sidebar */
-.widget .woocommerce-product-search {
+/* postalservice Sidebar */
+.widget .postalservice-product-search {
     position: relative;
 }
-.widget .woocommerce-product-search .search-field{
+.widget .postalservice-product-search .search-field{
     border-width: 1px;
     background-color: rgba(220, 220, 220, 0.22);
 }
-.widget .woocommerce-product-search button{
+.widget .postalservice-product-search button{
     position: absolute;
     top: 0px;
     right: 0px;
@@ -8546,7 +8546,7 @@ button, input, select, textarea,
     background-size: 16px 16px;
     opacity: 0.3;
 }
-.widget .woocommerce-product-search:after {
+.widget .postalservice-product-search:after {
     font-family: "themestek-moversco-icons";
     content: '\e825';
     position: absolute;
@@ -8559,40 +8559,40 @@ button, input, select, textarea,
 	padding: 0 !important;
 	padding-right: 10px !important;
 }
-.woocommerce .widget_price_filter .price_slider_amount {
+.postalservice .widget_price_filter .price_slider_amount {
     line-height: 40px;
     font-size: 14px;
 }
-.woocommerce .widget_price_filter .price_slider_amount .button {
+.postalservice .widget_price_filter .price_slider_amount .button {
     font-size: 14px;
 }
-.woocommerce .widget_price_filter .price_slider_wrapper .ui-widget-content {
+.postalservice .widget_price_filter .price_slider_wrapper .ui-widget-content {
     background-color: #ececec;
 }
-.woocommerce .widget_price_filter .ui-slider .ui-slider-range,
-.woocommerce .widget_price_filter .ui-slider .ui-slider-handle{
+.postalservice .widget_price_filter .ui-slider .ui-slider-range,
+.postalservice .widget_price_filter .ui-slider .ui-slider-handle{
 	background-color: #313437;
 }
-.woocommerce ul.cart_list li .star-rating, .woocommerce ul.product_list_widget li .star-rating {
+.postalservice ul.cart_list li .star-rating, .postalservice ul.product_list_widget li .star-rating {
     margin-bottom: 5px;
 }
-.woocommerce #respond input#submit:hover, 
-.woocommerce a.button:hover, 
-.woocommerce button.button:hover, 
-.woocommerce input.button:hover {
+.postalservice #respond input#submit:hover, 
+.postalservice a.button:hover, 
+.postalservice button.button:hover, 
+.postalservice input.button:hover {
     background-color: #313437;
     color: #fff;
 }
-/* Woocommerce Single */
-.woocommerce div.product p.price ins, 
-.woocommerce div.product span.price ins{
+/* postalservice Single */
+.postalservice div.product p.price ins, 
+.postalservice div.product span.price ins{
 	color: #313437;
 }
-.woocommerce div.product p.price, 
-.woocommerce div.product span.price{
+.postalservice div.product p.price, 
+.postalservice div.product span.price{
 	color: #777777;
 }
-.single.woocommerce span.onsale {
+.single.postalservice span.onsale {
     min-height: auto;
     min-width: auto;
     line-height: normal;
@@ -8603,10 +8603,10 @@ button, input, select, textarea,
     font-size: 13px;
     left: 12px;
 }
-.woocommerce table.shop_table {
+.postalservice table.shop_table {
     border-radius: 0;
 }
-.woocommerce-notice--success.woocommerce-thankyou-order-received {
+.postalservice-notice--success.postalservice-thankyou-order-received {
     font-size: 25px;
     font-weight: bold;
     padding-bottom: 25px;
@@ -8617,7 +8617,7 @@ li.product-category.product {
     box-shadow: 1px 1px 4px 0px #00000029;
     padding: 15px !important;
 }
-.woocommerce-loop-category__title mark.count {
+.postalservice-loop-category__title mark.count {
     background: none;
 	font-size: 15px;
 }
