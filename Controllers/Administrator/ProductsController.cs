@@ -39,12 +39,17 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            ViewBag.lsPD = LoadDataProducts(page, string.Empty, -1);
-            ViewBag.pagi = RowEvent(_Productsvc.GetListProduct(0,0).Count);
-            ViewBag.pd = _Productsvc;
-            ViewBag.pdcate = _pdcatesvc;
-            ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
-            return View();
+            if (AuthenticetionModel.id != 0)
+            {
+                ViewBag.lsPD = LoadDataProducts(page, string.Empty, -1);
+                ViewBag.pagi = RowEvent(_Productsvc.GetListProduct(0, 0).Count);
+                ViewBag.pd = _Productsvc;
+                ViewBag.pdcate = _pdcatesvc;
+                ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
+                return View();
+            }
+            else return RedirectToAction("Login", "User");
+            
         }
         public string GetListAttribute(int id, int type)
         {
@@ -143,6 +148,14 @@ namespace post_office.Controllers.Administrator
             return true;
 
         }
+        public void DeleteProducts(List<int> ls)
+        {
+            bool delete = _Productsvc.RemoveProducts(ls);
+            mess = "Deleted successfully!";
+            if (!delete)
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a parent of another item / with the own product";
+
+        }
         public ProductModel GetProduct(int id)
         {
             var e = lp.FirstOrDefault(x => x.id == id);
@@ -158,7 +171,6 @@ namespace post_office.Controllers.Administrator
         public List<string> GetProductInfo(int cateID, int id)
         {
             List<string> ls = new List<string>();
-            ls.Add(_pdcatesvc.GetProductCategory(cateID).name ?? "");
             ls.Add( _Productsvc.GetPrice(id));
             ls.Add(_Productsvc.GetTotalQuantity(id).ToString());
             return ls;

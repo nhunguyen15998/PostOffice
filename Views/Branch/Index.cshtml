@@ -10,10 +10,20 @@
 @model post_office.Models.BranchModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:330px;" type="text" placeholder="Search by code, name, phone" />
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        <button class="btn-action delete pl-2 pr-2" id="btnDelete" style="float:left;margin-right:1vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:240px;" type="text" id="search-by-name" placeholder="Search by code, name, phone" />
+        <button class="btn-action save pl-2 pr-2" id="btnCreate" style="float:right;">Create</button>
+        <label class="text-color ml-3 mr-2" style="float: left; font-size: 13px">Search by status:</label>
 
+        <select class="dropdownlist" style="float:left;width:100px;" id="search-by-status">
+            <option value="-1">all</option>
+            <option value="1">Activated</option>
+            <option value="0">Deactivated</option>
+        </select>
+        <label class="text-color ml-3 mr-2" style="float: left; font-size: 13px">Search by province:</label>
+
+        @Html.DropDownListFor(model => model.provinceId, (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @style = "width:150px;", @id = "search-by-province" })
+        <button class="btn-action edit pl-3 pr-3 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
     </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
@@ -35,7 +45,7 @@
                 <td class="tbl-150">@item.code</td>
                 <td class="tbl-200">@item.name</td>
                 <td class="tbl-120">@item.phone</td>
-                <td class="tbl-170">@brn.GetAddressBranch(item.id)</td>
+                <td class="tbl-170">@item.addressString</td>
                 <td class="sts-item tbl-40" id="sts-">
                     @if (item.status == 1)
                     {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
@@ -136,7 +146,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-     var pages = 1;
+    var pages = 1;
+    function ClearFilter() {
+        $("#search-by-province").val(0);
+        $("#search-by-name").val("");
+        $("#search-by-status").val(-1);
+        SearchFilter(1);
+    }
     window.onload = function () {
 
         var mess = "@(post_office.Controllers.Administrator.BranchController.mess)";
@@ -221,7 +237,7 @@
     $("#btnCreate").click(function () {
         OpenForm("Create branch",0);
     });
-    $(".edit-branch").click(function () {
+    $('body').delegate('.edit-branch', 'click', function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update branch",id)
     });
@@ -323,4 +339,153 @@
                 }
             });
     }
+       $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+    });
+    function LoadDataBranch( page,  cond,status,province) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("cond", cond);
+            formDT.append("provinceId", province);
+            formDT.append("status", status);
+            var row = page == 1 ? 1 : 7 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataBranch", "Branch")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
+                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            var value = '<tr class="table-item"> <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
+                                + '<td class="tbl-60">' + row + '</td>  <td class="tbl-150">' + data[i].code + '</td> <td class="tbl-200">' + data[i].name + '</td>'
+                                + '<td class="tbl-120">' + data[i].phone + '</td> <td class="tbl-170">' + data[i].addressString + '</td>  <td class="sts-item tbl-40" id="sts-">' + str + '</td> <td class="tbl-180"> <span oid="object-' + data[i].id + '" class="action-icon edit edit-branch" style="padding:10px 5px 10px 10px">'
+                                            +'<i class="fa fa-edit"></i> </span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-branch">'
+                                            +'<i class="fa fa-trash"></i></span> </td> </tr>';
+
+                            $("#table-id").append(value);
+                            row = row + 1;
+
+
+                        }
+
+
+                    var f = new FormData();
+                    f.append("cond", cond);
+                    f.append("provinceId", province);
+                    f.append("status", status);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountBranch", "Branch")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Branch")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
+
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            SearchFilter(1);
+
+        }
+
+    });
+    $("#search-by-province").change(function () {
+        SearchFilter(1);
+
+    });
+    $("#search-by-status").change(function () {
+        SearchFilter(1);
+    });
+    function SearchFilter(page) {
+        ShowWaiting(800);
+        var province = $("#search-by-province").val();
+        var nameSearch = $("#search-by-name").val();
+        var selectStatus = $("#search-by-status").val();
+        LoadDataBranch(page, nameSearch, selectStatus, province);
+}
 </script>

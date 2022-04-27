@@ -23,10 +23,15 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            ViewBag.ls_attr=ls_attr = LoadDataAttribute(page, 0, string.Empty);
-            ViewBag.attr = AttributeModel.ls_type;
-            ViewBag.pagi = RowEvent(_attrsvc.GetListAttribute().Count);
-            return View();
+            if (AuthenticetionModel.id != 0)
+            {
+                ViewBag.ls_attr = ls_attr = LoadDataAttribute(page, 0, string.Empty);
+                ViewBag.attr = AttributeModel.ls_type;
+                ViewBag.pagi = RowEvent(_attrsvc.GetListAttribute().Count);
+                return View();
+            }
+            else return RedirectToAction("Login", "User");
+            
         }
         
         public void AttributeCU(string m)

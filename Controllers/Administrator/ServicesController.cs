@@ -22,10 +22,15 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            ViewBag.lsSvc = lsSvc = LoadDataServices(page,string.Empty, -1);
-            ViewBag.pagi = RowEvent(_Servicesvc.GetListService().Count);
-            ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
-            return View();
+            if (AuthenticetionModel.id != 0)
+            {
+                ViewBag.lsSvc = lsSvc = LoadDataServices(page, string.Empty, -1);
+                ViewBag.pagi = RowEvent(_Servicesvc.GetListService().Count);
+                ViewBag.ls_status = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
+                return View();
+            }
+            else return RedirectToAction("Login", "User");
+           
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,13 +56,13 @@ namespace post_office.Controllers.Administrator
         public List<ServiceModel> LoadDataServices(int p,  string name, int status)
         {
             int currentSkip = 10 * (p - 1);
-            var w = _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower())
+            var w = _Servicesvc.GetListService().Where(x =>( x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower()))
                                                                              && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
             return w;
         }
         public int GetCountServices( string name, int status)
         {
-            return _Servicesvc.GetListService().Where(x => x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower())
+            return _Servicesvc.GetListService().Where(x =>( x.name.ToLower().Contains(name == null ? "" : name.ToLower())|| x.content.ToLower().Contains(name == null ? "" : name.ToLower()))
                                                                             && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).ToList().Count;
 
 

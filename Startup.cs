@@ -99,6 +99,7 @@ namespace post_office
             services.AddScoped<IProductCategoryService, ProductCategoryService>();
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IAddressServices, AddressServices>();
+            services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ILocationService, LocationService>();

@@ -46,7 +46,7 @@
                 {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45" />}</td>
                 <td class="tbl-190">@item.code</td>
                 <td class="tbl-200">@item.name</td>
-                <td class="tbl-160">@pdcate.GetProductCategory(item.categoryId ?? 0).name</td>
+                <td class="tbl-160">@item.categoryName</td>
                 <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
                 <td class="tbl-110">@pd.GetPrice(item.id)</td>
                 @*<td class="tbl-140">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>*@
@@ -1101,8 +1101,8 @@
                             if (data[i].thumbnail != null) { thumbnail = '<img src="/img/ProductThumbnail/' + data[i].thumbnail + '" width="45" height="45" />' }
                              res += '<tr class="table-item">  <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
                                 + '<td class="tbl-60">' + row + '</td>  <td class="tbl-40 p-2"> ' + thumbnail + '</td>  <td class="tbl-190">' + data[i].code + '</td>'
-                                + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + ls[0] + '</td>'
-                                + '<td class="tbl-60">' + ls[2] + '</td>  <td class="tbl-110">' + ls[1]+ '</td>  <td class="sts-item tbl-40" id="sts-">' + str
+                                + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + data[i].categoryName + '</td>'
+                                + '<td class="tbl-60">' + ls[1] + '</td>  <td class="tbl-110">' + ls[0]+ '</td>  <td class="sts-item tbl-40" id="sts-">' + str
                                         +'</td>  <td class="tbl-180">  <span oid="object-'+data[i].id+'" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
                                         +'<i class="fa fa-eye"></i>  </span> <span oid="object-'+data[i].id+'" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">'
                                          +'<i class="fa fa-edit"></i>   </span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-product">'
@@ -1160,5 +1160,46 @@
             });
 
         }
+    }
+      $('body').delegate('.delete-pd-cate', 'click', function () {
+        if (confirm("Are you sure to delete this item?")) {
+            var id = $(this).attr("oid").replace("object-", "");
+            var fdt = new FormData();
+            fdt.append("ls", id);
+            DeleteProducts(fdt)
+        }
+    });
+    
+    $("#btnDelete").click(function () {
+        if (CheckCheckbox()) {
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to delete these item(s)?")) {
+                var fdt = new FormData();
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                DeleteProducts(fdt);
+                ResetCheckbox();
+            }
+        }
+    });
+    function DeleteProducts(formData) {
+        localStorage.setItem("mySession", "__pd")
+        localStorage.setItem("title", "PRODUCTS")
+         $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteProducts", "Products")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                                window.location.href = "@Url.Action("Index","Products")"
+
+                }
+            });
     }
 </script>

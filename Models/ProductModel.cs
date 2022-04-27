@@ -20,6 +20,7 @@ namespace post_office.Models
         public string description { get; set; }
         public DateTime createdAt { get; set; }
         public int status { get; set; }
+        public string categoryName { get; set; }
 
     }
 }

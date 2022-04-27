@@ -8,7 +8,6 @@ namespace post_office.Models
 {
     public class UserModel
     {
-        public static Dictionary<int, string> ls_sts = new Dictionary<int, string>() { { 1, "Activated" }, { 2, "Deactivated" }, { 3, "status 3" }, { 4, "status 4" } };
 
         [Key]
         public int id { get; set; }
@@ -23,7 +22,11 @@ namespace post_office.Models
         [Required(ErrorMessage = "* required")]
         [RegularExpression(@"^(0[3|5|7|8|9])+([0-9]{8})$", ErrorMessage = "Invalid phone number")]
         public string phone { get; set; }
+        //email
 
+        [Required(ErrorMessage = "* required")]
+        [RegularExpression("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9-]+([.][a-zA-Z]+)+", ErrorMessage = "Invalid email address")]
+        public string email { get; set; }
 
         //password
         [Required(ErrorMessage = "* required")]
@@ -32,7 +35,7 @@ namespace post_office.Models
 
         //avt
 
-        public byte[] avatar { get; set; }
+        public string avatar { get; set; }
 
         //role id
         public int roleId { get; set; } 
@@ -46,6 +49,8 @@ namespace post_office.Models
         //status
         public int status { get; set; } 
         
+        public string branch { get; set; }
+        public string role { get; set; }
         
     }
 }

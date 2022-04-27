@@ -23,12 +23,17 @@ namespace post_office.Controllers.Administrator
 
         public IActionResult Index()
         {
-            ls_role_pms = _rolesvc.GetListRolePermission();
-            ls = _rolesvc.GetListRole();
-            ls_pms = _rolesvc.GetListPermission();
-            ViewBag.lsRole = ls;
+            if (AuthenticetionModel.id != 0)
+            {
+                ls_role_pms = _rolesvc.GetListRolePermission();
+                ls = _rolesvc.GetListRole();
+                ls_pms = _rolesvc.GetListPermission();
+                ViewBag.lsRole = ls;
 
-            return View();
+                return View();
+            }
+            else return RedirectToAction("Login", "User");
+           
         }
         public RoleController(IRoleService roleService)
         {
@@ -72,11 +77,13 @@ namespace post_office.Controllers.Administrator
             ModelState.Clear();
             return RedirectToAction("Index");
         }
-        public void DeleteRole(int id)
+        public void DeleteRole(List<int> ls)
         {
-            _rolesvc.RemoveRole(id);
-            mess = "Delete successfully!";
-            /*return RedirectToAction("Index");*/
+            bool delete = _rolesvc.RemoveRole(ls);
+            mess = "Deleted successfully!";
+            if (!delete)
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a role of another user";
+
         }
         public RoleModel GetRole(int id)
         {

@@ -20,33 +20,43 @@
             <th>Code</th>
             <th>Fullname</th>
             <th>Phone</th>
+            <th>Email</th>
             <th>Role</th>
             <th>Branch</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
-        <tr class="table-item">
-            <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
-            <td class="tbl-30">1</td>
-            <td class="tbl-200">12345678987654321</td>
-            <td class="tbl-200">User user user</td>
-            <td class="tbl-150">03866622145</td>
-            <td class="tbl-150">Admin</td>
-            <td class="tbl-120">HCM City </td>
-            <td class="sts-item tbl-40" id="sts-"></td>
-            <td class="tbl-180">
-                <span oid="object-1" class="action-icon edit edit-user" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Models.UserModel>)ViewBag.ls_user)
+        {
+            <tr class="table-item">
+                <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+                <td class="tbl-50">@k @{k++;} </td>
+                <td class="tbl-180">@item.code</td>
+                <td class="tbl-200">@item.fullName</td>
+                <td class="tbl-120">@item.phone</td>
+                <td class="tbl-180">@item.email</td>
+                <td class="tbl-120">@item.role</td>
+                <td class="tbl-100">@item.branch </td>
+                <td class="sts-item tbl-40" id="sts-">
+                    @if (item.status == 1)
+                    {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+                    else
+                    { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
+                <td class="tbl-180">
 
-                <span oid="object-1" class="action-icon delete delete-user">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
-        </tr>
+                    <span oid="object-1" class="action-icon edit edit-user" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span oid="object-1" class="action-icon delete delete-user">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
 
-
-    </table>
+        }
+        </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
             <ul class="pagination" id="paginations">
@@ -81,35 +91,38 @@
             {
                 <div class="col-12" style="padding:20px;min-height:450px;display:table;">
                     <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
-                        @Html.AntiForgeryToken()
                         <label class="text-color">
                             Code:
-                            <span class="text-readonly">12345678987654321</span>
+                            <span class="text-readonly" id="ip-code"></span>
                         </label>
                         <br />
                         <label class="text-color">Full name:</label>
-                        @Html.TextBoxFor(d => d.fullName, new { @class = "input-form-cu", @type = "text", @placeholder = "full name" })
+                        @Html.TextBoxFor(d => d.fullName, new { @class = "input-form-cu", @type = "text", @placeholder = "full name", @id="ip-name" })
                         @Html.ValidationMessageFor(d => d.fullName, "", new { @class = "_error" })
                         <br />
                         <label class="text-color">Phone:</label>
-                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone" })
+                        @Html.TextBoxFor(d => d.phone, new { @class = "input-form-cu", @type = "text", @placeholder = "phone", @id = "ip-phone" })
                         @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
                         <br />
+                        <label class="text-color">Email:</label>
+                        @Html.TextBoxFor(d => d.email, new { @class = "input-form-cu", @type = "text", @placeholder = "email", @id = "ip-email" })
+                        @Html.ValidationMessageFor(d => d.email, "", new { @class = "_error" })
+                        <br />
                         <label class="text-color">Password:</label>
-                        @Html.PasswordFor(d => d.password, new { @class = "input-form-cu", @placeholder = "password" })
+                        @Html.PasswordFor(d => d.password, new { @class = "input-form-cu", @placeholder = "password", @id = "ip-password" })
                         @Html.ValidationMessageFor(d => d.password, "", new { @class = "_error" })
                         <br />
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
                         <br />
                         <label class="text-color mt-3">Role:</label>
-                        @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist" })
+                        @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist",  @id = "roleSlt" })
                         <br />
                         <label class="text-color">Branch:</label>
-                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist" })
+                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist", @id = "branchSlt" })
                         <br />
                         <label class="text-color">Status:</label>
-                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist" })
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist" , @id = "statusSlt" })
 
 
                     </div>
@@ -148,7 +161,7 @@
 
     function ResetForm() {
         CloseForm();
-        @{post_office.Controllers.Administrator.UserController.id = 0; }
+        @{post_office.Controllers.Administrator.UserController._id = 0; }
 
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
