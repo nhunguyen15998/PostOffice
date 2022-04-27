@@ -62,6 +62,12 @@ namespace post_office.Controllers.Client
             return _productService.GetProduct(productId);
         }
 
+        [HttpGet]
+        public ProductAttributeModel GetProductAttribute([FromQuery] int attributeId)
+        {
+            return _productAttributeService.GetProductAttribute(attributeId);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

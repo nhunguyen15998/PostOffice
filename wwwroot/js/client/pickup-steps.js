@@ -772,30 +772,27 @@ function getProductCateList(parentId) {
     dataType: "json",
     contentType: "application/json",
     success: function (response) {
-      let count = 0;
-      $("#product-cate-list").children("ul").find("div").empty();
+      $("#product-cate-list").children("ul").find("div").empty()
       $("#product-cate-list").children("ul").find("div")
-        .append(`<li style="padding: 0 20px;font-size: 13px;" id="product-cate-${count}">
-                                                                            <a role="button" onClick="getProductByPCate(0, "All")">All</a>
-                                                                        </li>`);
+        .append(`<li style="padding: 0 20px;font-size: 13px;" id="product-cate-0" data-name="All">
+                                                                            <a role="button" onClick="getProductByPCate(0)">All</a>
+                                                                        </li>`)
       response.forEach((item) => {
-        count++;
-        let li = `<li style="padding: 0 20px;font-size: 13px;" id="product-cate-${count}">
-                            <a role="button" onClick="getProductByPCate(${item.id}, ${item.name})">${item.name}</a>
-                        </li>`;
-        $("#product-cate-list").children("ul").find("div").append(li);
+        let li = `<li style="padding: 0 20px;font-size: 13px;" id="product-cate-${item.id}" data-name="${item.name}">
+                            <a role="button" onClick="getProductByPCate(${item.id})">${item.name}</a>
+                        </li>`
+        $("#product-cate-list").children("ul").find("div").append(li)
       });
     },
     error: function (data) {
-      alert(data.responseText.message);
+      alert(data.responseText.message)
     },
   });
 }
-getProductCateList(0);
-getProductByPCate(0, "All");
-function getProductByPCate(pCateId, cateName) {
-  $("#product-cate-list").find("button").text(cateName);
-
+getProductCateList(0)
+function getProductByPCate(pCateId) {
+  $("#product-cate-list").find("button").text($(`#product-cate-${pCateId}`).attr('data-name'));
+  console.log($(`#product-cate-${pCateId}`).attr('data-name'))
   $.ajax({
     url: "Product/GetProductsByPCate?categoryId=" + pCateId,
     type: "get",
@@ -804,14 +801,13 @@ function getProductByPCate(pCateId, cateName) {
     success: function (response) {
       $("#div-product").empty();
       response.forEach((item) => {
-        let li = `<li id="li-product-${item.id}" class="col-sm-12 mb-3" data-photo="../../img/defaults/shop-07-1-1-768x768.jpeg" data-name="${item.name}" data-code="${item.code}" 
-                      data-price="${item.price}" data-qty="1" ${item.color != "null" ? 'data-color="'+item.color+'"' : ''} 
-                      ${item.length != "null" ? 'data-length="'+item.length+'"':''} ${item.width != "null" ? 'data-width="'+item.width+'"' : ''} 
-                      ${item.height != "null" ? 'data-height="'+item.height+'"' : ''} data-productId="${item.id}" data-attributeId="" >
+        let li = `<li id="li-product-${item.id}" class="col-sm-12 mb-3" data-photo="../../img/ProductThumbnail/${item.thumbnail}" data-name="${item.name}" data-code="${item.code}" 
+                      data-price="${item.price}" data-qty="1" data-color="${item.color}" data-productId="${item.id}" data-attributeId="" 
+                      data-length="${item.length}" data-width="${item.width}" data-height="${item.height}">
                     <div class="align-items-center row"
                         style="line-height: 30px;">
                         <div class="col-1 d-flex justify-content-center">
-                            <img src="../../img/defaults/shop-07-1-1-768x768.jpeg"
+                            <img src="../../img/ProductThumbnail/${item.thumbnail}"
                                 alt="" width="30" height="30">
                         </div>
                         <div class="align-items-center col-11 d-flex justify-content-between text-center">
@@ -845,6 +841,7 @@ function getProductByPCate(pCateId, cateName) {
     },
   });
 }
+getProductByPCate(0)
 
 function getProductAttributeByProduct(productId) {
     $.ajax({
@@ -853,8 +850,7 @@ function getProductAttributeByProduct(productId) {
         dataType: 'json',
         contentType: 'application/json',
         success: function(response){
-            console.log(response)
-            let div = `<div style="border: 1px solid rgba(119, 119, 119, 0.2);">
+           let div = `<div style="border: 1px solid rgba(119, 119, 119, 0.2);">
                         <div class="dropdown" id="product-attribute-list-${productId}" style="height: 40px;">
                             <a class="btn dropdown-toggle p-0 tg-pattribute"
                                 href="#" role="button"
@@ -930,13 +926,13 @@ function selectAttribute(attributeId, productId){
   let item = $(`#li-attribute-${attributeId}`).children('a')
   let id = item.attr('data-id') != "null" ? item.data('data-id') : ""
   let color = item.attr('data-color')
-  let length = item.attr('data-length') != "null" ? "L:"+item.attr('data-length') : ""
-  let width = item.attr('data-width') != "null" ? "W:"+item.attr('data-width') : ""
-  let height = item.attr('data-height') != "null" ? "H:"+item.attr('data-height') : ""
+  let length = item.attr('data-length')
+  let width = item.attr('data-width')
+  let height = item.attr('data-height')
   let qty = item.attr('data-qty') != "null" ? item.attr('data-qty') : ""
   let price = item.attr('data-price') != "null" ? item.attr('data-price') : ""
 
-  let attribute = length+width+height
+  let attribute = (length != "null" ? "L:"+length :'')+(width != "null" ? "W:"+width : "")+(height != "null" ? "H:"+height : "")
   let text = `<div style="height: 15px;width: 15px;${color != "null" ? "background-color: "+color+";" : ""}" 
                   class="mr-2 ${color != "null" ? "d-block" : "d-none"}"></div>
               <p class="mb-0">${attribute}</p>`
@@ -983,11 +979,11 @@ function addQty(productId){
   $(`#li-product-${productId}`).attr('data-qty', qty.val())
 }
 
+let regexQty = new RegExp("^[0-9]*$")
 function modifyQty(productId){
   let input = $(`#modify-qty-${productId}`).children('input')
   let stock = $(`#attr-qty-${productId}`).attr('data-qty')
-  var regex = new RegExp("^[0-9]*$")
-  if(regex.test(input.val())){
+  if(regexQty.test(input.val())){
     if(parseInt(input.val()) > parseInt(stock)) input.val(stock)
     if(parseInt(input.val()) < 1) input.val(1)
   } else input.val(1)
@@ -995,6 +991,8 @@ function modifyQty(productId){
 }
 
 //add to cart
+let totalcart = 0
+totalCart()
 function addToCart(productId){
   let rows = parseInt($('#tbody-product').attr('data-rows'))
   if(rows == 0) $('#tbody-product').children('#tbody-default').remove()
@@ -1009,15 +1007,15 @@ function addToCart(productId){
   let length = $(`#li-product-${productId}`).attr('data-length')
   let width = $(`#li-product-${productId}`).attr('data-width')
   let height = $(`#li-product-${productId}`).attr('data-height')
+  let productAttribute = productId+(attribute != '' ? "-"+attribute : '-0')
+  let subtotal = parseFloat(price)*parseInt(qty)
   let tr = `<tr class="postalservice-cart-form__cart-item cart_item" data-product="${productId}" data-photo="${photo}" data-code="${code}"
-                data-name="${name}" data-qty="${qty}" data-price="${price}"
-                ${attribute != "null" ? 'data-attribute="'+attribute+'"' : ''} 
-                ${color != "null" ? 'data-color="'+color+'"' : ''} 
-                ${length != "null" ? 'data-length="'+length+'"':''} 
-                ${width != "null" ? 'data-width="'+width+'"' : ''} 
-                ${height != "null" ? 'data-height="'+height+'"' : ''} id="tr-product-${productId}">
+                data-name="${name}" data-qty="${qty}" data-price="${price}" data-subtotal="${subtotal}"
+                data-attribute=""  data-color="${color}" data-length="${length}"
+                data-width="${width}" data-height="${height}" id="tr-product-${productAttribute}">
               <td class="product-remove">
-                <button id="btn-remove-product-${productId}" onClick="removeProduct(${productId})" type="button" style="border-radius: 50%;background-color: transparent;color: #dc3545;padding: 0 10px;">
+                <button id="btn-remove-product-${productAttribute}" 
+                        onClick="removeProduct(${productId}, ${attribute == '' ? 0 : parseInt(attribute)})" type="button" style="border-radius: 50%;background-color: transparent;color: #dc3545;padding: 0 10px;">
                  <i class="fa-solid fa-trash-can"></i>
                 </button>
               </td>
@@ -1032,9 +1030,9 @@ function addToCart(productId){
                 <p class="mb-0">#${code}</p>
               </td>
               <td class="product-type d-flex align-items-center" style="line-height: 3.5rem; height: 4.5rem;">
-                <div style="height: 15px;width: 15px;${color != "undefined" ? "background-color: "+color+";" : ""}" 
-                  class="mr-2 ${color != undefined ? "d-block" : "d-none"}"></div>
-                <p class="mb-0">${length != undefined ? "H:"+length : ""} ${width != undefined ? "W:"+width : ""} ${height != undefined ? "H:"+height : ""}</p>
+                <div style="height: 15px;width: 15px;${(color != undefined && color != 'null')? "background-color: "+color+";" : ""}" 
+                  class="mr-2 ${(color != undefined && color != 'null')? "d-block" : "d-none"}"></div>
+                <p class="mb-0">${(length != undefined && length != 'null') ? "L:"+length : ""} ${(width != undefined && width != 'null') ? "W:"+width : ""} ${(height != undefined && height != 'null') ? "H:"+height : ""}</p>
               </td>
               <td class="product-price">
                 <span class="postalservice-Price-amount amount">
@@ -1043,53 +1041,164 @@ function addToCart(productId){
               </td>
               <td class="product-quantity">
                 <div class="quantity">
-                  <input type="number" class="input-text qty text" step="1" min="0" max="" name="" onchange="changeCartQty(${productId})"
-                   value="${qty}" size="4" inputmode="numeric" id="cart-qty-${productId}">
+                  <input type="number" class="input-text qty text" step="1" min="0" max="" name="" onchange="changeCartQty(${productId}, ${attribute == '' ? 0 : parseInt(attribute)})"
+                    oninput="changeCartQty(${productId}, ${attribute == '' ? 0 : parseInt(attribute)})" value="${qty}" inputmode="numeric" 
+                    id="cart-qty-${productAttribute}">
                 </div>
               </td>
               <td class="product-subtotal">
                 <span class="postalservice-Price-amount amount">
-                ${(parseFloat(price)*parseInt(qty)).toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})}
+                ${subtotal.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})}
                 </span>
               </td>
             </tr>`
-  $('#tbody-product').append(tr)
-  $('#tbody-product').attr('data-rows', (rows + 1))
+  let trProduct = `tr-product-${productAttribute}`
+  let cartQty = `cart-qty-${productAttribute}`
+  if($('#tbody-product').find(`#${trProduct}`).length && $('#tbody-product').find(`#${trProduct}`).attr('data-attribute') == '' || 
+     $('#tbody-product').find(`#${trProduct}`).length && $('#tbody-product').find(`#${trProduct}`).attr('data-attribute') == attribute){
+    let cummulativeQty = parseInt($(`#${cartQty}`).val())
+    let urlchangeCartQty = attribute == '' ? ('Product/GetProduct?productId='+productId) : ('Product/GetProductAttribute?attributeId='+parseInt(attribute))
+    $.ajax({
+      url: urlchangeCartQty,
+      type: 'get',
+      dataType: 'json',
+      async: false,
+      contentType: 'application/json',
+      success: function(response){
+        if((cummulativeQty + parseInt(qty)) > response.qty){
+            toastAlert('Product quantity', `Quantity must not exceed ${response.qty}`, info)
+            cummulativeQty = response.qty - cummulativeQty
+            console.log(cummulativeQty+"x"+price)
+            $(`#${cartQty}`).attr('value', response.qty)
+            $(`#${cartQty}`).val(response.qty )
+            $(`#${trProduct}`).attr('data-qty', response.qty)
+            $(`#${trProduct}`).attr('data-subtotal', response.qty*price)
+            $(`#${trProduct}`).find('.product-subtotal span').text((response.qty *price).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}))
+            totalcart += (parseFloat(price)*parseInt(cummulativeQty))
+            updateTotal(productAttribute, response.qty)
+        } else {
+          cummulativeQty += parseInt(qty)
+          console.log(cummulativeQty)
+          $(`#${cartQty}`).attr('value', cummulativeQty)
+          $(`#${cartQty}`).val(cummulativeQty)
+          $(`#${trProduct}`).attr('data-qty', cummulativeQty)
+          $(`#${trProduct}`).attr('data-subtotal', cummulativeQty*price)
+          $(`#${trProduct}`).find('.product-subtotal span').text((cummulativeQty*price).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}))
+          totalcart += (parseFloat(price)*parseInt(qty))
+          updateTotal(productAttribute, cummulativeQty)
+        }
+      },
+      error: function(data){
+        alert(data.responseText.message)
+      }
+    })
+  } else {
+    $('#tbody-product').append(tr)
+    $('#tbody-product').attr('data-rows', (rows + 1))
+    $(`#${trProduct}`).attr('data-attribute', attribute)
+    totalcart += (parseFloat(price)*parseInt(qty))
+    totalCart()
+  }
 }
 
 let emptyCart = `<tr id="tbody-default"><td colspan="7" class="text-center">Empty cart</td></tr>`
 
 //removeProduct
-function removeProduct(productId){
-  $('#tbody-product').children(`#tr-product-${productId}`).remove()
+function removeProduct(productId, attributeId){
+  let productAttribute = productId+(attributeId != '' ? "-"+attributeId : '-0')
+  let trProduct = `tr-product-${productAttribute}`
+  console.log(trProduct)
+  let subtractPrice = $('#tbody-product').children(`#${trProduct}`).attr('data-subtotal')
+  $('#tbody-product').children(`#${trProduct}`).remove()
   let rowCount = document.getElementById('tbody-product').childElementCount ?? 0
   if(rowCount == 0) {
     $('#tbody-product').append(emptyCart)
     $('#tbody-product').attr('data-rows', rowCount)
+    totalcart = 0
+    totalCart()
     return
   }
   $('#tbody-product').attr('data-rows', document.getElementById('tbody-product').childElementCount)
+  totalcart -= subtractPrice
+  totalCart()
 }
 
 //change qty in cart
-function changeCartQty(productId){
- let qty = $(`cart-qty-${productId}`)
- console.log(qty.val())
- if(qty.val() < 1) qty.val(1)
- $.ajax({
-   url: 'Product/GetProduct?productId='+productId,
-   type: 'get',
-   dataType: 'json',
-   contentType: 'application/json',
-   success: function(response){
-    if(qty.val() > response.qty){
-      qty.val(response.qty)
+function changeCartQty(productId, attributeId){
+  let urlchangeCartQty = attributeId == '' ? ('Product/GetProduct?productId='+productId) : ('Product/GetProductAttribute?attributeId='+parseInt(attributeId))
+  let cartQty = productId+(attributeId != '' ? "-"+attributeId : '-0')
+  let qty = $(`#cart-qty-${cartQty}`)
+  if(regexQty.test(qty.val())){
+    if(parseInt(qty.val()) < 1) 
+      qty.val(1)
+    if(parseInt(qty.val()) == 1)
+      updateTotal(cartQty, 1)
+    if(parseInt(qty.val()) > 1){
+      $.ajax({
+        url: urlchangeCartQty,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response){
+          if(parseInt(qty.val()) > response.qty){
+              toastAlert('Product quantity', `Quantity must not exceed ${response.qty}`, info)
+              qty.val(response.qty)
+              updateTotal(cartQty, response.qty)
+          } else updateTotal(cartQty, parseInt(qty.val()))
+        },
+        error: function(data){
+          alert(data.responseText.message)
+        }
+      })
     }
-   },
-   error: function(data){
-      alert(data.responseText.message)
-   }
- })
+  }
+}
+
+//cart total
+function updateTotal(id, qty){
+  let subtractSubtotal = $(`#tr-product-${id}`).attr('data-subtotal')
+  let subtotal = parseFloat($(`#tr-product-${id}`).attr('data-price'))*parseInt(qty)
+  $(`#tr-product-${id}`).children('.product-subtotal').find('span').text(subtotal.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'}))
+  $('#tbody-product').children(`#tr-product-${id}`).attr('data-subtotal', subtotal)
+  totalcart = totalcart - subtractSubtotal + subtotal
+  totalCart()
+}
+function totalCart(){
+  $(`#tbody-total-cart`).children('.cart-subtotal').find('span').text(totalcart.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'}))
+  $(`#tbody-total-cart`).children('.order-total').find('span').text(totalcart.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'}))
+}
+
+//toast
+const error = 0
+const success = 1
+const info = 2
+const warning = 3
+function toastAlert(title, message, status){
+  let icon
+  switch(status){
+    case success:
+      icon = 'success'
+      break
+    case error:
+      icon = 'error'
+      break
+    case info:
+      icon = 'info'
+      break
+    case warning:
+      icon = 'warning'
+      break
+  }
+  $.toast({
+    heading : title,
+    text : message,
+    position : {left:600,top:120},
+    stack: false,
+    allowToastClose: true,
+    showHideTransition: 'fade',
+    hideAfter: 3000,
+    icon : icon
+  })
 }
 
 window.addEventListener("click", function (e) {
@@ -1104,3 +1213,5 @@ window.addEventListener("click", function (e) {
     $("#product-list").children("ul").css("display", "none");
   }
 });
+
+//sender

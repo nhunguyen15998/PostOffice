@@ -128,7 +128,15 @@ $('#choose-branch').children('ul').on('mouseleave', () => {
 
 ////////////////////PICKUP---PROVINCE---DISTRICT---WARD
 
+//get provinces
+function getProvinces(){
+    $.ajax({
+        url : ''
+    })
+}
+//get districts by province
 
+//get wards by district
 
 
 

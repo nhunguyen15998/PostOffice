@@ -19,7 +19,10 @@
 	}
 
 	div#service-list>ul[data-popper-placement="bottom-start"],
-	div#product-cate-list>ul[data-popper-placement="bottom-start"] {
+	div#product-cate-list>ul[data-popper-placement="bottom-start"],
+	div#sender-province>ul[data-popper-placement="bottom-start"],
+	div#sender-district>ul[data-popper-placement="bottom-start"],
+	div#sender-ward>ul[data-popper-placement="bottom-start"] {
 		transform: translate3d(0px, 51px, 0px) !important;
 	}
 
@@ -314,27 +317,80 @@
 																			</div>
 																			<div class="col-sm-6">
 																				<div class="input-group">
-																					<span
-																						class="postoffice-form-control-wrap">
-																						<select name="from-province"
-																							id="from-ward"
-																							data-placeholder="Select state/province…"
-																							tabindex="-1"
-																							aria-hidden="true">
-																							<option value="">Select
-																								state/province…
-																							</option>
-																							<option value="EH">Western
-																								Sahara
-																							</option>
-																							<option value="YE">Yemen
-																							</option>
-																							<option value="ZM">Zambia
-																							</option>
-																							<option value="ZW">Zimbabwe
-																							</option>
-																						</select>
-																					</span>
+																					<div style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+																						<div class="dropdown" id="sender-province"
+																							style="height: 51px;">
+																							<a class="btn dropdown-toggle"
+																								href="#" role="button"
+																								id="select-sender-province"
+																								data-bs-toggle="dropdown"
+																								aria-expanded="false"
+																								style="height: 100%; width: 100%;">
+																								<button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+																									class="btn-sm">Select province</button>
+																							</a>
+																							<ul class="dropdown-menu p-0"
+																								aria-labelledby="select-sender-province"
+																								style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
+																								<li style="padding: 0 20px;font-size: 14px;">--Select province</li>
+																								<div style="overflow: hidden scroll;height: 100px;"> </div>
+																							</ul>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-12">
+																		<div class="row">
+																			<div class="col-sm-6">
+																				<div class="input-group">
+																					<div style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+																						<div class="dropdown" id="sender-district"
+																							style="height: 51px;">
+																							<a class="btn dropdown-toggle"
+																								href="#" role="button"
+																								id="select-sender-district"
+																								data-bs-toggle="dropdown"
+																								aria-expanded="false"
+																								style="height: 100%; width: 100%;">
+																								<button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+																									class="btn-sm">Select district</button>
+																							</a>
+																							<ul class="dropdown-menu p-0"
+																								aria-labelledby="select-sender-district"
+																								style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
+																								<li style="padding: 0 20px;font-size: 14px;">--Select district</li>
+																								<div style="overflow: hidden scroll;height: 100px;"> </div>
+																							</ul>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-sm-6">
+																				<div class="input-group">
+																					<div style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+																						<div class="dropdown" id="sender-ward"
+																							style="height: 51px;">
+																							<a class="btn dropdown-toggle"
+																								href="#" role="button"
+																								id="select-sender-ward"
+																								data-bs-toggle="dropdown"
+																								aria-expanded="false"
+																								style="height: 100%; width: 100%;">
+																								<button style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+																									class="btn-sm">Select ward</button>
+																							</a>
+																							<ul class="dropdown-menu p-0"
+																								aria-labelledby="select-sender-ward"
+																								style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
+																								<li style="padding: 0 20px;font-size: 14px;"> --Select ward</li>
+																								<div style="overflow: hidden scroll;height: 100px;"></div>
+																							</ul>
+																						</div>
+																					</div>
 																				</div>
 																			</div>
 																		</div>
@@ -342,54 +398,11 @@
 																</div>
 																<div class="row mb-5">
 																	<div class="col-sm-12">
-																		<div class="row">
+																		<div class="row justify-content-end">
 																			<div class="col-sm-6">
 																				<div class="input-group">
-																					<span
-																						class="postoffice-form-control-wrap">
-																						<select name="from-district"
-																							id="from-district"
-																							data-placeholder="Select city/district…"
-																							tabindex="-1"
-																							aria-hidden="true">
-																							<option value="">Select
-																								city/district…
-																							</option>
-																							<option value="EH">Western
-																								Sahara
-																							</option>
-																							<option value="YE">Yemen
-																							</option>
-																							<option value="ZM">Zambia
-																							</option>
-																							<option value="ZW">Zimbabwe
-																							</option>
-																						</select>
-																					</span>
-																				</div>
-																			</div>
-																			<div class="col-sm-6">
-																				<div class="input-group">
-																					<span
-																						class="postoffice-form-control-wrap">
-																						<select name="from-ward"
-																							id="from-province"
-																							data-placeholder="Select ward…"
-																							tabindex="-1"
-																							aria-hidden="true">
-																							<option value="">Select
-																								ward…
-																							</option>
-																							<option value="EH">Western
-																								Sahara
-																							</option>
-																							<option value="YE">Yemen
-																							</option>
-																							<option value="ZM">Zambia
-																							</option>
-																							<option value="ZW">Zimbabwe
-																							</option>
-																						</select>
+																					<span class="postoffice-form-control-wrap">
+																						<p id="pickup-fee">Pickup fee: 0</p>
 																					</span>
 																				</div>
 																			</div>
@@ -1135,19 +1148,17 @@
 											<div class="cart_totals ">
 												<h2>Cart totals</h2>
 												<table cellspacing="0" class="shop_table shop_table_responsive">
-													<tbody>
+													<tbody id="tbody-total-cart">
 														<tr class="cart-subtotal">
 															<th>Subtotal</th>
-															<td data-title="Subtotal"><span
-																	class="postalservice-Price-amount amount"><bdi><span
-																			class="postalservice-Price-currencySymbol">£</span>41.00</bdi></span>
+															<td data-title="Subtotal">
+																<span class="postalservice-Price-amount amount"></span>
 															</td>
 														</tr>
 														<tr class="order-total">
 															<th>Total</th>
-															<td data-title="Total"><strong><span
-																		class="postalservice-Price-amount amount"><bdi><span
-																				class="postalservice-Price-currencySymbol">£</span>41.00</bdi></span></strong>
+															<td data-title="Total">
+																<span class="postalservice-Price-amount amount" style="font-weight: bold;"></span>
 															</td>
 														</tr>
 													</tbody>
