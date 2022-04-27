@@ -20,6 +20,7 @@ namespace post_office.Services
         string GetPrice(int pid);
         ProductModel GetProduct(int id);
         bool RemoveProductAttribute(int pid);
+        bool RemoveProducts(List<int> ls);
     }
     public class ProductService : IProductService
     {
@@ -72,7 +73,7 @@ namespace post_office.Services
         {
             return ct.Products.Where(x => categoryId != 0 ? x.CategoryId == categoryId : true)
                               .Where(x => status == 1 ? x.Status == status : true)
-                              .Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
+                              .Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code,categoryName=ct.ProductCategories.FirstOrDefault(y=>y.Id==x.Id).Name, categoryId= x.CategoryId,description=x.Description, price=x.Price, qty=x.Qty, thumbnail=x.Thumbnail, status=x.Status, createdAt = (DateTime)x.CreatedAt }).ToList();
         }
         public List<ProductAttributeModel> GetListProductAttribute(int productId)
         {
@@ -134,6 +135,21 @@ namespace post_office.Services
             ct.SaveChanges();
             return true;
         }
+        public bool RemoveProducts(List<int> ls)
+        {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var r = ct.Products.FirstOrDefault(x => x.Id == item);
+                if (r != null)
+                {
+                        ct.Products.Remove(r);
+                        ct.SaveChanges();
+                }
+            }
+            return check;
+        }
+
 
     }
 }

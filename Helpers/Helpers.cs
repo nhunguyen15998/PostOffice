@@ -1,5 +1,10 @@
+using MailKit.Net.Smtp;
+using MimeKit;
+using post_office.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 using System.Text.RegularExpressions;
 
 namespace post_office.Helpers
@@ -46,6 +51,34 @@ namespace post_office.Helpers
         public static bool IsNumber(string text)
         {
             return _regex.IsMatch(text);
+        }
+        public static string RandomVerifyCode()
+        {
+            Random r = new Random();
+            int randNum = r.Next(1000000);
+            return randNum.ToString("D6");
+        }
+        public static VerifyModel SendVerifyCode(string email,string userName,bool ISForUser, bool type)
+        {
+            //type==true=>verify to setup. false: verify account
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Postal office" + (type == true ? " - set up new password" : ""), "postaloffice.hcmc@gmail.com"));
+            message.To.Add(new MailboxAddress("", email));
+            message.Subject = "Verify your email";
+            string vcode = RandomVerifyCode();
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Hello {userName}, This is your confirmation code, please do not share with anyone: {vcode} \n *The code is valid for 5 minutes*"
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("postaloffice.hcmc@gmail.com", "Abc123@@");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+            return new VerifyModel() { email = email, created_at = DateTime.Now, isForUser = ISForUser, verify_code = vcode };
+
         }
         public enum DefaultStatus
         {

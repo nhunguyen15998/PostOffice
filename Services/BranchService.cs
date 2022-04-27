@@ -15,8 +15,8 @@ namespace post_office.Services
         BranchModel SaveBranch(BranchModel mdl);
         List<BranchModel> GetListBranch();
         bool ModifyBranch(BranchModel mdl);
-        string GetAddressBranch(int id);
         bool RemoveBranches(List<int> ls);
+        BranchModel GetBranch(int id);
     }
 
     public class BranchService : IBranchService
@@ -69,7 +69,10 @@ namespace post_office.Services
         }
         public List<BranchModel> GetListBranch()
         {
-            return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name, phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, status = x.Status }).ToList();
+            return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, 
+                                                                    code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name,
+                                                                    phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, 
+                                                                    status = x.Status, addressString=(x.Address + ", " + _context.VNWards.FirstOrDefault(y => y.Id ==x.WardId).Name + ", " + _context.VNCities.FirstOrDefault(y => y.Id == x.CityId).Name + ", " + _context.VNStates.FirstOrDefault(y => y.Id == x.ProvinceId).Name) }).ToList();
         }
         public bool ModifyBranch(BranchModel mdl)
         {
@@ -89,17 +92,7 @@ namespace post_office.Services
             }
             return false;
         }
-        public string GetAddressBranch(int id)
-        {
-            var res = "";
-            var m = _context.Branches.FirstOrDefault(x => x.Id == id);
-            if (m != null)
-            {
-                res += m.Address + ", " + _context.VNWards.FirstOrDefault(x => x.Id == m.WardId).Name + ", " + _context.VNCities.FirstOrDefault(x => x.Id == m.CityId).Name + ", " + _context.VNStates.FirstOrDefault(x => x.Id == m.ProvinceId).Name;
-
-            }
-            return res;
-        }
+      
         public bool RemoveBranches(List<int> ls)
         {
             bool check = true;
@@ -122,5 +115,10 @@ namespace post_office.Services
             }
             return check;
         }
+        public BranchModel GetBranch(int id)
+        {
+             return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name, phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, status = x.Status }).FirstOrDefault(x => x.id == id);
+        }
+
     }
 }

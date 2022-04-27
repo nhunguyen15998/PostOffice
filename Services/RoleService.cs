@@ -15,10 +15,11 @@ namespace post_office.Services
         List<RoleModel> GetListRole();
         List<RolePermissionModel> GetListRolePermission();
         bool ModifyRole(RoleModel model);
-        void RemoveRole(int id);
         List<PermissionModel> GetListPermission();
         void RemoveRolePermission(int mdl);
         void CreateRolePermission(RolePermissionModel mdl);
+        bool RemoveRole(List<int> ls);
+        RoleModel GetRole(int id);
     }
     public class RoleService : IRoleService
     {
@@ -46,17 +47,7 @@ namespace post_office.Services
 
             return false;
         }
-        public void RemoveRole(int id)
-        {
-            var w = _context.Roles.FirstOrDefault(x => x.Id == id);
-            if (w != null)
-            {
-                _context.Roles.Remove(w);
-                _context.SaveChanges();
-            }
-
-        }
-
+    
         public List<RoleModel> GetListRole()
         {
             return _context.Roles.Select(x => new RoleModel() { id = x.Id, name = x.Name, code = x.Code, createdAt = (DateTime)x.CreatedAt }).ToList();
@@ -85,7 +76,33 @@ namespace post_office.Services
            
                 _context.RolePermissions.Add(new RolePermission() {PermissionId=mdl.pmsId, RoleId=mdl.roleId, CreatedAt=mdl.createdAt});
                 _context.SaveChanges();
-            
+        }
+        public RoleModel GetRole(int id)
+        {
+          return   _context.Roles.Select(x => new RoleModel() { id = x.Id, name = x.Name, code = x.Code, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.id == id);
+
+        }
+        public bool RemoveRole(List<int> ls)
+        {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var r = _context.Roles.FirstOrDefault(x => x.Id == item);
+                if (r != null)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.RoleId == r.Id);
+                    if (user == null)
+                    {
+                        _context.Roles.Remove(r);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        check = false;
+                    }
+                }
+            }
+            return check;
         }
     }
 

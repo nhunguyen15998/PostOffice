@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,12 @@ namespace post_office.Controllers.Administrator
     {
         public IActionResult Index()
         {
-            return View();
+            if (AuthenticetionModel.id != 0)
+            {
+
+                return View();
+            }
+            else return RedirectToAction("Login", "User");
         }
     }
 }

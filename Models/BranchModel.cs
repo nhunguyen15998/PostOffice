@@ -33,6 +33,7 @@ namespace post_office.Models
         public int provinceId { get; set; }
         public DateTime createdAt { get; set; }
         public int status { get; set; }
+        public string addressString { get; set; }
     }
 
     public class ReadBranchModel

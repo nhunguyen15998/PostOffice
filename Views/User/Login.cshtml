@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "";
+}
+<!doctype html>
+<html lang="en-US" class="default">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+
+<body id="index" style="margin:0">
+    <style>
+        /*scroll menu*/
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+        /* Track */
+        body::-webkit-scrollbar-track {
+            background: #61B4B9;
+        }
+        /* Handle */
+        body::-webkit-scrollbar-thumb {
+            background: #f4bc5b;
+            border-radius: 10px;
+        }
+            /* Handle on hover */
+            body::-webkit-scrollbar-thumb:hover {
+                background: #ee8431;
+                cursor: grabbing;
+            }
+
+        .inputType {
+            padding: 10px 0.85vw;
+            border: 1.8px solid #e2bd7e;
+            border-radius: 3px;
+            color: #154b33;
+            background: rgb(255 255 255 / 0.78)
+        }
+
+            .inputType:focus {
+                background: rgb(255 255 255 / 0.98);
+                border: 2px solid #f9d632;
+                font-weight: 500;
+                color: #b97710;
+                outline: none
+            }
+
+        .btnSignup {
+            background: #f9d632;
+            border: 2px solid #f9d632;
+            color: white;
+            padding: 10px 12px;
+            margin-bottom: 8vh;
+        }
+
+            .btnSignup:hover, .btnSignup:focus {
+                background: white;
+                border: 2px solid #f9d632;
+                font-weight: 700;
+                color: #f9d632;
+                outline: none
+            }
+    </style>
+    <main id="page">
+        <img src="~/img/bgc.jpg" style="width:100%" />
+        @* <div style="top:10px; position:absolute;" class="col-12">
+                <div class="container col-5" id="message" style="background: #61B4B9;display:none">
+                    <label class="container mb-2 mt-1" >
+                        <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                       error
+                    </label>
+                </div>
+            </div>*@
+        @{
+            string user = "", pass = "";
+            if (TempData["user"] != null)
+            {
+                user = TempData["user"].ToString();
+                pass = TempData["pass"].ToString();
+            }
+        }
+        <div class="col-12" style="top:21vh; position:absolute;">
+            <div class="col-5" style="background-image: linear-gradient(150deg, #f2fffe, #bbffde); opacity: 0.85; border-radius: 15px; height: 62vh; left: 8vw; display: table; box-shadow: 0 0 8rem 2rem rgb(218 255 246);border:3px solid #d7fdfa ">
+                <form action="@Url.Action("LoginAction","User")" method="post" class="container form-signup col-8" style="min-height:300px; text-align:left">
+                    <div style="text-align:center;margin:8vh auto 2vh auto" class="col-12">
+                        <img src="~/img/defaults/logo.png" style=" width: 55%;" />
+                    </div>
+                    <h3 class="container" style="color: #f4cf24; text-align: center; margin-bottom: 3vh; letter-spacing: 2px">LOGIN</h3>
+                    <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="phone" id="user_name" name="username" type="text" value="@user" />
+                    <input class="inputType col-lg-12  contaiter" placeholder="password" name="psw" type="password" value="@pass" />
+                    <a id="forgot-password" style="color: #993829; font-size: 13px;cursor:pointer;text-decoration:underline; ">Forgot password?</a>
+
+                    @if (TempData["ErrorLogin"] != null)
+                    {
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+                        <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40)" id="msgerror">
+                            <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                            @TempData["ErrorLogin"]
+                        </label>
+                        TempData["ErrorLogin"] = null;
+                        <script type="text/javascript">
+                            $("#msgerror").delay(2000).fadeOut(300);
+                        </script>
+
+                    }
+
+                    <button type="submit" class="btnSignup col-lg-12 mt-2">Login</button>
+
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer style="background:rgb(107 159 141 / 0.63); color: white; height: 60px; z-index: 10; position: fixed; bottom: 0; text-align: center; padding: 18px 0" class="col-12">
+        © 2022 Copyright: Postal Offical Services
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $("#show").click(function () {
+            $("#message").css("display", "block");
+            $("#message").delay(2000).fadeOut(300);
+        });
+        $("#forgot-password").click(function () {
+            if (confirm("Are you sure you forgot the password?")) {
+                var formData = new FormData();
+                formData.append("phone", $("#user_name").val());
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckPhoneUser", "User")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     if (data) {
+                         window.location.href = "@Url.Action("VerifyUser","User", new { type=0})";
+
+                     } else alert("Please enter the exact phone number and try again")
+
+                }
+            });
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>

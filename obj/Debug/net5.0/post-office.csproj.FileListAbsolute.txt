@@ -484,7 +484,6 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\SignIn.
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\SignUp.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\_ViewStart.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Dashboard.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Login.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\_ViewStart.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Detail.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Index.cshtml.g.cs
@@ -551,3 +550,5 @@ C:\CSharp\Project_PostOffice\bin\Debug\net5.0\System.Drawing.Common.dll
 C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
 C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
 C:\CSharp\Project_PostOffice\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\User\Login.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\User\VerifyUser.cshtml.g.cs
