@@ -485,8 +485,6 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\SignUp.
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\_ViewStart.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\Dashboard.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\_ViewStart.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Detail.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Blog\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Contact\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\MyAccount.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Bill.cshtml.g.cs

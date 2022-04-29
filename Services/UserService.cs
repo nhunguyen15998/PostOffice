@@ -12,7 +12,10 @@ namespace post_office.Services
         UserModel SaveUser(UserModel mdl);
         UserModel LoginAction(string uName, string psw);
         List<UserModel> GetListUser();
-        bool ModifyUser(UserModel mdl);
+        //setup true: forgot password, my account .false: update info user
+        bool ModifyUser(UserModel mdl, bool setup);
+        UserModel GetUser(int id);
+        bool ChangeStatusListUser(List<int> ls, int status);
     }
     public class UserService : IUserService
     {
@@ -24,22 +27,27 @@ namespace post_office.Services
         }
         public UserModel SaveUser(UserModel mdl)
         {
+            int brnId = mdl.branchId;
+            if (AuthenticetionModel.roleName != "Super Admin")
+                brnId = AuthenticetionModel.branchId;
+
             var w = new User()
             {
                 Avatar = mdl.avatar,
-                BranchId = mdl.branchId,
+                BranchId = brnId,
                 Code = Helpers.Helpers.RandomCode(),
                 CreatedAt = DateTime.Now,
                 CreatedBy = AuthenticetionModel.id,
                 Email = mdl.email,
                 FullName = mdl.fullName,
                 Password = BCrypt.Net.BCrypt.HashPassword(mdl.password),
-                 Phone=mdl.phone,
-                 RoleId=mdl.roleId,
-                 Status=mdl.status
+                Phone=mdl.phone,
+                RoleId=mdl.roleId,
+                Status=mdl.status
             
             };
             _context.Users.Add(w);
+            _context.SaveChanges();
             mdl.id = w.Id;
             return mdl;
         }
@@ -60,22 +68,50 @@ namespace post_office.Services
         {
             return _context.Users.Select(x => new UserModel() { id = x.Id,email=x.Email, avatar = x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role=_context.Roles.FirstOrDefault(y=>y.Id==x.RoleId).Name, branch=_context.Branches.FirstOrDefault(z=>z.Id==x.BranchId).Name }).ToList();
         }
-        public bool ModifyUser(UserModel u)
+        public bool ModifyUser(UserModel u, bool setup)
         {
+            //setup true: forgot password, my account .false: update info user
             var us = _context.Users.FirstOrDefault(x => x.Id == u.id);
 
             if (us != null)
             {
-                us.Password = u.password;
-                us.Phone = u.phone;
+                if (setup||AuthenticetionModel.roleName=="Super Admin")
+                {
+                    us.Password = u.password;
+                    us.Phone = u.phone;
+                }
                 us.FullName = u.fullName;
+                us.Email = u.email;
+                us.BranchId = u.branchId==0?null:u.branchId;
+                us.RoleId = u.roleId;
                 us.Status = u.status;
                 us.Avatar = u.avatar;
                 if (us.Id == AuthenticetionModel.id&&us.Status==0) return false;
                 _context.SaveChanges();
-                return true;
             }
             return true; 
         }
+        public UserModel GetUser(int id)
+        {
+            return _context.Users.Select(x => new UserModel() { id = x.Id, email = x.Email, avatar = x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role = _context.Roles.FirstOrDefault(y => y.Id == x.RoleId).Name, branch = _context.Branches.FirstOrDefault(z => z.Id == x.BranchId).Name }).FirstOrDefault(x => x.id == id);
+        }
+        public bool  ChangeStatusListUser(List<int> ls, int status) {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var us = _context.Users.FirstOrDefault(x => x.Id == item);
+                if (us != null)
+                {
+                    if (us.Id == AuthenticetionModel.id && status == 0) { check = false;}
+                    else if (us.Status != status) us.Status = status;
+                    _context.SaveChanges();
+                    
+                }
+
+
+            }
+            return check;
+        }
+
     }
 }

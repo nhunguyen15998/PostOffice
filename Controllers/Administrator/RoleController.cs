@@ -13,6 +13,7 @@ namespace post_office.Controllers.Administrator
     {
         //parameters
         public static int roleId = 0;
+        public static int page = 1;
         public static string mess = string.Empty;
         public static List<int> before = new List<int>();
         public static IRoleService _rolesvc = null;
@@ -26,7 +27,8 @@ namespace post_office.Controllers.Administrator
             if (AuthenticetionModel.id != 0)
             {
                 ls_role_pms = _rolesvc.GetListRolePermission();
-                ls = _rolesvc.GetListRole();
+                ls = LoadDataRole(page, string.Empty);
+                ViewBag.pagi = RowEvent(_rolesvc.GetListRole().Count);
                 ls_pms = _rolesvc.GetListPermission();
                 ViewBag.lsRole = ls;
 
@@ -131,5 +133,29 @@ namespace post_office.Controllers.Administrator
                 }
             }
         }
+        //Pagination
+        public List<RoleModel> LoadDataRole(int p, string cond)
+        {
+            int currentSkip = 10 * (p - 1);
+            var w = _rolesvc.GetListRole().Where(x => x.name.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.code.ToLower().Contains(cond == null ? "" : cond.ToLower())).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
+            return w;
+        }
+        public int GetCountRole(string cond)
+        {
+           return _rolesvc.GetListRole().Where(x => x.name.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.code.ToLower().Contains(cond == null ? "" : cond.ToLower())).ToList().Count;
+
+        }
+        public int RowEvent(int i)
+        {
+            double pagi = i / 10.0;
+            if (Helpers.Helpers.IsNumber(pagi.ToString()))
+            {
+                pagi = (int)pagi;
+                pagi += 1;
+            }
+            return (int)pagi;
+        }
+        //End pagination
+
     }
 }

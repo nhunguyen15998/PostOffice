@@ -332,7 +332,7 @@
 
 
     });
-    function LoadDataAttribute( page,  selectType,sort,status) {
+    function LoadDataPDCate( page,  selectType,sort,status) {
 
         if (page > 0 && page <=@ViewBag.pagi) {
             document.getElementById("check-all").checked = false;
@@ -456,7 +456,7 @@
         var selectParent = $("#search-by-parent").val();
         var nameSearch = $("#search-by-name").val();
         var selectStatus = $("#search-by-status").val();
-        LoadDataAttribute(page, selectParent, nameSearch, selectStatus);
+        LoadDataPDCate(page, selectParent, nameSearch, selectStatus);
 }
 
 </script>

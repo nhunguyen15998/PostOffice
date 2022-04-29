@@ -5,3 +5,78 @@
     ViewData["Title"] = "Setting transport fee";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
+    <div style="height:50px;position:relative; padding:0">
+        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
+        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+       
+    </div>
+    <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
+        <tr style="color: white; background: #747583">
+            <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
+            <th>#</th>
+            <th></th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th>Price</th>
+            @* <th>Created at</th>*@
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+       @*@{int k = 1;}
+        @foreach (var item in (List<post_office.Models.ProductModel>)ViewBag.lsPD)
+        {
+            <tr class="table-item">
+                <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
+                <td class="tbl-60">@k @{k++;}</td>
+                <td class="tbl-40 p-2">
+                    @if (item.thumbnail != null)
+                    {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45" />}
+                </td>
+                <td class="tbl-190">@item.code</td>
+                <td class="tbl-200">@item.name</td>
+                <td class="tbl-160">@item.categoryName</td>
+                <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
+                <td class="tbl-110">@pd.GetPrice(item.id)</td>
+                   
+                </td>
+                <td class="tbl-180">
+                    <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                    <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
+
+                    <span oid="object-@item.id" class="action-icon delete delete-product">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
+
+        }*@
+    </table>
+    <div class="pagination-container" style="cursor:pointer">
+        <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
+            <ul class="pagination" id="paginations">
+                <li class="page-item page-link" data-page="prev">&lt;</li>
+                @for (int i = 1; i <= ViewBag.pagi; i++)
+                {
+                    if (i == 1)
+                    {
+                        <li class="page-item page-link" data-page="page-1" style="background:#ddd">@i</li>
+
+                    }
+                    else
+                    {
+                        <li class="page-item page-link" data-page="page-@i">@i</li>
+                    }
+                }
+                <li class="page-item page-link" data-page="next">&gt;</li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -122,7 +122,7 @@
                     <label class="_error" id="price-error"></label>
                     <br />
                     <label class="text-color mt-0">Description:</label>
-                    <textarea class="input-form-cu txt-area" type="text" placeholder="name" id="ip-des"></textarea>
+                    <textarea class="input-form-cu txt-area" type="text" placeholder="description" id="ip-des"></textarea>
                     <label class="_error" id="des-error"></label>
 
                     <div style="display:table-row; height: auto; min-height: 50px; background: none; float: left;padding:0 " class="col-12">
@@ -249,9 +249,9 @@
                 contentType: false,
               success: function (data) {
                   $("#content-details").find("div").first().append('<img src="/img/ProductThumbnail/' + (data.thumbnail != null ? data.thumbnail : "no_image.png") + '" style="width:90%; height:auto; border:10px solid #ebe2c3"/>')
-                    $("#content-details").find("div").last().append('<label class="text-color"> Code: <span class="text-readonly">' + data.code + '</span></label ><br/><label class="text-color"> Name: <span class="text-readonly">' + data.name + '</span></label ><br/><label class="text-color"> Description: <span class="text-readonly">' + data.description + '</span></label ><br/>' +
-                        '<label class="text-color"> Category: <span class="text-readonly">' + GetCategory(data.categoryId) + '</span></label ><br/><label class="text-color"> Price: <span class="text-readonly">' + (data.price == null ? "" : data.price) + '</span></label ><br/><label class="text-color"> Quantity: <span class="text-readonly">' + (data.qty == null ? "" : data.qty) + '</span></label ><br/><label class="text-color"> Created at: <span class="text-readonly">' + moment(data.createdAt).format("DD/MM/YYYY HH:mm") + '</span></label ><br/>'+
-                        '<label class="text-color"> Status: <span class="text-readonly">' + (data.status == 1 ? "Activated" : "Deactivated") + '</span></label ><br/><label class="text-color"> Attribute(s):<br/> ');
+                  $("#content-details").find("div").last().append('<label class="text-color"> Code: <span class="text-readonly">' + data.code + '</span></label ><br/><label class="text-color"> Name: <span class="text-readonly">' + data.name + '</span></label ><br/><label class="text-color"> Description: <span class="text-readonly">' + data.description + '</span></label ><br/>' +
+                      '<label class="text-color"> Category: <span class="text-readonly">' + data.categoryName + '</span></label ><br/><label class="text-color"> Price: <span class="text-readonly">' + (data.price == null ? "" : data.price) + '</span></label ><br/><label class="text-color"> Quantity: <span class="text-readonly">' + (data.qty == null ? "" : data.qty) + '</span></label ><br/><label class="text-color"> Created at: <span class="text-readonly">' + moment(data.createdAt).format("DD/MM/YYYY HH:mm") + '</span></label ><br/>' +
+                        '<label class="text-color"> Status: <span class="text-readonly">' + (data.status == 1 ? "Activated" : "Deactivated") + '</span></label > ');
 
                  },
                  error: function () {
@@ -267,7 +267,7 @@
                 contentType: false,
                 success: function (data) {
                      if (data.length == 0) {
-                         $("#content-details").find("div").last().append('<span class="text-readonly">None</span></label >');
+                         $("#content-details").find("div").last().append('<br/><label class="text-color"> Attribute(s):<span class="text-readonly">None</span></label >');
 
                      } else {
                          var ls_attr = [];
@@ -331,7 +331,7 @@
                              }
                          }
 
-                         $("#content-details").find("div").last().append(ShowDetailSupport(ls_attr))
+                         $("#content-details").find("div").last().append('<br/><label class="text-color"> Attribute(s):</label><br/>'+ShowDetailSupport(ls_attr))
 
                      }
 
@@ -362,7 +362,7 @@
 
 
                 $("#btnPDSave").click(function () {
-                    ShowWaiting(3500);
+                    ShowWaiting(1500);
 
         if (validated()) {
 
@@ -488,6 +488,8 @@
             $("#trashimg").css("display", "none");
 
         }
+        $("#ip-price").removeAttr("disabled");
+        $("#ip-qty").removeAttr("disabled");
         var fdt = new FormData();
         fdt.append("id", id);
           $.ajax({
@@ -545,6 +547,12 @@
                          ShowAddAttr('#add-attr');
                          var ls_attr = [];
                          for (var i = 0; i < data.length; i++) {
+                             if (data.length > 0) {
+                                 $("#ip-price").val("");
+                                 $("#ip-qty").val("");
+                                 $("#ip-price").attr("disabled", "disabled");
+                                 $("#ip-qty").attr("disabled", "disabled");
+                             }
                              if (data[i].colorID != null) {
                                  CheckAttrCheck(1);
                                  ls_attr.push({
@@ -827,6 +835,10 @@
     });
     function ShowAddAttr(ele) {
         if ($(ele).prop("checked") == true) {
+            $("#ip-price").val("");
+            $("#ip-qty").val("");
+            $("#ip-price").attr("disabled","disabled");
+            $("#ip-qty").attr("disabled", "disabled");
             $("#pd-attr").append('<div class="attr-child mt-1"> <div class="choose-attr">'
                 + '<input type="checkbox" class="color-choose"/>'
                 + '<label class="text-color attr-choose">color</label>'
@@ -842,6 +854,8 @@
                 + '</div></div >');
         } else {
             $("#pd-attr").empty();
+            $("#ip-price").removeAttr("disabled");
+            $("#ip-qty").removeAttr("disabled");
         }
 
     }
@@ -1161,7 +1175,7 @@
 
         }
     }
-      $('body').delegate('.delete-pd-cate', 'click', function () {
+    $('body').delegate('.delete-product', 'click', function () {
         if (confirm("Are you sure to delete this item?")) {
             var id = $(this).attr("oid").replace("object-", "");
             var fdt = new FormData();

@@ -306,13 +306,13 @@ body::-webkit-scrollbar-thumb {
         cursor: grabbing;
     }
 .success{
-    background:rgb(191 244 214 / 0.71);
+    background:rgb(191 244 214 / 0.81);
     border-radius:5px;
     border:2px solid #75feb3;
     color:#04dd66;
 }
 .error {
-    background: rgb(244 191 191 / 0.74);
+    background: rgb(244 191 191 / 0.84);
     border-radius: 5px;
     border: 2px solid #fe9075;
     color: #d52719;

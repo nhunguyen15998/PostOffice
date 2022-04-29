@@ -30,7 +30,6 @@ namespace post_office.Controllers.Administrator
                 ViewBag.ls_parent = new List<SelectListItem> { new SelectListItem { Value = "0", Text = "All" }, new SelectListItem { Value = "-1", Text = "Not have parent" } }.Concat(new SelectList(_ProductCategorysvc.GetListParent(), "id", "name"));
                 ViewBag.lsPDCate = ls = LoadDataPDCategories(page, 0, string.Empty, -1);
                 ViewBag.pagi = RowEvent(_ProductCategorysvc.GetListProductCategory().Count);
-
                 ViewBag.lsSTS = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
                 ViewBag.svc = _ProductCategorysvc;
                 return View();
