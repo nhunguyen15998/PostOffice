@@ -1,4 +1,5 @@
-﻿<style>
+﻿@using post_office.Models 
+<style>
     .active-nav{
         background:#7ac8ac;
         border-left:5px solid #c2f3e2;
@@ -36,76 +37,114 @@
             <span class="links_name">Dashboard</span>
         </a>
     </li>
+    @if (AuthenticetionModel.hasPermission("VIEW_USER"))
+    {
+        <li>
+            <a id="__user" href="@Url.Action("Users","Auth")" class="menu">
+                <i class="fa fa-user "></i>
+                <span class="links_name">Users</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.roleName == "Super Admin")
+    {
+        <li>
+            <a href="@Url.Action("Roles", "Auth")" id="__role" class="menu">
+                <i class="fa fa-object-group icons"></i>
+                <span class="links_name">Roles</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_CUSTOMER"))
+    {
+        <li>
+            <a id="__cus" href="@Url.Action("Customers", "Auth")" class="menu">
 
-    <li>
-        <a id="__user" href="@Url.Action("Users","Auth")" class="menu">
-            <i class="fa fa-user "></i>
-            <span class="links_name">Users</span>
-        </a>
-    </li>
-    <li>
-        <a href="@Url.Action("Roles","Auth")" id="__role" class="menu">
-            <i class="fa fa-object-group icons"></i>
-            <span class="links_name">Roles</span>
-        </a>
-    </li>
-    <li>
-        <a id="__cus" href="@Url.Action("Customers","Auth")" class="menu">
+                <i class="fa fa-users "></i>
+                <span class="links_name">Customers</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_CONTACT"))
+    {
+        <li>
+            <a id="__cont" href="@Url.Action("Contacts", "Auth")" class="menu">
 
-            <i class="fa fa-users "></i>
-            <span class="links_name">Customers</span>
-        </a>
-    </li>
-    <li>
-        <a id="__bills" href="@Url.Action("Bills","Auth")" class="menu">
+                <i class="fa fa-address-book"></i>
+                <span class="links_name">Contacts</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_BILL"))
+    {
+        <li>
+            <a id="__bills" href="@Url.Action("Bills", "Auth")" class="menu">
 
-            <i class="fa fa-file "></i>
-            <span class="links_name">Bills</span>
-        </a>
-    </li>
-    <li>
-        <a id="__branches" href="@Url.Action("Branches","Auth")" class="menu">
+                <i class="fa fa-file "></i>
+                <span class="links_name">Bills</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.roleName == "Super Admin")
+    {
+        <li>
+            <a id="__branches" href="@Url.Action("Branches", "Auth")" class="menu">
 
-            <i class="fa fa-object-ungroup "></i>
-            <span class="links_name">Branches</span>
-        </a>
-    </li>
-    <li>
-        <a id="__svc" href="@Url.Action("Service","Auth")" class="menu">
+                <i class="fa fa-object-ungroup "></i>
+                <span class="links_name">Branches</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_SERVICE"))
+    {
+        <li>
+            <a id="__svc" href="@Url.Action("Service", "Auth")" class="menu">
 
-            <i class="fa fa-truck "></i>
-            <span class="links_name">Services</span>
-        </a>
-    </li>
-    <li>
-        <a id="__pc" href="@Url.Action("ProductCategory","Auth")" class="menu">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Product categories</span>
-        </a>
-    </li>
-    <li>
-        <a id="__pd" href="@Url.Action("Products","Auth")" class="menu">
+                <i class="fa fa-truck "></i>
+                <span class="links_name">Services</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_PRODUCT_CATEGORY"))
+    {
+        <li>
+            <a id="__pc" href="@Url.Action("ProductCategory", "Auth")" class="menu">
+                <i class="fa fa-th-large"></i>
+                <span class="links_name">Product categories</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_PRODUCT"))
+    {
+        <li>
+            <a id="__pd" href="@Url.Action("Products", "Auth")" class="menu">
 
-            <i class="fa fa-product-hunt "></i>
-            <span class="links_name">Products</span>
-        </a>
-    </li>
-    <li>
-        <a id="__attr" href="@Url.Action("Attributes","Auth")" class="menu">
+                <i class="fa fa-product-hunt "></i>
+                <span class="links_name">Products</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("VIEW_ATTRIBUTE"))
+    {
+        <li>
+            <a id="__attr" href="@Url.Action("Attributes", "Auth")" class="menu">
 
-            <i class="fa fa-flag "></i>
-            <span class="links_name">Attributes</span>
-        </a>
-    </li>
-    <li>
-        <a id="__spf" href="@Url.Action("SettingFee","Auth")" class="menu">
+                <i class="fa fa-flag "></i>
+                <span class="links_name">Attributes</span>
+            </a>
+        </li>
+    }
+    @if (AuthenticetionModel.hasPermission("SETTING_TRANSPORT_FEE"))
+    {
+        <li>
+            <a id="__spf" href="@Url.Action("SettingFee", "Auth")" class="menu">
 
-            <i class="fa fa-balance-scale"></i>
-            <span class="links_name">Setting transport fee</span>
-        </a>
-    </li>
-   
+                <i class="fa fa-balance-scale"></i>
+                <span class="links_name">Setting transport fee</span>
+            </a>
+        </li>
 
+    }
 
 </ul>
 

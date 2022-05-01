@@ -35,7 +35,7 @@
         <li class="product type-product post-85 status-publish @cls instock product_cat-accessories has-post-thumbnail sale shipping-taxable purchasable product-type-simple">
             <a href='@Url.ActionLink("Detail", "Product",new {product_detail=ls[i].code })' class="postalservice-LoopProduct-link postalservice-loop-product__link">
                 <span class="onsale">Sale!</span>
-                <img width="300" height="300" src="~/img/ProductThumbnail/@(ls[i].thumbnail??"no-image.png")" class="attachment-postalservice_thumbnail size-postalservice_thumbnail" alt="" loading="lazy" sizes="(max-width: 300px) 100vw, 300px" data-id="10272"><h2 class="postalservice-loop-product__title">@ls[i].name</h2><div class="star-rating" role="img" aria-label="Rated 4.50 out of 5"><span style="width:90%">Rated <strong class="rating">4.50</strong> out of 5</span></div>
+                <img  src="~/img/ProductThumbnail/@(ls[i].thumbnail??"no-image.png")" style="height:300px;width:330px;" class="attachment-postalservice_thumbnail size-postalservice_thumbnail" alt="" loading="lazy" sizes="(max-width: 300px) 100vw, 300px" data-id="10272"><h2 class="postalservice-loop-product__title">@ls[i].name</h2><div class="star-rating" role="img" aria-label="Rated 4.50 out of 5"><span style="width:90%">Rated <strong class="rating">4.50</strong> out of 5</span></div>
                 <span class="price"><del><span class="postalservice-Price-amount amount"><bdi><span class="postalservice-Price-currencySymbol">£</span>20.00</bdi></span></del> <ins><span class="postalservice-Price-amount amount"><bdi><span class="postalservice-Price-currencySymbol">£</span>18.00</bdi></span></ins></span>
             </a>
         </li>

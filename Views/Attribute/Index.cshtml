@@ -5,23 +5,30 @@
     ViewData["Title"] = "Attribute management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using post_office.Models
 @model post_office.Models.AttributeModel 
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:40px 60px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" id="search-by-name" placeholder="Search by name" />
-        <label class="text-color ml-5 mr-2" style="float:left">Search by type: </label>
+        @if (AuthenticetionModel.hasPermission("DELETE_ATTRIBUTE"))
+        {
+            <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        }
+            <input class="input-search form-control" style="float:left;width:380px;" type="text" id="search-by-name" placeholder="Search by name" />
+            <label class="text-color ml-5 mr-2" style="float:left">Search by type: </label>
 
-        <select class="dropdownlist" style="float:left;width:150px;" id="search-by-type">
-            <option value="0">all</option>
-            <option value="1">color</option>
-            <option value="2">length</option>
-            <option value="3">width</option>
-            <option value="4">height</option>
-        </select>
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+            <select class="dropdownlist" style="float:left;width:150px;" id="search-by-type">
+                <option value="0">all</option>
+                <option value="1">color</option>
+                <option value="2">length</option>
+                <option value="3">width</option>
+                <option value="4">height</option>
+            </select>
+            @if (AuthenticetionModel.hasPermission("CREATE_ATTRIBUTE"))
+            {
+                <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+            }
 
-    </div>
+        </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -41,15 +48,19 @@
         <td class="tbl-260">@item.typeName</td>
         <td class="tbl-260">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
         <td class="tbl-180">
-
-            <span oid="object-@item.id" class="action-icon edit edit-attr" style="padding:10px 5px 10px 10px">
-                <i class="fa fa-edit"></i>
-            </span>
-
-            <span oid="object-@item.id" class="action-icon delete delete-attr">
-                <i class="fa fa-trash"></i>
-            </span>
-        </td>
+            @if (AuthenticetionModel.hasPermission("UPDATE_ATTRIBUTE"))
+            {
+                <span oid="object-@item.id" class="action-icon edit edit-attr" style="padding:10px 5px 10px 10px">
+                    <i class="fa fa-edit"></i>
+                </span>
+            }
+            @if (AuthenticetionModel.hasPermission("DELETE_ATTRIBUTE"))
+            {
+                <span oid="object-@item.id" class="action-icon delete delete-attr">
+                    <i class="fa fa-trash"></i>
+                </span>
+            }
+            </td>
     </tr>
             }
 
@@ -121,14 +132,14 @@
 <script type="text/javascript">
     var pages = 1;
     window.onload = function () {
-        
+
         var mess = "@(post_office.Controllers.Administrator.AttributeController.mess)";
         if (mess == "Saved successfully!" || mess == "Deleted successfully!")
             ShowMessage(true, mess)
         else if (mess != "Saved successfully!" && mess != "")
             ShowMessage(false, mess)
            @{post_office.Controllers.Administrator.AttributeController.mess = "";}
-        
+
 
     }
 
@@ -151,7 +162,7 @@
     });
     $("#btnDelete").click(function () {
         if (CheckCheckbox()) {
-           
+
             checkboxes = document.getElementsByClassName('sub-check');
             if (confirm("Are you sure to delete these item(s)?")) {
                 var fdt = new FormData();
@@ -270,7 +281,7 @@
     });
     function ResetForm() {
         CloseForm()
-        @{post_office.Controllers.Administrator.BranchController._id = 0; }
+        @{post_office.Controllers.Administrator.AttributeController._id = 0; }
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
             $(er).html("");
@@ -281,7 +292,7 @@
 
     }
 
-      
+
     $('body').delegate('.page-item', 'click', function () {
 
         var str = $(this).attr("data-page");
@@ -345,16 +356,20 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
+                    var edit = "";
+                    var dlt = "";
+
                     for (var i = 0; i < data.length; i++) {
+                        if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_ATTRIBUTE")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
+                        if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_ATTRIBUTE")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>';
+
                         $("#table-id").append('<tr class="table-item"><td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td> <td class="tbl-50">'+row+' </td>'
                             + '<td class="tbl-260">' + data[i].name + '</td> <td class="tbl-260">' + data[i].typeName + '</td> <td class="tbl-260">' + moment(data[i].createdAt).format('DD/MM/YYYY HH:mm')+'</td>'
-                            +'<td class="tbl-180"> <span oid="object-'+data[i].id+'" class="action-icon edit edit-attr" style="padding:10px 5px 10px 10px"> <i class="fa fa-edit"></i>'
-                            +'</span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>'
-                            +'</td> </tr>')
+                            + '<td class="tbl-180"> ' + edit +dlt +'</td> </tr>')
                         row = row + 1;
 
 
-                    }
+                            }
 
                     var f = new FormData();
                     f.append("type", selectType);

@@ -97,7 +97,10 @@ namespace post_office.Controllers.Administrator
 
             return View(type);
         }
-
+        public bool hasPermission(string code)
+        {
+            return AuthenticetionModel.hasPermission(code);
+        }
         public IActionResult VerifyAction()
         {
 

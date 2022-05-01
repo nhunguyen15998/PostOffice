@@ -17,6 +17,7 @@ namespace post_office.Controllers.Administrator
         public static string mess = string.Empty;
         public static List<int> before = new List<int>();
         public static IRoleService _rolesvc = null;
+        public static IPermissionService _pmsSvc = null;
         public static List<RolePermissionModel> ls_role_pms = new List<RolePermissionModel>() ;
         public static List<RoleModel> ls = new List<RoleModel>();
         public static List<PermissionModel> ls_pms = new List<PermissionModel>();
@@ -37,9 +38,10 @@ namespace post_office.Controllers.Administrator
             else return RedirectToAction("Login", "User");
            
         }
-        public RoleController(IRoleService roleService)
+        public RoleController(IRoleService roleService, IPermissionService permissionService)
         {
             _rolesvc = roleService;
+            _pmsSvc = permissionService;
 
 
         }
@@ -73,7 +75,7 @@ namespace post_office.Controllers.Administrator
 
                 }
                 else _rolesvc.SaveRole(model);
-                mess = "Save successfully!";
+                mess = "Saved successfully!";
             }
 
             ModelState.Clear();
@@ -102,7 +104,7 @@ namespace post_office.Controllers.Administrator
         public List<PermissionModel> RenderListPermission(bool type)
         {
             //true: left,  false: current
-            List<PermissionModel> lsPermission = ls_pms.Where(x =>type==true? !before.Contains(x.id): before.Contains(x.id)).ToList();
+            List<PermissionModel> lsPermission = ls_pms.Where(x =>type==true? !before.Contains(x.id): before.Contains(x.id)).OrderBy(x=>x.name).ToList();
     
             return lsPermission;
             
@@ -132,6 +134,8 @@ namespace post_office.Controllers.Administrator
 
                 }
             }
+            AuthenticetionModel.permissions = _pmsSvc.GetListPermissionByRoleID(AuthenticetionModel.roleId);
+            mess = "Saved successfully!";
         }
         //Pagination
         public List<RoleModel> LoadDataRole(int p, string cond)

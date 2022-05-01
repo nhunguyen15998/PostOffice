@@ -8,21 +8,29 @@
 @model post_office.Models.UserModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:15px">
     <div style="height:40px;position:relative" class="d-flex p-0 mb-2">
-        <button class="btn-action delete p-2 mr-1" id="btnDeactivated" style="float:left;font-size:13px">Deactivated</button>
-        <button class="btn-action save p-2 mr-1" id="btnActivated" style="float: left; font-size: 13px">Activated</button>
-        <input class="input-search form-control ml-2" style="float:left;width:285px;" type="text" placeholder="Search by code, name, phone, email" id = "search-by-name" />
+        @if (AuthenticetionModel.hasPermission("DEACTIVATE_USER"))
+        {
+            <button class="btn-action delete p-2 mr-1" id="btnDeactivated" style="float:left;font-size:13px">Deactivated</button>
+        }
+        @if (AuthenticetionModel.hasPermission("ACTIVATE_USER"))
+        {
+            <button class="btn-action save p-2 mr-1" id="btnActivated" style="float: left; font-size: 13px">Activated</button>
+        }
+        <input class="input-search form-control ml-2" style="float:left;width:285px;" type="text" placeholder="Search by code, name, phone, email" id="search-by-name" />
         <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by role:</label>
         @Html.DropDownList("roleName", (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-role" })
         @if (post_office.Models.AuthenticetionModel.roleName == "Super Admin")
         {
-        <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by branch:</label>
-        @Html.DropDownList("branch", (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-branch" })
+            <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by branch:</label>
+            @Html.DropDownList("branch", (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-branch" })
         }
         <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+        @if (AuthenticetionModel.hasPermission("CREATE_USER"))
+        {
+            <button class="btn-action save p-2 ml-2" id="btnCreate" style="float:right;">Create</button>
+        }
 
-        <button class="btn-action save p-2 ml-2" id="btnCreate" style="float:right;">Create</button>
-
-    </div>
+        </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -55,11 +63,13 @@
                     { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
                 </td>
                 <td class="tbl-40">
-
-                    <span oid="object-@item.id" class="action-icon edit edit-user" >
-                        <i class="fa fa-edit"></i>
-                    </span>
-                </td>
+                    @if (AuthenticetionModel.hasPermission("UPDATE_USER"))
+                    {
+                        <span oid="object-@item.id" class="action-icon edit edit-user">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    }
+                    </td>
             </tr>
 
         }
@@ -293,16 +303,17 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
+                    var edit = "";
+                    for (var i = 0; i < data.length; i++) {
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_USER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
 
-                        for (var i = 0; i < data.length; i++) {
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
                             var value = '<tr class="table-item"> <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>'+
                                          '<td class="tbl-50">'+row+' </td> <td class="tbl-180">'+data[i].code+'</td> <td class="tbl-180">'+data[i].fullName+'</td>'+
                                         '<td class="tbl-140">' + data[i].phone + '</td> <td class="tbl-200">' + data[i].email + '</td> <td class="tbl-120">' + data[i].role +'</td>'+
                                         '<td class="tbl-100">' + (data[i].branch??"") +' </td> <td class="sts-item tbl-40" id="sts-">'+str+' </td>'+
-                                         '<td class="tbl-40"> <span oid="object-'+data[i].id+'" class="action-icon edit edit-user" > <i class="fa fa-edit"></i>'+
-                                         '</span>  </td>  </tr>';
+                                         '<td class="tbl-40"> '+edit+'  </td>  </tr>';
 
                             $("#table-id").append(value);
                             row = row + 1;

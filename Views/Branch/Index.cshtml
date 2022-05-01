@@ -20,6 +20,7 @@
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
         </select>
+        
         <label class="text-color ml-3 mr-2" style="float: left; font-size: 13px">Search by province:</label>
 
         @Html.DropDownList("province", (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @style = "width:150px;", @id = "search-by-province" })

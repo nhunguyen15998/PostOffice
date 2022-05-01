@@ -11,16 +11,22 @@
 @model post_office.Models.ProductModel
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        @if (AuthenticetionModel.hasPermission("DELETE_PRODUCT"))
+        {
+            <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
+        }
         <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
         <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
         <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
             <option value="-1">all</option>
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
         </select>
-    </div>
+        @if (AuthenticetionModel.hasPermission("CREATE_PRODUCT"))
+        {
+            <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        }
+        </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -60,14 +66,19 @@
                     <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
                         <i class="fa fa-eye"></i>
                     </span>
-                    <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
-                        <i class="fa fa-edit"></i>
-                    </span>
-
-                    <span oid="object-@item.id" class="action-icon delete delete-product">
-                        <i class="fa fa-trash"></i>
-                    </span>
-                </td>
+                    @if (AuthenticetionModel.hasPermission("UPDATE_PRODUCT"))
+                    {
+                        <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    }
+                    @if (AuthenticetionModel.hasPermission("DELETE_PRODUCT"))
+                    {
+                        <span oid="object-@item.id" class="action-icon delete delete-product">
+                            <i class="fa fa-trash"></i>
+                        </span>
+                    }
+                    </td>
             </tr>
 
         }
@@ -810,7 +821,7 @@
         })
         return ls;
     }
-  
+
     function ResetForm() {
         CloseForm();
          $("#ip-name").val("");
@@ -1107,20 +1118,23 @@
                 contentType: false,
                 success: function (data) {
                     var res = "";
+                    var edit = "";
+                    var dlt = "";
                     for (var i = 0; i < data.length; i++) {
                         var ls = GetProductInfo(data[i].categoryId, data[i].id);
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
                             var thumbnail = "";
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_PRODUCT")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_PRODUCT")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>';
+
                             if (data[i].thumbnail != null) { thumbnail = '<img src="/img/ProductThumbnail/' + data[i].thumbnail + '" width="45" height="45" />' }
                              res += '<tr class="table-item">  <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
                                 + '<td class="tbl-60">' + row + '</td>  <td class="tbl-40 p-2"> ' + thumbnail + '</td>  <td class="tbl-190">' + data[i].code + '</td>'
                                 + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + data[i].categoryName + '</td>'
                                 + '<td class="tbl-60">' + ls[1] + '</td>  <td class="tbl-110">' + ls[0]+ '</td>  <td class="sts-item tbl-40" id="sts-">' + str
-                                        +'</td>  <td class="tbl-180">  <span oid="object-'+data[i].id+'" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
-                                        +'<i class="fa fa-eye"></i>  </span> <span oid="object-'+data[i].id+'" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">'
-                                         +'<i class="fa fa-edit"></i>   </span> <span oid="object-'+data[i].id+'" class="action-icon delete delete-product">'
-                                           +' <i class="fa fa-trash"></i> </span> </td>  </tr>';
+                                + '</td>  <td class="tbl-180">  <span oid="object-' + data[i].id + '" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
+                                + '<i class="fa fa-eye"></i> ' + edit + dlt + ' </td>  </tr>';
                             row = row + 1;
 
 
@@ -1183,7 +1197,7 @@
             DeleteProducts(fdt)
         }
     });
-    
+
     $("#btnDelete").click(function () {
         if (CheckCheckbox()) {
             checkboxes = document.getElementsByClassName('sub-check');

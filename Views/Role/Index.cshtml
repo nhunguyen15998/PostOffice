@@ -408,6 +408,7 @@
     $("#right-all").click(function () { ChangeList(true) });
     $("#left-all").click(function () { ChangeList(false) });
     $("#btnRolePermissionSave").click(function () {
+        ShowWaiting(2000);
         var current = $("#table-permission-current").find("tr");
         var ls = [];
         for (var i = 0; i < current.length; i++) {
