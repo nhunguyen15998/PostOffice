@@ -87,7 +87,7 @@
             $("#__dash i").addClass("i-active");
             $("#__dash span").addClass("title-active");
             localStorage.setItem("title", "DASHBOARD");
-            
+
         } else {
             link = document.getElementsByClassName("menu");
             for (var i = 0; i < link.length; i++) {
@@ -101,10 +101,10 @@
         }
         var title = localStorage.getItem("title");
         $("#title-bar").html(title);
-       
+
         localStorage.removeItem("mySession");
         localStorage.removeItem("title");
-       
+
         SearchAction(false);
     });
     $("#search-show").click(function () {
@@ -148,7 +148,7 @@
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
         }
-        
+
     }
     $(".sub-check").click(function () {
 
@@ -210,7 +210,7 @@
         }
 
 
-    } 
+    }
     function ShakeError() {
         er = document.getElementsByClassName("_error");
         for (var i = 0; i < er.length; i++) {
@@ -224,5 +224,6 @@
         var start = new Date().getTime();
         while (new Date().getTime() < start + delay);
     }
+   
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

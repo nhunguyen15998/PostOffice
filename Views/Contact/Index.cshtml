@@ -2,6 +2,16 @@
 	ViewData["Title"] = "Contact";
 }
 @* <script src="../../js/client/drupal.js" type="text/javascript"></script> *@
+<style>
+    ._error {
+        width: 100%;
+        font-size: 14px;
+        font-style: italic;
+        color: #e55637;
+        margin-bottom: 0vh !important;
+    }
+</style>
+@model post_office.Models.ContactModel
 <div id="content-wrapper" class="site-content-wrapper">
 	<div id="content" class="site-content ">
 		<div id="content-inner" class="site-content-inner ">
@@ -13,112 +23,72 @@
 						</header><!-- .entry-header -->
 						<div class="entry-content">
 							<div class="vc_row-full-width vc_clearfix"></div>
-							<div class="themestek-row wpb_row vc_row-fluid vc_custom_1544783196132 themestek-total-col-3 themestek-zindex-0 vc_row container themestek-bgimage-position-center_center m-auto" style="padding-top: 250px;">
-								<div class="themestek-column wpb_column vc_column_container vc_col-sm-2 themestek-zindex-0">
-									<div class="vc_column-inner  ">
-										<div class="wpb_wrapper">
-										</div>
-									</div>
-								</div>
-								<div class="themestek-column wpb_column vc_column_container vc_col-sm-8 themestek-zindex-0">
-									<div class="vc_column-inner  ">
-										<div class="wpb_wrapper">
-											<div class="themestek-element-heading-wrapper themestek-heading-inner themestek-element-align-center themestek-seperator-none ">
-												<section class="themestek-vc_cta3-container">
-													<div class="themestek-vc_general themestek-vc_cta3 themestek-cta3-only themestek-vc_cta3-style-classic themestek-vc_cta3-shape-rounded themestek-vc_cta3-align-center themestek-vc_cta3-color-transparent themestek-vc_cta3-icon-size-md themestek-vc_cta3-actions-no themestek-cta3-without-desc">
-														<div class="themestek-vc_cta3_content-container">
-															<div class="themestek-vc_cta3-content">
-																<div class="themestek-vc_cta3-content-header themestek-wrap">
-																	<div class="themestek-vc_cta3-headers themestek-wrap-cell">
-																		<h4 class="themestek-custom-heading ">CONTACT US
-																		</h4>
-																		<h2 class="themestek-custom-heading ">Drop us a
-																			line</h2>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</section>
-											</div> <!-- .themestek-element-heading-wrapper container -->
-											<div role="form" class="postoffice" id="postoffice-f7391-p6602-o2" lang="en-US"
-												dir="ltr">
-												<div class="screen-reader-response">
-													<p role="status" aria-live="polite" aria-atomic="true"></p>
-													<ul></ul>
-												</div>
-												<form action="/demo6/contacts/#postoffice-f7391-p6602-o2" method="post"
-													class="postoffice-form init" novalidate="novalidate" data-status="init">
-													<div style="display: none;">
-														<input type="hidden" name="_postoffice" value="7391">
-														<input type="hidden" name="_postoffice_version" value="5.4">
-														<input type="hidden" name="_postoffice_locale" value="en_US">
-														<input type="hidden" name="_postoffice_unit_tag"
-															value="postoffice-f7391-p6602-o2">
-														<input type="hidden" name="_postoffice_container_post" value="6602">
-														<input type="hidden" name="_postoffice_posted_data_hash" value="">
-													</div>
-													<div class="main-form">
-														<div class="row">
-															<div class="col-sm-12">
-																<div class="input-group"><span
-																		class="postoffice-form-control-wrap your-name"><input
-																			type="text" name="your-name" value=""
-																			size="40"
-																			class="postoffice-form-control postoffice-text"
-																			aria-invalid="false"
-																			placeholder="Your Name"></span></div>
-															</div>
-															<div class="col-sm-6">
-																<div class="input-group"><span
-																		class="postoffice-form-control-wrap your-phone"><input
-																			type="text" name="your-phone" value=""
-																			size="40"
-																			class="postoffice-form-control postoffice-text"
-																			aria-invalid="false"
-																			placeholder="Transport Type"></span></div>
-															</div>
-															<div class="col-sm-6">
-																<div class="input-group"><span
-																		class="postoffice-form-control-wrap subject"><input
-																			type="text" name="subject" value=""
-																			size="40"
-																			class="postoffice-form-control postoffice-text"
-																			aria-invalid="false"
-																			placeholder="Subject"></span></div>
-															</div>
-															<div class="col-sm-12">
-																<div class="input-group input-button"><span
-																		class="postoffice-form-control-wrap message"><textarea
-																			name="message" cols="40" rows="5"
-																			class="postoffice-form-control postoffice-textarea"
-																			aria-invalid="false"
-																			placeholder="Message"></textarea></span>
-																</div>
-															</div>
-															<div class="col-sm-12">
-																<div class="input-group input-button"><input
-																		type="submit" value="SEND MESSAGE"
-																		class="postoffice-form-control postoffice-submit btn-block"
-																		aria-invalid="false"><span
-																		class="ajax-loader"></span></div>
-															</div>
-														</div>
-													</div>
-													<div class="postoffice-response-output" aria-hidden="true"></div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div
-									class="themestek-column wpb_column vc_column_container vc_col-sm-2 themestek-zindex-0">
-									<div class="vc_column-inner  ">
-										<div class="wpb_wrapper">
-										</div>
-									</div>
-								</div>
-							</div>
+                            <div class="themestek-row wpb_row vc_row-fluid vc_custom_1544783196132 themestek-total-col-3 themestek-zindex-0 vc_row container themestek-bgimage-position-center_center m-auto" style="padding-top: 250px;">
+                                <div class="themestek-column wpb_column vc_column_container vc_col-sm-2 themestek-zindex-0">
+                                    <div class="vc_column-inner  ">
+                                        <div class="wpb_wrapper">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="themestek-column wpb_column vc_column_container vc_col-sm-8 themestek-zindex-0">
+                                    <div class="vc_column-inner  ">
+                                        <div class="wpb_wrapper">
+                                            <div class="themestek-element-heading-wrapper themestek-heading-inner themestek-element-align-center themestek-seperator-none ">
+                                                <section class="themestek-vc_cta3-container">
+                                                    <div class="themestek-vc_general themestek-vc_cta3 themestek-cta3-only themestek-vc_cta3-style-classic themestek-vc_cta3-shape-rounded themestek-vc_cta3-align-center themestek-vc_cta3-color-transparent themestek-vc_cta3-icon-size-md themestek-vc_cta3-actions-no themestek-cta3-without-desc">
+                                                        <div class="themestek-vc_cta3_content-container">
+                                                            <div class="themestek-vc_cta3-content">
+                                                                <div class="themestek-vc_cta3-content-header themestek-wrap">
+                                                                    <div class="themestek-vc_cta3-headers themestek-wrap-cell">
+                                                                        <h4 class="themestek-custom-heading ">
+                                                                            CONTACT US
+                                                                        </h4>
+                                                                        <h2 class="themestek-custom-heading ">
+                                                                            Drop us a
+                                                                            line
+                                                                        </h2>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div> <!-- .themestek-element-heading-wrapper container -->
+
+                                            @using (Html.BeginForm("SendContact", "Contact", FormMethod.Post, new { @class = "postoffice-form init" }))
+                                            {
+                                                @Html.ValidationMessageFor(d => d.name, "", new { @class = "_error" })
+                                                @Html.TextBoxFor(d => d.name, new { @class = "postoffice-form-control postoffice-text mb-3", @type = "text", @placeholder = "Your Name", @size = "40" })
+
+                                                @Html.ValidationMessageFor(d => d.email, "", new { @class = "_error" })
+                                                @Html.TextBoxFor(d => d.email, new { @class = "postoffice-form-control postoffice-text mb-3", @type = "text", @placeholder = "Your Email", @size = "40" })
+
+                                                @Html.ValidationMessageFor(d => d.phone, "", new { @class = "_error" })
+                                                @Html.TextBoxFor(d => d.phone, new { @class = "postoffice-form-control postoffice-text mb-3", @type = "text", @placeholder = "Your Phone", @size = "40" })
+
+                                                @Html.ValidationMessageFor(d => d.subject, "", new { @class = "_error" })
+                                                @Html.TextBoxFor(d => d.subject, new { @class = "postoffice-form-control postoffice-text mb-3", @type = "text", @placeholder = "Subject", @size = "40" })
+
+                                                @Html.ValidationMessageFor(d => d.message, "", new { @class = "_error" })
+                                                @Html.TextAreaFor(d => d.message, new { @class = "postoffice-form-control postoffice-text mb-3", @type = "text", @placeholder = "Message", @style="height:150px; paddding-top:15px;resize:none" })
+
+
+
+                                                <button type="submit"
+                                                        class="postoffice-form-control postoffice-submit col-12" id="btnSend">
+                                                    SEND MESSAGE
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                                               <div class="themestek-column wpb_column vc_column_container vc_col-sm-2 themestek-zindex-0">
+                                    <div class="vc_column-inner  ">
+                                        <div class="wpb_wrapper">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="themestek-row wpb_row vc_custom_1544783217393 vc_row-has-fill themestek-total-col-1 themestek-zindex-0 vc_row container themestek-bgimage-position-center_center m-auto">
 								<div class="themestek-column wpb_column vc_column_container vc_col-sm-12 themestek-zindex-0">
 									<div class="vc_column-inner  ">

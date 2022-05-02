@@ -20,9 +20,10 @@
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
         </select>
+        
         <label class="text-color ml-3 mr-2" style="float: left; font-size: 13px">Search by province:</label>
 
-        @Html.DropDownListFor(model => model.provinceId, (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @style = "width:150px;", @id = "search-by-province" })
+        @Html.DropDownList("province", (IEnumerable<SelectListItem>)ViewBag.provinceList, null, new { @class = "dropdownlist", @style = "width:150px;", @id = "search-by-province" })
         <button class="btn-action edit pl-3 pr-3 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
     </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">

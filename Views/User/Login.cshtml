@@ -9,6 +9,7 @@
     <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="~/css/administrator/adminsite.css" rel="stylesheet" />
     <title>Login</title>
 </head>
 
@@ -67,14 +68,18 @@
     </style>
     <main id="page">
         <img src="~/img/bgc.jpg" style="width:100%" />
-        @* <div style="top:10px; position:absolute;" class="col-12">
-                <div class="container col-5" id="message" style="background: #61B4B9;display:none">
-                    <label class="container mb-2 mt-1" >
-                        <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
-                       error
-                    </label>
-                </div>
-            </div>*@
+        <div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none;" class="col-12" id="message">
+            <div class="container pt-2 pb-1" style="width:50%;">
+                <label id="msg_status">
+
+                </label>
+            </div>
+        </div>
+        <div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none; text-align:center" class="col-12" id="waiting">
+            <span class="container" style="background: rgb(109 99 71 / 0.70); color:#f8f8f8;  padding: 20px 30px; ">
+                <i class="fa fa-spinner fa-spin" style="font-size: 20px "></i> Waiting...
+            </span>
+        </div>
         @{
             string user = "", pass = "";
             if (TempData["user"] != null)
@@ -121,6 +126,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <script type="text/javascript">
+       
         $("#show").click(function () {
             $("#message").css("display", "block");
             $("#message").delay(2000).fadeOut(300);
@@ -130,21 +136,36 @@
                 var formData = new FormData();
                 formData.append("phone", $("#user_name").val());
                 $.ajax({
-                type: "POST",
-                url: "@Url.Action("CheckPhoneUser", "User")",
-                data: formData,
-                processData: false,
-                contentType: false,
-                 success: function (data) {
-                     if (data) {
-                         window.location.href = "@Url.Action("VerifyUser","User", new { type=0})";
+                    type: "POST",
+                    url: "@Url.Action("CheckPhoneUser", "User")",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data) {
+                            ShowWaiting(1500);
+                            window.location.href = "@Url.Action("VerifyUser","User", new { type=0})";
 
-                     } else alert("Please enter the exact phone number and try again")
+                        } else ShowMessage(false, "Please enter the exact phone number and try again");
 
-                }
-            });
+                    }
+                });
             }
-        })
+        });
+        function ShowWaiting(duration) {
+            $("#waiting").css("display", "block");
+            $("#waiting").delay(duration).fadeOut(300);
+        }
+        function ShowMessage(type, msg) {
+            $("#msg_status").empty();
+            var ele = document.getElementById("message").children[0];
+            ele.classList.remove("success", "error");
+            $("#msg_status").append(type == true ? '<i class= "fa fa-check-circle" style = "margin-right:0.3vw" ></i>' : '<i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>');
+            $("#msg_status").append(msg);
+            ele.classList.add(type == true ? "success" : "error");
+            $("#message").css("display", "block");
+            $("#message").delay(3000).fadeOut(300);
+        }
 
     </script>
 

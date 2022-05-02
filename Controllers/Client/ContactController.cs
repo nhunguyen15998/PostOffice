@@ -13,8 +13,10 @@ namespace post_office.Controllers.Client
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
-        public ContactController(ILogger<ContactController> logger)
+        public static IContactServices _contactSvc = null;
+        public ContactController(ILogger<ContactController> logger, IContactServices cont)
         {
+            _contactSvc = cont;
             _logger = logger;
         }
 
@@ -22,8 +24,12 @@ namespace post_office.Controllers.Client
         {
             return View();
         }
+        public IActionResult SendContact(ContactModel mdl)
+        {
+            _contactSvc.SendMessage(mdl);
+            return View("Index");
+        }
 
-        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

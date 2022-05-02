@@ -104,7 +104,9 @@ namespace post_office.Controllers.Administrator
         public async Task<bool> SaveProduct(IFormFile file, string mdl, string lsAttr)
         {
             ProductModel p = JsonConvert.DeserializeObject<ProductModel>(mdl);
-
+            List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
+            p.price = ls.Count == 0 ? p.price : null;
+            p.qty = ls.Count == 0 ? p.qty : null;
             if (file != null)
             {
                 string wwwPath = this.Environment.WebRootPath;
@@ -139,7 +141,6 @@ namespace post_office.Controllers.Administrator
             }
             else p = _Productsvc.SaveProduct(new ProductModel() { categoryId = p.categoryId, code = Helpers.Helpers.RandomCode(), createdAt = DateTime.Now, description = p.description, name = p.name, price = p.price, qty = p.qty, status = p.status, thumbnail = p.thumbnail });
 
-            List<ProductAttributeModel> ls = JsonConvert.DeserializeObject<List<ProductAttributeModel>>(lsAttr);
             foreach (var item in ls)
             {
                 _Productsvc.SaveProductAttribute(new ProductAttributeModel() { qty = item.qty, colorID = item.colorID, heightID = item.heightID, lengthID = item.lengthID, widthID = item.widthID, createAt = DateTime.Now, price = item.price, productId = p.id });

@@ -69,18 +69,21 @@
     </style>
     <main id="page">
         <img src="~/img/bgc.jpg" style="width:100%" />
-        @* <div style="top:10px; position:absolute;" class="col-12">
-                <div class="container col-5" id="message" style="background: #61B4B9;display:none">
-                    <label class="container mb-2 mt-1" >
-                        <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
-                       error
-                    </label>
-                </div>
-            </div>*@
-       
+        <div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none;" class="col-12" id="message">
+            <div class="container pt-2 pb-1" style="width:50%;">
+                <label id="msg_status">
+
+                </label>
+            </div>
+        </div>
+        <div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none; text-align:center" class="col-12" id="waiting">
+            <span class="container" style="background: rgb(109 99 71 / 0.70); color:#f8f8f8;  padding: 20px 30px; ">
+                <i class="fa fa-spinner fa-spin" style="font-size: 20px "></i> Waiting...
+            </span>
+        </div>
         <div class="col-12" style="top:10vh; position:absolute;">
             <div class="col-5" style="background-image: linear-gradient(150deg, #f2fffe, #bbffde); opacity: 0.85; border-radius: 15px; height: 62vh; left: 8vw; display: table; box-shadow: 0 0 8rem 2rem rgb(218 255 246);border:3px solid #d7fdfa ">
-                @if (Model==0)
+                @if (Model == 0)
                 {
                     <form action="@Url.Action("VerifyAction", "User")" method="post" class="container form-signup col-10" style="min-height:500px; text-align:left">
                         <div style="text-align:center;margin:8vh auto 2vh auto" class="col-12">
@@ -110,21 +113,21 @@
 
                     </form>
                 }
-                @if (Model==1)
+                @if (Model == 1)
                 {
-            <div class="container form-signup col-10" style="min-height:500px; text-align:left">
-                <div style="text-align:center;margin:8vh auto 2vh auto" class="col-12">
-                    <img src="~/img/defaults/logo.png" style=" width: 50%;" />
-                </div>
-                <h3 class="container" style="color: #f4cf24; text-align: center; margin-bottom: 3vh; letter-spacing: 2px">SET UP NEW PASSWORD</h3>
-                <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="password" name="password" id="pass" type="password" />
-                <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="confirm password" id="repass" type="password" />
-                <button type="submit" class="btnSignup col-lg-12" id="btnSetUp">OK</button>
-                <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40);display:none" id="msgerrorsetup">
-                   
-                    
-                </label>
-            </div>
+                    <div class="container form-signup col-10" style="min-height:500px; text-align:left">
+                        <div style="text-align:center;margin:8vh auto 2vh auto" class="col-12">
+                            <img src="~/img/defaults/logo.png" style=" width: 50%;" />
+                        </div>
+                        <h3 class="container" style="color: #f4cf24; text-align: center; margin-bottom: 3vh; letter-spacing: 2px">SET UP NEW PASSWORD</h3>
+                        <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="password" name="password" id="pass" type="password" />
+                        <input class="inputType col-lg-12  contaiter" style="margin-bottom: 8px;" placeholder="confirm password" id="repass" type="password" />
+                        <button type="submit" class="btnSignup col-lg-12" id="btnSetUp">OK</button>
+                        <label class="container mb-2 mt-1" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40);display:none" id="msgerrorsetup">
+
+
+                        </label>
+                    </div>
                 }
             </div>
         </div>
@@ -134,6 +137,20 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript">
+        function ShowWaiting(duration) {
+            $("#waiting").css("display", "block");
+            $("#waiting").delay(duration).fadeOut(300);
+        }
+        function ShowMessage(type, msg) {
+            $("#msg_status").empty();
+            var ele = document.getElementById("message").children[0];
+            ele.classList.remove("success", "error");
+            $("#msg_status").append(type == true ? '<i class= "fa fa-check-circle" style = "margin-right:0.3vw" ></i>' : '<i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>');
+            $("#msg_status").append(msg);
+            ele.classList.add(type == true ? "success" : "error");
+            $("#message").css("display", "block");
+            $("#message").delay(3000).fadeOut(300);
+        }
         $("#btnSetUp").click(function () {
             $("#msgerrorsetup").css("display", "none");
             $("#msgerrorsetup").html('');
@@ -141,7 +158,8 @@
                 $("#msgerrorsetup").html(' <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i> The password does not match or not enough 6 characters');
                 $("#msgerrorsetup").css("display", "block");
             } else {
-                 var formData = new FormData();
+                ShowWaiting(1500);
+                var formData = new FormData();
                 formData.append("newpass", $("#pass").val());
                 $.ajax({
                 type: "POST",
@@ -150,14 +168,19 @@
                 processData: false,
                 contentType: false,
                  success: function (data) {
-                     alert("Changed successfully!");
                      window.location.href = "@Url.Action("Login","User")";
 
                 }
             });
             }
         })
+        function sleep(delay) {
+            var start = new Date().getTime();
+            while (new Date().getTime() < start + delay);
+        }
         $("#resend").click(function () {
+            ShowWaiting(1800);
+
                var formData = new FormData();
                 formData.append("type", 0);
                 $.ajax({
@@ -167,7 +190,7 @@
                 processData: false,
                 contentType: false,
                     success: function () {
-                    alert("Sent!")
+                        ShowMessage(true,"Sent~!")
                 }
             });
         });

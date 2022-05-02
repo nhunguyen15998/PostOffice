@@ -9,7 +9,9 @@
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:60px">
     <div style="height:50px;position:relative; padding:0">
         <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
+        <button class="btn-action edit pl-3 pr-3 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+
         <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
 
     </div>
@@ -184,14 +186,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-    var roleID = 0;
+    function ClearFilter() {
+        $("#search-by-name").val("");
+        SearchFilter(1);
+    }
     window.onload = function () {
-        var mess = "@(post_office.Controllers.Administrator.RoleController.mess)";
-        if (mess!="") {
-           ShowMessage(true, mess)
+         var mess = "@(post_office.Controllers.Administrator.RoleController.mess)";
+        if (mess == "Saved successfully!" || mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
            @{post_office.Controllers.Administrator.RoleController.mess = "";}
-        }
-
 
     }
     $("#btnCreate").click(function () {
@@ -242,7 +247,6 @@
 
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
-        $(".sidebar").css("pointer-events", "none")
 
     }
     $('body').delegate('.assign-role', 'click', function () {
@@ -404,6 +408,7 @@
     $("#right-all").click(function () { ChangeList(true) });
     $("#left-all").click(function () { ChangeList(false) });
     $("#btnRolePermissionSave").click(function () {
+        ShowWaiting(2000);
         var current = $("#table-permission-current").find("tr");
         var ls = [];
         for (var i = 0; i < current.length; i++) {
@@ -475,4 +480,138 @@
                 }
             });
     }
+     $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+    });
+    function LoadDataRole( page,cond) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("cond", cond);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataRole", "Role")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var value = '<tr class="table-item"> <td><input type="checkbox" class="sub-check" post-item="post-" /></td>' +
+                                '<td>' + row + '</td> <td>' + data[i].code + '</td> <td>' + data[i].name + '</td> <td>' + moment(data[i].createdAt).format("DD/MM/YYYY HH:mm") + '</td>' +
+                                '<td>  <span oid="object-' + data[i].id + '" class="action-icon purple assign-role" style="padding:10px 8px 10px 13px">' +
+                                '<i class="fa fa-shield"></i> </span>  <span oid="object-' + data[i].id + '" class="action-icon edit edit-role" style="padding:10px 5px 10px 10px">' +
+                                '<i class="fa fa-edit"></i> </span> <span oid="object-' + data[i].id + '" class="action-icon delete delete-role"> <i class="fa fa-trash"></i>' +
+                                '</span>  </td>  </tr>';
+
+                            $("#table-id").append(value);
+                            row = row + 1;
+
+
+                        }
+
+
+                    var f = new FormData();
+                    f.append("cond", selectType);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountRole", "Role")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Role")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            SearchFilter(1);
+
+        }
+
+    });
+    function SearchFilter(page) {
+        var nameSearch = $("#search-by-name").val();
+        LoadDataRole(page,nameSearch);
+    }
+
 </script>

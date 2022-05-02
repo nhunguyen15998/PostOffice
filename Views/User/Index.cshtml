@@ -6,13 +6,31 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @model post_office.Models.UserModel
-<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
-    <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" />
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:15px">
+    <div style="height:40px;position:relative" class="d-flex p-0 mb-2">
+        @if (AuthenticetionModel.hasPermission("DEACTIVATE_USER"))
+        {
+            <button class="btn-action delete p-2 mr-1" id="btnDeactivated" style="float:left;font-size:13px">Deactivated</button>
+        }
+        @if (AuthenticetionModel.hasPermission("ACTIVATE_USER"))
+        {
+            <button class="btn-action save p-2 mr-1" id="btnActivated" style="float: left; font-size: 13px">Activated</button>
+        }
+        <input class="input-search form-control ml-2" style="float:left;width:285px;" type="text" placeholder="Search by code, name, phone, email" id="search-by-name" />
+        <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by role:</label>
+        @Html.DropDownList("roleName", (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-role" })
+        @if (post_office.Models.AuthenticetionModel.roleName == "Super Admin")
+        {
+            <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by branch:</label>
+            @Html.DropDownList("branch", (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-branch" })
+        }
+        <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+        @if (AuthenticetionModel.hasPermission("CREATE_USER"))
+        {
+            <button class="btn-action save p-2 ml-2" id="btnCreate" style="float:right;">Create</button>
+        }
 
-    </div>
+        </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -30,12 +48,12 @@
         @foreach (var item in (List<post_office.Models.UserModel>)ViewBag.ls_user)
         {
             <tr class="table-item">
-                <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>
+                <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
                 <td class="tbl-50">@k @{k++;} </td>
                 <td class="tbl-180">@item.code</td>
-                <td class="tbl-200">@item.fullName</td>
-                <td class="tbl-120">@item.phone</td>
-                <td class="tbl-180">@item.email</td>
+                <td class="tbl-180">@item.fullName</td>
+                <td class="tbl-140">@item.phone</td>
+                <td class="tbl-200">@item.email</td>
                 <td class="tbl-120">@item.role</td>
                 <td class="tbl-100">@item.branch </td>
                 <td class="sts-item tbl-40" id="sts-">
@@ -44,15 +62,14 @@
                     else
                     { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
                 </td>
-                <td class="tbl-180">
-
-                    <span oid="object-1" class="action-icon edit edit-user" style="padding:10px 5px 10px 10px">
-                        <i class="fa fa-edit"></i>
-                    </span>
-                    <span oid="object-1" class="action-icon delete delete-user">
-                        <i class="fa fa-trash"></i>
-                    </span>
-                </td>
+                <td class="tbl-40">
+                    @if (AuthenticetionModel.hasPermission("UPDATE_USER"))
+                    {
+                        <span oid="object-@item.id" class="action-icon edit edit-user">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    }
+                    </td>
             </tr>
 
         }
@@ -114,15 +131,25 @@
                         <br />
                     </div>
                     <div class="col-6" style="min-height:inherit;float:left">
+                        <label class="text-color">
+                            Created at:
+                            <span class="text-readonly" id="ip-created"></span>
+                        </label>
                         <br />
-                        <label class="text-color mt-3">Role:</label>
-                        @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist",  @id = "roleSlt" })
+                        <label class="text-color">Role:</label>
+                        @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @id = "roleSlt" })
+                        @Html.ValidationMessageFor(d => d.branchId, "", new { @class = "_error" })
+
                         <br />
+                        @if (AuthenticetionModel.roleName == "Super Admin")
+                        {
                         <label class="text-color">Branch:</label>
-                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.role_ls, null, new { @class = "dropdownlist", @id = "branchSlt" })
+                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @id = "branchSlt" })
+                        @Html.ValidationMessageFor(d => d.branchId, "", new { @class = "_error" })
                         <br />
+                        }
                         <label class="text-color">Status:</label>
-                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist" , @id = "statusSlt" })
+                        @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist", @id = "statusSlt" })
 
 
                     </div>
@@ -143,15 +170,55 @@
     $("#btnCreate").click(function () {
         OpenForm("Create user",0);
     });
-    $(".edit-user").click(function () {
+     var pages = 1;
+    window.onload = function () {
+        var mess = "@(post_office.Controllers.Administrator.UserController.mess)";
+
+        if (mess == "Saved successfully!"||mess == "Deleted successfully!")
+            ShowMessage(true, mess)
+        else if (mess != "Saved successfully!" && mess != "")
+            ShowMessage(false, mess)
+           @{post_office.Controllers.Administrator.UserController.mess = "";}
+    }
+    function ClearFilter() {
+         $("#search-by-branch").val(0);
+         $("#search-by-name").val("");
+         $("#search-by-role").val(0);
+        SearchFilter(1);
+    }
+    $('body').delegate('.edit-user', 'click', function () {
         var id = $(this).attr("oid").replace("object-", "");
         OpenForm("Update user",id)
     });
     function OpenForm(type, id) {
-        $("#content").append('');
+        $("#ip-password").removeAttr("disabled");
+
+         if (id != 0) {
+            var fdt = new FormData();
+            fdt.append("id", id);
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetUser", "User")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#ip-code").html(data.code);
+                    $("#ip-name").val(data.fullName);
+                    $("#ip-phone").val(data.phone);
+                    $("#ip-email").val(data.email);
+                    $("#statusSlt").val(data.status);
+                    $("#roleSlt").val(data.roleId);
+                    $("#branchSlt").val(data.branchId);
+                    $("#ip-created").html(moment(data.createdAt).format("DD/MM/YYYY HH:mm"));
+                    $("#ip-password").val("***********");
+                    $("#ip-password").attr("disabled", "disabled");
+                }
+            });
+        }
+
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
-        $(".sidebar").css("pointer-events", "none")
 
 
     }
@@ -171,12 +238,195 @@
 
     }
     $('#btnUserSave').click(function () {
-        er = document.getElementsByClassName("_error");
-        for (var i = 0; i < er.length; i++) {
-            if ($(er[i]).length > 0) {
-                $(er[i]).shake();
+        ShakeError();
+    });
+      $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev"&&pages>=1) {
+
+              if (pages ==1) {
+                pages = 1;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+    });
+    function LoadDataUser( page,  cond, selectType,branch) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("cond", cond);
+            formDT.append("type", selectType);
+            formDT.append("branchId", branch);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataUser", "User")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    var edit = "";
+                    for (var i = 0; i < data.length; i++) {
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_USER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
+
+                            var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
+                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            var value = '<tr class="table-item"> <td class="tbl-20"><input type="checkbox" class="sub-check" post-item="post-" /></td>'+
+                                         '<td class="tbl-50">'+row+' </td> <td class="tbl-180">'+data[i].code+'</td> <td class="tbl-180">'+data[i].fullName+'</td>'+
+                                        '<td class="tbl-140">' + data[i].phone + '</td> <td class="tbl-200">' + data[i].email + '</td> <td class="tbl-120">' + data[i].role +'</td>'+
+                                        '<td class="tbl-100">' + (data[i].branch??"") +' </td> <td class="sts-item tbl-40" id="sts-">'+str+' </td>'+
+                                         '<td class="tbl-40"> '+edit+'  </td>  </tr>';
+
+                            $("#table-id").append(value);
+                            row = row + 1;
+
+
+                        }
+
+
+                    var f = new FormData();
+                    f.append("type", selectType);
+                    f.append("name", cond);
+                    f.append("branchId", branch);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountUser", "User")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "User")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
+
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            SearchFilter(1);
+
+        }
+
+    });
+    $("#search-by-role").change(function () {
+        SearchFilter(1);
+
+    });
+    $("#search-by-branch").change(function () {
+        SearchFilter(1);
+    });
+    function SearchFilter(page) {
+        ShowWaiting(800);
+        var province = $("#search-by-branch").val()??0;
+        var nameSearch = $("#search-by-name").val();
+        var role = $("#search-by-role").val();
+        LoadDataUser(page, nameSearch, role, province);
+}
+
+    $("#btnDeactivated").click(function () {
+        GetListToChangeStatus(0)
+    });
+    $("#btnActivated").click(function () {
+        GetListToChangeStatus(1)
+    });
+    function GetListToChangeStatus(status) {
+        if (CheckCheckbox()) {
+            ShowWaiting(1000);
+            localStorage.setItem("mySession", "__user")
+            localStorage.setItem("title", "USERS")
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to "+(status==1?"activate":"deactivate")+" these item(s)?")) {
+                var fdt = new FormData();
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                fdt.append("status",status)
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeStatusUser", "User")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                      window.location.href = "@Url.Action("Index","User")"
+
+                }
+            });
+                ResetCheckbox();
             }
         }
-    });
+    }
 
 </script>

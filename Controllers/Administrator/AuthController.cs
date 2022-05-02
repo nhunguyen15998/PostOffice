@@ -41,6 +41,12 @@ namespace post_office.Controllers.Administrator
                 return RedirectToAction("Index", "User");
 
         }
+        //contact
+        public IActionResult Contacts()
+        {
+            return RedirectToAction("Index", "Contacts");
+
+        }
 
         //branches
         public IActionResult Branches()
