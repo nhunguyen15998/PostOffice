@@ -10,6 +10,8 @@ namespace post_office.Entities
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public decimal Total { get; set; }
+
+        public int Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int PaymentStatus { get; set; }
 

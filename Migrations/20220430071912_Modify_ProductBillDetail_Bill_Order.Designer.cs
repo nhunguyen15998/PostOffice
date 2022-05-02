@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using post_office.Entities;
 
 namespace post_office.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220430071912_Modify_ProductBillDetail_Bill_Order")]
+    partial class Modify_ProductBillDetail_Bill_Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,9 +79,6 @@ namespace post_office.Migrations
                     b.Property<bool>("IsPickup")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderQty")
                         .HasColumnType("int");
 
@@ -132,13 +131,36 @@ namespace post_office.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("ProductBillId");
 
                     b.HasIndex("SenderId");
 
                     b.ToTable("Bills");
+                });
+
+            modelBuilder.Entity("post_office.Entities.BillOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("BillOrders");
                 });
 
             modelBuilder.Entity("post_office.Entities.Blog", b =>
@@ -223,11 +245,11 @@ namespace post_office.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsRead")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsReplied")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsReplied")
+                        .HasColumnType("int");
 
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
@@ -238,7 +260,7 @@ namespace post_office.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ReplierId")
+                    b.Property<int>("ReplierId")
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
@@ -1009,12 +1031,6 @@ namespace post_office.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("post_office.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("post_office.Entities.ProductBill", "ProductBill")
                         .WithMany()
                         .HasForeignKey("ProductBillId");
@@ -1027,11 +1043,28 @@ namespace post_office.Migrations
 
                     b.Navigation("Branch");
 
-                    b.Navigation("Order");
-
                     b.Navigation("ProductBill");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("post_office.Entities.BillOrder", b =>
+                {
+                    b.HasOne("post_office.Entities.Bill", "Bill")
+                        .WithMany()
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("post_office.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bill");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("post_office.Entities.Branch", b =>
@@ -1059,7 +1092,9 @@ namespace post_office.Migrations
                 {
                     b.HasOne("post_office.Entities.User", "Replier")
                         .WithMany()
-                        .HasForeignKey("ReplierId");
+                        .HasForeignKey("ReplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Replier");
                 });

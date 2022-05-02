@@ -1,0 +1,115 @@
+<!--receiver-add-product-->
+<div class="modal fade" id='receiver-add-product-1' tabindex="-1" aria-labelledby='receiver-add-product-1-label'
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered" style="max-width: fit-content;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id='receiver-add-product-1-label'>PURCHASE PRODUCTS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="overflow: hidden scroll;height: 500px;">
+                <!--product-->
+                <div id="purchase-product" class="container mt-5" style="max-width: 95%;">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <div
+                                    style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+                                    <div class="dropdown" id="product-cate-list-1" style="height: 51px;">
+                                        <a class="btn dropdown-toggle tg-service" href="#" role="button"
+                                            id='select-product-cate-1' data-bs-toggle="dropdown"
+                                            aria-expanded="false" style="height: 100%; width: 100%;">
+                                            <button
+                                                style="background-color: transparent;color: #111;width: 100%;text-align: left;font-size: 13px;"
+                                                class="btn-sm">Select product category</button>
+                                        </a>
+                                        <ul class="dropdown-menu p-0"
+                                            aria-labelledby='select-product-cate-1'
+                                            style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden">
+                                            <li style="padding: 0 20px;font-size: 14px;">--Select
+                                                product category</li>
+                                            <div style="overflow: hidden scroll;height: 100px;"></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9" style="">
+                            <div class=""
+                                style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
+                                <div class="dropdown" id='product-list-1' style="height: 51px;">
+                                    <a class="btn dropdown-toggle" href="#" role="button"
+                                        id='select-product-1' data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <input type="search" placeholder="Search product…"
+                                            style="border: none;padding: 0;">
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby='select-product-1'
+                                        style="overflow: hidden; height: 250px; line-height: 40px; width:100%;"
+                                        data-popper-placement="bottom-start">
+                                        <li style="padding: 0 20px;font-size: 14px;">--Select product
+                                        </li>
+                                        <div style="overflow: hidden scroll;height: 200px;font-size: 13px;"
+                                            id='div-product-1'>
+
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="postalservice">
+                        <div class="postalservice-notices-wrapper"></div>
+                        <form class="postalservice-cart-form">
+                            <table
+                                class="shop_table shop_table_responsive cart postalservice-cart-form__contents"
+                                cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th class="product-remove">&nbsp;</th>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-name">Attribute</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='tbody-product-1' data-rows="0">
+                                    <tr id='tbody-default-1'>
+                                        <td colspan="7" class="text-center">Empty cart</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <div class="cart-collaterals">
+                            <div class="cart_totals ">
+                                <h5>Cart totals</h5>
+                                <table cellspacing="0" class="shop_table shop_table_responsive">
+                                    <tbody id='tbody-total-cart-1'>
+                                        <tr class="cart-subtotal" data-subtotal-product="0">
+                                            <th>Subtotal</th>
+                                            <td data-title="Subtotal">
+                                                <span class="postalservice-Price-amount amount"></span>
+                                            </td>
+                                        </tr>
+                                        <tr class="order-total" data-total-product="0">
+                                            <th>Total</th>
+                                            <td data-title="Total">
+                                                <span class="postalservice-Price-amount amount"
+                                                    style="font-weight: bold;"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm" style="background-color:#ffdc39;" data-bs-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>

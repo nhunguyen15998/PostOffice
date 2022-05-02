@@ -103,6 +103,7 @@ namespace post_office
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IBillService, BillService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

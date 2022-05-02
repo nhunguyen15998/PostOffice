@@ -36,13 +36,13 @@
                     <div id="site-header-menu" class="site-header-menu themestek-table-cell">
                         <nav id="site-navigation" class="main-navigation" aria-label="Primary Menu"
                             data-sticky-height="90">
-                            <div class="themestek-header-icons ">
+                            @* <div class="themestek-header-icons ">
                                 <span class="themestek-header-icon themestek-header-search-link">
                                     <a href="#">
                                         <i class="themestek-moversco-icon-search-2"></i>
                                     </a>
                                 </span>
-                            </div>
+                            </div> *@
                             <button id="menu-toggle" class="menu-toggle">
                                 <span class="themestek-hide">Toggle menu</span>
                                 <i class="themestek-moversco-icon-bars"></i>
@@ -81,7 +81,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    @* <li>
                                         <a href="#">Receive</a>
                                         <ul class="sub-menu">
                                             <li>
@@ -92,20 +92,20 @@
                                                 <a href='@Url.ActionLink("Tracking", "Send")'>Tracking</a>
                                             </li>
                                             <li>
-                                                <a href="https://moversco.themestek.com/demo6/projects-style-3/">Intercept
+                                                <a href="#">Intercept
                                                     a Package</a>
                                             </li>
                                             <li>
-                                                <a href="https://moversco.themestek.com/demo6/projects-style-3/">Schedule
+                                                <a href="#">Schedule
                                                     a Redelivery</a>
                                             </li>
                                             <li>
                                                 <a
-                                                    href="https://moversco.themestek.com/demo6/project/office-furniture-moving/">Request
+                                                    href="#">Request
                                                     a Refund</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> *@
                                     <li>
                                         <a href="#">Products</a>
                                         <ul class="sub-menu">
@@ -120,9 +120,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    @* <li>
                                         <a href='@Url.ActionLink("Index", "Blog")'>Blog</a>
-                                    </li>
+                                    </li> *@
                                     <li>
                                         <a href='@Url.ActionLink("Index", "Contact")'>Contacts</a>
                                     </li>
@@ -146,7 +146,7 @@
                                                                 style="border-radius: 50px;" class="mr-2">`
                                             $('#btn-signin-signup').append(dropdown)
                                             $('#btn-signin-signup').children('a').prepend(avatar)
-                                            $('#customer-name').text(customer.firstName + " " + customer.lastName)
+                                            $('#customer-name').text(customer.FirstName + " " + customer.LastName)
                                             $('#btn-sign-out').on('click', () => {
                                                 localStorage.removeItem('user_data')
                                                 window.location.href = "/"
@@ -180,7 +180,6 @@
                                             </div>
                                         </ul>
                                     </li>
-                                    <script src="../../js/client/location-address.js"></script>
                                 </ul>
                             </div>
                         </nav><!-- .main-navigation -->
@@ -188,6 +187,7 @@
                 </div><!-- .site-header-main -->
             </div>
         </div>
+        <script type="text/javascript" src="../../js/client/client-cookies.js"></script>
         @{
             var title = ViewData["Title"].ToString();
         }
@@ -209,4 +209,5 @@
                 break;
         }
     </div>
+    <script type="text/javascript" src="../../js/client/location-address.js"></script>
 </header><!-- .site-header -->

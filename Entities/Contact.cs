@@ -15,10 +15,10 @@ namespace post_office.Entities
         public string Message { get; set; }
         public DateTime? CreatedAt { get; set; }
         [DefaultValue(0)]
-        public int IsRead { get; set; }
+        public bool IsRead { get; set; }
         [DefaultValue(0)]
-        public int IsReplied { get; set; }
-        public int ReplierId { get; set; }
+        public bool IsReplied { get; set; }
+        public int? ReplierId { get; set; }
 
         public User Replier { get; set; }
     }

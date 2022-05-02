@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = post_office
-build_property.ProjectDir = C:\CSharp\Project_PostOffice\
+build_property.ProjectDir = /Users/admin/c#/Project_PostOffice/

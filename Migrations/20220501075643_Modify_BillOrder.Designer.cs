@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using post_office.Entities;
 
 namespace post_office.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220501075643_Modify_BillOrder")]
+    partial class Modify_BillOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,11 +225,11 @@ namespace post_office.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsRead")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsReplied")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsReplied")
+                        .HasColumnType("int");
 
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
@@ -238,7 +240,7 @@ namespace post_office.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ReplierId")
+                    b.Property<int>("ReplierId")
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
@@ -1059,7 +1061,9 @@ namespace post_office.Migrations
                 {
                     b.HasOne("post_office.Entities.User", "Replier")
                         .WithMany()
-                        .HasForeignKey("ReplierId");
+                        .HasForeignKey("ReplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Replier");
                 });

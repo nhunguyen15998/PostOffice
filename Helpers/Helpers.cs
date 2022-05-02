@@ -88,5 +88,40 @@ namespace post_office.Helpers
             Activated
         }
 
+        public enum DeliveryStatus
+        {
+            [Display(Name = "Pending")]
+            Pending,
+            [Display(Name = "Picked up")]
+            Picked,
+            [Display(Name = "Queuing")]
+            Queuing,
+            [Display(Name = "On delivery")]
+            Delivery,
+            [Display(Name = "Delivered")]
+            Delivered,
+            [Display(Name = "Failed")]
+            Failed,
+            [Display(Name = "Redeliver")]
+            Redeliver
+        }
+
+        public enum OrderStatus
+        {
+            [Display(Name = "Canceled")]
+            Canceled,
+            [Display(Name = "Completed")]
+            Completed,
+            [Display(Name = "Proccessing")]
+            Proccessing
+        }
+
+        public enum PaymentStatus
+        {
+            [Display(Name = "Unpaid")]
+            Unpaid,
+            [Display(Name = "Paid")]
+            Paid
+        }
     }
 }

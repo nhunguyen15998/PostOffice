@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace post_office.Entities
+namespace post_office.Models
 {
-    public class Bill
+    public class BillModel
     {
-        [Key]
         public int Id { get; set; }
         public string Code { get; set; }
         public int OrderId { get; set; }
@@ -25,26 +28,20 @@ namespace post_office.Entities
         public int FromWardId { get; set; }
         public int FromCityId { get; set; }
         public int FromProvinceId { get; set; }
-
+        
         public decimal? PickUpFee { get; set; }
-        [DefaultValue(false)]
         public bool IsPickup { get; set; }
         public DateTime? SendingOn { get; set; }
 
-        [DefaultValue(1)]
         public int OrderQty { get; set; }
         public decimal Total { get; set; }
-
-        public int Status { get; set; }
+        
         public DateTime? CreatedAt { get; set; }
         public int PaymentType { get; set; }
         public int PaymentStatus { get; set; }
         public DateTime? PaidOn { get; set; }
         public int BranchId { get; set; }
-
-        public ProductBill ProductBill { get; set; }
-        public Branch Branch { get; set; }
-        public Customer Sender { get; set; }
-        public Order Order { get; set; }
     }
+
+    
 }

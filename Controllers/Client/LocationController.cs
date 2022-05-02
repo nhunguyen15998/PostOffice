@@ -31,15 +31,15 @@ namespace post_office.Controllers.Client
         }
 
         [HttpGet]
-        public IEnumerable<LocationModel> GetCitiesByState([FromQuery] string stateId)
+        public IEnumerable<LocationModel> GetCitiesByState([FromQuery] int provinceId)
         {
-            return _locationService.GetCities(int.Parse(stateId));
+            return _locationService.GetCities(provinceId);
         }
 
         [HttpGet]
-        public IEnumerable<LocationModel> GetWardsByCity([FromQuery] int cityId)
+        public IEnumerable<LocationModel> GetWardsByCity([FromQuery] int districtId)
         {
-            return _locationService.GetWards(cityId);
+            return _locationService.GetWards(districtId);
         }
 
         //branch

@@ -133,3 +133,8 @@ a{
     margin: 5px 0 0 15px !important;
     color: red;
 }
+
+.disable-section{
+    pointer-events: none;
+    opacity: 0.4;
+}

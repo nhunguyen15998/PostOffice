@@ -26,8 +26,6 @@ namespace post_office.Entities
         public DbSet<Attribute> Attributes { get; set; }
         //Bill
         public DbSet<Bill> Bills { get; set; }
-        //BillOrder
-        public DbSet<BillOrder> BillOrders { get; set; }
         //Blog
         public DbSet<Blog> Blogs { get; set; }
         //Branch

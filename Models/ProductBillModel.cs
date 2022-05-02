@@ -1,12 +1,26 @@
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace post_office.Entities
+namespace post_office.Models
 {
-    public class ProductBillDetail
+    public class ProductBillModel
     {
-        [Key]
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
+        public int Status { get; set; }
+        public decimal Total { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public int PaymentStatus { get; set; }
+
+    }
+
+    public class ProductBillDetailModel
+    {
         public int Id { get; set; }
         public int ProductBillId { get; set; }
         public int ProductAttributeId { get; set; }
@@ -20,8 +34,6 @@ namespace post_office.Entities
         public int Qty { get; set; }
         public decimal SubTotal { get; set; }
         public DateTime? CreatedAt { get; set; }
-
-        public ProductBill ProductBill { get; set; }
-        public ProductAttribute ProductAttribute { get; set; }
     }
+    
 }
