@@ -1125,8 +1125,8 @@
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
                             var thumbnail = "";
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_PRODUCT")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_PRODUCT")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_PRODUCT")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-product" > <i class="fa fa-edit"></i></span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_PRODUCT")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-product">  <i class="fa fa-trash"></i> </span>';
 
                             if (data[i].thumbnail != null) { thumbnail = '<img src="/img/ProductThumbnail/' + data[i].thumbnail + '" width="45" height="45" />' }
                              res += '<tr class="table-item">  <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].id+'" /></td>'
@@ -1134,7 +1134,7 @@
                                 + '<td class="tbl-200">' + data[i].name + '</td>  <td class="tbl-160">' + data[i].categoryName + '</td>'
                                 + '<td class="tbl-60">' + ls[1] + '</td>  <td class="tbl-110">' + ls[0]+ '</td>  <td class="sts-item tbl-40" id="sts-">' + str
                                 + '</td>  <td class="tbl-180">  <span oid="object-' + data[i].id + '" class="action-icon view view-product" style="padding:10px 5px 10px 10px">'
-                                + '<i class="fa fa-eye"></i> ' + edit + dlt + ' </td>  </tr>';
+                                + '<i class="fa fa-eye"></i> </span>' + edit + dlt + ' </td>  </tr>';
                             row = row + 1;
 
 

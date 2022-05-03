@@ -29,7 +29,7 @@
         @foreach (var item in (List<post_office.Models.RoleModel>)ViewBag.lsRole)
         {
             <tr class="table-item">
-                <td><input type="checkbox" class="sub-check" post-item="post-" /></td>
+                <td><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
                 <td>@k @{k++;} </td>
                 <td>@item.code</td>
                 <td>@item.name</td>
@@ -186,6 +186,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+    var roleID = 0;
     function ClearFilter() {
         $("#search-by-name").val("");
         SearchFilter(1);

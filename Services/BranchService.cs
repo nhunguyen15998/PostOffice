@@ -72,7 +72,7 @@ namespace post_office.Services
             return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, 
                                                                     code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name,
                                                                     phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, 
-                                                                    status = x.Status, addressString=(x.Address + ", " + _context.VNWards.FirstOrDefault(y => y.Id ==x.WardId).Name + ", " + _context.VNCities.FirstOrDefault(y => y.Id == x.CityId).Name + ", " + _context.VNStates.FirstOrDefault(y => y.Id == x.ProvinceId).Name) }).ToList();
+                                                                    status = x.Status, addressString=x.Address + ", " +x.Ward.Name + ", " + x.City.Name + ", " + x.Province.Name }).ToList();
         }
         public bool ModifyBranch(BranchModel mdl)
         {
@@ -117,7 +117,7 @@ namespace post_office.Services
         }
         public BranchModel GetBranch(int id)
         {
-             return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name, phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, status = x.Status }).FirstOrDefault(x => x.id == id);
+             return _context.Branches.Select(x => new BranchModel() { id = x.Id, address = x.Address, cityId = (int)x.CityId, code = x.Code, createdAt = (DateTime)x.CreatedAt, name = x.Name, phone = x.Phone, provinceId = (int)x.ProvinceId, wardId = (int)x.WardId, status = x.Status, addressString = x.Address + ", " + x.Ward.Name + ", " + x.City.Name + ", " + x.Province.Name }).FirstOrDefault(x => x.id == id);
         }
 
     }

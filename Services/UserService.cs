@@ -66,7 +66,7 @@ namespace post_office.Services
         }
         public List<UserModel> GetListUser()
         {
-            return _context.Users.Select(x => new UserModel() { id = x.Id,email=x.Email, avatar = x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role=_context.Roles.FirstOrDefault(y=>y.Id==x.RoleId).Name, branch=_context.Branches.FirstOrDefault(z=>z.Id==x.BranchId).Name }).ToList();
+            return _context.Users.Select(x => new UserModel() { id = x.Id,email=x.Email, avatar = x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role=x.Role.Name, branch=x.Branch.Name }).ToList();
         }
         public bool ModifyUser(UserModel u, bool setup)
         {
@@ -75,7 +75,7 @@ namespace post_office.Services
 
             if (us != null)
             {
-                if (setup||AuthenticetionModel.roleName=="Super Admin")
+                if (setup || AuthenticetionModel.roleName == "Super Admin" )
                 {
                     us.Password = u.password;
                     us.Phone = u.phone;
@@ -86,14 +86,14 @@ namespace post_office.Services
                 us.RoleId = u.roleId;
                 us.Status = u.status;
                 us.Avatar = u.avatar;
-                if (us.Id == AuthenticetionModel.id&&us.Status==0) return false;
+                if (us.Id == AuthenticetionModel.id&&u.status==0) return false;
                 _context.SaveChanges();
             }
             return true; 
         }
         public UserModel GetUser(int id)
         {
-            return _context.Users.Select(x => new UserModel() { id = x.Id, email = x.Email, avatar = x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role = _context.Roles.FirstOrDefault(y => y.Id == x.RoleId).Name, branch = _context.Branches.FirstOrDefault(z => z.Id == x.BranchId).Name }).FirstOrDefault(x => x.id == id);
+            return _context.Users.Select(x => new UserModel() { id = x.Id, email = x.Email, avatar = x.Avatar==null?"":x.Avatar, branchId = x.BranchId ?? 0, code = x.Code, fullName = x.FullName, password = x.Password, createdAt = (DateTime)x.CreatedAt, phone = x.Phone, roleId = (int)x.RoleId, status = x.Status, role = x.Role.Name, branch = x.Branch.Name }).FirstOrDefault(x => x.id == id);
         }
         public bool  ChangeStatusListUser(List<int> ls, int status) {
             bool check = true;

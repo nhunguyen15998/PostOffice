@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using post_office.Models;
 using post_office.Services;
 using System;
@@ -11,7 +13,9 @@ namespace post_office.Controllers.Administrator
     public class ContactsController : Controller
     {
         public static IContactServices _contactSvc = null;
+        public static string mess = "";
         public static int page = 1;
+        public static int _id = 0;
         public ContactsController(IContactServices cont)
         {
             _contactSvc = cont;
@@ -64,5 +68,40 @@ namespace post_office.Controllers.Administrator
             return (int)pagi;
         }
         //End pagination
+        public ContactModel GetContact(int id)
+        {
+            var mdl = new ContactModel { id = id, isRead = true };
+            _contactSvc.ModifyContact(mdl);
+            var e= _contactSvc.GetContact(id);
+            _id = e.id;
+            return e;
+        }
+        public IActionResult ReplyAction()
+        {
+            string content = Request.Form["content"];
+            var contact = _contactSvc.GetContact(_id);
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Postal Office", "postaloffice.hcmc@gmail.com"));
+            message.To.Add(new MailboxAddress("", contact.email));
+            message.Subject = "Feedback for contact: " + contact.subject;
+            message.Body = new TextPart("plain")
+            {
+                Text= $"You have written: {contact.message}\n ____________________________________________________________________________________ \n" +
+                      $"Hello {contact.name}, Sincerely thank you for your interest for the Postal Office service.\nRegarding the problem you encounter, we have the following response:\n  {content}"
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("postaloffice.hcmc@gmail.com", "Abc123@@");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+            var mdl = new ContactModel { id = _id, isRead = true, isReply=true, ReplierId=AuthenticetionModel.id };
+            _contactSvc.ModifyContact(mdl);
+            _id = 0;
+            mess = "Send sucessfully!";
+            return RedirectToAction("Index");
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,11 +35,12 @@ namespace post_office.Models
         //isRead
         public bool isRead { get; set; } 
         //isReply
-        public bool? isReply { get; set; }
+        public bool isReply { get; set; }
         //replierID
         public int? ReplierId { get; set; }
         //created at
         public DateTime createdAt { get; set; }
+        public User replier { get; set; }
 
 
     }

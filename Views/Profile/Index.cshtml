@@ -1,0 +1,224 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "My Account";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    UserModel u = (UserModel)ViewBag.mdl;
+}
+
+@using post_office.Models
+<div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:30px 20px">
+    <div class="col-3" style="float:left;">
+        <div style="display:table-row; height: auto; min-height: 280px; background: none; float: left;padding:0 " class="col-12">
+            <label class="text-color">  Avatar: </label> <br />
+            <div id="viewer" style="border: 2px dashed #eed192;border-radius: 6px; min-height: inherit;padding-top:10px; text-align:center">
+
+
+                <div style="margin-bottom:10px" id="content">Click or drag to upload</div>
+
+                <img id="imgViewer" src="@(u.avatar==""?null:"/img/AvtUser/"+u.avatar)" style="border:none; width:90%;height:auto;margin-bottom:5vh;border-radius:20px;" />
+            </div>
+            <input type="file" id="ip-thumbnail" onchange="ReadImage(this)" class="main-post" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp" aria-hidden="true" tabindex="-1" style="cursor: pointer; height: 100%; opacity: 0;
+                        position: absolute; width: 100%; left: 0px; top: 0px; font-size: 0px;">
+        </div>
+        <div class="col-12 container" style=" text-align:center;height: auto;float: left;margin-top:-30px;display:table-row;">
+            <button id="trashimg" style="padding: 10px 17px; background: #e12c2c; border-radius: 50%; border: 0; font-size: 20px; display: none"><i style="color:white;pointer-events:none" class="fa fa-trash"></i></button>
+        </div>
+    </div>
+    <div class="col-4" style="float: left;">
+        <br />
+
+        <label class="text-color">
+            Code:
+            <span class="text-readonly">@u.code</span>
+        </label>
+        <br />
+        <label class="text-color">
+            Phone:
+            <span class="text-readonly">@u.phone</span>
+        </label>
+        <br />
+        <label class="text-color">
+            Role:
+            <span class="text-readonly">@u.role</span>
+        </label>
+        <br />
+        <label class="text-color">
+            Branch:
+            <span class="text-readonly">@(u.branchId==0?"**SYSTEM**":u.branch)</span>
+        </label>
+        <br />
+        <label class="text-color">
+            Created at:
+            <span class="text-readonly">@u.createdAt.ToString("dd/MM/yyyy HH:mm")</span>
+        </label>
+        <br />
+        <label class="text-color">
+            Status:
+            <span class="text-readonly">Activated</span>
+        </label>
+
+    </div>
+    <br />
+
+    <div class="col-5 pl-4" style="float: left; border-left: 3px solid #f4e8e4;">
+
+        <label class="text-color mt-0">Name:</label>
+        <input class="input-form-cu" type="text" placeholder="name" id="ip-name" value="@u.fullName" />
+        <label class="_error" id="name-error"></label>
+        <br />
+        <label class="text-color mt-0">Email:</label>
+        <input class="input-form-cu" type="text" placeholder="email" id="ip-email" value="@u.email" />
+        <label class="_error" id="email-error"></label>
+        <br />
+        <input type="checkbox" id="change_password" />
+        <label class="text-color">Change password</label>
+        <div id="form-change">
+
+        </div>
+    </div>
+    <button id="btnSave" type="submit" class="save btn-action pl-5 pr-5 pt-2 pb-2 mr-3 mt-3" style="float:right">Save</button>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    window.onload = function () {
+
+        var mess = "@(post_office.Controllers.Administrator.ProfileController.mess)";
+        if (mess != "")
+            ShowMessage(true, mess)
+
+           @{post_office.Controllers.Administrator.ProfileController.mess = "";}
+        if (document.getElementById("ip-thumbnail").files[0] == null) {
+            $("#trashimg").css("display", "none");
+
+        }
+        if ($("#imgViewer").attr("src") != null) {
+            $("#content").html("");
+            document.getElementById("trashimg").style.removeProperty("display");
+
+        }
+
+    }
+    $("#btnSave").click(function () {
+        ShowWaiting(1500);
+        if (Validate() && ValidatePass()) {
+            
+             var mdl = {
+                 fullName: $("#ip-name").val(),
+                 email: $("#ip-email").val(),
+                 status:1
+            };
+            if ($("#change_password").prop("checked") == true) {
+                mdl = {
+                    fullName: $("#ip-name").val(),
+                    email: $("#ip-email").val(),
+                    password: $("#new_pass").val(),
+                    status: 1
+
+                }
+            }
+
+            var f = new FormData();
+            f.append("mdl", JSON.stringify(mdl));
+            f.append("file", document.getElementById("ip-thumbnail").files[0]);
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateUser", "Profile")",
+            data: f,
+            processData: false,
+            contentType: false,
+                success: function () {
+                    window.location.href = '@Url.Action("Index","Profile")'
+
+            }
+        })
+
+        }
+    })
+    function Validate() {
+        $("#name-error").html("");
+        $("#email-error").html("");
+        var email = $("#ip-email").val();
+        var name = $("#ip-name").val();
+        var regex = /[a-zA-Z0-9][a-zA-Z0-9._]*@@[a-zA-Z0-9-]+([.][a-zA-Z]+)+/;
+        if (isEmpty(name) || isEmpty(email) || !email.match(regex)) {
+            if (!email.match(regex)) $("#email-error").html("Invalid email address");
+            if (isEmpty(name)) $("#name-error").html("* required");
+            if (isEmpty(email)) $("#email-error").html("* required");
+            return false;
+        }
+        return true;
+    }
+    function ValidatePass() {
+        if ($("#change_password").prop("checked") == false) return true;
+        $("#old-error").html("");
+        $("#new-error").html("");
+        $("#confirm-error").html("");
+        var old = $("#old_pass").val();
+        var _new = $("#new_pass").val();
+        var confirm = $("#confirm_pass").val();
+        var f = new FormData();
+        f.append("old", old);
+        var res_old = $.ajax({
+            type: "POST",
+            url: "@Url.Action("CheckOldPass", "Profile")",
+            data: f,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                return data;
+
+            }
+        }).responseText;
+        if (res_old == "false" ||isEmpty(old) ||isEmpty(_new) || isEmpty(confirm) || _new != confirm || _new == old ) {
+            if (res_old == "false") $("#old-error").html("The password you enter is not correct");
+            if (_new != confirm) $("#confirm-error").html("Not match new password");
+            if (_new == old) $("#confirm-error").html("Your password changes like the current password");
+            if (isEmpty(old)) $("#old-error").html("* required");
+            if (isEmpty(_new)) $("#new-error").html("* required");
+            if (isEmpty(confirm)) $("#confirm-error").html("* required");
+            return false;
+            }
+        return true;
+    }
+    $("#change_password").click(function () {
+        if ($(this).prop("checked")) {
+            $("#form-change").css("display", "block");
+            $("#form-change").animate({ height: "0" });
+            $("#form-change").append('<label class="text-color mt-0">Old password:</label>  <input type = "password" id = "old_pass" class= "input-form-cu" placeholder = "old password" /><label class="_error" id="old-error"></label>' +
+                '<label class="text-color mt-0">New password:</label> <input type="password" id="new_pass" class="input-form-cu" placeholder="new password" /><label class="_error" id="new-error"></label>' +
+                '<label class="text-color mt-0">Confirm password:</label> <input type="password" id="confirm_pass" class="input-form-cu" placeholder="confirm password" /><label class="_error" id="confirm-error"></label>');
+            $("#form-change").animate({ height: "280px" });
+
+        } else {
+            $("#form-change").animate({ height: "0" });
+
+            $("#form-change").empty();
+
+        }
+    })
+    function ReadImage(input) {
+        document.getElementById("trashimg").style.removeProperty("display");
+        $("#content").html("");
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                $('#imgViewer').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#trashimg").click(function () {
+        $("#content").html("Click or drag to upload");
+        $("#imgViewer").attr("src", null);
+        $("#ip-thumbnail").val("");
+        $(this).css("display", "none")
+    });
+</script>
+
