@@ -62,6 +62,11 @@ namespace post_office.Controllers.Administrator
                 return RedirectToAction("Index", "Services");
 
         }
+        //my account
+        public IActionResult MyAccount()
+        {
+            return RedirectToAction("Index","Profile");
+        }
 
         //product cate
 

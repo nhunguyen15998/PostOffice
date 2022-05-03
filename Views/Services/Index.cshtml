@@ -276,8 +276,8 @@
                     var edit = "";
                     var dlt = "";
                     for (var i = 0; i < data.length; i++) {
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_SERVICE")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_SERVICE")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-attr">  <i class="fa fa-trash"></i> </span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_SERVICE")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-service" > <i class="fa fa-edit"></i></span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("DELETE_SERVICE")"=="True") dlt = '<span oid="object-' + data[i].id + '" class="action-icon delete delete-service">  <i class="fa fa-trash"></i> </span>';
 
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }

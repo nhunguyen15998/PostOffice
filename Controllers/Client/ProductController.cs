@@ -29,10 +29,14 @@ namespace post_office.Controllers.Client
 
         public IActionResult Index()
         {
+            ViewBag.pSvc = _productAttributeService;
             ViewBag.data = _productService.GetListProduct(0,0).OrderByDescending(x => x.id).ToList();
             return View();
         }
-
+        public ProductAttributeModel GetProductAttributes(int id)
+        {
+            return _productAttributeService.GetProductAttribute(id);
+        }
         public IActionResult Detail(string product_detail)
         {
             var pd = _productService.GetDataContext().Products.Select(x=> new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryName = _productService.GetDataContext().ProductCategories.FirstOrDefault(y => y.Id == x.CategoryId).Name, categoryId = x.CategoryId, description = x.Description, price = x.Price, qty = x.Qty, thumbnail = x.Thumbnail, status = x.Status, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.code == product_detail);

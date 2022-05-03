@@ -295,6 +295,8 @@
 
     }
     $('#btnBranchSave').click(function () {
+        localStorage.setItem("mySession", "__branches")
+        localStorage.setItem("title", "BRANCHES")
         ShowWaiting(1800);
         ShakeError();
     });

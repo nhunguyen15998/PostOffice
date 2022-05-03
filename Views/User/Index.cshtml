@@ -305,7 +305,7 @@
                 success: function (data) {
                     var edit = "";
                     for (var i = 0; i < data.length; i++) {
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_USER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-attr" > <i class="fa fa-edit"></i></span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_USER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-user" > <i class="fa fa-edit"></i></span>';
 
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                             if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }

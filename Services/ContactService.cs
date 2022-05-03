@@ -12,7 +12,8 @@ namespace post_office.Services
         DataContext GetDataContext();
         void SendMessage(ContactModel mdl);
         List<ContactModel> GetListContact();
-
+        ContactModel GetContact(int id);
+        ContactModel ModifyContact(ContactModel m);
     }
     public class ContactService : IContactServices
     {
@@ -33,8 +34,27 @@ namespace post_office.Services
         }
         public List<ContactModel> GetListContact()
         {
-            return ct.Contacts.Select(x => new ContactModel() { id = x.Id, createdAt = (DateTime)x.CreatedAt, email = x.Email, isRead = x.IsRead, isReply = x.IsReplied, message = x.Message, name = x.Name, phone = x.Phone, ReplierId = x.ReplierId, subject = x.Subject }).ToList();
+            return ct.Contacts.Select(x => new ContactModel() { id = x.Id, createdAt = (DateTime)x.CreatedAt, email = x.Email, isRead = x.IsRead, isReply = x.IsReplied, message = x.Message, name = x.Name, phone = x.Phone, ReplierId = x.ReplierId, subject = x.Subject, replier=ct.Users.FirstOrDefault(y=>y.Id==x.ReplierId) }).ToList();
         }
-    }
+        public ContactModel GetContact(int id)
+        {
+            return ct.Contacts.Select(x => new ContactModel() { id = x.Id, createdAt = (DateTime)x.CreatedAt, email = x.Email, isRead = x.IsRead, isReply = x.IsReplied, message = x.Message, name = x.Name, phone = x.Phone, ReplierId = x.ReplierId, subject = x.Subject, replier = ct.Users.FirstOrDefault(y => y.Id == x.ReplierId) }).FirstOrDefault(x => x.id == id);
+        }
+        public ContactModel ModifyContact(ContactModel m)
+        {
+            var w = ct.Contacts.FirstOrDefault(x => x.Id == m.id);
+            if (w != null)
+            {
+                w.IsRead = m.isRead;
+                if (!w.IsReplied)   w.IsReplied = m.isReply;
+                if(w.ReplierId==null)w.ReplierId = m.ReplierId;
+                ct.SaveChanges();
+                m.id = w.Id;
+            }
+            return m;
+
+        }
 
     }
+
+}
