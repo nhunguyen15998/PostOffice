@@ -13,7 +13,7 @@ function getStateBranches(){
     $('#title-location').children('p').text("State/Province")
     $('#title-location').children('p').css('text-align', 'center')
     $.ajax({
-        url: `Location/StatesHaveBranches`,
+        url: base_url+`/Location/StatesHaveBranches`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -42,7 +42,7 @@ function getCitiesBranches(stateId) {
     $('#title-location').children('p').css('width', '65%')
     $('#title-location').children('p').css('text-align', '')
     $.ajax({
-        url: `Location/CitiesHaveBranches?stateId=${stateId}`,
+        url: base_url+`/Location/CitiesHaveBranches?stateId=${stateId}`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -66,7 +66,7 @@ function getCitiesBranches(stateId) {
 //return list branches
 function getBranchesByCity(cityId) {
     $.ajax({
-        url: `Location/GetBranchesByCities?cityId=${cityId}`,
+        url: base_url+`/Location/GetBranchesByCities?cityId=${cityId}`,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -92,7 +92,7 @@ function getBranchesByCity(cityId) {
 
 function getBranches(id){
     $.ajax({
-        url: `Location/GetBranchesByCities?cityId=0&branchId=`+id,
+        url: base_url+`/Location/GetBranchesByCities?cityId=0&branchId=`+id,
         type: 'get',
         dataType: 'json',
         contentType: 'applicaton/json',
@@ -128,4 +128,23 @@ $('#choose-branch').children('ul').on('mouseleave', () => {
     getStateBranches()
 })
 
+//search
+function onSearchLocation() {
+    // Declare variables
+    var input, filter, div, li, a, i, txtValue;
+    input = document.getElementById("location-search");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("location-list");
+    li = div.getElementsByTagName('li');
 
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+        } else {
+        li[i].style.display = "none";
+        }
+    }
+}

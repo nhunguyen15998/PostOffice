@@ -14,6 +14,9 @@ function onService() {
   $("#processing-step-3").removeClass("activated-step");
   $("#processing-step-4").removeClass("activated-step");
   $("#processing-step-5").removeClass("activated-step");
+
+  //validate
+  let attr = $('#service-list').find('button').attr('data-id')
 }
 $("#processing-step-1").addClass("activated-step");
 onService()
@@ -69,10 +72,9 @@ function onPayment() {
   if ($("#payment-process").hasClass("step-hidden"))
     $("#payment-process").removeClass("step-hidden")
   $("#processing-step-4").addClass("activated-step")
-  reviewService()
   reviewSender()
-  reviewReceiver()
-  reviewProduct()
+  reviewReceiverInfo()
+  reviewService()
 }
 
 $("#btn-receiver-next").on("click", () => {
@@ -250,11 +252,11 @@ function receiverInfo(index) {
                                         <div class=""
                                             style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
                                             <div class="dropdown" id='product-list-${index}' style="height: 51px;">
-                                                <a class="btn dropdown-toggle" href="#" role="button"
+                                                <a class="btn dropdown-toggle w-100" href="#" role="button"
                                                     id='select-product-${index}' data-bs-toggle="dropdown"
                                                     aria-expanded="false">
-                                                    <input type="search" placeholder="Search product…"
-                                                        style="border: none;padding: 0;">
+                                                    <input type="search" placeholder="Search product…" onkeyup="onSearchProducts(this)" class="w-100"
+                                                        style="border: none;padding: 0;" id="search-products-${index}">
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby='select-product-${index}'
                                                     style="overflow: hidden; height: 250px; line-height: 40px; width:100%;"
@@ -337,7 +339,7 @@ function receiverInfo(index) {
                     <span
                         class="postoffice-form-control-wrap"><input
                             type="text"
-                            name="receiver-first-name-${index}"
+                            name="receiver-first-name[${index}]"
                             class="postoffice-form-control postoffice-text"
                             aria-invalid="false"
                             placeholder="First name">
@@ -349,7 +351,7 @@ function receiverInfo(index) {
                     <span
                         class="postoffice-form-control-wrap"><input
                             type="text"
-                            name="receiver-last-name-${index}"
+                            name="receiver-last-name[${index}]"
                             class="postoffice-form-control postoffice-text"
                             aria-invalid="false"
                             placeholder="Last name">
@@ -366,7 +368,7 @@ function receiverInfo(index) {
                 <div class="input-group">
                     <span
                         class="postoffice-form-control-wrap"><input
-                            type="text" name="to-phone-${index}"
+                            type="text" name="to-phone[${index}]"
                             class="postoffice-form-control postoffice-text"
                             aria-invalid="false"
                             placeholder="Phone">
@@ -377,7 +379,7 @@ function receiverInfo(index) {
                 <div class="input-group">
                     <span
                         class="postoffice-form-control-wrap"><input
-                            type="text" name="to-email-${index}"
+                            type="text" name="to-email[${index}]"
                             class="postoffice-form-control postoffice-text"
                             aria-invalid="false"
                             placeholder="Email">
@@ -395,7 +397,7 @@ function receiverInfo(index) {
                     <span
                         class="postoffice-form-control-wrap"><input
                             type="text"
-                            name="to-address-${index}"
+                            name="to-address[${index}]"
                             class="postoffice-form-control postoffice-text"
                             aria-invalid="false"
                             placeholder="Address">
@@ -420,7 +422,13 @@ function receiverInfo(index) {
                         aria-labelledby="select-receiver-province-${index}"
                         style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
                         <li style="padding: 0 20px;font-size: 14px;">--Select province</li>
-                        <div style="overflow: hidden scroll;height: 100px;"> </div>
+                        <li style="padding: 0 20px;font-size: 14px;">
+                          <input type="text" placeholder="Search"
+                            style="height: 40px;padding: 10px;"
+                            id="receiver-province-search-${index}"
+                            onkeyup="onLocationSearch(this)">
+                        </li>
+                        <div style="overflow: hidden scroll;height: 100px;" id="receiver-province-list-${index}"> </div>
                       </ul>
                     </div>
                   </div>
@@ -450,7 +458,14 @@ function receiverInfo(index) {
                             aria-labelledby="select-receiver-district-${index}"
                             style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
                             <li style="padding: 0 20px;font-size: 14px;">--Select district</li>
-                            <div style="overflow: hidden scroll;height: 100px;"> </div>
+                            <li style="padding: 0 20px;font-size: 14px;">
+                              <input type="text"
+                                placeholder="Search"
+                                style="height: 40px;padding: 10px;"
+                                id="receiver-district-search-${index}"
+                                onkeyup="onLocationSearch(this)">
+                            </li>
+                            <div style="overflow: hidden scroll;height: 100px;" id="receiver-district-list-${index}"> </div>
                           </ul>
                         </div>
                       </div>
@@ -474,7 +489,14 @@ function receiverInfo(index) {
                             aria-labelledby="select-receiver-ward-${index}"
                             style="height: 142px; width: 100%; border-radius: 0px; line-height: 40px; overflow: hidden;">
                             <li style="padding: 0 20px;font-size: 14px;">--Select ward</li>
-                            <div style="overflow: hidden scroll;height: 100px;"> </div>
+                            <li style="padding: 0 20px;font-size: 14px;">
+                              <input type="text"
+                                placeholder="Search"
+                                style="height: 40px;padding: 10px;"
+                                id="receiver-ward-search-${index}"
+                                onkeyup="onLocationSearch(this)">
+                            </li>
+                            <div style="overflow: hidden scroll;height: 100px;" id="receiver-ward-list-${index}"> </div>
                           </ul>
                         </div>
                       </div>
@@ -487,7 +509,7 @@ function receiverInfo(index) {
         <div class="col-sm-2 p-0">
             <div class="input-group">
                 <span class="postoffice-form-control-wrap"><input
-                        type="text" name="pin-code-${index}"
+                        type="text" name="pin-code[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Pin code">
@@ -497,7 +519,7 @@ function receiverInfo(index) {
         <div class="col-sm-2 p-0">
             <div class="input-group">
                 <span class="postoffice-form-control-wrap"><input
-                        type="text" name="weight-${index}"
+                        type="text" name="weight[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Weight">
@@ -508,7 +530,7 @@ function receiverInfo(index) {
             <div class="input-group">
                 <span
                     class="postoffice-form-control-wrap"><input
-                        type="text" name="length-${index}"
+                        type="text" name="length[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Length">
@@ -519,7 +541,7 @@ function receiverInfo(index) {
             <div class="input-group">
                 <span
                     class="postoffice-form-control-wrap"><input
-                        type="text" name="width-${index}"
+                        type="text" name="width[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Width">
@@ -530,7 +552,7 @@ function receiverInfo(index) {
             <div class="input-group">
                 <span
                     class="postoffice-form-control-wrap"><input
-                        type="text" name="height-${index}"
+                        type="text" name="height[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Height">
@@ -561,7 +583,7 @@ function receiverInfo(index) {
                         <span
                             class="postoffice-form-control-wrap"><input
                                 type="text"
-                                name="name-${index}-1"
+                                name="name[${index}][1]"
                                 class="postoffice-form-control postoffice-text"
                                 aria-invalid="false"
                                 placeholder="Name">
@@ -573,7 +595,7 @@ function receiverInfo(index) {
                         <span
                             class="postoffice-form-control-wrap"><input
                                 type="text"
-                                name="qty-${index}-1"
+                                name="qty[${index}][1]"
                                 class="postoffice-form-control postoffice-text"
                                 aria-invalid="false"
                                 placeholder="Qty">
@@ -596,7 +618,7 @@ function receiverInfo(index) {
             <div class="input-group">
                 <span
                     class="postoffice-form-control-wrap"><textarea
-                        type="text" name="notes-${index}"
+                        type="text" name="notes[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Write some notes"
@@ -609,7 +631,7 @@ function receiverInfo(index) {
             <div class="input-group">
                 <span
                     class="postoffice-form-control-wrap"><input
-                        type="text" name="amount-${index}"
+                        type="text" name="amount[${index}]"
                         class="postoffice-form-control postoffice-text"
                         aria-invalid="false"
                         placeholder="Up to 3000k">
@@ -625,8 +647,8 @@ function receiverInfo(index) {
                     style="font-size: 14px;">Add some photos
                     of pickup stuff</label>
                 <span class="postoffice-form-control-wrap">
-                    <input type="file" name="photos-${index}"
-                        multiple style="font-size: 13px;"
+                    <input type="file" name="photos[${index}]"
+                        multiple style="font-size: 13px;" accept="image/*"
                         id="photos-${index}" onchange="changePhoto(${index})">
                 </span>
             </div>
@@ -792,7 +814,7 @@ function parcelDetail(index, count) {
                         <span
                             class="postoffice-form-control-wrap"><input
                                 type="text"
-                                name="name-${index}-${count}"
+                                name="name[${index}][${count}]"
                                 class="postoffice-form-control postoffice-text"
                                 aria-invalid="false"
                                 placeholder="Name">
@@ -804,7 +826,7 @@ function parcelDetail(index, count) {
                         <span
                             class="postoffice-form-control-wrap"><input
                                 type="text"
-                                name="qty-${index}-${count}"
+                                name="qty[${index}][${count}]"
                                 class="postoffice-form-control postoffice-text"
                                 aria-invalid="false"
                                 placeholder="Qty">
@@ -860,7 +882,7 @@ function loadParcelDetail(index) {
 //service
 function getServiceList(serviceId) {
   $.ajax({
-    url: `Service/GetServiceList?serviceId=` + serviceId,
+    url: base_url+`/Service/GetServiceList?serviceId=` + serviceId,
     type: "get",
     dataType: "json",
     contentType: "application/json",
@@ -892,7 +914,7 @@ getServiceList(0);
 let pCateId = 0;
 function getProductCateList(parentId) {
   $.ajax({
-    url: `Product/GetProductCategoryByParent?parentId=` + parentId,
+    url: base_url+`/Product/GetProductCategoryByParent?parentId=` + parentId,
     type: "get",
     dataType: "json",
     contentType: "application/json",
@@ -918,7 +940,7 @@ getProductCateList(0)
 function getProductByPCate(pCateId) {
   $(`#product-cate-list-${_modalIndex}`).find("button").text($(`#product-cate-${pCateId}-${_modalIndex}`).attr('data-name'));
   $.ajax({
-    url: "Product/GetProductsByPCate?categoryId=" + pCateId,
+    url: base_url+"/Product/GetProductsByPCate?categoryId=" + pCateId,
     type: "get",
     dataType: "json",
     contentType: "application/json",
@@ -969,7 +991,7 @@ getProductByPCate(0)
 
 function getProductAttributeByProduct(productId) {
     $.ajax({
-        url: 'Product/GetProductAttributeByProduct?productId='+productId,
+        url: base_url+'/Product/GetProductAttributeByProduct?productId='+productId,
         type: 'get',
         dataType: 'json',
         contentType: 'application/json',
@@ -1122,15 +1144,15 @@ function modifyQty(productId){
 let totalcart = 0
 totalCart()
 function addToCart(productId){
-  let addedQty = checkIfProductExists(productId)
-  let stock = $(`#attr-qty-${productId}-${_modalIndex}`).attr('data-qty')
+  //let addedQty = checkIfProductExists(productId)
+  //let stock = $(`#attr-qty-${productId}-${_modalIndex}`).attr('data-qty')
   let photo = $(`#li-product-${productId}-${_modalIndex}`).attr('data-photo')
   let name = $(`#li-product-${productId}-${_modalIndex}`).attr('data-name')
   let code = $(`#li-product-${productId}-${_modalIndex}`).attr('data-code')
   let qty = $(`#li-product-${productId}-${_modalIndex}`).attr('data-qty')
-  if((addedQty + parseInt(qty)) > stock){
-    return toastAlert('Product quantity', `You have reached the maximum quantity of this product ${stock}/${stock}`, info, 3000)
-  }
+  // if((addedQty + parseInt(qty)) > stock){
+  //   return toastAlert('Product quantity', `You have reached the maximum quantity of this product ${stock}/${stock}`, info, 3000)
+  // }
   let price = $(`#li-product-${productId}-${_modalIndex}`).attr('data-price')
   let attribute = $(`#li-product-${productId}-${_modalIndex}`).attr('data-attributeId')
   let color = $(`#li-product-${productId}-${_modalIndex}`).attr('data-color')
@@ -1147,6 +1169,10 @@ function addToCart(productId){
                 data-name="${name}" data-qty="${qty}" data-price="${price}" data-subtotal="${subtotal}"
                 data-attribute=""  data-color="${color}" data-length="${length}"
                 data-width="${width}" data-height="${height}" id="tr-product-${productAttribute}-${_modalIndex}">
+              <input type="hidden" name="product[${_modalIndex}][]" value="{'productId':${productId},${attribute != '' ? "'productAttributeId':"+attribute+',' : ''}
+                      'name':'${name}','qty':${qty},'price':${price},${(color != undefined && color != 'null' && attribute != '') ? `'color':'${color}',` : ''}
+                      ${(length != undefined && length != 'null' && attribute != '') ? `'length':'${length}',` : ""}${(width != undefined && width != 'null' && attribute != '') ? `'width':'${width}',` : ""} 
+                      ${(height != undefined && height != 'null' && attribute != '') ? `'height':'${height}',` : ""}'subtotal':${subtotal}}"/>
               <td class="product-remove">
                 <button id="btn-remove-product-${productAttribute}-${_modalIndex}" 
                         onClick="removeProduct(${productId}, ${attribute == '' ? 0 : parseInt(attribute)})" type="button" style="border-radius: 50%;background-color: transparent;color: #dc3545;padding: 0 10px;">
@@ -1191,7 +1217,7 @@ function addToCart(productId){
   if($(`#tbody-product-${_modalIndex}`).find(`#${trProduct}`).length && $(`#tbody-product-${_modalIndex}`).find(`#${trProduct}`).attr('data-attribute') == '' || 
      $(`#tbody-product-${_modalIndex}`).find(`#${trProduct}`).length && $(`#tbody-product-${_modalIndex}`).find(`#${trProduct}`).attr('data-attribute') == attribute){
     let cummulativeQty = parseInt($(`#${cartQty}`).val())
-    let urlchangeCartQty = attribute == '' ? ('Product/GetProduct?productId='+productId) : ('Product/GetProductAttribute?attributeId='+parseInt(attribute))
+    let urlchangeCartQty = attribute == '' ? (base_url+'/Product/GetProduct?productId='+productId) : (base_url+'/Product/GetProductAttribute?attributeId='+parseInt(attribute))
     $.ajax({
       url: urlchangeCartQty,
       type: 'get',
@@ -1231,8 +1257,6 @@ function addToCart(productId){
     $(`#${cartQty}`).attr('data-qty', qty)
     $(`#${cartQty}`).val(qty)
     $(`#${trProduct}`).attr('data-qty', qty)
-    let addQty = checkIfProductExists(productId)
-    console.log("cartadded:"+addQty)
     totalcart += (parseFloat(price)*parseInt(qty))
     totalCart()
   }
@@ -1257,6 +1281,7 @@ function removeProduct(productId, attributeId){
     $(`#tbody-product-${_modalIndex}`).attr('data-rows', rowCount)
     totalcart = 0
     totalCart()
+    $(`#btn-receiver-add-product-${_modalIndex}`).children('span').text('')
     return
   }
   $(`#tbody-product-${_modalIndex}`).attr('data-rows', document.getElementById(`tbody-product-${_modalIndex}`).childElementCount)
@@ -1268,16 +1293,16 @@ function removeProduct(productId, attributeId){
 function changeCartQty(productId, attributeId){
   let cartQty = productId+(attributeId != '' ? "-"+attributeId : '-0')
   let qty = $(`#cart-qty-${cartQty}-${_modalIndex}`)
-  let addedQty = checkIfProductExists(productId)
-  console.log("added:"+addedQty)
+  // let addedQty = checkIfProductExists(productId)
+  // console.log("added:"+addedQty)
   let stock = $(`#attr-qty-${productId}-${_modalIndex}`).attr('data-qty')
 
-  let oldQty = qty.attr('data-qty')
+  // let oldQty = qty.attr('data-qty')
   qty.attr('data-qty', qty.val())
   $(`#tr-product-${cartQty}-${_modalIndex}`).attr('data-qty', qty.val())
   
   if(regexQty.test(qty.val())){
-    console.log("here:"+addedQty)
+    // console.log("here:"+addedQty)
     if(parseInt(qty.val()) < 1) {
       qty.attr('data-qty', 1)
       $(`#tr-product-${cartQty}-${_modalIndex}`).attr('data-qty', 1)
@@ -1293,15 +1318,16 @@ function changeCartQty(productId, attributeId){
           qty.attr('data-qty', parseInt(stock))
           qty.val(parseInt(stock))
           updateTotal(cartQty, parseInt(stock))
-      } else {
-        if((addedQty + (Math.abs(parseInt(qty.val())) - addedQty)) > parseInt(stock)){
-          console.log(">1-add:"+addedQty+"qty:"+qty.attr('data-qty'))
-          qty.attr('data-qty', oldQty)
-          $(`#tr-product-${cartQty}-${_modalIndex}`).attr('data-qty', oldQty)
-          qty.val(oldQty)
-          return toastAlert('Product quantity', `You have reached the maximum quantity of this product ${stock}/${stock}`, info, 3000)
-        }
-        updateTotal(cartQty, parseInt(qty.attr('data-qty')))
+      } else 
+      {
+        // if((addedQty + (Math.abs(parseInt(qty.val())) - addedQty)) > parseInt(stock)){
+        //   console.log(">1-add:"+addedQty+"qty:"+qty.attr('data-qty'))
+        //   qty.attr('data-qty', oldQty)
+        //   $(`#tr-product-${cartQty}-${_modalIndex}`).attr('data-qty', oldQty)
+        //   qty.val(oldQty)
+        //   return toastAlert('Product quantity', `You have reached the maximum quantity of this product ${stock}/${stock}`, info, 3000)
+        // }
+        return updateTotal(cartQty, parseInt(qty.attr('data-qty')))
       }
     }
   }
@@ -1375,9 +1401,18 @@ window.addEventListener("click", function (e) {
 });
 
 //step5
+let _pickUpFee = $('#pickup-fee').children('span').text() == "0" ? 23000 : parseFloat($('#pickup-fee').children('span').text())
+let _totalProductBill = 0
+let _shippingTotal = 0
+function calculateTotalBill(pickUpFee, totalProductBill, shippingTotal){
+  return _totalBill = pickUpFee+totalProductBill+shippingTotal
+}
+let _totalBill = _pickUpFee+_totalProductBill+_shippingTotal
 //service
 function reviewService(){
   $('#payment-service').find('p:first-child span').text($('#select-service').find('button').attr('data-name'))
+  $('#payment-service').find('p:nth-child(2) span').text(_pickUpFee.toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
+  $('#payment-service').find('p:nth-child(3) span').text(calculateTotalBill(_pickUpFee,_totalProductBill,_shippingTotal).toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
   $('#payment-service').find('p:last-child span span').text($('input[name="sending-date"]').val())
   let totalReceivers = $('#single-person').is(':checked') ? $('#add-person-info').children().length : ($('#add-person-info').children().length - 1)
   $('#total-receivers').text(totalReceivers)
@@ -1394,75 +1429,161 @@ function reviewSender(){
   $('#payment-sender').children('p:nth-child(4)').find('span').text(senderAddress)
 }
 //receiver
-let _totalBill = 0
-function reviewReceiver(){
-  _totalBill = 0
+function reviewReceiverInfo(){
   $('#payment-receiver').empty()
+  _totalProductBill = 0
+  _shippingTotal = 0
   let arr = getListReceiverIndexes()
-  let shippingFee = 0
+  let pickUpFee = parseFloat(_pickUpFee / arr.length)
+
   for(let i = 0; i < arr.length; i++){
-    let address = $(`input[name="to-address-${arr[i]}"]`).val()+", "+
+    let shippingFee = parseFloat(3000) * parseFloat($(`input[name="weight[${arr[i]}]"]`).val())
+    let address = $(`input[name="to-address[${arr[i]}]"]`).val()+", "+
                   $(`#select-receiver-ward-${arr[i]}`).children('button').attr('data-ward-value')+", "+
                   $(`#select-receiver-district-${arr[i]}`).children('button').attr('data-district-value')+", "+
                   $(`#select-receiver-province-${arr[i]}`).children('button').attr('data-province-value')
-    let figures = "W:"+$(`input[name="weight-${arr[i]}"]`).val()+"kg, L:"+$(`input[name="length-${arr[i]}"]`).val()+"cm, W:"+
-                  $(`input[name="width-${arr[i]}"]`).val()+"cm, H:"+$(`input[name="height-${arr[i]}"]`).val()+"cm"
-    let trReceiver = `<tr>
-                        <th scope="row">${i+1}</th>
-                        <td>${$(`input[name="receiver-first-name-${arr[i]}"]`).val()+" "+$(`input[name="receiver-last-name-${arr[i]}"]`).val()}</td>
-                        <td>${$(`input[name="to-phone-${arr[i]}"]`).val()}</td>
-                        <td>${$(`input[name="to-email-${arr[i]}"]`).val()}</td>
-                        <td>${address}</td>
-                        <td>${$(`input[name="pin-code-${arr[i]}"]`).val()}</td>
-                        <td>${figures}</td>
-                        <td>${parseFloat(14000).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
-                        <td>${parseFloat($(`input[name="amount-${arr[i]}"]`).val()).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
-                        <td>${$(`textarea[name="notes-${arr[i]}"]`).val()}</td>
-                      </tr>`
-    shippingFee += parseFloat(14000) 
-    $('#payment-receiver').append(trReceiver)
-  }
-  $('#payment-pickup-fee').text(parseFloat(30000).toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
-  $('#payment-shipping-fee').text(parseFloat(shippingFee).toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
-  _totalBill = parseFloat(30000) + shippingFee
-}
-//product
-function reviewProduct(){
-  $('#payment-product').empty()
-  let arr = $(`#tbody-product-${_modalIndex}`).children().toArray()
-  for(let i = 0; i < arr.length; i++){
-    let id = arr[i].id
-    let attribute = $(`#${id}`).attr('data-attribute')
-    let color = $(`#${id}`).attr('data-color') 
-    let length = $(`#${id}`).attr('data-length')
-    let width = $(`#${id}`).attr('data-width') 
-    let height = $(`#${id}`).attr('data-height') 
-    let trProduct = `<tr>
-                      <th scope="row">${i+1}</th>
-                      <td>
-                        <div class="align-items-center d-flex">
-                          <img src="${$(`#${id}`).attr('data-photo')}" width="50" class="mr-2">
-                          <div>
-                            <p class="mb-0">${$(`#${id}`).attr('data-name')}</p>
-                            <p class="mb-0">${$(`#${id}`).attr('data-code')}</p>
+    let figures = "W:"+$(`input[name="weight[${arr[i]}]"]`).val()+"kg, L:"+$(`input[name="length[${arr[i]}]"]`).val()+"cm, W:"+
+                  $(`input[name="width[${arr[i]}]"]`).val()+"cm, H:"+$(`input[name="height[${arr[i]}]"]`).val()+"cm"
+    let totalProduct = parseFloat($(`#tbody-total-cart-${arr[i]}`).children('.order-total').attr('data-total-product'))
+    let receiver = `<div class="mb-3 row">
+                    <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);padding: 30px 15px;"
+                      class="mb-4">
+                      <h5 class="mb-4">Receiver Information ${arr[i]}</h5>
+                      <!--info-->
+                      <div class="mb-4">
+                        <h5>Information</h5>
+                        <div class="row" style="padding: 0 60px;" id="div-receiver-info-${arr[i]}">
+                          <div class="col-sm-4">
+                            <p class="mb-1">Name: <span>${$(`input[name="receiver-first-name[${arr[i]}]"]`).val()+" "+$(`input[name="receiver-last-name[${arr[i]}]"]`).val()}</span></p>
+                            <p class="mb-1">Phone: <span>${$(`input[name="to-phone[${arr[i]}]"]`).val()}</span></p>
+                            <p class="mb-1">Email: <span>${$(`input[name="to-email[${arr[i]}]"]`).val()}</span></p>
+                          </div>
+                          <div class="col-sm-4">
+                            <p class="mb-1">Address: <span>${address}</span></p>
+                            <p class="mb-1">Pin code: <span>${$(`input[name="pin-code[${arr[i]}]"]`).val()}</span></p>
+                            <p class="mb-1">Figures: <span>${figures}</span></p>
+                          </div>
+                          <div class="col-sm-4">
+                            <p class="mb-1">Shipping cost: <span>${shippingFee.toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</span></p>
+                            <p class="mb-1">Amount collected: <span>${parseFloat($(`input[name="amount[${arr[i]}]"]`).val()).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</span></p>
+                            <p class="mb-1">Notes: <span>${$(`textarea[name="notes[${arr[i]}]"]`).val()}</span></p>
                           </div>
                         </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex">
-                          <div class="${color != 'undefined' && color != 'null' && attribute != '' ? 'd-block' : 'd-none'} mr-2" 
-                                style="${color != 'undefined' && color != 'null' && attribute != '' ? 'background-color:'+color+';' : ''}height: 15px;width: 15px;"></div>
-                          <p class=mb-0>${(length != 'undefined' && length != 'null' && attribute != '') ? "L:"+length : ""} ${(width != 'undefined' && width != 'null' && attribute != '') ? "W:"+width : ""} ${(height != 'undefined' && height != 'null' && attribute != '') ? "H:"+height : ""}</p>
+                      </div>
+                      <div class="mb-4">
+                        <h5>Parcel detail</h5>
+                        <div class="row" style="padding: 0 60px;">
+                          <table class="table table-borderless"
+                            style="border-collapse: initial;">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Qty</th>
+                              </tr>
+                            </thead>
+                            <tbody id="payment-parcel-detail-${arr[i]}">
+                              
+                            </tbody>
+                          </table>
                         </div>
-                      </td>
-                      <td>${parseFloat($(`#${id}`).attr('data-price')).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
-                      <td>${$(`#${id}`).attr('data-qty')}</td>
-                      <td>${parseFloat($(`#${id}`).attr('data-subtotal')).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
-                    </tr>` 
-    $('#payment-product').append(trProduct)
+                      </div>
+                      <div>
+                        <h5>Product(s)</h5>
+                        <table class="table table-borderless"
+                          style="border-collapse: initial;">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Type</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Qty</th>
+                              <th scope="col">Subtotal</th>
+                            </tr>
+                          </thead>
+                          <tbody id="payment-product-${arr[i]}">
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                      <hr>
+                      <div class="float-right">
+                        <dl class="float-end row w-50">
+                          <dt class="col-sm-7">Total products</dt>
+                          <dd class="col-sm-5 mb-2" id="payment-total-product-${arr[i]}">
+                            ${totalProduct.toLocaleString('vi-VN', {style:'currency', currency:'VND'})}
+                          </dd>
+                          <dt class="col-sm-7">Pickup fee</dt>
+                          <dd class="col-sm-5 mb-2" id="payment-pickup-fee-${arr[i]}">
+                            <p class="mb-0">${pickUpFee.toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</p>
+                          </dd>
+                          <dt class="col-sm-7">Shipping fee</dt>
+                          <dd class="col-sm-5 mb-2" id="payment-shipping-fee-${arr[i]}">${shippingFee.toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</dd>
+                          <dt class="col-sm-7 text-truncate">Total</dt>
+                          <dd class="col-sm-5" id="payment-total-${arr[i]}">
+                            ${(totalProduct+pickUpFee+shippingFee).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>`
+    _shippingTotal += shippingFee
+    $('#payment-receiver').append(receiver)
+
+    //parcel
+    let arrParcel = orderDetailList(arr[i])
+    for(let k = 0; k < arrParcel.length; k++){
+      let div = `<tr>
+                  <th scope="row">${k+1}</th>
+                  <td>
+                    <p class="mb-0">${arrParcel[k].Name}</p>
+                  </td>
+                  <td>
+                    <p class="mb-0">${arrParcel[k].Qty}</p>
+                  </td>
+                </tr>`
+      $(`#payment-parcel-detail-${arr[i]}`).append(div)
+    }
+    
+    //product
+    let arrProduct = $(`#tbody-product-${arr[i]}`).children().toArray()
+    if(arrProduct.length > 0){
+      for(let j = 0; j < arrProduct.length; j++){
+        let id = arrProduct[j].id
+        let attribute = $(`#${id}`).attr('data-attribute')
+        let color = $(`#${id}`).attr('data-color') 
+        let length = $(`#${id}`).attr('data-length')
+        let width = $(`#${id}`).attr('data-width') 
+        let height = $(`#${id}`).attr('data-height') 
+        let trProduct = `<tr>
+                          <th scope="row">${j+1}</th>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              <img src="${$(`#${id}`).attr('data-photo')}" width="50" class="mr-2">
+                              <div>
+                                <p class="mb-0">${$(`#${id}`).attr('data-name')}</p>
+                                <p class="mb-0">${$(`#${id}`).attr('data-code')}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              <div class="${color != 'undefined' && color != 'null' && attribute != '' ? 'd-block' : 'd-none'} mr-2" 
+                                    style="${color != 'undefined' && color != 'null' && attribute != '' ? 'background-color:'+color+';' : ''}height: 15px;width: 15px;"></div>
+                              <p class=mb-0>${(length != 'undefined' && length != 'null' && attribute != '') ? "L:"+length : ""} ${(width != 'undefined' && width != 'null' && attribute != '') ? "W:"+width : ""} ${(height != 'undefined' && height != 'null' && attribute != '') ? "H:"+height : ""}</p>
+                            </div>
+                          </td>
+                          <td>${parseFloat($(`#${id}`).attr('data-price')).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
+                          <td>${$(`#${id}`).attr('data-qty')}</td>
+                          <td>${parseFloat($(`#${id}`).attr('data-subtotal')).toLocaleString('vi-VN', {style:'currency', currency:'VND'})}</td>
+                        </tr>` 
+        _totalProductBill += parseFloat($(`#${id}`).attr('data-subtotal'))
+        $(`#payment-product-${arr[i]}`).append(trProduct)
+      }
+    }
   }
-  $('#payment-total-product').text(parseFloat($('.order-total').attr('data-total-product')).toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
-  $('#payment-total').text(parseFloat(_totalBill+parseFloat($('.order-total').attr('data-total-product'))).toLocaleString('vi-VN', {style:'currency', currency:'VND'}))
+  
 }
 
 //##################################################################CREATE
@@ -1492,7 +1613,10 @@ const firstTrackingDescription = 'Your request is pending'
 let randomCode = new Date().getTime().toString()
 $('#cod').prop('checked', true)
 
-function productList(arr){
+let _productListTotal = 0
+let _pickUpTotal = _pickUpFee
+let _deliveryTotal = 0
+function productLists(arr){
   let list = new Array()
   for(let i = 0; i < arr.length; i++)
   {
@@ -1501,7 +1625,7 @@ function productList(arr){
     let width = arr[i].getAttribute('data-width')
     let height = arr[i].getAttribute('data-height')
     let item = {"ProductId": parseInt(arr[i].getAttribute('data-product')), 
-                "ProductAttributeId" : arr[i].getAttribute('data-attribute') == '' ? 0 : parseInt(arr[i].getAttribute('data-attribute')),
+                "ProductAttributeId" : arr[i].getAttribute('data-attribute'),
                 "Name" : `${arr[i].getAttribute('data-name')}`,
                 "Code" : `${arr[i].getAttribute('data-code')}`,
                 "Color" : `${color == "undefined" || color == 'null' ? '' : color}`,
@@ -1510,9 +1634,9 @@ function productList(arr){
                 "Height" : `${height == "undefined" || height == 'null' ? '' : height}`,
                 "Price" : parseInt(arr[i].getAttribute('data-price')),
                 "Qty" : parseInt(arr[i].getAttribute('data-qty')),
-                "SubTotal" : parseInt(arr[i].getAttribute('data-subtotal')),
-                "CreatedAt" : now,
+                "SubTotal" : parseInt(arr[i].getAttribute('data-subtotal'))
                 }
+    _productListTotal += parseInt(arr[i].getAttribute('data-subtotal'))
     list.push(item)
   }
   return list
@@ -1534,46 +1658,85 @@ function getListOrderDetailIndexes(index){
   let arr = new Array()
   let addOrderDetail = $(`#parcel-detail-${index}`).children().toArray()
   for(let i = 0; i < addOrderDetail.length; i++){
-    let item = addOrderDetail[i].id.replace(`details-`,'')
+    let item = addOrderDetail[i].id.replace(`details-`,'').replace('-','][')
     arr.push(item)
   }
   return arr
 }
 
-let shippingFee = 0
 function orderList(){
   let list = new Array()
   let arr = getListReceiverIndexes()
   for(let i = 0; i < arr.length; i++){
-    let firstName = $(`input[name="receiver-first-name-${arr[i]}"]`).val()
-    let lastName = $(`input[name="receiver-last-name-${arr[i]}"]`).val()
-    let phone = $(`input[name="to-phone-${arr[i]}"]`).val()
-    let email = $(`input[name="to-email-${arr[i]}"]`).val()
-    let address = $(`input[name="to-address-${arr[i]}"]`).val()
-    let province = parseInt($(`#select-receiver-province-${arr[i]}`).children('button').attr('data-province'))
-    let district = parseInt($(`#select-receiver-district-${arr[i]}`).children('button').attr('data-district'))
-    let ward = parseInt($(`#select-receiver-ward-${arr[i]}`).children('button').attr('data-ward'))
-    let pinCode = $(`input[name="pin-code-${arr[i]}"]`).val()
-    let length = $(`input[name="length-${arr[i]}"]`).val()
-    let width = $(`input[name="width-${arr[i]}"]`).val()
-    let height = $(`input[name="height-${arr[i]}"]`).val()
-    let weight = $(`input[name="weight-${arr[i]}"]`).val()
-    let note = $(`textarea[name="notes-${arr[i]}"]`).val()
-    let collected = $(`input[name="amount-${arr[i]}"]`).val()
+    //sender
+    let senderFirstName = $(`input[name="sender-first-name"]`).val()
+    let senderLastName = $(`input[name="sender-last-name"]`).val()
+    let senderPhone = $(`input[name="from-phone"]`).val()
+    let senderEmail = $(`input[name="from-email"]`).val()
+    let senderAddress = $(`input[name="from-address"]`).val()
+    let senderProvince = parseInt($(`#select-sender-province`).children('button').attr('data-province'))
+    let senderDistrict = parseInt($(`#select-sender-district`).children('button').attr('data-district'))
+    let senderWard = parseInt($(`#select-sender-ward`).children('button').attr('data-ward'))
+    let companyName = $(`input[name="company-name"]`).val()
+    let companyPhone = $(`input[name="company-phone"]`).val()
+    //receiver
+    let receiverFirstName = $(`input[name="receiver-first-name[${arr[i]}]"]`).val()
+    let receiverLastName = $(`input[name="receiver-last-name[${arr[i]}]"]`).val()
+    let receiverPhone = $(`input[name="to-phone[${arr[i]}]"]`).val()
+    let receiverEmail = $(`input[name="to-email[${arr[i]}]"]`).val()
+    let receiverAddress = $(`input[name="to-address[${arr[i]}]"]`).val()
+    let receiverProvince = parseInt($(`#select-receiver-province-${arr[i]}`).children('button').attr('data-province'))
+    let receiverDistrict = parseInt($(`#select-receiver-district-${arr[i]}`).children('button').attr('data-district'))
+    let receiverWard = parseInt($(`#select-receiver-ward-${arr[i]}`).children('button').attr('data-ward'))
+    //figures
+    let pinCode = $(`input[name="pin-code[${arr[i]}]"]`).val()
+    let length = $(`input[name="length[${arr[i]}]"]`).val()
+    let width = $(`input[name="width[${arr[i]}]"]`).val()
+    let height = $(`input[name="height[${arr[i]}]"]`).val()
+    let weight = $(`input[name="weight[${arr[i]}]"]`).val()
+    let note = $(`textarea[name="notes[${arr[i]}]"]`).val()
+    let collected = $(`input[name="amount[${arr[i]}]"]`).val()
+    let pickUpFee = parseFloat(_pickUpFee/arr.length)
+    let deliveryFee = parseFloat(3000) * parseFloat($(`input[name="weight[${arr[i]}]"]`).val())
+
     let orderDetails = orderDetailList(arr[i])
     let orderPhotoNames = orderPhotoNameList(arr[i])
     let orderTracking = orderTrackingList(arr[i])
-    let item = {"Code" : randomCode, "ReceiverFirstName" : firstName, 
-                "ReceiverLastName" : lastName, "ReceiverPhone" : phone,
-                "ReceiverEmail" : email, "ToAddress" : address, "ToWardId" : ward,
-                "ToCityId" : district, "ToProvinceId" : province, "PinCode" : pinCode,
-                "Length" : length, "Height" : height, "Width" : width, "Weight" : weight,
-                "Notes" : note, "CollectedAmount" : collected, "CreatedAt" : now,
-                "Status" : proccessing, "DeliveryStatus" : pending, "DeliveryFee" : 14000, 
-                "OrderDetailList" : orderDetails, "OrderPhotoList" : orderPhotoNames, 
-                "OrderTrackingList" : orderTracking
+    let productList = productLists($(`#tbody-product-${arr[i]}`).children().toArray())
+
+    let paymentType = $('#onepay').is(':checked') ? onepay : 
+                    ($('#momo').is(':checked') ? momo : cod)
+    let customerId = userData.Id
+    let productBill = _productListTotal == 0 ? null : {"BillProduct":[{"CustomerId" : customerId, "Status" : proccessing, "Total" : _productListTotal, "CreatedAt" : now, "PaymentStatus" : (paymentType == cod ? unpaid : paid)}]}
+    
+    let serviceId = $('#service-list').find('button').attr('data-id')
+    let serviceName = $('#service-list').find('button').attr('data-name')
+    let sendingDate = $('input[name="sending-date"]').val()
+    let isPickedup = $('#pickup').is(':checked') ?? false
+    let totalBill = _productListTotal + pickUpFee + deliveryFee
+    let bill = {"BillDetail":[{"Code" : randomCode, "ServiceId" : serviceId, "ServiceName" : serviceName, "PickUpFee" : pickUpFee, "IsPickup" : isPickedup, 
+                "SendingOn" : sendingDate, "Total" : totalBill, "PaymentType" : paymentType, "PaymentStatus" : (paymentType == cod ? unpaid : paid), 
+                "BranchId" : JSON.parse(getCookie('branch')).id}]}
+    
+    let item = {"Code" : randomCode, 
+                //sender
+                "SenderFirstName" : senderFirstName, "SenderLastName" : senderLastName, "SenderPhone" : senderPhone, "SenderId" : customerId,
+                "SenderEmail" : senderEmail, "FromAddress" : senderAddress, "FromWardId" : senderWard, "FromCityId" : senderDistrict, "FromProvinceId" : senderProvince,
+                "CompanyName" : companyName, "CompanyPhone" : companyPhone,
+                //receiver
+                "ReceiverFirstName" : receiverFirstName, "ReceiverLastName" : receiverLastName, "ReceiverPhone" : receiverPhone, //"ReceiverId" : 0,
+                "ReceiverEmail" : receiverEmail, "ToAddress" : receiverAddress, "ToWardId" : receiverWard, "ToCityId" : receiverDistrict, "ToProvinceId" : receiverProvince, "PinCode" : pinCode,
+                //figures
+                "Length" : length, "Height" : height, "Width" : width, "Weight" : weight, 
+                "Notes" : note, "CollectedAmount" : collected, "ProductListTotal" : _productListTotal,
+                "Status" : proccessing, "DeliveryStatus" : pending, "DeliveryFee" : deliveryFee, "PickUpFee" : pickUpFee,
+                //group
+                "OrderDetailList" : JSON.stringify({"OrderDetails":orderDetails}), "OrderPhotoList" : JSON.stringify({"OrderPhoto":orderPhotoNames}), 
+                "OrderTrackingList" : JSON.stringify({"OrderTracking":orderTracking}), "ProductList" : JSON.stringify({"Products":productList}),
+                "ProductBill": JSON.stringify(productBill), 
+                "Bill": JSON.stringify(bill)
               }
-    shippingFee += 14000
+    _deliveryTotal += deliveryFee
     list.push(item)
   }
   return list
@@ -1583,8 +1746,8 @@ function orderDetailList(index){
   let list = new Array()
   let arr = getListOrderDetailIndexes(index) 
   for(let i = 0; i < arr.length; i++){
-    let name = $(`input[name="name-${arr[i]}"]`).val()
-    let qty = $(`input[name="qty-${arr[i]}"]`).val()
+    let name = $(`input[name="name[${arr[i]}]"]`).val()
+    let qty = $(`input[name="qty[${arr[i]}]"]`).val()
     let item = {"Name" : name, "Qty" : qty}
     list.push(item)
   }
@@ -1596,7 +1759,8 @@ function orderPhotoNameList(index){
   let photos = document.getElementById(`photos-${index}`).files
   if(photos.length == 0) return
   for(let i = 0; i < photos.length; i++){
-    list.push(photos[i].name)
+    let item = {"Name":photos[i].name} 
+    list.push(item)
   }
   return list
 }
@@ -1617,65 +1781,48 @@ function orderPhotoBlobList(){
 function orderTrackingList(index){
   let list = new Array()
   let tracking = {"Code" : randomCode, "Description" : firstTrackingDescription, 
-                  "BranchId" : JSON.parse(getCookie('branch')).id, "CreatedAt" : now}
+                  "BranchId" : JSON.parse(getCookie('branch')).id}
   list.push(tracking)
   return list
 }
 
+$('#btn-pay').on('click', () => {
+  send()
+})
+
 function send(){
-  let paymentType = $('#onepay').is(':checked') ? onepay : 
-                    ($('#momo').is(':checked') ? momo : cod)
-  //productbill
-  let customerId = userData.Id
-  let totalProductBill = $(`#tbody-total-cart-${_modalIndex}`).children('.order-total').attr('data-total-product') != "0" ?
-              parseFloat($(`#tbody-total-cart-${_modalIndex}`).children('.order-total').attr('data-total-product')) : 0
-  let _productBill = totalProductBill == 0 ? null : {"CustomerId" : customerId, "Status" : proccessing, "Total" : totalProductBill, "CreatedAt" : now, "PaymentStatus" : (paymentType == cod ? unpaid : paid)}
-  //productbilldetail
-  let _productList = $(`#tbody-product-${_modalIndex}`).children().toArray().length == 0 ? null : productList($(`#tbody-product-${_modalIndex}`).children().toArray())
   //order  //orderdetail   //orderphoto  //ordertracking
   let _orderList = orderList()
-  //bill
-  let serviceId = $('#service-list').find('button').attr('data-id')
-  let serviceName = $('#service-list').find('button').attr('data-name')
-  let sendingDate = $('input[name="sending-date"]').val()
-  let isPickedup = $('#pickup').is(':checked') ?? false
-  let pickUpFee = parseFloat($('#pickup-fee').attr('data-pickup-fee'))
-  let orderQty = $('#single-person').is(':checked') ? 1 :
-                  document.getElementById("add-person-info").childElementCount - 1
-  let totalBill = totalProductBill + pickUpFee + shippingFee
-  let _bill = {"Code" : randomCode, "ServiceId" : serviceId, "ServiceName" : serviceName,
-              "PickUpFee" : pickUpFee, "IsPickup" : isPickedup, "SendingOn" : sendingDate,
-              "OrderQty" : orderQty, "Total" : totalBill, "PaymentType" : paymentType,
-              "PaymentStatus" : (paymentType == cod ? unpaid : paid), "BranchId" : JSON.parse(getCookie('branch')).id, "CreatedAt" : now}
-
+  console.log(_orderList)
+  let blobs = orderPhotoBlobList()
+  console.log(blobs)
   var formData = new FormData()
-  formData.append('name', $("input[name='img_name']").val())
-  formData.append('categoryId', parseInt($("select[name='category']").val()))
-  formData.append('status', parseInt($("select[name='img_status']").val()))
-  formData.append('description', $("textarea[name='description']").val())
-
+  formData.append('Orders', JSON.stringify({"Bills":_orderList}))
+  blobs.forEach(item => {
+    formData.append('Files', item)
+  })
+  
   var myAppUrlSettings =
   {
-      MyUsefulUrl: 'http://localhost:4000/api/images/create?collectionId=' + collectionId
+      MyUsefulUrl: base_url+'/Bill/CreateBill'
   }
   var request = new XMLHttpRequest();
   request.open('POST', myAppUrlSettings.MyUsefulUrl);
   request.setRequestHeader('Access-Control-Allow-Origin', '*')
-  request.setRequestHeader('Authorization', 'Bearer ' + token)
   request.setRequestHeader('Accept', '*/*')        
-  //request.setRequestHeader('Content-Type', 'application/json; charset=utf-8')        
+  //request.setRequestHeader('Content-Type', 'multipart/form-data')        
   request.send(formData);
   request.onreadystatechange = function () {
   // Call a function when the state changes.
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200)
       {
           var response = JSON.parse(request.responseText);
-          if (response.message == "Successfully add image to collection")
+          if (response.message == "Successfully")
           {
               $('#exampleModalToggle').modal('hide')
               window.location.reload()
           }
-          if (response.message == "Fail to create add image to collection")
+          if (response.message == "Fail to create")
           {
               window.location.reload()
           }
@@ -1683,7 +1830,7 @@ function send(){
   }
 }
 
-
+////////////#############################################
 //modal product receiver
 function setModalIndex(modalIndex){
   _modalIndex = modalIndex
@@ -1723,23 +1870,13 @@ function checkIfProductExists(productId){
   return qty
 }
 
-
-
-
-
-
-
-
-
-
-
 ////////////////////PICKUP---PROVINCE---DISTRICT---WARD
 
 //get provinces
 getProvinces()
 function getProvinces(){
     $.ajax({
-        url : 'Location/GetStates',
+        url : base_url+'/Location/GetStates',
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1765,7 +1902,7 @@ function getDistrictsByProvince(provinceId){
     $("#sender-province").find("button").attr('data-province', provinceId)
     $("#sender-province").find("button").attr('data-province-value', provinceValue)
     $.ajax({
-        url : 'Location/GetCitiesByState?provinceId='+provinceId,
+        url : base_url+'/Location/GetCitiesByState?provinceId='+provinceId,
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1791,7 +1928,7 @@ function getWardsByDistrict(districtId){
     $("#sender-district").find("button").attr('data-district', districtId)
     $("#sender-district").find("button").attr('data-district-value', districtValue)
     $.ajax({
-        url : 'Location/GetWardsByCity?districtId='+districtId,
+        url : base_url+'/Location/GetWardsByCity?districtId='+districtId,
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1822,7 +1959,7 @@ function selectWard(wardId){
 getReceiverProvinces(1)
 function getReceiverProvinces(index){
     $.ajax({
-        url : 'Location/GetStates',
+        url : base_url+'/Location/GetStates',
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1846,8 +1983,10 @@ function getReceiverDistrictsByProvince(provinceId, index){
     $(`#receiver-province-${index}`).find("button").text(provinceValue)
     $(`#receiver-province-${index}`).find("button").attr('data-province', provinceId)
     $(`#receiver-province-${index}`).find("button").attr('data-province-value', provinceValue)
+    document.getElementById(`select-receiver-province-${index}`).insertAdjacentHTML('afterbegin',`<input type="hidden" name="province[${index}]" value="{'provinceId':${provinceId},'provinceValue':'${provinceValue}'}"/>`)
+
     $.ajax({
-        url : 'Location/GetCitiesByState?provinceId='+provinceId,
+        url : base_url+'/Location/GetCitiesByState?provinceId='+provinceId,
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1871,8 +2010,10 @@ function getReceiverWardsByDistrict(districtId, index){
     $(`#receiver-district-${index}`).find("button").text(districtValue)
     $(`#receiver-district-${index}`).find("button").attr('data-district', districtId)
     $(`#receiver-district-${index}`).find("button").attr('data-district-value', districtValue)
+    document.getElementById(`select-receiver-district-${index}`).insertAdjacentHTML('afterbegin',`<input type="hidden" name="district[${index}]" value="{'districtId':${districtId},'districtName':'${districtValue}'}"/>`)
+
     $.ajax({
-        url : 'Location/GetWardsByCity?districtId='+districtId,
+        url : base_url+'/Location/GetWardsByCity?districtId='+districtId,
         type : 'get',
         dataType : 'json',
         contentType : 'application/json',
@@ -1896,4 +2037,43 @@ function selectReceiverWard(wardId, index){
     $(`#receiver-ward-${index}`).find("button").text(wardValue)
     $(`#receiver-ward-${index}`).find("button").attr('data-ward', wardId)
     $(`#receiver-ward-${index}`).find("button").attr('data-ward-value', wardValue)
+    document.getElementById(`select-receiver-ward-${index}`).insertAdjacentHTML('afterbegin',`<input type="hidden" name="ward[${index}]" value="{'wardId':${wardId},'wardValue':'${wardValue}'}"/>`)
+}
+//search
+function onLocationSearch(element) {
+  // Declare variables
+  var input, filter, div, li, a, i, txtValue;
+  input = document.getElementById($(element).attr('id'));
+  filter = input.value.toUpperCase();
+  div = document.getElementById($(element).parents('ul').find('div').attr('id'))
+  li = div.getElementsByTagName('li');
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+      } else {
+      li[i].style.display = "none";
+      }
+  }
+}
+
+function onSearchProducts(element) {
+  // Declare variables
+  var input, filter, div, li, i, p;
+  input = document.getElementById($(element).attr('id'));
+  filter = input.value.toUpperCase();
+  div = document.getElementById($(element).parents('a').closest('div').find('ul div').attr('id'))
+  li = div.getElementsByTagName('li');
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    p = $(li[i]).find('div div:nth-child(2) div p:nth-child(1)').text()
+    if (p.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
 }

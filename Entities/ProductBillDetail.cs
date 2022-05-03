@@ -9,7 +9,7 @@ namespace post_office.Entities
         [Key]
         public int Id { get; set; }
         public int ProductBillId { get; set; }
-        public int ProductAttributeId { get; set; }
+        public int? ProductAttributeId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Color { get; set; }

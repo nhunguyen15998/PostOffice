@@ -11,7 +11,7 @@ namespace post_office.Entities
         public string Code { get; set; }
         public int OrderId { get; set; }
         public string Description { get; set; }
-        public int ShipperId { get; set; }
+        public int? ShipperId { get; set; }
         public int BranchId { get; set; }
         public DateTime? CreatedAt { get; set; }
 

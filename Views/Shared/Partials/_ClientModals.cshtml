@@ -38,11 +38,11 @@
                             <div class=""
                                 style="border: 1px solid rgba(119, 119, 119, 0.2);line-height: 53px;">
                                 <div class="dropdown" id='product-list-1' style="height: 51px;">
-                                    <a class="btn dropdown-toggle" href="#" role="button"
+                                    <a class="btn dropdown-toggle w-100" href="#" role="button"
                                         id='select-product-1' data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        <input type="search" placeholder="Search product…"
-                                            style="border: none;padding: 0;">
+                                        <input type="search" placeholder="Search product…" onkeyup="onSearchProducts(this)" class="w-100"
+                                              style="border: none;padding: 0;" id="search-products-1">
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby='select-product-1'
                                         style="overflow: hidden; height: 250px; line-height: 40px; width:100%;"

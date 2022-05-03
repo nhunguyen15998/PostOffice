@@ -14,25 +14,11 @@ namespace post_office.Entities
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
 
-        public int SenderId { get; set; }
-        public string SenderFirstName { get; set; }
-        public string SenderLastName { get; set; }
-        public string SenderEmail { get; set; }
-        public string SenderPhone { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyPhone { get; set; }
-        public string FromAddress { get; set; }
-        public int FromWardId { get; set; }
-        public int FromCityId { get; set; }
-        public int FromProvinceId { get; set; }
-
         public decimal? PickUpFee { get; set; }
         [DefaultValue(false)]
         public bool IsPickup { get; set; }
         public DateTime? SendingOn { get; set; }
 
-        [DefaultValue(1)]
-        public int OrderQty { get; set; }
         public decimal Total { get; set; }
 
         public int Status { get; set; }
@@ -44,7 +30,6 @@ namespace post_office.Entities
 
         public ProductBill ProductBill { get; set; }
         public Branch Branch { get; set; }
-        public Customer Sender { get; set; }
         public Order Order { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using post_office.Entities;
 
 namespace post_office.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220503122429_Modify_Bill_Order_ver2")]
+    partial class Modify_Bill_Order_ver2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -697,7 +699,7 @@ namespace post_office.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductAttributeId")
+                    b.Property<int>("ProductAttributeId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductBillId")
@@ -1094,7 +1096,7 @@ namespace post_office.Migrations
 
             modelBuilder.Entity("post_office.Entities.OrderPhoto", b =>
                 {
-                    b.HasOne("post_office.Entities.Order", "Order")
+                    b.HasOne("post_office.Entities.OrderDetail", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1187,7 +1189,9 @@ namespace post_office.Migrations
                 {
                     b.HasOne("post_office.Entities.ProductAttribute", "ProductAttribute")
                         .WithMany()
-                        .HasForeignKey("ProductAttributeId");
+                        .HasForeignKey("ProductAttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("post_office.Entities.ProductBill", "ProductBill")
                         .WithMany()

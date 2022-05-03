@@ -12,6 +12,6 @@ namespace post_office.Entities
         public string Photo { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-        public OrderDetail Order { get; set; }
+        public Order Order { get; set; }
     }
 }
