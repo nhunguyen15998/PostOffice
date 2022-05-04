@@ -7,9 +7,7 @@
 }
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by name, phone, email" id="search-by-name" />
         <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
         <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
             <option value="-1">all</option>
@@ -21,52 +19,44 @@
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
             <th>#</th>
-            <th></th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Qty</th>
-            <th>Price</th>
-            @* <th>Created at</th>*@
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Created at</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
-        @* @{int k = 1;}
-            @foreach (var item in (List<post_office.Models.ProductModel>)ViewBag.lsPD)
-            {
-                <tr class="table-item">
-                    <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
-                    <td class="tbl-60">@k @{k++;}</td>
-                    <td class="tbl-40 p-2">
-                        @if (item.thumbnail != null)
-                        {<img src="~/img/ProductThumbnail/@item.thumbnail" width="45" height="45" />}
-                    </td>
-                    <td class="tbl-190">@item.code</td>
-                    <td class="tbl-200">@item.name</td>
-                    <td class="tbl-160">@item.categoryName</td>
-                    <td class="tbl-60">@pd.GetTotalQuantity(item.id)</td>
-                    <td class="tbl-110">@pd.GetPrice(item.id)</td>
-            <td class="sts-item tbl-40" id="sts-">
-                @if (item.status == 1)
-                {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
-                else
-                { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
-            </td>
-            <td class="tbl-180">
-                <span oid="object-@item.id" class="action-icon view view-product" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <span oid="object-@item.id" class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
-                    <i class="fa fa-edit"></i>
-                </span>
+        @{int k = 1;}
+        @foreach (var item in (List<post_office.Entities.Customer>)ViewBag.lsCus)
+        {
+            <tr class="table-item">
+                <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.Id" /></td>
+                <td class="tbl-60">@k @{k++;}</td>
+                <td class="tbl-180">@item.FirstName</td>
+                <td class="tbl-180">@item.LastName</td>
+                <td class="tbl-150">@item.Phone</td>
+                <td class="tbl-150">@item.Email</td>
+                <td class="tbl-110">@(((DateTime)item.CreatedAt).ToString("dd/MM/yyyy HH:mm"))</td>
+                <td class="sts-item tbl-40" id="sts-">
+                    @if (item.Status == 1)
+                    {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
+                    else
+                    { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
+                </td>
+                <td class="tbl-150">
+                    <span oid="object-@item.Id" class="action-icon view view-customer-address" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                    <span oid="object-@item.Id" class="action-icon edit edit-customer" style="padding:10px 5px 10px 10px">
+                        <i class="fa fa-edit"></i>
+                    </span>
 
-                <span oid="object-@item.id" class="action-icon delete delete-product">
-                    <i class="fa fa-trash"></i>
-                </span>
-            </td>
+
+                </td>
             </tr>
 
-            }*@
+        }
     </table>
     <div class="pagination-container" style="cursor:pointer">
         <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
@@ -89,3 +79,166 @@
         </nav>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    var pages = 1;
+window.onload = function () {
+        var mess = "@(post_office.Controllers.Administrator.CustomersController.mess)";
+
+        if (mess == !"")
+            ShowMessage(true, mess)
+
+           @{post_office.Controllers.Administrator.CustomersController.mess = "";}
+    }
+          $('body').delegate('.page-item', 'click', function () {
+
+        var str = $(this).attr("data-page");
+
+        var re = document.getElementsByClassName('page-item');
+        for (var i = 0; i < re.length; i++) {
+            $(re[i]).css("background", "#fafafa");
+        }
+
+        if (str == "prev" && pages >= 1) {
+
+            if (pages == 1) {
+                pages = 1;
+                $('[data-page="page-1"]').css("background","#ddd");
+                    return;
+
+            } else {
+                pages -= 1;
+
+            }
+
+        } else if (str == "next" && pages <=@ViewBag.pagi) {
+            if (pages ==@ViewBag.pagi) {
+                pages = @ViewBag.pagi;
+                $('[data-page="page-'+pages+'"]').css("background", "#ddd");
+
+                return;
+            } else {
+                pages += 1;
+
+            }
+
+
+        } else {
+            if (pages == parseInt(str.replace("page-", ""))) {
+                pages = -1;
+            } else {
+                pages = parseInt(str.replace("page-", ""));
+            }
+            $(this).css("background", "#ddd");
+        }
+         SearchFilter(pages);
+
+
+    });
+    function LoadDataCustomer( page,  cond, status) {
+
+        if (page > 0 && page <=@ViewBag.pagi) {
+            document.getElementById("check-all").checked = false;
+
+            var r = document.getElementsByClassName('table-item');
+            while (r.length > 0) {
+                r[0].parentNode.removeChild(r[0]);
+            }
+            var formDT = new FormData();
+            formDT.append("p", page);
+            formDT.append("cond", cond);
+            formDT.append("status", status);
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadDataCustomer", "Customers")",
+                data: formDT,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    var edit = "";
+                    for (var i = 0; i < data.length; i++) {
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_CUSTOMER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-user" > <i class="fa fa-edit"></i></span>';
+
+                            var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
+                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            var value = '<tr class="table-item"> <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].Id+'" /></td>'+
+                                        ' <td class="tbl-60">'+row+'</td> <td class="tbl-180">'+data[i].FirstName+'</td> <td class="tbl-180">'+data[i].LastName+'</td> <td class="tbl-150">'+data[i].Phone+'</td>'+
+                                          '<td class="tbl-150">'+data[i].Email+'</td> <td class="tbl-110">'+moment(data[i].CreatedAt).format("DD/MM/YYYY HH:mm")+'</td>'+
+                                         ' <td class="sts-item tbl-40" id="sts-">'+str+' </td> <td class="tbl-150">  <span oid="object-'+data[i].Id+'" class="action-icon view view-customer-address" style="padding:10px 5px 10px 10px">'+
+                                          '<i class="fa fa-eye"></i>  </span>  '+edit+' </td> </tr>';
+
+                            $("#table-id").append(value);
+                            row = row + 1;
+
+
+                        }
+
+
+                    var f = new FormData();
+                    f.append("cond", cond);
+                    f.append("status", status);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCountCustomer", "Customers")",
+                        data: f,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var fdt = new FormData();
+                            fdt.append("i", data);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("RowEvent", "Customers")",
+                                data: fdt,
+                                processData: false,
+                                contentType: false,
+                                success: function (dt) {
+                                    var r = document.getElementsByClassName('page-item');
+                                    while (r.length > 0) {
+                                        r[0].parentNode.removeChild(r[0]);
+                                    }
+                                    var strs = "";
+                                    for (var j = 1; j <= dt; j++) {
+                                        if (j == page) {
+                                            strs += '<li class="page-item page-link" data-page="page-'+j+'" style="background:#ddd">' + j + '</li>';
+
+                                        }
+                                        else {
+                                            strs += '<li class="page-item page-link" data-page="page-' + j + '">' + j + '</li>'
+                                        }
+                                    }
+                                    $("#paginations").append('<li class= "page-item page-link" data-page="prev" >&lt;</li > ' + strs + '<li class= "page-item page-link" data-page="next"  >&gt;</li>');
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+    }
+
+    $("#search-by-name").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            SearchFilter(1);
+
+        }
+
+    });
+    $("#search-by-status").change(function () {
+        SearchFilter(1);
+
+    });
+   
+    function SearchFilter(page) {
+        ShowWaiting(800);
+        var nameSearch = $("#search-by-name").val();
+        var status = $("#search-by-status").val();
+        LoadDataCustomer(page, nameSearch, status);
+}
+</script>

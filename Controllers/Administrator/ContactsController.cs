@@ -87,7 +87,7 @@ namespace post_office.Controllers.Administrator
             message.Body = new TextPart("plain")
             {
                 Text= $"You have written: {contact.message}\n ____________________________________________________________________________________ \n" +
-                      $"Hello {contact.name}, Sincerely thank you for your interest for the Postal Office service.\nRegarding the problem you encounter, we have the following response:\n  {content}"
+                      $"Hello {contact.name}, Sincerely thank you for your interest for the Postal Office service.\nRegarding the problem you encounter, we have the following response:\n  {content} \n__\nThanks and Best Regards\nPostal Office Service Team ({AuthenticetionModel.name})"
             };
             using (var client = new SmtpClient())
             {

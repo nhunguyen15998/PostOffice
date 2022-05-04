@@ -467,6 +467,7 @@
         }
     });
     function DeleteRole(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__role")
         localStorage.setItem("title", "ROLE")
          $.ajax({
@@ -490,10 +491,12 @@
             $(re[i]).css("background", "#fafafa");
         }
 
-        if (str == "prev"&&pages>=1) {
+         if (str == "prev" && pages >= 1) {
 
-              if (pages ==1) {
+            if (pages == 1) {
                 pages = 1;
+                $('[data-page="page-1"]').css("background","#ddd");
+                    return;
 
             } else {
                 pages -= 1;
@@ -503,7 +506,9 @@
         } else if (str == "next" && pages <=@ViewBag.pagi) {
             if (pages ==@ViewBag.pagi) {
                 pages = @ViewBag.pagi;
+                $('[data-page="page-'+pages+'"]').css("background", "#ddd");
 
+                return;
             } else {
                 pages += 1;
 

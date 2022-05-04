@@ -140,7 +140,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var r = ct.Products.FirstOrDefault(x => x.Id == item);
+                var r = ct.Products.SingleOrDefault(x => x.Id == item);
                 if (r != null)
                 {
                         ct.Products.Remove(r);

@@ -99,7 +99,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var us = _context.Users.FirstOrDefault(x => x.Id == item);
+                var us = _context.Users.SingleOrDefault(x => x.Id == item);
                 if (us != null)
                 {
                     if (us.Id == AuthenticetionModel.id && status == 0) { check = false;}

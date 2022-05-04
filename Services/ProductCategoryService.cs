@@ -95,7 +95,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var r = _context.ProductCategories.FirstOrDefault(x => x.Id == item);
+                var r = _context.ProductCategories.SingleOrDefault(x => x.Id == item);
                 if (r != null)
                 {
                     var parent = _context.ProductCategories.FirstOrDefault(x => x.ParentId == r.Id);

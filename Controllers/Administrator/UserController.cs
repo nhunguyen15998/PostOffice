@@ -178,7 +178,7 @@ namespace post_office.Controllers.Administrator
         public List<UserModel> LoadDataUser(int p, string cond, int type, int branchId)
         {
             int currentSkip = 10 * (p - 1);
-            var w = _usersvc.GetListUser().Where(x => (x.fullName.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.code.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.email.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.phone.ToLower().Contains(cond == null ? "" : cond.ToLower()))
+            var w = _usersvc.GetListUser().Where(x => (x.fullName.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.code.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.email.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.phone.Contains(cond == null ? "" : cond))
                                                                              && (type == 0 ? true : x.roleId == type)
                                                                              && (branchId == 0 ? true:x.branchId == branchId)&&((AuthenticetionModel.roleName=="Super Admin")?true:x.branchId==AuthenticetionModel.branchId)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
             return w;
