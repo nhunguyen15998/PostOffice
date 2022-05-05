@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using post_office.Models;
@@ -22,7 +23,11 @@ namespace post_office.Controllers.Client
         }
 
         public IActionResult MyAccount()
-        {        
+        {   
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.Bills = GetBills();
             return View();
         }
