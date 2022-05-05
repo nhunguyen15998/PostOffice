@@ -31,13 +31,7 @@ namespace post_office.Controllers.Administrator
             }
             else return RedirectToAction("Login", "User");
         }
-        public JsonResult EmailClientExists(CustomerModel model)
-        {
-            var obj = _cusSvc.GetListCustomer().FirstOrDefault(x => x.Email == model.Email);
-            if (_id != 0 && obj != null) { obj = obj.Id != _id ? obj : null; }
-            return Json(obj == null ? true : false);
-
-        }
+       
         public IActionResult CustomerUpdate( CustomerModel cus)
         {
             cus.Id = _id;

@@ -90,7 +90,7 @@
                     contentType: false,
                     success: function (data) {
                         if (data) {
-                            ShowWaiting(1500);
+                            ShowWaiting(2000);
                             window.location.href = "@Url.Action("VerifyAccount", "Authentication", new { setup=0,type = 0})";
 
                         } else ShowMessage(false, "Please enter the exact phone number and try again");

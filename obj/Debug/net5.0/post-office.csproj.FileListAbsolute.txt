@@ -519,7 +519,6 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.RazorTargetAssemblyInf
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.Views.pdb
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.csproj.CopyComplete
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.genruntimeconfig.cache
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.csproj.AssemblyReference.cache
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Attribute\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Role\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Branch\Index.cshtml.g.cs
@@ -554,3 +553,4 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Shared\Partials\_Clien
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Profile\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\BillDetail.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\VerifyAccount.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Bills\BillDetail.cshtml.g.cs

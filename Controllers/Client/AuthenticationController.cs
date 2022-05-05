@@ -24,7 +24,7 @@ namespace post_office.Controllers.Client
         private readonly AppSettings _appSettings;
         public static VerifyModel verify = new VerifyModel();
         public static CustomerModel customerCurrent = null;
-        public static bool hasSetUp = false;
+        public static bool? hasSetUp;
 
         public AuthenticationController(ILogger<AuthenticationController> logger, 
         ICustomerService customerService, IOptions<AppSettings> appSettings)
@@ -66,18 +66,20 @@ namespace post_office.Controllers.Client
             string code = Request.Form["verify_code"];
             if (verify.verify_code == code && verify.email == customerCurrent.Email && verify.created_at.AddMinutes(5) >= DateTime.Now && !verify.isForUser)
             {
-                if (hasSetUp) {
-                    //update status customer to activated here
-                    customerCurrent.Status = 1;
-                    _customerService.ModifyCustomer(customerCurrent);
+                //update status customer to activated here
+                customerCurrent.Status = 1;
+                _customerService.ModifyCustomer(customerCurrent);
+                if ((bool)hasSetUp)
+                {
+                    hasSetUp = null;
                     return RedirectToAction("SignIn");
-                        }
-
-                return RedirectToAction("VerifyAccount", new { type = 1, send = false });
+                }
+               return RedirectToAction("VerifyAccount", new { setup = 0, type = 1, send = false });
+                
 
             }
             TempData["ErrorVerifyUser"] = "The confirmation code is not valid or overdue, please try again";
-            return RedirectToAction("VerifyAccount", new { type = 0, send = false });
+            return RedirectToAction("VerifyAccount", new { setup = 0, type = 0, send = false });
         }
         public void SetUpNewPass(string newpass)
         {
@@ -117,8 +119,11 @@ namespace post_office.Controllers.Client
 
                 int customerId = _customerService.Create(customer, phone).Id;
                 if(customerId != 0){
-                    TempData["Success"] = "Successfully registered";
-                    return RedirectToAction("SignIn", "Authentication");   
+                    customerCurrent = _customerService.GetCustomer(customerId);
+                    return RedirectToAction("VerifyAccount", new { setup = 1, type = 0, send = true });
+
+                    /*TempData["Success"] = "Successfully registered";
+                    return RedirectToAction("SignIn", "Authentication"); */
                 }
                 TempData["Error"] = "Oops! Something went wrong";
                 return RedirectToAction("SignUp", "Authentication");
@@ -149,9 +154,16 @@ namespace post_office.Controllers.Client
                 if (string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(password))
                     throw new AppException("Password is required");
                 var customer = _customerService.Authenticate(phone, password);
+
                 if (customer == null) {
                     TempData["Error"] = "Phone or password is incorrect";
                     return RedirectToAction("SignIn", "Authentication");
+                }
+                if (customer.Status == 0)
+                {
+                    customerCurrent = new CustomerModel() { Id = customer.Id, Status = customer.Status, CreatedAt = (DateTime)customer.CreatedAt, Email = customer.Email, FirstName = customer.FirstName, LastName = customer.LastName, Phone = customer.Phone };
+                    return RedirectToAction("VerifyAccount", new { setup = 1, type = 0, send = true });
+
                 }
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
                 {
