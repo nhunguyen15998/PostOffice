@@ -172,7 +172,7 @@ namespace post_office.Services
                                         OrderId = y.Id,
                                         ProductBillId = x.ProductBillId
                                     })
-                                    .Where(x => x.SenderId == customerId) 
+                                    .Where(x => customerId != 0 ? x.SenderId == customerId : true) 
                                     .Where(x => billId != 0 ? x.Id == billId : true) 
                                     //.Skip((pageIndex - 1) * pageSize)
                                     //.Take(pageSize)

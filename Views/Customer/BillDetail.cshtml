@@ -102,6 +102,7 @@
                                                 </div>
                                             }
                                             @if(ViewBag.ProductBillDetails.Count > 0){
+                                                var count = 1;
                                                 <div>
                                                     <h5>Product(s)</h5>
                                                     <table class="table table-borderless" style="border-collapse: initial;">
@@ -118,7 +119,6 @@
                                                         <tbody id="profile-product-bill-detail">
                                                             @foreach (var item in ViewBag.ProductBillDetails)
                                                             {
-                                                                var count = 1;
                                                                 var photo = "../../img/"+(item.Photo != null ? "ProductThumbnail/"+item.Photo : "defaults/no-avatar.jpeg");
                                                                 <tr>
                                                                     <th scope="row">@count</th>

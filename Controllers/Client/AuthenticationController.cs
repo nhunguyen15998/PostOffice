@@ -39,15 +39,17 @@ namespace post_office.Controllers.Client
             return View();
         }
 
+        [TempData]
+        public string Message { get; set; }
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(){
             try {
-                var firstName = Request.Form["first-name"];
-                var lastName = Request.Form["last-name"];
-                var phone = Request.Form["phone"];
-                var email = Request.Form["email"];
-                var password = Request.Form["password"];
+                var firstName = Request.Form["first-name"].ToString();
+                var lastName = Request.Form["last-name"].ToString();
+                var phone = Request.Form["phone"].ToString();
+                var email = Request.Form["email"].ToString();
+                var password = Request.Form["password"].ToString();
                 if (string.IsNullOrWhiteSpace(password))
                     throw new AppException("Password is required");
 
@@ -62,16 +64,12 @@ namespace post_office.Controllers.Client
                 };
 
                 int customerId = _customerService.Create(customer, phone).Id;
-                if(customerId == 0){
-                    return Ok(new {
-                        Code = 500,
-                        Message = "Registration failed"
-                    });
+                if(customerId != 0){
+                    Message = "Successfully registered";
+                    return RedirectToAction("SignIn", "Authentication");   
                 }
-                return Ok(new {
-                        Code = 200,
-                        Message = "Successfully registered"
-                    });
+                Message = "Oops! Something went wrong";
+                return RedirectToAction("SignUp", "Authentication");
             } catch(Exception ex) {
                 return BadRequest(new { Message = ex.Message });
             }

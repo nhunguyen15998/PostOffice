@@ -35,7 +35,7 @@ namespace post_office.Controllers.Client
         public List<ReadBillModel> GetBills()
         {
             try {
-                var customerId = 1;
+                var customerId = HttpContext.Session.GetInt32("CustomerId") ?? 0;
                 return _billService.GetBills(customerId, 0);//, pageIndex ?? 1, pageSize);
             } catch(Exception ex) {
                 var a = ex.Message;
@@ -47,7 +47,7 @@ namespace post_office.Controllers.Client
         public IActionResult BillDetail(int billId)
         {
             try {
-                var customerId = 1;
+                var customerId = HttpContext.Session.GetInt32("CustomerId") ?? 0;
                 var bill = _billService.GetBill(customerId, billId);
                 ViewBag.Bill = bill;
                 ViewBag.OrderDetails = _billService.GetOrderDetails(bill.OrderId);

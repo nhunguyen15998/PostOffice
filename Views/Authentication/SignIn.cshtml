@@ -8,15 +8,19 @@
                 <div class="text-center" style="margin-bottom: 50px;">
                     <p class="h4 text-gray-900" style="font-size: 35px;">Welcome Back!</p>
                 </div>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">@TempData["Message"]</div>
+                    }
                 <form method="post" action='@Url.ActionLink("Authenticate", "Authentication")'>
                     <div class="form-group" style="margin-bottom: 30px; position: relative;">
-                        <input name="sign-in-phone" class="form-control form-control-user" id="sign-in-phone" aria-describedby="sign-in-phone"
-                            placeholder="Phone">
+                        <input name="sign-in-phone" class="form-control form-control-user" id="sign-in-phone"
+                            aria-describedby="sign-in-phone" placeholder="Phone">
                         <div id="sign-in-phone-error"></div>
                     </div>
                     <div class="form-group" style="margin-bottom: 30px; position: relative;">
-                        <input name="sign-in-password" class="form-control form-control-user" id="sign-in-password" aria-describedby="sign-in-password"
-                            placeholder="Password" type="password">
+                        <input name="sign-in-password" class="form-control form-control-user" id="sign-in-password"
+                            aria-describedby="sign-in-password" placeholder="Password" type="password">
                         <div id="sign-in-password-error"></div>
                     </div>
                     <div class="form-group mb-3">
