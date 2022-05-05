@@ -34,10 +34,12 @@
                 <div class="text-center" style="margin-bottom: 50px;">
                     <p class="h4 text-gray-900" style="font-size: 35px;">Welcome Back!</p>
                 </div>
-                    @if (TempData["Message"] != null)
-                    {
-                        <div class="alert alert-success" role="alert">@TempData["Message"]</div>
-                    }
+                @if (TempData["Success"] != null){
+                    <div class="alert alert-success" role="alert">@TempData["Success"]</div>
+                }
+                @if(TempData["Error"] != null){
+                    <div class="alert alert-danger" role="alert">@TempData["Error"]</div>
+                }
                 <form method="post" action='@Url.ActionLink("Authenticate", "Authentication")'>
                     <div class="form-group" style="margin-bottom: 30px; position: relative;">
                         <input name="sign-in-phone" class="form-control form-control-user" id="sign-in-phone"

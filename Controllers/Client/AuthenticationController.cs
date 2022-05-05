@@ -25,8 +25,6 @@ namespace post_office.Controllers.Client
         public static VerifyModel verify = new VerifyModel();
         public static CustomerModel customerCurrent = null;
         public static bool hasSetUp = false;
-        [TempData]
-        public string Message { get; set; }
 
         public AuthenticationController(ILogger<AuthenticationController> logger, 
         ICustomerService customerService, IOptions<AppSettings> appSettings)
@@ -119,13 +117,14 @@ namespace post_office.Controllers.Client
 
                 int customerId = _customerService.Create(customer, phone).Id;
                 if(customerId != 0){
-                    Message = "Successfully registered";
+                    TempData["Success"] = "Successfully registered";
                     return RedirectToAction("SignIn", "Authentication");   
                 }
-                Message = "Oops! Something went wrong";
+                TempData["Error"] = "Oops! Something went wrong";
                 return RedirectToAction("SignUp", "Authentication");
             } catch(Exception ex) {
-                return BadRequest(new { Message = ex.Message });
+                var a = ex.Message;
+                throw;
             }
 
         }
@@ -150,9 +149,10 @@ namespace post_office.Controllers.Client
                 if (string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(password))
                     throw new AppException("Password is required");
                 var customer = _customerService.Authenticate(phone, password);
-                if (customer == null)
-                    return BadRequest(new { message = "Phone or password is incorrect" });
-
+                if (customer == null) {
+                    TempData["Error"] = "Phone or password is incorrect";
+                    return RedirectToAction("SignIn", "Authentication");
+                }
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
                 {
                     HttpContext.Session.SetInt32("CustomerId", customer.Id);
@@ -163,15 +163,10 @@ namespace post_office.Controllers.Client
                     HttpContext.Session.SetString("CustomerEmail", customer.Email);
                     HttpContext.Session.SetString("CustomerName", customer.FirstName+" "+customer.LastName);
                 }
-                // var name = HttpContext.Session.GetString("CustomerName");
-                // var age = HttpContext.Session.GetInt32(SessionKeyAge).ToString();
-
-                // _logger.LogInformation("Session Name: {Name}", name);
-                // _logger.LogInformation("Session Age: {Age}", age);
-                // return basic user info and authentication token
                 return RedirectToAction("Index", "Home");
             }catch(Exception ex){
-                return BadRequest(new { Message = ex.Message });
+                var a = ex.Message;
+                throw;
             }
         }
 

@@ -2,6 +2,9 @@
     ViewData["Title"] = "Sign Up";
 }
 <div style=" height: 500px; width: 35%;position: absolute;top: 165px;right: 120px;">
+    @if(TempData["Error"] != null){
+        <div class="alert alert-danger" role="alert">@TempData["Error"]</div>
+    }
     <form method="post" action='@Url.ActionLink("Register", "Authentication")'>
         <div class="row">
             <div class="text-center" style="margin-bottom: 50px;">
