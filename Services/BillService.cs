@@ -10,15 +10,17 @@ namespace post_office.Services
 {
     public interface IBillService
     {
-        //client
-            //create bill 
-            //       order + orderdetail + orderphoto + ordertracking
-            //       productbill + productbilldetail
-            //      -> billorder
         int CreateBill(List<ProductBillModel> productBill, List<ProductBillDetailModel> productBillDetails, 
                       OrderModel order, List<OrderDetailModel> orderDetails, List<OrderPhotoModel> orderPhotos, List<OrderTrackingModel> orderTracking,
                       List<BillModel> bill);
-        
+        List<ReadBillModel> GetBills(int customerId, int billId);//, int pageIndex, int pageSize);
+        ReadBillModel GetBill(int customerId, int billId);
+        List<OrderDetailModel> GetOrderDetails(int orderId);
+        List<OrderPhotoModel> GetOrderPhotos(int orderId);
+        List<OrderTrackingModel> GetOrderTrackings(int orderId);
+        ProductBillModel GetProductBill(int? productBillId);
+        List<ProductBillDetailModel> GetProducts(int? productBillId);
+        List<OrderTrackingModel> GetOrderTrackings(string orderCode);
     }
 
     public class BillService : IBillService
@@ -85,7 +87,7 @@ namespace post_office.Services
                 List<ProductBillDetail> _productBillDetails = new List<ProductBillDetail>();
                 foreach(var item in productBillDetails){
                     _productBillDetails.Add(new ProductBillDetail{ 
-                        ProductBillId = productBillId, ProductAttributeId = item.ProductAttributeId, Code = item.Code, 
+                        ProductBillId = productBillId, ProductId = item.ProductId, Code = item.Code, 
                         Name = item.Name, Color = item.Color, Length = item.Length, Width = item.Width, Height = item.Height,
                         Qty = item.Qty, Price = item.Price, SubTotal = item.SubTotal, CreatedAt = DateTime.Now });
                 }
@@ -117,6 +119,202 @@ namespace post_office.Services
                 return 1;
             } catch(Exception ex) {
                 transaction.Rollback();
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public List<ReadBillModel> GetBills(int customerId, int billId)//, int pageIndex, int pageSize)
+        {
+            try {
+                return _context.Bills.Join(_context.Orders, x => x.OrderId, y => y.Id, (x, y) => new ReadBillModel{
+                                        Id = x.Id,
+                                        Code = y.Code,
+                                        Total = x.Total,
+                                        SenderId = y.SenderId,
+                                        SenderFirstName = y.SenderFirstName,
+                                        SenderLastName = y.SenderLastName,
+                                        SenderPhone = y.SenderPhone,
+                                        SenderEmail = y.SenderEmail, 
+                                        CompanyName = y.CompanyName,
+                                        CompanyPhone = y.CompanyPhone,
+                                        FromAddress = y.FromAddress,
+                                        FromWard = y.FromWard.Name,
+                                        FromCity = y.FromCity.Name,
+                                        FromProvince = y.FromProvince.Name, 
+                                        ReceiverFirstName = y.ReceiverFirstName,
+                                        ReceiverLastName = y.ReceiverLastName,
+                                        ReceiverPhone = y.ReceiverPhone,
+                                        ReceiverEmail = y.ReceiverEmail, 
+                                        ToAddress = y.ToAddress,
+                                        ToWard = y.ToWard.Name,
+                                        ToCity = y.ToCity.Name,
+                                        ToProvince = y.ToProvince.Name, 
+                                        CreatedAt = x.CreatedAt,
+                                        Status = x.Status,
+                                        Length = y.Length,
+                                        Height = y.Height,
+                                        Width = y.Width,
+                                        Weight = y.Weight,
+                                        DeliveryOn = y.DeliveryOn,
+                                        PaidOn = x.PaidOn,
+                                        PinCode = y.PinCode,
+                                        ServiceName = x.ServiceName,     
+                                        PickUpFee  = x.PickUpFee,
+                                        IsPickup = x.IsPickup,
+                                        SendingOn = x.SendingOn,
+                                        DeliveryStatus = y.DeliveryStatus,
+                                        DeliveryFee = y.DeliveryFee,
+                                        CollectAmount = y.CollectAmount,
+                                        Notes = y.Notes, 
+                                        PaymentType = x.PaymentType,
+                                        PaymentStatus = x.PaymentStatus,
+                                        OrderId = y.Id,
+                                        ProductBillId = x.ProductBillId
+                                    })
+                                    .Where(x => x.SenderId == customerId) 
+                                    .Where(x => billId != 0 ? x.Id == billId : true) 
+                                    //.Skip((pageIndex - 1) * pageSize)
+                                    //.Take(pageSize)
+                                    .ToList();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public ReadBillModel GetBill(int customerId, int billId)
+        {
+            try {
+                return GetBills(customerId, billId).FirstOrDefault();                      
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public List<OrderDetailModel> GetOrderDetails(int orderId)
+        {
+            try {
+                return _context.Orders.Where(x => x.Id == orderId)
+                                      .Join(_context.OrderDetails, x => x.Id, y => y.OrderId, 
+                                            (x, y) => new OrderDetailModel{
+                                                OrderId = x.Id,
+                                                Name = y.Name,
+                                                Qty = y.Qty,
+                                                CreatedAt = y.CreatedAt 
+                                            })
+                                       .ToList();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public List<OrderPhotoModel> GetOrderPhotos(int orderId)
+        {
+            try {
+                return _context.Orders.Where(x => x.Id == orderId)
+                                       .Join(_context.OrderPhotos, x => x.Id, y => y.OrderId, 
+                                            (x, y) => new OrderPhotoModel{
+                                                OrderId = x.Id,
+                                                Photo = y.Photo,
+                                                CreatedAt = y.CreatedAt 
+                                            })
+                                       .ToList();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public List<OrderTrackingModel> GetOrderTrackings(int orderId)
+        {
+            try {
+                return _context.Orders.Where(x => x.Id == orderId)
+                                      .Join(_context.OrderTrackings, x => x.Id, y => y.OrderId, 
+                                            (x, y) => new OrderTrackingModel{
+                                                OrderId = x.Id,
+                                                Code = y.Code,
+                                                Shipper = y.Shipper.FullName,
+                                                Description = y.Description,
+                                                Branch = y.Branch.Name,
+                                                CreatedAt = y.CreatedAt 
+                                            })
+                                       .ToList();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        //product
+        public ProductBillModel GetProductBill(int? productBillId)
+        {
+            try {
+                if(productBillId == null) return null;
+                return _context.ProductBills.Where(x => x.Id == productBillId)
+                                            .Select(y => new ProductBillModel{
+                                               Id = productBillId,
+                                               CustomerId = y.CustomerId,
+                                               Total = y.Total,
+                                               Status = y.Status,
+                                               PaymentStatus = y.PaymentStatus,
+                                               CreatedAt = y.CreatedAt
+                                            })
+                                            .FirstOrDefault();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public List<ProductBillDetailModel> GetProducts(int? productBillId)
+        {
+            try {
+                if(productBillId == null) return null;
+                return _context.ProductBills.Where(x => x.Id == productBillId)
+                                            .Join(_context.ProductBillDetails, y => y.Id, x => x.ProductBillId, 
+                                                    (y, x) => new ProductBillDetailModel{
+                                                        ProductBillId = x.Id,
+                                                        ProductId = x.ProductId,
+                                                        Photo = x.Product.Thumbnail,
+                                                        Name = x.Name,
+                                                        Code = x.Code,
+                                                        Color = x.Color,
+                                                        Length = x.Length,
+                                                        Width = x.Width,
+                                                        Height = x.Height,
+                                                        Price = x.Price,
+                                                        Qty = x.Qty,
+                                                        SubTotal = x.SubTotal,
+                                                        CreatedAt = x.CreatedAt
+                                                    })
+                                            .ToList();
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+
+        //tracking
+        public  List<OrderTrackingModel> GetOrderTrackings(string orderCode)
+        {
+            try {
+                return _context.Orders.Where(x => x.Code == orderCode)
+                                      .Join(_context.OrderTrackings, x => x.Id, y => y.OrderId,
+                                            (x,y) => new OrderTrackingModel{
+                                                Description = y.Description,
+                                                OrderId = x.Id,
+                                                Code = y.Code,
+                                                Shipper = y.Shipper.FullName,
+                                                Branch = y.Branch.Name + " - " + y.Branch.City.Name + ", " + y.Branch.Province.Name,
+                                                CreatedAt = y.CreatedAt
+                                            })
+                                      .OrderByDescending(x => x.CreatedAt)
+                                      .ToList();
+            } catch(Exception ex) {
                 var a = ex.Message;
                 throw;
             }

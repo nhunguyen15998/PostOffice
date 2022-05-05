@@ -31,16 +31,9 @@ namespace post_office.Controllers.Client
 
         [HttpPost]
         public IActionResult CreateBill(List<IFormFile> Files){
-            var _customer = 1;
-            try{
-                //upload
-                foreach(var item in Files){
-                    Console.WriteLine(item);
-                    Console.WriteLine(item.Name);
-                    Console.WriteLine(item.FileName);
-                    UploadedFile(_customer, item.FileName, item);
-                }  
-
+            var _customer = 0;
+            try{   
+                List<string> orderCodes = new List<string>();
                 List<int> orders = new List<int>();
                 var form = Request.Form["Orders"].ToString();
                 dynamic main = JsonConvert.DeserializeObject<DataSet>(form);
@@ -67,10 +60,16 @@ namespace post_office.Controllers.Client
                     dynamic orderPhoto = JsonConvert.DeserializeObject<DataSet>(row["OrderPhotoList"].ToString());
                     DataTable dtOrderPhoto = orderPhoto.Tables["OrderPhoto"];
                     foreach(DataRow rOrderPhoto in dtOrderPhoto.Rows){
-                        var item = new OrderPhotoModel{
-                            Photo = rOrderPhoto["Name"].ToString()
-                        };
-                        orderPhotoList.Add(item);
+                        //upload
+                        foreach(var file in Files){
+                            if(file.FileName == rOrderPhoto["Name"].ToString()){
+                                var dbFileName = UploadedFile(_customer, file.FileName, file);
+                                var item = new OrderPhotoModel{
+                                    Photo = dbFileName
+                                };
+                                orderPhotoList.Add(item);
+                            }
+                        }
                     }
                     //ordertracking
                     List<OrderTrackingModel> orderTrackingList = new List<OrderTrackingModel>();
@@ -78,7 +77,7 @@ namespace post_office.Controllers.Client
                     DataTable dtOrderTracking = orderTracking.Tables["OrderTracking"];
                     foreach(DataRow rOrderTracking in dtOrderTracking.Rows){
                         var item = new OrderTrackingModel{
-                            Code = rOrderTracking["Code"].ToString(),
+                            Code = Helpers.Helpers.RandomCode(),
                             Description = rOrderTracking["Description"].ToString(),
                             BranchId = int.Parse(rOrderTracking["BranchId"].ToString())
                         };
@@ -104,7 +103,7 @@ namespace post_office.Controllers.Client
                     foreach(DataRow rProductList in dtProductList.Rows){
                         Console.WriteLine(rProductList);
                         var item = new ProductBillDetailModel{
-                            ProductAttributeId = rProductList["ProductAttributeId"].ToString() == "" ? null : int.Parse(rProductList["ProductAttributeId"].ToString()),
+                            ProductId = int.Parse(rProductList["ProductId"].ToString()),
                             Name = rProductList["Name"].ToString(),
                             Code = rProductList["Code"].ToString(),
                             Color = rProductList["Color"].ToString(),
@@ -125,7 +124,7 @@ namespace post_office.Controllers.Client
                         var item = new BillModel{
                             ServiceId = int.Parse(rBill["ServiceId"].ToString()),
                             ServiceName = rBill["ServiceName"].ToString(),
-                            Code = rBill["Code"].ToString(),
+                            Code = Helpers.Helpers.RandomCode(),
                             IsPickup = rBill["IsPickup"].ToString() == "True" ? true : false,
                             PickUpFee = decimal.Parse(rBill["PickUpFee"].ToString()),
                             Total = decimal.Parse(rBill["Total"].ToString()),
@@ -135,9 +134,9 @@ namespace post_office.Controllers.Client
                         };
                         billList.Add(item);
                     }
-                    
+                    var _orderCode = Helpers.Helpers.RandomCode();
                     var order = new OrderModel{
-                        Code = row["Code"].ToString(),
+                        Code = _orderCode,
                         Length = double.Parse(row["Length"].ToString()),
                         Height = double.Parse(row["Height"].ToString()),
                         Weight = double.Parse(row["Weight"].ToString()),
@@ -171,6 +170,7 @@ namespace post_office.Controllers.Client
                         CollectAmount = decimal.Parse(row["CollectedAmount"].ToString()),
                         Notes = row["Notes"].ToString(),
                         Status = int.Parse(row["Status"].ToString()),
+                        CreatedAt = DateTime.Now
                     };
                     
                     //create
@@ -178,15 +178,28 @@ namespace post_office.Controllers.Client
                                         order, orderDetailList, orderPhotoList, orderTrackingList, billList);
                     if(created != 0) { 
                         orders.Add(created);
+                        orderCodes.Add(_orderCode);
                     }
-                }              
+                }    
 
                 if(orders.Count == count){
-                    return Ok(new {Code = 200, Message = "Successful"});
+                    return Ok(new {Code = 200, Message = "Successful", OrderCode = orderCodes});
                 } else{
                     return Ok(new {Code = 500, Message = "Something went wrong!"});
                 }
             }catch(Exception ex){
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        //tracking
+        [HttpGet]
+        public List<OrderTrackingModel> GetTrackingByOrder([FromQuery] string orderCode)
+        {
+            try {
+                return _billService.GetOrderTrackings(orderCode) ?? null;
+            } catch(Exception ex) {
                 var a = ex.Message;
                 throw;
             }

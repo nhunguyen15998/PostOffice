@@ -31,5 +31,6 @@ namespace post_office.Entities
         public ProductBill ProductBill { get; set; }
         public Branch Branch { get; set; }
         public Order Order { get; set; }
+        public Service Service { get; set; }
     }
 }

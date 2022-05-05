@@ -10,7 +10,7 @@ namespace post_office.Models
 {
     public class ProductBillModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int CustomerId { get; set; }
         public int Status { get; set; }
         public decimal Total { get; set; }
@@ -23,7 +23,9 @@ namespace post_office.Models
     {
         public int Id { get; set; }
         public int ProductBillId { get; set; }
-        public int? ProductAttributeId { get; set; }
+        public int ProductId { get; set; }
+        public string Photo { get; set; }
+
         public string Name { get; set; }
         public string Code { get; set; }
         public string Color { get; set; }
@@ -36,4 +38,5 @@ namespace post_office.Models
         public DateTime? CreatedAt { get; set; }
     }
     
+
 }

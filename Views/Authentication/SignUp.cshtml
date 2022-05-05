@@ -2,7 +2,7 @@
     ViewData["Title"] = "Sign Up";
 }
 <div style=" height: 500px; width: 35%;position: absolute;top: 165px;right: 120px;">
-    <form>
+    <form method="post" action='@Url.ActionLink("Register", "Authentication")'>
         <div class="row">
             <div class="text-center" style="margin-bottom: 50px;">
                 <p class="h4 text-gray-900" style="font-size: 35px;">Register Now!</p>
@@ -49,9 +49,9 @@
                     </div>
                 </div>
             </div>
-            <a id="btn-sign-up" class="btn btn-block btn-user"
+            <button id="btn-sign-up" class="btn btn-block btn-user" type="submit"
                 style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 95%;padding: 10px 20px;margin: 0 auto;">Sign
-                up</a>
+                up</button>
             <div class="mt-4">
                 <div class="text-center">
                     <a class="small" href='@Url.ActionLink("SignIn", "Authentication")'>Already a member?</a>
@@ -60,7 +60,3 @@
         </div>
     </form>
 </div>
-<script>
-    if(localStorage.getItem('user_data'))
-        window.location.href = `@Url.ActionLink("Index", "Home")`
-</script>

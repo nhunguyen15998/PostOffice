@@ -1,5 +1,3 @@
-let userData = localStorage.getItem('user_data')
-
 //sign up =========================================================
 //validation - signup
 let error = ""
@@ -103,33 +101,33 @@ $('#btn-sign-up').on('click', () => {
         $(`#email`).closest('.form-group').hasClass('field-error') || 
         $(`#password`).closest('.form-group').hasClass('field-error') || 
         $(`#repeat-password`).closest('.form-group').hasClass('field-error'))
-        return
+        return false
 
-    let firstName = $("input[name='first-name']").val()
-    let lastName = $("input[name='last-name']").val()
-    let phone = $("input[name='phone']").val()
-    let email = $("input[name='email']").val()
-    let password = $("input[name='password']").val()
+    // let firstName = $("input[name='first-name']").val()
+    // let lastName = $("input[name='last-name']").val()
+    // let phone = $("input[name='phone']").val()
+    // let email = $("input[name='email']").val()
+    // let password = $("input[name='password']").val()
 
-    $.ajax({
-        url: 'https://localhost:5001/authentication/register',
-        type: 'post',
-        dataType: 'json',
-        contentType: "application/json",
-        data: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            phone: phone,
-            email: email,
-            password : password
-        }),
-        success: function(response){
-            console.log(JSON.stringify(response))
-        },
-        error: function(data){
-            alert(data.responseJSON.message)
-        } 
-    })
+    // $.ajax({
+    //     url: 'https://localhost:5001/authentication/register',
+    //     type: 'post',
+    //     dataType: 'json',
+    //     contentType: "application/json",
+    //     data: JSON.stringify({
+    //         firstName: firstName,
+    //         lastName: lastName,
+    //         phone: phone,
+    //         email: email,
+    //         password : password
+    //     }),
+    //     success: function(response){
+    //         console.log(JSON.stringify(response))
+    //     },
+    //     error: function(data){
+    //         alert(data.responseJSON.message)
+    //     } 
+    // })
 
 })
 
@@ -157,38 +155,19 @@ $("input[name='sign-in-password']").on('input', () =>{
 })
 
 function checkSignInNull(){
-    if($(`#sign-in-phone`).val().trim() == "")
+    if($(`#sign-in-phone`).val().trim() == ""){
         informError("Field phone is required", "sign-in-phone-error")
-    if($(`#sign-in-password`).val().trim() == "")
+    }
+    if($(`#sign-in-password`).val().trim() == ""){
         informError("Field password is required", "sign-in-password-error")
+    }
 }
 
 $('#btn-sign-in').on('click', () => {
     checkSignInNull()
     if($(`#sign-in-phone`).closest('.form-group').hasClass('field-error') || 
         $(`#sign-in-password`).closest('.form-group').hasClass('field-error'))
-        return
-
-    let signInPhone = $("input[name='sign-in-phone']").val()
-    let signInPassword = $("input[name='sign-in-password']").val()
-
-    $.ajax({
-        url: 'https://localhost:5001/authentication/authenticate',
-        type: 'post',
-        dataType: 'json',
-        contentType: "application/json",
-        data: JSON.stringify({
-            phone: signInPhone,
-            password : signInPassword
-        }),
-        success: function(response){
-            localStorage.setItem("user_data", JSON.stringify(response))
-            window.location.href = "/"
-        },
-        error: function(data){
-            alert(data.responseJSON.message)
-        } 
-    })
+        return false
 
 })
 

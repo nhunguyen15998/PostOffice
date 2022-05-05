@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using post_office.Entities;
 
 namespace post_office.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220504093115_Modify_Order_Bill_ver3")]
+    partial class Modify_Order_Bill_ver3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,8 +239,11 @@ namespace post_office.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
@@ -705,16 +710,13 @@ namespace post_office.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductBillId")
+                    b.Property<int?>("ProductAttributeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductBillId")
                         .HasColumnType("int");
 
                     b.Property<int>("Qty")
@@ -728,9 +730,9 @@ namespace post_office.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductBillId");
+                    b.HasIndex("ProductAttributeId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductBillId");
 
                     b.ToTable("ProductBillDetails");
                 });
@@ -1255,19 +1257,17 @@ namespace post_office.Migrations
 
             modelBuilder.Entity("post_office.Entities.ProductBillDetail", b =>
                 {
+                    b.HasOne("post_office.Entities.ProductAttribute", "ProductAttribute")
+                        .WithMany()
+                        .HasForeignKey("ProductAttributeId");
+
                     b.HasOne("post_office.Entities.ProductBill", "ProductBill")
                         .WithMany()
                         .HasForeignKey("ProductBillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("post_office.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.Navigation("ProductAttribute");
 
                     b.Navigation("ProductBill");
                 });

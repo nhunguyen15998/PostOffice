@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.Net.Http.Headers;
 using post_office.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace post_office
 {
@@ -44,42 +45,16 @@ namespace post_office
 
             // configure strongly typed settings objects
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            //session
+            services.AddDistributedMemoryCache();
 
-            // configure jwt authentication
-            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
+            services.AddSession(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var customerService = context.HttpContext.RequestServices.GetRequiredService<ICustomerService>();
-                        var customerId = int.Parse(context.Principal.Identity.Name);
-                        var customer = customerService.GetById(customerId);
-                        if (customer == null)
-                        {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // configure DI for application services
             services.AddMvc();
@@ -132,7 +107,11 @@ namespace post_office
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
+
 
             app.UseEndpoints(endpoints =>
             {

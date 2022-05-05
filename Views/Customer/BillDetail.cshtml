@@ -1,0 +1,184 @@
+@{
+    ViewData["Title"] = "Bill Detail";
+    ViewData["BannerTitle"] = "Bill Detail";
+}
+<div id="content-wrapper" class="site-content-wrapper">
+    <div id="content" class="site-content ">
+        <div id="content-inner" class="site-content-inner ">
+            <div id="primary" class="content-area  ">
+                <main id="main" class="site-main">
+                    <div data-vc-full-width="true" data-vc-full-width-init="true"
+                        style="position: relative; left: 0px; box-sizing: border-box; width: 1440px; padding-left: 0px; padding-right: 0px;">
+                        <div class="vc_row container"
+                            style="margin-bottom: 150px !important; margin: auto">
+                           
+                            <div style="height: fit-content;width: 100%;">
+                                <div class="mb-3 row" id="show-detail" class="step-hidden">
+                                    @if (ViewBag.Bill != null)
+                                    {
+                                        <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);padding: 30px 15px;" class="mb-4">
+                                            <h5 class="mb-4">Bill <span>#@ViewBag.Bill.Code</span></h5>
+                                            <!--info-->
+                                        <div class="mb-4">
+                                                <div class="row" style="padding: 0 60px;" >
+                                                    <div class="col-sm-4">
+                                                        <h5>Sender</h5>
+                                                        <p class="mb-1">Name: <span>@ViewBag.Bill.SenderFirstName @ViewBag.Bill.SenderLastName</span></p>
+                                                        <p class="mb-1">Phone: <span>@ViewBag.Bill.SenderPhone</span></p>
+                                                        <p class="mb-1">Email: <span>@ViewBag.Bill.SenderEmail</span></p>
+                                                        @if(ViewBag.Bill.CompanyName != "" && @ViewBag.Bill.CompanyPhone != ""){
+                                                            <p class="mb-1">Company name: <span>@ViewBag.Bill.CompanyName</span></p>
+                                                            <p class="mb-1">Company phone: <span>@ViewBag.Bill.CompanyPhone</span></p>
+                                                        }
+                                                        <p class="mb-1">Address: <span>@ViewBag.Bill.FromAddress, @ViewBag.Bill.FromWard, @ViewBag.Bill.FromCity, @ViewBag.Bill.FromProvince</span></p>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <h5>Receiver</h5>
+                                                        <p class="mb-1">Name: <span>@ViewBag.Bill.ReceiverFirstName @ViewBag.Bill.ReceiverLastName</span></p>
+                                                        <p class="mb-1">Phone: <span>@ViewBag.Bill.ReceiverPhone</span></p>
+                                                        <p class="mb-1">Email: <span>@ViewBag.Bill.ReceiverPhone</span></p>
+                                                        <p class="mb-1">Address: <span>@ViewBag.Bill.ToAddress, @ViewBag.Bill.ToWard, @ViewBag.Bill.ToCity, @ViewBag.Bill.ToProvince</span></p>
+                                                        <p class="mb-1">Pin code: <span>@ViewBag.Bill.PinCode</span></p>
+                                                        @if(ViewBag.Bill.DeliveryOn != null){
+                                                            <p class="mb-1">Date delivered: <span>@ViewBag.Bill.DeliveryOn</span></p>
+                                                        }
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-1">Service: <span>@ViewBag.Bill.ServiceName</span></p>
+                                                        <p class="mb-1" class="money">Amount collected: <span>@ViewBag.Bill.CollectAmount.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</span></p>
+                                                        <p class="mb-1">Figures: <span>L:@ViewBag.Bill.Length cm, W:@ViewBag.Bill.Width cm, H:@ViewBag.Bill.Height cm, W:@ViewBag.Bill.Weight kg</span></p>
+                                                        <p class="mb-1">Notes: <span>@ViewBag.Bill.Notes</span></p>
+                                                        <p class="mb-1">Status: <span>@Helpers.CheckStatusValue(ViewBag.Bill.DeliveryStatus, "DeliveryStatus")</span></p>
+                                                        <p class="mb-1">Payment method: <span>@Helpers.CheckStatusValue(ViewBag.Bill.PaymentType, "PaymentType")</span></p>
+                                                        <p class="mb-1">Date created: <span>@ViewBag.Bill.CreatedAt?.ToString("dd/MM/yyyy")</span></p>
+                                                        @if(@ViewBag.Bill.DeliveryStatus == (int)Helpers.DeliveryStatus.Delivered){
+                                                            <p class="mb-1">Date closed: <span>@ViewBag.Bill.PaidOn?.ToString("dd/MM/yyyy")</span></p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if(ViewBag.OrderDetails.Count > 0){
+                                                var count = 1;
+                                                <div class="mb-4">
+                                                    <h5>Parcel detail</h5>
+                                                    <div class="row" style="padding: 0 60px;">
+                                                        <table class="table table-borderless" style="border-collapse: initial;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Qty</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach(var item in ViewBag.OrderDetails){
+                                                                    <tr>
+                                                                        <th scope="row">@count</th>
+                                                                        <td>@item.Name</td>
+                                                                        <td>@item.Qty</td>
+                                                                    </tr>
+                                                                    count++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if(ViewBag.OrderPhotos.Count > 0){
+                                                <div class="mb-4">
+                                                    <h5>Attached photo(s)</h5>
+                                                    <div class="m-0 w-75" id="photo-slider"
+                                                    style="background-color: #ffdc39;padding: 20px 0;overflow: scroll;margin: auto !important;">
+                                                        <div id="photo-scroll" class="align-items-center d-flex p-0">
+                                                            @foreach(var item in ViewBag.OrderPhotos){
+                                                                var photo = "../../img/customer"+ViewBag.Bill.SenderId+"/Photo_"+item.Photo;
+                                                                <div class="col-sm-2 d-flex justify-content-around justify-content-center p-0">
+                                                                    <img width="100" height="100" id="display-img"
+                                                                        src="@photo">
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if(ViewBag.ProductBillDetails.Count > 0){
+                                                <div>
+                                                    <h5>Product(s)</h5>
+                                                    <table class="table table-borderless" style="border-collapse: initial;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col">Price</th>
+                                                                <th scope="col">Qty</th>
+                                                                <th scope="col">Subtotal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="profile-product-bill-detail">
+                                                            @foreach (var item in ViewBag.ProductBillDetails)
+                                                            {
+                                                                var count = 1;
+                                                                var photo = "../../img/"+(item.Photo != null ? "ProductThumbnail/"+item.Photo : "defaults/no-avatar.jpeg");
+                                                                <tr>
+                                                                    <th scope="row">@count</th>
+                                                                    <td>
+                                                                    <div class="align-items-center d-flex">
+                                                                        <img src="@photo" width="50" class="mr-2">
+                                                                        <div>
+                                                                        <p class="mb-0">@item.Name</p>
+                                                                        <p class="mb-0">#@item.Code</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    </td>
+                                                                    <td>
+                                                                    <div class="align-items-center d-flex">
+                                                                        @if(item.Color != ""){
+                                                                            <div class="d-block mr-2" style="background-color:@item.Color ;height: 15px;width: 15px;"></div>
+                                                                        }
+                                                                        @{var length = item.Length != "" ? "L:"+item.Length: "";}
+                                                                        @{var width = item.Width != "" ? "W:"+item.Width: "";}
+                                                                        @{var height = item.Height != "" ? "H:"+item.Height: "";}
+                                                                        <p class="mb-0">@length @width @height</p>
+                                                                    </div>
+                                                                    </td>
+                                                                    <td class="money">@item.Price.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
+                                                                    <td>@item.Qty</td>
+                                                                    <td class="money">@item.SubTotal.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
+                                                                </tr>
+                                                                count++;
+                                                            }
+                                                        </tbody> 
+                                                    </table>
+                                                </div>
+                                            }
+                                            <hr>
+                                            <div class="float-right">
+                                                <dl class="float-end row w-50">
+                                                    @if(ViewBag.ProductBill != null){
+                                                        <dt class="col-sm-7">Total products</dt>
+                                                        <dd class="col-sm-5 mb-2 money">@ViewBag.ProductBill.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                    }
+                                                    @if(ViewBag.Bill.IsPickup){
+                                                        <dt class="col-sm-7">Pickup fee</dt>
+                                                        <dd class="col-sm-5 mb-2">
+                                                            <p class="mb-0 money">@ViewBag.Bill.PickUpFee.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</p>
+                                                        </dd>
+                                                    }
+                                                    <dt class="col-sm-7">Shipping fee</dt>
+                                                    <dd class="col-sm-5 mb-2 money">@ViewBag.Bill.DeliveryFee.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                    <dt class="col-sm-7 text-truncate">Total</dt>
+                                                    <dd class="col-sm-5 money">@ViewBag.Bill.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main><!-- #main .site-main -->
+            </div><!-- #primary .content-area -->
+        </div><!-- .site-content-inner -->
+    </div><!-- .site-content -->
+</div>

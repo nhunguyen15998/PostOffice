@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using post_office.Entities;
 using post_office.Helpers;
+using post_office.Models;
 
 namespace post_office.Services
 {
@@ -35,7 +36,7 @@ namespace post_office.Services
                 return null;
 
             // check if password is correct
-            if (!Helpers.Helpers.VerifyPasswordHash(password, customer.PasswordHash, customer.PasswordSalt))
+            if (!BCrypt.Net.BCrypt.Verify(password, customer.PasswordHash) == true)
                 return null;
 
             // authentication successful
@@ -100,8 +101,8 @@ namespace post_office.Services
                 byte[] passwordHash, passwordSalt;
                 Helpers.Helpers.CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-                customer.PasswordHash = passwordHash;
-                customer.PasswordSalt = passwordSalt;
+                // customer.PasswordHash = passwordHash;
+                // customer.PasswordSalt = passwordSalt;
             }
 
             _context.Customers.Update(customer);

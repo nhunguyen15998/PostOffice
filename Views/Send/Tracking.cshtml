@@ -15,13 +15,14 @@
                                 <div class="vc_column-inner vc_custom_1614156135890 ">
                                     <div class="wpb_wrapper" style="">
                                         <div role="form" class="postoffice" id="postoffice-f10177-p8187-o2" lang="en-US" dir="ltr">
-                                            <div class="main-form">
+                                            <div class="main-form" id="show-tracking-order">
                                                 <div>
                                                     <h3 class="">Find your order</h3>
                                                     <div class="mb-5 row">
                                                         <div class="col-sm-10">
                                                             <div class="input-group" style="">
-                                                                <span class="postoffice-form-control-wrap" style="width: 100%;"><input type="text" name="tracking" class="postoffice-form-control postoffice-text" aria-invalid="false" placeholder="Search your order…" style="">
+                                                                <span class="postoffice-form-control-wrap" style="width: 100%;">
+                                                                    <input type="text" name="tracking" class="postoffice-form-control postoffice-text" aria-invalid="false" placeholder="Search your order…" style="">
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -34,23 +35,6 @@
                                                     
                                                 </div>
 
-                                                <div class="row" style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);height: fit-content;margin: 0;position: relative;">
-                                                    <div style="padding: 50px 0;">
-                                                        <div style="position: absolute;bottom: 0;left: 55px;border-left: 5px solid #ffdc39;height: 100%;"></div>
-                                                        <div class="align-items-center d-flex" style="width: fit-content;margin-bottom: 45px;">
-                                                            <div style="background-color: #ffdc39;width: 22px;height: 22px;border-radius: 50%;position: absolute;left: 47px;" class="mr-4"></div>
-                                                            <p class="mb-0" style="font-size: 9px;position: absolute;left: 80px;">
-                                                                2022/02/10 13:03</p>
-                                                            <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);width: 100%;background-color: pink;padding: 15px 25px;margin-left: 174px;margin-right: 8%;">
-                                                                <p class="mb-0" style="font-size: 16px;">This is a test
-                                                                    This is a test This is a testThis is a test This is
-                                                                    a test This is a test cccccThis is a test This is a
-                                                                    test This is a test This is a test This is a test
-                                                                    This is a test</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -74,4 +58,51 @@
             </div><!-- #primary .content-area -->
         </div><!-- .site-content-inner -->
     </div><!-- .site-content -->
+    <script>
+        let div = `<div class="row" style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);height: fit-content;margin: 0;position: relative;">
+                        <div style="padding: 50px 0;" id="tracking-body">
+                            <div style="position: absolute;bottom: 0;left: 55px;border-left: 5px solid #ffdc39;height: 100%;"></div>
+                            
+                        </div>
+                    </div>`
+        function parseISOString(s) {
+            var b = s.split(/\D+/);
+            return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+        }
+        function getTracking(){
+            let orderCode = $('input[name="tracking"]').val()
+            if(orderCode == null || orderCode.trim() == "") return
+            $.ajax({
+                url: base_url+`/Bill/GetTrackingByOrder?orderCode=`+orderCode,
+                type: 'get',
+                dataType: 'json',
+                contentType: "application/json",
+                success: function(response){
+                    $('#show-tracking-order').children('.row').remove()
+                    if(response.length == 0) {
+                        return $('#show-tracking-order').append('<p>Not found</p>')
+                    } else $('#show-tracking-order').children('p').remove()
+                    $('#show-tracking-order').append(div)
+                    response.forEach(item => {
+                        let tracking = `<div class="align-items-center d-flex" style="width: fit-content;margin-bottom: 45px;">
+                                            <div style="background-color: #ffdc39;width: 22px;height: 22px;border-radius: 50%;position: absolute;left: 47px;" class="mr-4"></div>
+                                            <p class="mb-0" style="font-size: 9px;position: absolute;left: 80px;">${parseISOString(item.CreatedAt).toLocaleString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"})}</p>
+                                            <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);width: 100%;background-color: pink;padding: 15px 25px;margin-left: 200px;">
+                                                <p class="mb-0" style="font-size: 16px;">Status: ${item.Description}</p>
+                                                <p class="mb-0" style="font-size: 16px;">Currently at branch: ${item.Branch}</p>
+                                                <p class="mb-0 ${item.Shipper == null ? "d-none" : "d-block"}" style="font-size: 16px;">Shipper: ${item.Shipper}</p>
+                                            </div>
+                                        </div>`
+                        $('#tracking-body').append(tracking)
+                    })
+                },
+                error: function(data){
+                    alert(data.responseText.message)
+                }
+            })
+        }
+
+        $('#btn-tracking-search').on('click', () => getTracking())
+    
+    </script>
 </div>

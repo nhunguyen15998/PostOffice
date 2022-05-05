@@ -127,36 +127,31 @@
                                         <a href='@Url.ActionLink("Index", "Contact")'>Contacts</a>
                                     </li>
                                     <li id="btn-signin-signup">
-                                        <a class="align-items-center d-flex"
-                                            href='@Url.ActionLink("SignIn", "Authentication")'>
-                                            <p class="m-0" id="customer-name">Sign In/Sign up</p>
-                                        </a>
-                                    </li>
-                                    <script type="text/javascript">
-                                        let customer = JSON.parse(localStorage.getItem('user_data'))
-                                        if (customer) {
-                                            $('#btn-signin-signup').children('a').attr('href', '')
-                                            let dropdown = `<ul class="sub-menu">
-                                                                <li>
-                                                                    <a href='@Url.ActionLink("MyAccount", "Customer")'>My Profile</a></li>
-                                                                <li>
-                                                                    <a href id="btn-sign-out">Sign Out</a></li>
-                                                            </ul>`
-                                            let avatar = `<img src="${customer.avatar ?? "../../img/defaults/no-avatar.jpeg"}" width="30" height="30"
-                                                                style="border-radius: 50px;" class="mr-2">`
-                                            $('#btn-signin-signup').append(dropdown)
-                                            $('#btn-signin-signup').children('a').prepend(avatar)
-                                            $('#customer-name').text(customer.FirstName + " " + customer.LastName)
-                                            $('#btn-sign-out').on('click', () => {
-                                                localStorage.removeItem('user_data')
-                                                window.location.href = "/"
-                                                $('#btn-signin-signup').children('ul').remove()
-                                                $('#btn-signin-signup').children('a').empty()
-                                                let p = `<p class="m-0" id="customer-name">Sign In/Sign up</p>`
-                                                $('#btn-signin-signup a').append(p)
-                                            })
+                                        @if(HttpContextAccessor.HttpContext.Session.GetInt32("CustomerId") == null){
+                                            <a class="align-items-center d-flex"
+                                                href='@Url.ActionLink("SignIn", "Authentication")'>
+                                                <p class="m-0" id="customer-name">Sign In/Sign up</p>
+                                            </a>
+                                        } else {
+                                            var img = @HttpContextAccessor.HttpContext.Session.GetString("CustomerAvatar") ?? "../../img/defaults/no-avatar.jpeg";
+                                            <a class="align-items-center d-flex">
+                                                <img src='@img' width="30" height="30"
+                                                                style="border-radius: 50px;" class="mr-2">
+                                                <p class="m-0" id="customer-name">@HttpContextAccessor.HttpContext.Session.GetString("CustomerName")</p>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a href='@Url.ActionLink("MyAccount", "Customer")'>My Profile</a></li>
+                                                <li>
+                                                    <form action='@Url.ActionLink("SignOutAction", "Authentication")' method="post">
+                                                        <button class="btn text-capitalize" type="submit"
+                                                                style="font-family: &quot;Biryani&quot;, Arial, Helvetica, sans-serif;font-size: 14px;letter-spacing: initial;font-weight: 600;">
+                                                            Sign Out</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
                                         }
-                                    </script>
+                                    </li>
                                     <li style="width: 200px;" id="choose-branch">
                                         <a class="align-items-center d-flex" href="#">
                                             <i class="fa-solid fa-location-dot mb-1 mr-1"></i>
@@ -205,6 +200,7 @@
                 <partial name="_Banner.cshtml" />
                 break;
             case "Profile":
+            case "Bill Detail":
                 <partial name="_BannerMyProfile.cshtml" />
                 break;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using post_office.Models;
@@ -21,16 +22,27 @@ namespace post_office.Controllers.Client
 
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View("Views/Send/Pickup.cshtml");
         }
 
         public IActionResult Tracking()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult PinCode()
-        {
+        {if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

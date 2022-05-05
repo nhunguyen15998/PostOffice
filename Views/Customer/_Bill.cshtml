@@ -3,59 +3,54 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Code</th>
+            <th scope="col">Total</th>
+            <th scope="col">Sender</th>
+            <th scope="col">Receiver</th>
+            <th scope="col">Date created</th>
+            <th scope="col">Status</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@@twitter</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@@twitter</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@@twitter</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@@twitter</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@@twitter</td>
-        </tr>
+        @if (ViewBag.Bills.Count > 0)
+        {
+            var count = 1;
+            foreach (var item in ViewBag.Bills)
+            {
+                <tr>
+                    <th scope="row">@count</th>
+                    <td><a type="button" href='@Url.Action("BillDetail", "Customer", new {billId = item.Id})'>@item.Code</a>
+                    </td>
+                    <td>@item.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
+                    <td>
+                        <p class="mb-0">Name: <span>@item.SenderFirstName @item.SenderLastName</span></p>
+                        <p class="mb-0">Address:
+                            <span>@item.FromAddress, @item.FromWard, @item.FromCity, @item.FromProvince</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="mb-0">Name: <span>@item.ReceiverFirstName @item.ReceiverLastName</span></p>
+                        <p class="mb-0">Address:
+                            <span>@item.ToAddress, @item.ToWard, @item.ToCity, @item.ToProvince</span>
+                        </p>
+                    </td>
+                    <td>@item.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                    <td>@Helpers.CheckStatusValue(item.Status, "OrderStatus")</td>
+                </tr>
+                count++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">No data</td>
+            </tr>
+        }
     </tbody>
 </table>
 <!--pagination-->
-<div class="d-flex justify-content-end" style="font-size: 14px;">
-    <div style="/* background-color: #ffdc39; */color: #ffdc39;width: 35px;height: 35px;border-radius: 50%;margin: 0px 3px;"
+<div class="d-flex justify-content-end mb-5" style="font-size: 14px;">
+    <div style="color: #ffdc39;width: 35px;height: 35px;border-radius: 50%;margin: 0px 3px;"
         class="align-items-center d-flex justify-content-center">
         <i class="fa-solid fa-chevron-left"></i>
     </div>

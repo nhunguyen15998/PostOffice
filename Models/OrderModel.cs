@@ -81,7 +81,9 @@ namespace post_office.Models
         public int OrderId { get; set; }
         public string Description { get; set; }
         public int? ShipperId { get; set; }
+        public string Shipper { get; set; }
         public int BranchId { get; set; }
+        public string Branch { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
     

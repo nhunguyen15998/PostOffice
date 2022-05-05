@@ -49,5 +49,12 @@ namespace post_office.Entities
 
         public Customer Receiver { get; set; }
         public Customer Sender { get; set; }
+        
+        public VNWard FromWard { get; set; }
+        public VNWard ToWard { get; set; }
+        public VNCity FromCity { get; set; }
+        public VNCity ToCity { get; set; }
+        public VNState FromProvince { get; set; }
+        public VNState ToProvince { get; set; }
     }
 }

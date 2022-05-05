@@ -14,8 +14,7 @@ namespace post_office.Entities
         public string Email { get; set; }
         public string Avatar { get; set; }
         public int? RoleId { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int Status { get; set; }
     }

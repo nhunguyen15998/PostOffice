@@ -108,6 +108,8 @@ namespace post_office.Helpers
 
         public enum OrderStatus
         {
+            [Display(Name = "Pending")]
+            Pending,
             [Display(Name = "Canceled")]
             Canceled,
             [Display(Name = "Completed")]
@@ -122,6 +124,80 @@ namespace post_office.Helpers
             Unpaid,
             [Display(Name = "Paid")]
             Paid
+        }
+
+        public enum PaymentType
+        {
+            [Display(Name = "COD")]
+            COD,
+            [Display(Name = "OnePay")]
+            OnePay
+        }
+
+        //check stt
+        public static string CheckStatusValue(int status, string type)
+        {
+            string statusValue = "";
+            switch(type){
+                case "DefaultStatus":
+                    statusValue = status == (int)DefaultStatus.Activated ? DefaultStatus.Activated.ToString() : DefaultStatus.Deactivated.ToString();
+                    break;
+                case "DeliveryStatus":
+                    switch(status){
+                            case (int)DeliveryStatus.Pending:
+                                statusValue = DeliveryStatus.Pending.ToString();
+                                break;
+                            case (int)DeliveryStatus.Picked:
+                                statusValue = DeliveryStatus.Picked.ToString();
+                                break;
+                            case (int)DeliveryStatus.Queuing:
+                                statusValue = DeliveryStatus.Queuing.ToString();
+                                break;
+                            case (int)DeliveryStatus.Failed:
+                                statusValue = DeliveryStatus.Failed.ToString();
+                                break;
+                            case (int)DeliveryStatus.Delivery:
+                                statusValue = DeliveryStatus.Delivery.ToString();
+                                break;
+                            case (int)DeliveryStatus.Delivered:
+                                statusValue = DeliveryStatus.Delivered.ToString();
+                                break;
+                            case (int)DeliveryStatus.Redeliver:
+                                statusValue = DeliveryStatus.Redeliver.ToString();
+                                break;
+                        }
+                    break;
+                case "OrderStatus":
+                    switch(status){
+                        case (int)OrderStatus.Pending:
+                            statusValue = OrderStatus.Pending.ToString();
+                            break; 
+                        case (int)OrderStatus.Canceled:
+                            statusValue = OrderStatus.Canceled.ToString();
+                            break; 
+                        case (int)OrderStatus.Proccessing:
+                            statusValue = OrderStatus.Proccessing.ToString();
+                            break; 
+                        case (int)OrderStatus.Completed:
+                            statusValue = OrderStatus.Completed.ToString();
+                            break; 
+                    }
+                    break;
+                case "PaymentStatus":
+                    statusValue = status == (int)PaymentStatus.Paid ? PaymentStatus.Paid.ToString() : PaymentStatus.Unpaid.ToString();
+                    break;
+                case "PaymentType":
+                    switch(status){
+                        case (int)PaymentType.COD:
+                            statusValue = PaymentType.COD.ToString();
+                            break;
+                        case (int)PaymentType.OnePay:
+                            statusValue = PaymentType.OnePay.ToString();
+                            break;
+                    }
+                    break;
+            }
+            return statusValue;
         }
     }
 }

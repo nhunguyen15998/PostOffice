@@ -361,8 +361,8 @@
 																										id="sender-province-search"
 																										onkeyup="onLocationSearch(this)">
 																								</li>
-																								<div
-																									style="overflow: hidden scroll;height: 100px;" id="sender-province-list">
+																								<div style="overflow: hidden scroll;height: 100px;"
+																									id="sender-province-list">
 																								</div>
 																							</ul>
 																						</div>
@@ -409,8 +409,8 @@
 																										id="sender-district-search"
 																										onkeyup="onLocationSearch(this)">
 																								</li>
-																								<div
-																									style="overflow: hidden scroll;height: 100px;" id="sender-district-list">
+																								<div style="overflow: hidden scroll;height: 100px;"
+																									id="sender-district-list">
 																								</div>
 																							</ul>
 																						</div>
@@ -450,8 +450,8 @@
 																										id="sender-ward-search"
 																										onkeyup="onLocationSearch(this)">
 																								</li>
-																								<div
-																									style="overflow: hidden scroll;height: 100px;" id="sender-ward-list">
+																								<div style="overflow: hidden scroll;height: 100px;"
+																									id="sender-ward-list">
 																								</div>
 																							</ul>
 																						</div>
@@ -612,14 +612,15 @@
 																										</li>
 																										<li
 																											style="padding: 0 20px;font-size: 14px;">
-																											<input type="text"
+																											<input
+																												type="text"
 																												placeholder="Search"
 																												style="height: 40px;padding: 10px;"
 																												id="receiver-province-search-1"
 																												onkeyup="onLocationSearch(this)">
 																										</li>
-																										<div
-																											style="overflow: hidden scroll;height: 100px;" id="receiver-province-list-1">
+																										<div style="overflow: hidden scroll;height: 100px;"
+																											id="receiver-province-list-1">
 																										</div>
 																									</ul>
 																								</div>
@@ -662,14 +663,15 @@
 																										</li>
 																										<li
 																											style="padding: 0 20px;font-size: 14px;">
-																											<input type="text"
+																											<input
+																												type="text"
 																												placeholder="Search"
 																												style="height: 40px;padding: 10px;"
 																												id="receiver-district-search-1"
 																												onkeyup="onLocationSearch(this)">
 																										</li>
-																										<div
-																											style="overflow: hidden scroll;height: 100px;" id="receiver-district-list-1" >
+																										<div style="overflow: hidden scroll;height: 100px;"
+																											id="receiver-district-list-1">
 																										</div>
 																									</ul>
 																								</div>
@@ -705,14 +707,15 @@
 																											ward</li>
 																										<li
 																											style="padding: 0 20px;font-size: 14px;">
-																											<input type="text"
+																											<input
+																												type="text"
 																												placeholder="Search"
 																												style="height: 40px;padding: 10px;"
 																												id="receiver-ward-search-1"
 																												onkeyup="onLocationSearch(this)">
 																										</li>
-																										<div
-																											style="overflow: hidden scroll;height: 100px;" id="receiver-ward-list-1">
+																										<div style="overflow: hidden scroll;height: 100px;"
+																											id="receiver-ward-list-1">
 																										</div>
 																									</ul>
 																								</div>
@@ -881,7 +884,8 @@
 																						<input type="file"
 																							name="photos[1]" multiple
 																							style="font-size: 13px;"
-																							id="photos-1" accept="image/*">
+																							id="photos-1"
+																							accept="image/*">
 																					</span>
 																				</div>
 																			</div>
@@ -965,7 +969,7 @@
 									</div>
 								</div>
 								<!--payment-->
-								<div id="payment-process" class="container" style="max-width: 85%;">
+								<div id="payment-process" class="container">
 									<h3>PAYMENT PROCESS</h3>
 									<div class="justify-content-between mb-4 row">
 										<!--payment method-->
@@ -1044,7 +1048,17 @@
 									</div>
 
 								</div>
+								<!--result-->
+								<div id="order-result" class="container">
+									<h3 class="mb-5">ORDER(S) RESULT</h3>
+									<div class="row mb-5">
+										<div id="order-result">
+											
+										</div>
+									</div>
 
+
+								</div>
 								<div class="vc_row-full-width vc_clearfix"></div>
 								<div
 									class="themestek-row wpb_row vc_row-fluid vc_custom_1551336907418 vc_column-gap-0px themestek-total-col-1 themestek-zindex-0 container themestek-bgimage-position-center_center">
@@ -1184,7 +1198,7 @@
 <script type="text/javascript" src="../../js/client/client-cookies.js"></script>
 <script type="text/javascript" src="../../js/client/pickup-steps.js"></script>
 <script>
-	if (localStorage.getItem('user_data') != null) {
+	if(userLoggedinId != null && parseInt(userLoggedinId) != 0){
 		let branchCookie = checkCookie()
 		if (branchCookie == null) {
 			$('.postoffice-form').addClass('disable-section')

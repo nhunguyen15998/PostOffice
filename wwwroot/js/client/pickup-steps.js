@@ -3,6 +3,7 @@ function onService() {
   $("#sender-info").addClass("step-hidden");
   $("#receiver-info").addClass("step-hidden");
   $("#payment-process").addClass("step-hidden");
+  $("#order-result").addClass("step-hidden");
   if ($("#select-service").hasClass("step-hidden"))
     $("#select-service").removeClass("step-hidden");
   if ($("#right-image").hasClass("step-hidden"))
@@ -26,6 +27,7 @@ function onSender() {
   $("#select-service").addClass("step-hidden");
   $("#receiver-info").addClass("step-hidden");
   $("#payment-process").addClass("step-hidden");
+  $("#order-result").addClass("step-hidden");
   if ($("#sender-info").hasClass("step-hidden"))
     $("#sender-info").removeClass("step-hidden");
   if ($("#right-image").hasClass("step-hidden"))
@@ -46,6 +48,7 @@ function onReceiver() {
   $("#select-service").addClass("step-hidden");
   $("#sender-info").addClass("step-hidden");
   $("#payment-process").addClass("step-hidden");
+  $("#order-result").addClass("step-hidden");
   if ($("#receiver-info").hasClass("step-hidden"))
     $("#receiver-info").removeClass("step-hidden");
   if ($("#right-image").hasClass("step-hidden"))
@@ -69,6 +72,7 @@ function onPayment() {
   $("#sender-info").addClass("step-hidden");
   $("#receiver-info").addClass("step-hidden");
   $("#right-image").addClass("step-hidden");
+  $("#order-result").addClass("step-hidden");
   if ($("#payment-process").hasClass("step-hidden"))
     $("#payment-process").removeClass("step-hidden")
   $("#processing-step-4").addClass("activated-step")
@@ -96,6 +100,7 @@ function onComplete() {
   $("#payment-process").addClass("step-hidden");
   $("#right-image").addClass("step-hidden");
   $("#processing-step-5").addClass("activated-step");
+  $("#order-result").removeClass("step-hidden");
 }
 
 //=======================service======================
@@ -1587,20 +1592,6 @@ function reviewReceiverInfo(){
 }
 
 //##################################################################CREATE
-let userData = localStorage.getItem('user_data')
-if (!userData) {
-  let div = `<div class="container" style="height: 300px;">
-              <h1 class="mb-4">Sign in to schedule an order</h1>
-              <div class="d-flex">
-                  <a class="btn mr-3" href="/Authentication/SignIn" style="background-color: #ffdc39;padding: 10px 20px;">Sign in</a>
-                  <a class="btn" href="/Authentication/SignUp" style="background-color: #d9534f;padding: 10px 20px;color: #fff;">Sign up</a>
-              </div>
-            </div>` 
-  $('.postoffice-form').children('.entry-content').empty()
-  $('.postoffice-form').children('.entry-content').append(div)
-}
-userData = JSON.parse(userData)
-
 let now = new Date().toLocaleString().replace(',','')
 const proccessing = 2
 const pending = 0
@@ -1610,7 +1601,6 @@ const momo = 2
 const onepay = 1
 const cod = 0
 const firstTrackingDescription = 'Your request is pending'
-let randomCode = new Date().getTime().toString()
 $('#cod').prop('checked', true)
 
 let _productListTotal = 0
@@ -1706,20 +1696,21 @@ function orderList(){
 
     let paymentType = $('#onepay').is(':checked') ? onepay : 
                     ($('#momo').is(':checked') ? momo : cod)
-    let customerId = userData.Id
-    let productBill = _productListTotal == 0 ? null : {"BillProduct":[{"CustomerId" : customerId, "Status" : proccessing, "Total" : _productListTotal, "CreatedAt" : now, "PaymentStatus" : (paymentType == cod ? unpaid : paid)}]}
+    let customerId = userLoggedinId
+    let totalProduct = parseFloat($(`#tbody-total-cart-${arr[i]}`).children('.order-total').attr('data-total-product'))
+    let productBill = _productListTotal == 0 ? null : 
+    {"BillProduct":[{"CustomerId" : customerId, "Status" : proccessing, "Total" : totalProduct, "CreatedAt" : now, "PaymentStatus" : (paymentType == cod ? unpaid : paid)}]}
     
     let serviceId = $('#service-list').find('button').attr('data-id')
     let serviceName = $('#service-list').find('button').attr('data-name')
     let sendingDate = $('input[name="sending-date"]').val()
     let isPickedup = $('#pickup').is(':checked') ?? false
-    let totalBill = _productListTotal + pickUpFee + deliveryFee
-    let bill = {"BillDetail":[{"Code" : randomCode, "ServiceId" : serviceId, "ServiceName" : serviceName, "PickUpFee" : pickUpFee, "IsPickup" : isPickedup, 
+    let totalBill = totalProduct + pickUpFee + deliveryFee
+    let bill = {"BillDetail":[{"ServiceId" : serviceId, "ServiceName" : serviceName, "PickUpFee" : pickUpFee, "IsPickup" : isPickedup, 
                 "SendingOn" : sendingDate, "Total" : totalBill, "PaymentType" : paymentType, "PaymentStatus" : (paymentType == cod ? unpaid : paid), 
                 "BranchId" : JSON.parse(getCookie('branch')).id}]}
     
-    let item = {"Code" : randomCode, 
-                //sender
+    let item = {//sender
                 "SenderFirstName" : senderFirstName, "SenderLastName" : senderLastName, "SenderPhone" : senderPhone, "SenderId" : customerId,
                 "SenderEmail" : senderEmail, "FromAddress" : senderAddress, "FromWardId" : senderWard, "FromCityId" : senderDistrict, "FromProvinceId" : senderProvince,
                 "CompanyName" : companyName, "CompanyPhone" : companyPhone,
@@ -1780,7 +1771,7 @@ function orderPhotoBlobList(){
 
 function orderTrackingList(index){
   let list = new Array()
-  let tracking = {"Code" : randomCode, "Description" : firstTrackingDescription, 
+  let tracking = {"Description" : firstTrackingDescription, 
                   "BranchId" : JSON.parse(getCookie('branch')).id}
   list.push(tracking)
   return list
@@ -1817,16 +1808,42 @@ function send(){
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200)
       {
           var response = JSON.parse(request.responseText);
-          if (response.message == "Successfully")
+          if (response.message == "Successful")
           {
-              $('#exampleModalToggle').modal('hide')
-              window.location.reload()
+            orderResult(response.message, response.orderCodes)
+              //send mail
+
+              //window.location.reload()
           }
-          if (response.message == "Fail to create")
+          if (response.message == "Fail")
           {
-              window.location.reload()
+            orderResult(response.message, null)
+              //window.location.reload()
           }
       }
+  }
+}
+
+function orderResult(message, codes){
+  $('#order-result').empty()
+  let img = message == "Successful" ? 'order-successful.png' : 'order-failed.png'
+  let msgSuc = '<p class="mb-2">Your order(s) have <strong style="color:#ffdc39;">successfully</strong> been placed.</p><p class="mb-2">Check out on your profile or track by code(s):</p>' 
+  let msgErr = '<p class="mb-2">Oops! Something went wrong with your order placement</p>'
+  let div = `<div class="align-items-center d-flex flex-column">
+              <img src="../../img/defaults/${img}" width="100" class="mb-5">
+              <div></div>
+              <a class="btn btn-sm mt-5" style="background-color:#ffdc39;" href="/">Back
+                to home</a>
+            </div>`
+  $('#order-result').append(div)
+  if(message == "Successful"){
+    $('#order-result').find('div div').append(msgSuc)
+    codes.forEach(item => {
+      let code = `<p class="mb-2">${item}</p>`
+      $('#order-result').find('div div').append(code)
+    })
+  } else{
+    $('#order-result').find('div div').append(msgErr)
   }
 }
 

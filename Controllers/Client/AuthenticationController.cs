@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using post_office.Models;
@@ -14,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace post_office.Controllers.Client
 {
@@ -33,31 +32,36 @@ namespace post_office.Controllers.Client
 
         public IActionResult SignUp()
         {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Register([FromBody] CustomerSignUpModel model){
+        public ActionResult Register(){
             try {
-                if (string.IsNullOrWhiteSpace(model.Password))
+                var firstName = Request.Form["first-name"];
+                var lastName = Request.Form["last-name"];
+                var phone = Request.Form["phone"];
+                var email = Request.Form["email"];
+                var password = Request.Form["password"];
+                if (string.IsNullOrWhiteSpace(password))
                     throw new AppException("Password is required");
 
-                byte[] passwordHash, passwordSalt;
-                Helpers.Helpers.CreatePasswordHash(model.Password, out passwordHash, out passwordSalt);
                 var customer = new {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Phone = model.Phone,
-                    Email = model.Email,
-                    RoleId = 3,
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Email = email,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                     CreatedAt = DateTime.Now,
-                    Status = (int)Enums.GeneralStatus.Deactivated
+                    Status = (int)Helpers.Helpers.DefaultStatus.Deactivated
                 };
 
-                int customerId = _customerService.Create(customer, model.Phone).Id;
+                int customerId = _customerService.Create(customer, phone).Id;
                 if(customerId == 0){
                     return Ok(new {
                         Code = 500,
@@ -75,45 +79,58 @@ namespace post_office.Controllers.Client
 
         public IActionResult SignIn()
         {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
+
+
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Authenticate([FromBody] CustomerSignInModel model){
+        public ActionResult Authenticate(){
             try{
-                if (string.IsNullOrEmpty(model.Phone) || string.IsNullOrEmpty(model.Password))
+                var phone = Request.Form["sign-in-phone"];
+                var password = Request.Form["sign-in-password"];
+                if (string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(password))
                     throw new AppException("Password is required");
-                var customer = _customerService.Authenticate(model.Phone, model.Password);
+                var customer = _customerService.Authenticate(phone, password);
                 if (customer == null)
                     return BadRequest(new { message = "Phone or password is incorrect" });
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name, customer.Id.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                var tokenString = tokenHandler.WriteToken(token);
 
-                // return basic user info and authentication token
-                return Ok(new
+                if (string.IsNullOrEmpty(HttpContext.Session.GetString("CustomerPhone")))
                 {
-                    Id = customer.Id,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Phone = customer.Phone,
-                    Email = customer.Email,
-                    Avatar = customer.Avatar,
-                    Token = tokenString
-                });
+                    HttpContext.Session.SetInt32("CustomerId", customer.Id);
+                    HttpContext.Session.SetString("CustomerPhone", customer.Phone);
+                    if(customer.Avatar != null){
+                        HttpContext.Session.SetString("CustomerAvatar", customer.Avatar);
+                    }
+                    HttpContext.Session.SetString("CustomerEmail", customer.Email);
+                    HttpContext.Session.SetString("CustomerName", customer.FirstName+" "+customer.LastName);
+                }
+                // var name = HttpContext.Session.GetString("CustomerName");
+                // var age = HttpContext.Session.GetInt32(SessionKeyAge).ToString();
+
+                // _logger.LogInformation("Session Name: {Name}", name);
+                // _logger.LogInformation("Session Age: {Age}", age);
+                // return basic user info and authentication token
+                return RedirectToAction("Index", "Home");
             }catch(Exception ex){
                 return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SignOutAction()
+        {
+            try {
+                HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+            } catch(Exception ex) {
+                var a = ex.Message;
+                throw;
             }
         }
 

@@ -9,7 +9,8 @@ namespace post_office.Entities
         [Key]
         public int Id { get; set; }
         public int ProductBillId { get; set; }
-        public int? ProductAttributeId { get; set; }
+        public int ProductId { get; set; }
+        public string Photo { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Color { get; set; }
@@ -22,6 +23,6 @@ namespace post_office.Entities
         public DateTime? CreatedAt { get; set; }
 
         public ProductBill ProductBill { get; set; }
-        public ProductAttribute ProductAttribute { get; set; }
+        public Product Product { get; set; }
     }
 }
