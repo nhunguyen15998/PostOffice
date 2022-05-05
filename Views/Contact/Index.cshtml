@@ -12,6 +12,13 @@
     }
 </style>
 @model post_office.Models.ContactModel
+    <div style="top: 120px; position: absolute; position: fixed; z-index: 220; display: none;" class="col-12" id="message">
+        <div style=" background: rgb(191 244 214 / 0.81); border-radius: 5px; border: 2px solid #75feb3; color: #04dd66;text-align:center;width:50%" class="container pt-2">
+            <label id="msg_status">
+                <i class="fa fa-check-circle" style="margin-right:0.3vw"></i> Sent successfully!
+            </label>
+        </div>
+    </div>
 <div id="content-wrapper" class="site-content-wrapper">
     <div id="content" class="site-content ">
         <div id="content-inner" class="site-content-inner ">
@@ -233,7 +240,15 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script type="text/javascript">
-    $("#btnSend").click(function () {
-        alert("Sent successfully!")
-    })
+     window.onload = function () {
+         var mess = "@(post_office.Controllers.Client.ContactController.mess)";
+         if (mess != "") {
+             $("#message").css("display", "block");
+             $("#message").delay(3000).fadeOut(300);
+         }
+
+
+           @{post_office.Controllers.Client.ContactController.mess= "";}
+
+    }
 </script>

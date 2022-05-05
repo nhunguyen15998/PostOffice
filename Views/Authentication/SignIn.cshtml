@@ -1,6 +1,32 @@
 @{
     ViewData["Title"] = "Sign In";
 }
+<style>
+    .success {
+        background: rgb(191 244 214 / 0.81);
+        border-radius: 5px;
+        border: 2px solid #75feb3;
+        color: #04dd66;
+    }
+    .error {
+        background: rgb(244 191 191 / 0.84);
+        border-radius: 5px;
+        border: 2px solid #fe9075;
+        color: #d52719;
+    }
+</style>
+<div style="top: 50px; position: absolute; position: fixed; z-index: 220;display:none " class="col-10" id="message">
+    <div class="container pt-2 pb-2 col-8" id="style_mgs" style="text-align:center">
+        <label id="msg_status">
+
+        </label>
+    </div>
+</div>
+<div style="top: 50px; position: absolute;position:fixed; z-index: 220; display: none; text-align:center" class="col-10" id="waiting">
+    <span class="container" style="background: rgb(109 99 71 / 0.70); color:#f8f8f8;  padding: 20px 30px; ">
+        <i class="fa fa-spinner fa-spin" style="font-size: 20px "></i> Waiting...
+    </span>
+</div>
 <div style=" height: 500px; width: 40%;position: absolute;top: 150px;right: 80px;">
     <div class="row">
         <div class="col-lg-12">
@@ -26,18 +52,20 @@
                     <div class="form-group mb-3">
                         <div class="custom-control custom-checkbox small">
                             <input type="checkbox" class="custom-control-input" id="customCheck">
-                            <label class="custom-control-label" for="customCheck">Remember
-                                Me</label>
+                            <label class="custom-control-label" for="customCheck">
+                                Remember
+                                Me
+                            </label>
                         </div>
                     </div>
                     <button id="btn-sign-in" class="btn btn-block btn-user" type="submit"
-                        style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 100%;padding: 10px 20px;">
+                            style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 100%;padding: 10px 20px;">
                         Sign in
                     </button>
                 </form>
                 <div class="mt-3">
                     <div class="text-center">
-                        <a class="small" href="#">Forgot Password?</a>
+                        <a class="small" id="forgot-password" style="cursor:pointer">Forgot Password?</a>
                     </div>
                     <div class="text-center">
                         <a class="small" href='@Url.ActionLink("SignUp", "Authentication")'>Create an Account!</a>
@@ -47,3 +75,40 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+     $("#forgot-password").click(function () {
+            if (confirm("Are you sure you forgot the password?")) {
+                var formData = new FormData();
+                formData.append("phone", $("#sign-in-phone").val());
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CheckPhoneCustomer", "Authentication")",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data) {
+                            ShowWaiting(1500);
+                            window.location.href = "@Url.Action("VerifyAccount", "Authentication", new { setup=0,type = 0})";
+
+                        } else ShowMessage(false, "Please enter the exact phone number and try again");
+
+                    }
+                });
+            }
+     });
+    function ShowWaiting(duration) {
+        $("#waiting").css("display", "block");
+        $("#waiting").delay(duration).fadeOut(300);
+    }
+    function ShowMessage(type, msg) {
+        $("#msg_status").empty();
+        var ele = document.getElementById("message").children[0];
+        ele.classList.remove("success", "error");
+        $("#msg_status").append(type == true ? '<i class= "fa fa-check-circle" style = "margin-right:0.3vw" ></i>' : '<i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>');
+        $("#msg_status").append(msg);
+        ele.classList.add(type == true ? "success" : "error");
+        $("#message").css("display", "block");
+        $("#message").delay(3000).fadeOut(300);
+    }
+</script>

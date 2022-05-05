@@ -87,7 +87,7 @@ namespace post_office.Controllers.Administrator
         //NameServiceExists
         public JsonResult NameServiceExists(RoleModel model)
         {
-            var obj = lsSvc.FirstOrDefault(x => x.name.ToLower() == model.name.ToLower());
+            var obj = _Servicesvc.GetListService().FirstOrDefault(x => x.name.ToLower() == model.name.ToLower());
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
         }

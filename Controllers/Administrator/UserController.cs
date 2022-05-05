@@ -124,14 +124,14 @@ namespace post_office.Controllers.Administrator
         //checkdup
         public JsonResult PhoneUserExists(UserModel model)
         {
-            var obj = ls_user.FirstOrDefault(x => x.phone == model.phone);
+            var obj = _usersvc.GetListUser().FirstOrDefault(x => x.phone == model.phone);
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
 
         }
         public JsonResult EmailUserExists(UserModel model)
         {
-            var obj = ls_user.FirstOrDefault(x => x.email==model.email);
+            var obj = _usersvc.GetListUser().FirstOrDefault(x => x.email==model.email);
 
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);

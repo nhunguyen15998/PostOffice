@@ -51,7 +51,7 @@ namespace post_office.Controllers.Administrator
         //PhoneBranchExists
         public JsonResult PhoneBranchExists(BranchModel model)
         {
-            var obj = ls.FirstOrDefault(x => x.phone.ToLower() == model.phone.ToLower());
+            var obj = _Branchsvc.GetListBranch().FirstOrDefault(x => x.phone.ToLower() == model.phone.ToLower());
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
 
@@ -59,7 +59,7 @@ namespace post_office.Controllers.Administrator
         //CodeBranchExists
         public JsonResult CodeBranchExists(BranchModel model)
         {
-            var obj = ls.FirstOrDefault(x => x.code.ToLower() == model.code.ToLower());
+            var obj = _Branchsvc.GetListBranch().FirstOrDefault(x => x.code.ToLower() == model.code.ToLower());
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
 
