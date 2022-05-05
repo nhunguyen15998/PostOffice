@@ -5,6 +5,8 @@
     ViewData["Title"] = "Customer management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@model post_office.Models.CustomerModel
+
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
         <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by name, phone, email" id="search-by-name" />
@@ -14,6 +16,7 @@
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
         </select>
+        <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
     </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
@@ -28,7 +31,7 @@
             <th>Action</th>
         </tr>
         @{int k = 1;}
-        @foreach (var item in (List<post_office.Entities.Customer>)ViewBag.lsCus)
+        @foreach (var item in (List<post_office.Models.CustomerModel>)ViewBag.lsCus)
         {
             <tr class="table-item">
                 <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-@item.Id" /></td>
@@ -45,10 +48,8 @@
                     { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
                 </td>
                 <td class="tbl-150">
-                    <span oid="object-@item.Id" class="action-icon view view-customer-address" style="padding:10px 5px 10px 10px">
-                        <i class="fa fa-eye"></i>
-                    </span>
-                    <span oid="object-@item.Id" class="action-icon edit edit-customer" style="padding:10px 5px 10px 10px">
+
+                    <span oid="object-@item.Id" class="action-icon edit edit-customer">
                         <i class="fa fa-edit"></i>
                     </span>
 
@@ -79,10 +80,127 @@
         </nav>
     </div>
 </div>
+<div id="view-main">
+    <div id="view-sub" class="col-11">
+        <div class="col-12" id="view-title">
+            <label>Update Customer</label>
+            <span style="float:right; cursor:pointer" id="CloseForm">
+                <i class="fa fa-window-close" style="pointer-events:none;font-size:38px"></i>
+            </span>
+        </div>
+        <div id="content">
+            @using (Html.BeginForm("CustomerUpdate", "Customers", FormMethod.Post, new { @id = "form-customer" }))
+            {
+
+        <div class="col-12" style="padding:20px;min-height:450px;display:table">
+            <div class="col-6" style="border-right:3px solid #f4e8e4;min-height:inherit;float:left">
+                <label class="text-color">
+                    Phone:
+                    <span class="text-readonly" id="ip-phone"></span>
+                </label>
+                <br />
+                <label class="text-color">
+                    Created at:
+                    <span class="text-readonly" id="ip-created"></span>
+                </label>
+                <br />
+                <label class="text-color">First name:</label>
+                @Html.TextBoxFor(d => d.FirstName, new { @class = "input-form-cu", @type = "text", @placeholder = "first name", @id = "ip-first" })
+                @Html.ValidationMessageFor(d => d.FirstName, "", new { @class = "_error", @id = "first-error" })
+                <br />
+                <label class="text-color">Last name:</label>
+                @Html.TextBoxFor(d => d.LastName, new { @class = "input-form-cu", @type = "text", @placeholder = "last name", @id = "ip-last" })
+                @Html.ValidationMessageFor(d => d.LastName, "", new { @class = "_error", @id = "last-error" })
+                <br />
+
+
+            </div> <div class="col-6" style="float:left">
+                <label class="text-color">Email:</label>
+                @Html.TextBoxFor(d => d.Email, new { @class = "input-form-cu", @type = "text", @placeholder = "email", @id = "ip-email" })
+                @Html.ValidationMessageFor(d => d.Email, "", new { @class = "_error", @id = "email-error" })
+                <br />
+                <label class="text-color">Status:</label>
+                @Html.DropDownListFor(model => model.Status, new SelectList(ViewBag.lsSTS, "Key", "Value"), new { @class = "dropdownlist", @id = "slt-sts" })
+            </div>
+        </div>
+        <div class="col-12" style=" min-height: 70px; border-radius: 0 0 5px 5px; text-align:center">
+            <button id="btnCusSave" type="submit" class="save btn-action pl-4 pr-4 pt-2 pb-2">Save</button>
+            <a id="btnCusCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>
+        </div>
+            }
+        </div>
+
+    </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+         var mess = "@(post_office.Controllers.Administrator.CustomersController.mess)";
+         if (mess != "")
+             ShowMessage(true, mess)
+
+           @{post_office.Controllers.Administrator.CustomersController.mess = "";}
+    });
+     
     var pages = 1;
+
+    function ClearFilter() {
+        $("#search-by-name").val("");
+       $("#search-by-status").val(-1);
+        SearchFilter(1);
+    }
+    $("#btnCusSave").click(function () {
+
+        localStorage.setItem("mySession", "__cus")
+        localStorage.setItem("title", "CUSTOMERS")
+        ShowWaiting(800);
+        ShakeError();
+    });
+      $("#CloseForm").click(function () {
+        ResetForm();
+      });
+
+    function ResetForm() {
+        CloseForm();
+        @{post_office.Controllers.Administrator.CustomersController._id = 0; }
+        ResetValidate();
+        $("#form-customer").trigger("reset");
+
+    }
+    $('body').delegate('.edit-customer', 'click', function () {
+        ShowWaiting(800);
+
+        var id = parseInt($(this).attr("oid").replace("object-", ""));
+        var fdt = new FormData();
+        fdt.append("id", id);
+
+        if (id != 0) {
+
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCustomer", "Customers")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function (data) {
+                     $("#slt-sts").val(data.Status);
+                     $("#ip-first").val(data.FirstName);
+                     $("#ip-last").val(data.LastName);
+                     $("#ip-email").val(data.Email);
+                     $("#ip-phone").html(data.Phone);
+                     $("#ip-created").html(moment(data.CreatedAt).format("DD/MM/YYYY HH:mm"));
+
+                }
+            });
+        }
+
+        $("#view-main").css("display", "block");
+
+
+
+    });
+
 window.onload = function () {
         var mess = "@(post_office.Controllers.Administrator.CustomersController.mess)";
 
@@ -166,8 +284,7 @@ window.onload = function () {
                             var value = '<tr class="table-item"> <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].Id+'" /></td>'+
                                         ' <td class="tbl-60">'+row+'</td> <td class="tbl-180">'+data[i].FirstName+'</td> <td class="tbl-180">'+data[i].LastName+'</td> <td class="tbl-150">'+data[i].Phone+'</td>'+
                                           '<td class="tbl-150">'+data[i].Email+'</td> <td class="tbl-110">'+moment(data[i].CreatedAt).format("DD/MM/YYYY HH:mm")+'</td>'+
-                                         ' <td class="sts-item tbl-40" id="sts-">'+str+' </td> <td class="tbl-150">  <span oid="object-'+data[i].Id+'" class="action-icon view view-customer-address" style="padding:10px 5px 10px 10px">'+
-                                          '<i class="fa fa-eye"></i>  </span>  '+edit+' </td> </tr>';
+                                         ' <td class="sts-item tbl-40" id="sts-">'+str+' </td> <td class="tbl-150">'+edit+' </td> </tr>';
 
                             $("#table-id").append(value);
                             row = row + 1;
@@ -234,11 +351,12 @@ window.onload = function () {
         SearchFilter(1);
 
     });
-   
+
     function SearchFilter(page) {
         ShowWaiting(800);
         var nameSearch = $("#search-by-name").val();
         var status = $("#search-by-status").val();
         LoadDataCustomer(page, nameSearch, status);
-}
+    }
+
 </script>

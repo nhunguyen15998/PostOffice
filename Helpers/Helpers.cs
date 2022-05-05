@@ -4,7 +4,7 @@ using post_office.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace post_office.Helpers
@@ -12,7 +12,14 @@ namespace post_office.Helpers
     public class Helpers
     {
         private static readonly Regex _regex = new Regex("[^0-9]+");
+        private static Random random = new Random();
 
+        public static string RandomString()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            return new string(Enumerable.Repeat(chars, 20)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -80,6 +87,7 @@ namespace post_office.Helpers
             return new VerifyModel() { email = email, created_at = DateTime.Now, isForUser = ISForUser, verify_code = vcode };
 
         }
+       
         public enum DefaultStatus
         {
             [Display(Name = "Deactivated")]

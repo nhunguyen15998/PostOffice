@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace post_office.Controllers.Client
 {
@@ -21,6 +22,10 @@ namespace post_office.Controllers.Client
         private readonly ILogger<AuthenticationController> _logger;
         private ICustomerService _customerService;
         private readonly AppSettings _appSettings;
+        public static VerifyModel verify = new VerifyModel();
+        public static CustomerModel customerCurrent = null;
+        public static bool hasSetUp = false;
+
 
         public AuthenticationController(ILogger<AuthenticationController> logger, 
         ICustomerService customerService, IOptions<AppSettings> appSettings)
@@ -37,6 +42,56 @@ namespace post_office.Controllers.Client
                 return RedirectToAction("Index", "Home");
             }
             return View();
+        }
+
+        public IActionResult VerifyAccount(int setup,int type, bool send = true)
+        {
+            if (setup == 1) hasSetUp=true; 
+            else hasSetUp=false;
+            
+
+            if (customerCurrent == null) return RedirectToAction("SignIn");
+                if (send)
+                {
+                    verify = null;
+                    verify = Helpers.Helpers.SendVerifyCode(customerCurrent.Email, customerCurrent.FirstName+" "+customerCurrent.LastName, false, true);
+                    ViewBag.data = $"We have just sent the verification code to the email {customerCurrent.Email.Substring(0, 6)}******* of the account with the phone number {customerCurrent.Phone} to confirm, please check your email.";
+
+                }
+
+                return View(type);
+        }
+        public IActionResult VerifyAction()
+        {
+
+            string code = Request.Form["verify_code"];
+            if (verify.verify_code == code && verify.email == customerCurrent.Email && verify.created_at.AddMinutes(5) >= DateTime.Now && !verify.isForUser)
+            {
+                if (hasSetUp) {
+                    //update status customer to activated here
+                    customerCurrent.Status = 1;
+                    _customerService.ModifyCustomer(customerCurrent);
+                    return RedirectToAction("SignIn");
+                        }
+
+                return RedirectToAction("VerifyAccount", new { type = 1, send = false });
+
+            }
+            TempData["ErrorVerifyUser"] = "The confirmation code is not valid or overdue, please try again";
+            return RedirectToAction("VerifyAccount", new { type = 0, send = false });
+        }
+        public void SetUpNewPass(string newpass)
+        {
+            CustomerModel mdl = customerCurrent;
+            mdl.Password = BCrypt.Net.BCrypt.HashPassword(newpass);
+            _customerService.ModifyCustomer(mdl);
+            verify = null;
+        }
+        public bool CheckPhoneCustomer(string phone)
+        {
+            var e = _customerService.GetListCustomer().FirstOrDefault(x => x.Phone == phone);
+            if (e == null) return false;
+            else { customerCurrent = e; return true; }
         }
 
         [AllowAnonymous]
@@ -72,9 +127,12 @@ namespace post_office.Controllers.Client
                         Code = 200,
                         Message = "Successfully registered"
                     });
-            } catch(Exception ex) {
+
+            }
+            catch (Exception ex) {
                 return BadRequest(new { Message = ex.Message });
             }
+
         }
 
         public IActionResult SignIn()

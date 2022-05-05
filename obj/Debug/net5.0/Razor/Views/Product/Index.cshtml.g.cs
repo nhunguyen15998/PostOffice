@@ -26,8 +26,29 @@ using post_office.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using System.Globalization;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using post_office.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Http;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2911daff548434c9f75aeff2eeb2e4e099169290", @"/Views/Product/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"588a1dfcb2bfeaf48f347fc02a3c0bbb5285a5f4", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0c33bc81411c8478abb59bd49d3925a21ba29a7b", @"/Views/_ViewImports.cshtml")]
     public class Views_Product_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "menu_order", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -102,7 +123,7 @@ using post_office.Models;
 #line hidden
 #nullable disable
             WriteLiteral(" results\r\n                    </p>\r\n                    <br />\r\n                    <select id=\"search-by-price\" class=\"mb-5\">\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929010072", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929010568", async() => {
                 WriteLiteral("Default sorting");
             }
             );
@@ -119,7 +140,7 @@ using post_office.Models;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929011348", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929011844", async() => {
                 WriteLiteral("Sort by price: low to high");
             }
             );
@@ -135,7 +156,7 @@ using post_office.Models;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929012552", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929013048", async() => {
                 WriteLiteral("Sort by price: high to low");
             }
             );
@@ -186,7 +207,7 @@ WriteAttributeValue(" ", 1953, cls, 1954, 4, false);
             WriteAttributeValue(" ", 2043, "product-type-simple", 2044, 20, true);
             EndWriteAttribute();
             WriteLiteral(">\r\n                                <div class=\"postalservice-LoopProduct-link postalservice-loop-product__link\">\r\n                                    <span class=\"onsale\">Sale!</span>\r\n                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "2911daff548434c9f75aeff2eeb2e4e09916929015923", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "2911daff548434c9f75aeff2eeb2e4e09916929016419", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -257,7 +278,7 @@ WriteAttributeValue("", 2848, ls[i].id, 2848, 9, false);
 #line hidden
 #nullable disable
             WriteLiteral("                                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929020128", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929020624", async() => {
 #nullable restore
 #line 48 "C:\CSharp\Project_PostOffice\Views\Product\Index.cshtml"
                                                                         Write(str);
@@ -369,7 +390,7 @@ WriteAttributeValue("", 3884, ls[i].id, 3884, 9, false);
                 <aside id=""postalservice_product_search-2"" class=""widget postalservice widget_product_search"">
                     <div class=""widget-as-link "">
                         ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929025199", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929025695", async() => {
                 WriteLiteral(@"
                             <label class=""screen-reader-text"" for=""postalservice-product-search-field-1"">Search for:</label>
                             <input type=""search"" id=""postalservice-product-search-field-1"" class=""search-field"" placeholder=""Search products…""");
@@ -400,7 +421,7 @@ WriteAttributeValue("", 3884, ls[i].id, 3884, 9, false);
                     <div class=""widget-as-link "">
                         <h3 class=""widget-title"">Filter by price</h3>
                         ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929027835", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2911daff548434c9f75aeff2eeb2e4e09916929028331", async() => {
                 WriteLiteral("\r\n                            <div class=\"price_slider_wrapper\">\r\n                                <div class=\"price_slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content\"");
                 BeginWriteAttribute("style", " style=\"", 6584, "\"", 6592, 0);
                 EndWriteAttribute();
@@ -599,6 +620,8 @@ WriteAttributeValue("", 3884, ls[i].id, 3884, 9, false);
 </div>");
         }
         #pragma warning restore 1998
+        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
+        public Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]

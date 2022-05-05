@@ -16,7 +16,9 @@ namespace post_office.Services
         Customer Create(object customer, string phone);
         void Update(Customer customer, string password = null);
         void Delete(int id);
-        List<Customer> GetListCustomer();
+        List<CustomerModel> GetListCustomer();
+        CustomerModel GetCustomer(int id);
+        bool ModifyCustomer(CustomerModel cus);
     }
 
     public class CustomerService : ICustomerService
@@ -120,9 +122,29 @@ namespace post_office.Services
             }
         }
 
-        public List<Customer> GetListCustomer()
+        public List<CustomerModel> GetListCustomer()
         {
-            return _context.Customers.ToList();
+            return _context.Customers.Select(x=>new CustomerModel() {Id=x.Id, Email=x.Email, Phone=x.Phone, FirstName=x.FirstName, LastName=x.LastName, CreatedAt=(DateTime)x.CreatedAt, Status=x.Status}).ToList();
+        }
+        public CustomerModel GetCustomer(int id)
+        {
+            return _context.Customers.Select(x => new CustomerModel() { Id = x.Id, Email = x.Email, Phone = x.Phone, FirstName = x.FirstName, LastName = x.LastName, CreatedAt = (DateTime)x.CreatedAt, Status = x.Status }).FirstOrDefault(x=>x.Id==id);
+
+        }
+        public bool ModifyCustomer(CustomerModel cus)
+        {
+            var w = _context.Customers.SingleOrDefault(x => x.Id == cus.Id);
+            if (w != null)
+            {
+                w.FirstName = cus.FirstName;
+                w.LastName = cus.LastName;
+                w.Email = cus.Email;
+                w.Status = cus.Status;
+                if (cus.Password != "" && cus.Password != null)
+                    w.PasswordHash = cus.Password;
+                _context.SaveChanges();
+            }
+            return true;
         }
     }
 }

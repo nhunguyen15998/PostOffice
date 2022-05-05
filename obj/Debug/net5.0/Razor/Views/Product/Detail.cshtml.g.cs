@@ -26,8 +26,29 @@ using post_office.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using System.Globalization;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using post_office.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\CSharp\Project_PostOffice\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Http;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3ee79bacb7960a2a308b2ffa435be7052a366f1e", @"/Views/Product/Detail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"588a1dfcb2bfeaf48f347fc02a3c0bbb5285a5f4", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0c33bc81411c8478abb59bd49d3925a21ba29a7b", @"/Views/_ViewImports.cshtml")]
     public class Views_Product_Detail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<post_office.Models.ProductModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("width", new global::Microsoft.AspNetCore.Html.HtmlString("600"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -109,7 +130,7 @@ using post_office.Models;
             WriteLiteral(@"       <div data-thumb=""https://moversco.themestek.com/demo6/wp-content/uploads/sites/9/2017/12/shop-12-1-100x100.jpg""
                                     data-thumb-alt="""" class=""postalservice-product-gallery__image""><a
                                         href=""https://moversco.themestek.com/demo6/wp-content/uploads/sites/9/2017/12/shop-12-1.jpg"">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "3ee79bacb7960a2a308b2ffa435be7052a366f1e13614", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "3ee79bacb7960a2a308b2ffa435be7052a366f1e14110", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -172,7 +193,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
 #line hidden
 #nullable disable
             WriteLiteral("</p>\r\n                            </div>\r\n\r\n\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e18132", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e18628", async() => {
                 WriteLiteral("\r\n                                <div class=\"quantity\">\r\n                                    <label class=\"screen-reader-text\" for=\"quantity_624da7672dfd7\">");
 #nullable restore
 #line 56 "C:\CSharp\Project_PostOffice\Views\Product\Detail.cshtml"
@@ -379,7 +400,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                                                             href=""/demo6/product/classic-product-box/#respond""
                                                             style=""display:none;"">Cancel reply</a></small></span>
                                                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e32815", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e33311", async() => {
                 WriteLiteral(@"
                                                     <p class=""comment-notes""><span id=""email-notes"">Your email address
                                                             will not be published.</span> Required fields are marked
@@ -397,7 +418,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                                                             tabindex=""-1"" class=""select2-hidden-accessible""
                                                             aria-hidden=""true"">
                                                             ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e34708", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e35204", async() => {
                     WriteLiteral("Rate…");
                 }
                 );
@@ -413,7 +434,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e35993", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e36489", async() => {
                     WriteLiteral("Perfect");
                 }
                 );
@@ -429,7 +450,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e37280", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e37776", async() => {
                     WriteLiteral("Good");
                 }
                 );
@@ -445,7 +466,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e38564", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e39060", async() => {
                     WriteLiteral("Average");
                 }
                 );
@@ -461,7 +482,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e39851", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e40347", async() => {
                     WriteLiteral("Not that bad");
                 }
                 );
@@ -477,7 +498,7 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e41143", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ee79bacb7960a2a308b2ffa435be7052a366f1e41639", async() => {
                     WriteLiteral("Very poor");
                 }
                 );
@@ -663,6 +684,8 @@ AddHtmlAttributeValue("", 1653, Model.thumbnail??"no-image.png", 1653, 34, false
 </div>");
         }
         #pragma warning restore 1998
+        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
+        public Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]

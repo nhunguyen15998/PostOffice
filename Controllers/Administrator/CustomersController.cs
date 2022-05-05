@@ -25,12 +25,35 @@ namespace post_office.Controllers.Administrator
             {
                 ViewBag.lsCus = LoadDataCustomer(page, string.Empty, -1);
                 ViewBag.pagi = RowEvent(_cusSvc.GetListCustomer().Count);
+                ViewBag.lsSTS = new Dictionary<int, string>() { { 1, "Activated" }, { 0, "Deactivated" } };
+
                 return View();
             }
             else return RedirectToAction("Login", "User");
         }
+        public JsonResult EmailClientExists(CustomerModel model)
+        {
+            var obj = _cusSvc.GetListCustomer().FirstOrDefault(x => x.Email == model.Email);
+            if (_id != 0 && obj != null) { obj = obj.Id != _id ? obj : null; }
+            return Json(obj == null ? true : false);
+
+        }
+        public IActionResult CustomerUpdate( CustomerModel cus)
+        {
+            cus.Id = _id;
+            _cusSvc.ModifyCustomer(cus);
+            _id = 0;
+            mess = "Saved successfully!";
+            return RedirectToAction("Index");
+        }
+        public CustomerModel GetCustomer(int id)
+        {
+            var w = _cusSvc.GetCustomer(id);
+            _id = w.Id;
+            return w;
+        }
         //Pagination
-        public List<Customer> LoadDataCustomer(int p, string cond, int status)
+        public List<CustomerModel> LoadDataCustomer(int p, string cond, int status)
         {
             int currentSkip = 10 * (p - 1);
             var w = _cusSvc.GetListCustomer().Where(x => (x.FirstName.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.LastName.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.Email.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.Phone.Contains(cond == null ? "" : cond))

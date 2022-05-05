@@ -1,0 +1,116 @@
+﻿@{
+    if (Model == 1) ViewData["Title"] = "Verify Account"; else ViewData["Title"] = "Set up new password";
+}
+@model int
+<div style=" height: 500px; width: 35%;position: absolute;top: 165px;right: 120px;">
+    @if (Model == 0)
+    {
+        <form method="post" action='@Url.ActionLink("VerifyAction", "Authentication")'>
+            <div class="row">
+                <div class="text-center" style="margin-bottom: 50px;">
+                    <p class="h4 text-gray-900" style="font-size: 23px;">@ViewBag.data</p>
+                </div>
+                <div class="col-lg-12" style="margin-bottom: 10px;">
+                    <div class="row">
+                        <div class="form-group col-lg-12" style="position: relative;">
+                            <input name="verify_code" class="form-control form-control-user" id="first-name"
+                                   aria-describedby="firstName" placeholder="Verify code">
+                            <div id="verify-error"></div>
+                        </div>
+
+                    </div>
+                </div>
+                @if (TempData["ErrorVerifyUser"] != null)
+                {
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+                    <label class="container mb-2 mt-1 col-11" style="padding: 9px 15px; color: #ef3109; font-size: 17px;letter-spacing:0.8px; font-weight:600; background:rgb(255 101 79 / 0.40)" id="msgerror">
+                        <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i>
+                        @TempData["ErrorVerifyUser"]
+                    </label>
+                    TempData["ErrorVerifyUser"] = null;  
+                <script type="text/javascript">
+                    $("#msgerror").delay(3000).fadeOut(300);
+                </script>
+
+                }
+                <div class="mt-2 mb-2">
+                    <div class="text-center">
+                        <a class="small" id="resend" style="cursor:pointer">Resend?</a>
+                    </div>
+                </div>
+                <button id="btn-sign-up" class="btn btn-block btn-user" type="submit"
+                        style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 95%;padding: 10px 20px;margin: 0 auto;">
+                    Continue
+                </button>
+
+            </div>
+        </form>
+    }
+    @if (Model == 1)
+    {
+        <div class="row">
+            <div class="text-center" style="margin-bottom: 50px;">
+                <p class="h4 text-gray-900" style="font-size: 23px;">Set up new password</p>
+            </div>
+            <div class="col-lg-12" style="margin-bottom: 10px;">
+                <div class="row">
+                    <div class="form-group col-lg-12 mb-4" style="position: relative;">
+                        <input class="form-control form-control-user" id="_new" placeholder="password" type="password">
+                    </div>
+                    <br/>
+                    <div class="form-group col-lg-12 mb-4" style="position: relative;">
+                        <input class="form-control form-control-user" id="_confirm" placeholder="confirm password" type="password">
+                        <div id="verify-error" class="ml-3" style="font-style:italic; font-size:14px; color:#dd3a19"></div>
+                    </div>
+
+                </div>
+            </div>
+           
+            
+            <button id="btnOK" class="btn btn-block btn-user" type="submit"
+                    style="background-color: transparent;color: #ffdc39;border: 1px solid #ffdc39;border-radius: 50px;width: 95%;padding: 10px 20px;margin: 0 auto;">
+                OK
+            </button>
+
+        </div>}
+</div>
+<script>
+
+     $("#resend").click(function () {
+               var formData = new FormData();
+                formData.append("type", 0);
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("VerifyAccount", "Authentication")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                    success: function () {
+                        ShowMessage(true,"Sent~!")
+                }
+            });
+     });
+      $("#btnOK").click(function () {
+          
+          $("#verify-error").html('');
+          if ($("#_new").val() != $("#_confirm").val() || $("#_new").val().length < 6 || $("#_confirm").val().length < 6) {
+              $("#verify-error").html(' <i class="fa fa-exclamation-triangle" style="margin-right:0.3vw"></i> The password does not match or not enough 6 characters');
+               
+            } else {
+                var formData = new FormData();
+              formData.append("newpass", $("#_new").val());
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetUpNewPass", "Authentication")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                     window.location.href = "@Url.Action("SignIn","Authentication")";
+
+                }
+            });
+            }
+        })
+</script>

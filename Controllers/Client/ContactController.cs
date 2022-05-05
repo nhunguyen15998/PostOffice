@@ -14,6 +14,7 @@ namespace post_office.Controllers.Client
     {
         private readonly ILogger<ContactController> _logger;
         public static IContactServices _contactSvc = null;
+        public static string mess = "";
         public ContactController(ILogger<ContactController> logger, IContactServices cont)
         {
             _contactSvc = cont;
@@ -27,6 +28,7 @@ namespace post_office.Controllers.Client
         public IActionResult SendContact(ContactModel mdl)
         {
             _contactSvc.SendMessage(mdl);
+            mess = "Sent successfully!";
             return RedirectToAction("Index");
         }
 

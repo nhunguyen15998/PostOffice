@@ -49,14 +49,14 @@ namespace post_office.Controllers.Administrator
 
         public JsonResult CodeRoleExists(RoleModel model)
         {
-            var obj = ls.FirstOrDefault(x => x.code.ToLower() == model.code.ToLower());
+            var obj = _rolesvc.GetListRole().FirstOrDefault(x => x.code.ToLower() == model.code.ToLower());
             if (roleId != 0 && obj != null) { obj = obj.id != roleId ? obj : null; }
             return Json(obj == null ? true : false);
 
         }
         public JsonResult NameRoleExists(RoleModel model)
         {
-            var obj = ls.FirstOrDefault(x => x.name.ToLower() == model.name.ToLower());
+            var obj = _rolesvc.GetListRole().FirstOrDefault(x => x.name.ToLower() == model.name.ToLower());
             
             if (roleId != 0 && obj!=null) { obj = obj.id != roleId ? obj : null; }
             return Json(obj == null ? true : false);

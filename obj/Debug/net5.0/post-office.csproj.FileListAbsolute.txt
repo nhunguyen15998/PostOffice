@@ -488,8 +488,6 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Auth\_ViewStart.cshtml
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Contact\Index.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\MyAccount.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Bill.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Order.cshtml.g.cs
-C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Product.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Profile.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\_Receive.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
@@ -554,3 +552,5 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Contacts\Index.cshtml.
 C:\CSharp\Project_PostOffice\bin\Debug\net5.0\SixLabors.ImageSharp.dll
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Shared\Partials\_ClientModals.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Profile\Index.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\BillDetail.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\VerifyAccount.cshtml.g.cs
