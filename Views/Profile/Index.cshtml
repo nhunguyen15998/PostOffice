@@ -144,7 +144,7 @@
         var email = $("#ip-email").val();
         var name = $("#ip-name").val();
         var regex = /[a-zA-Z0-9][a-zA-Z0-9._]*@@[a-zA-Z0-9-]+([.][a-zA-Z]+)+/;
-        if (isEmpty(name) || isEmpty(email) || !email.match(regex)) {
+        if (isEmpty(name) || isEmpty(email) || !email.match(regex) ) {
             if (!email.match(regex)) $("#email-error").html("Invalid email address");
             if (isEmpty(name)) $("#name-error").html("* required");
             if (isEmpty(email)) $("#email-error").html("* required");
@@ -174,10 +174,11 @@
 
             }
         }).responseText;
-        if (res_old == "false" ||isEmpty(old) ||isEmpty(_new) || isEmpty(confirm) || _new != confirm || _new == old ) {
+        if (res_old == "false" || isEmpty(old) || isEmpty(_new) || isEmpty(confirm) || _new != confirm || _new == old || _new.length<6) {
             if (res_old == "false") $("#old-error").html("The password you enter is not correct");
             if (_new != confirm) $("#confirm-error").html("Not match new password");
             if (_new == old) $("#confirm-error").html("Your password changes like the current password");
+            if (_new.length < 6) $("#new-error").html("Field new password needs a minimum of 6 characters");
             if (isEmpty(old)) $("#old-error").html("* required");
             if (isEmpty(_new)) $("#new-error").html("* required");
             if (isEmpty(confirm)) $("#confirm-error").html("* required");

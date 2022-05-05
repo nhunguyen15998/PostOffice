@@ -27,7 +27,7 @@ namespace post_office.Controllers.Client
         public IActionResult SendContact(ContactModel mdl)
         {
             _contactSvc.SendMessage(mdl);
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
 

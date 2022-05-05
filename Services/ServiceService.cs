@@ -74,7 +74,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var r = _context.Services.FirstOrDefault(x => x.Id == item);
+                var r = _context.Services.SingleOrDefault(x => x.Id == item);
                 if (r != null)
                 {
                     

@@ -66,7 +66,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var r = ct.Attributes.FirstOrDefault(x => x.Id == item);
+                var r = ct.Attributes.SingleOrDefault(x => x.Id == item);
                 if (r != null){
                     var attr = ct.ProductAttributes.FirstOrDefault(x => x.ColorId == r.Id || x.HeightId == r.Id || x.LengthId == r.Id || x.WidthId == r.Id);
                     if (attr == null)

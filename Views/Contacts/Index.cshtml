@@ -248,7 +248,7 @@
         }
         ResetValidate();
         $("#form-contact").trigger("reset");
-
+        $("#form-reply").empty();
     }
     $('body').delegate('#btnSend', 'click', function () {
         ShowWaiting(3000);
@@ -262,10 +262,12 @@
             $(re[i]).css("background", "#fafafa");
         }
 
-        if (str == "prev"&&pages>=1) {
+         if (str == "prev" && pages >= 1) {
 
-              if (pages ==1) {
+            if (pages == 1) {
                 pages = 1;
+                $('[data-page="page-1"]').css("background","#ddd");
+                    return;
 
             } else {
                 pages -= 1;
@@ -275,14 +277,16 @@
         } else if (str == "next" && pages <=@ViewBag.pagi) {
             if (pages ==@ViewBag.pagi) {
                 pages = @ViewBag.pagi;
+                $('[data-page="page-'+pages+'"]').css("background", "#ddd");
 
+                return;
             } else {
                 pages += 1;
 
             }
 
 
-        } else {
+        }  else {
             if (pages == parseInt(str.replace("page-", ""))) {
                 pages = -1;
             } else {
@@ -324,7 +328,7 @@
                             if ("@post_office.Models.AuthenticetionModel.hasPermission("REPLY_CONTACT")"=="True" &&data[i].isReply==false) reply = '<span oid="object-'+data[i].id+'" class="action-icon edit reply-contact"> <i class="fa fa-edit"></i>  </span>';
 
                         if ("@post_office.Models.AuthenticetionModel.hasPermission("READ_CONTACT")" == "True") read = '<span oid="object-' + data[i].id + '" class="action-icon purple read-contact" ' + (reply != "" ? 'style="padding: 10px 5px 10px 10px"' : "") + '> <i class="fa fa-eye"></i> </span>';
-                        
+
 
                             var check = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
                        var uncheck = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>';

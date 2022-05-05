@@ -87,7 +87,7 @@ namespace post_office.Services
             bool check = true;
             foreach (var item in ls)
             {
-                var r = _context.Roles.FirstOrDefault(x => x.Id == item);
+                var r = _context.Roles.SingleOrDefault(x => x.Id == item);
                 if (r != null)
                 {
                     var user = _context.Users.FirstOrDefault(x => x.RoleId == r.Id);

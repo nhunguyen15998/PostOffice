@@ -16,6 +16,7 @@ namespace post_office.Services
         Customer Create(object customer, string phone);
         void Update(Customer customer, string password = null);
         void Delete(int id);
+        List<Customer> GetListCustomer();
     }
 
     public class CustomerService : ICustomerService
@@ -119,6 +120,9 @@ namespace post_office.Services
             }
         }
 
-        
+        public List<Customer> GetListCustomer()
+        {
+            return _context.Customers.ToList();
+        }
     }
 }
