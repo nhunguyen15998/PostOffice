@@ -554,3 +554,4 @@ C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Profile\Index.cshtml.g
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Customer\BillDetail.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Authentication\VerifyAccount.cshtml.g.cs
 C:\CSharp\Project_PostOffice\obj\Debug\net5.0\Razor\Views\Bills\BillDetail.cshtml.g.cs
+C:\CSharp\Project_PostOffice\obj\Debug\net5.0\post-office.csproj.AssemblyReference.cache

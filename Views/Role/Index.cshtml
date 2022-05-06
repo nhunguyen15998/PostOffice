@@ -229,8 +229,9 @@
         }
     }
     function OpenForm(type, id) {
-
         if (id != 0) {
+            ShowWaiting(800);
+
             var fdt = new FormData();
             fdt.append("id", id);
              $.ajax({
@@ -435,6 +436,8 @@
         });
     });
     $('#btnRoleSave').click(function () {
+        localStorage.setItem("mySession", "__role")
+        localStorage.setItem("title", "ROLE")
         ShowWaiting(1000);
         ShakeError();
 

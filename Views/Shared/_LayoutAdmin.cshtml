@@ -141,7 +141,11 @@
     }
     function CloseForm() {
         $("#view-main").css("display", "none");
-        $(".sidebar").css("pointer-events","inherit")
+        $(".sidebar").css("pointer-events", "inherit");
+        textreadonly = document.getElementsByClassName('text-readonly');
+        for (var i = 0; i < textreadonly.length; i++) {
+            $(textreadonly[i]).html("");
+        }
     }
     function SelectAll(source) {
         checkboxes = document.getElementsByClassName('sub-check');

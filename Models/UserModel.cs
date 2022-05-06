@@ -55,6 +55,8 @@ namespace post_office.Models
         
         public string branch { get; set; }
         public string role { get; set; }
-        
+        public string createdByString { get; set; }
+        public int createdBy { get; set; }
+
     }
 }

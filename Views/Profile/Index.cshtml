@@ -12,13 +12,19 @@
     <div class="col-3" style="float:left;">
         <div style="display:table-row; height: auto; min-height: 280px; background: none; float: left;padding:0 " class="col-12">
             <label class="text-color">  Avatar: </label> <br />
-            <div id="viewer" style="border: 2px dashed #eed192;border-radius: 6px; min-height: inherit;padding-top:10px; text-align:center">
+                                                         <div id="viewer" style="border: 2px dashed #eed192;border-radius: 6px; min-height: inherit;padding-top:10px; text-align:center">
 
 
-                <div style="margin-bottom:10px" id="content">Click or drag to upload</div>
+                                                             <div style="margin-bottom:10px" id="content">Click or drag to upload</div>
+                                                             @{
+                                                                 string temp = null;
+                                                                 if (u.avatar != "" && u.avatar != null)
+                                                                     temp = "/img/AvtUser/"+ u.avatar;
 
-                <img id="imgViewer" src="@(u.avatar==""?null:"/img/AvtUser/"+u.avatar)" style="border:none; width:90%;height:auto;margin-bottom:5vh;border-radius:20px;" />
-            </div>
+
+                                                             }
+                                                             <img id="imgViewer" src="@temp" style="border:none; width:90%;height:auto;margin-bottom:5vh;border-radius:20px;" />
+                                                         </div>
             <input type="file" id="ip-thumbnail" onchange="ReadImage(this)" class="main-post" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp" aria-hidden="true" tabindex="-1" style="cursor: pointer; height: 100%; opacity: 0;
                         position: absolute; width: 100%; left: 0px; top: 0px; font-size: 0px;">
         </div>
@@ -103,7 +109,7 @@
 
     }
     $("#btnSave").click(function () {
-        ShowWaiting(1500);
+        ShowWaiting(800);
         if (Validate() && ValidatePass()) {
             
              var mdl = {

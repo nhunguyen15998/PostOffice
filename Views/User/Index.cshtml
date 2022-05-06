@@ -136,6 +136,12 @@
                             <span class="text-readonly" id="ip-created"></span>
                         </label>
                         <br />
+                        <label class="text-color">
+                            Created by:
+                            <span class="text-readonly" id="ip-createdBy"></span>
+                        </label>
+                        <br />
+
                         <label class="text-color">Role:</label>
                         @Html.DropDownListFor(m => m.roleId, (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @id = "roleSlt" })
                         @Html.ValidationMessageFor(d => d.branchId, "", new { @class = "_error" })
@@ -143,10 +149,10 @@
                         <br />
                         @if (AuthenticetionModel.roleName == "Super Admin")
                         {
-                        <label class="text-color">Branch:</label>
-                        @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @id = "branchSlt" })
-                        @Html.ValidationMessageFor(d => d.branchId, "", new { @class = "_error" })
-                        <br />
+                            <label class="text-color">Branch:</label>
+                            @Html.DropDownListFor(m => m.branchId, (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @id = "branchSlt" })
+                            @Html.ValidationMessageFor(d => d.branchId, "", new { @class = "_error" })
+                            <br />
                         }
                         <label class="text-color">Status:</label>
                         @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.ls_sts, "Key", "Value"), new { @class = "dropdownlist", @id = "statusSlt" })
@@ -192,7 +198,7 @@
     });
     function OpenForm(type, id) {
         $("#ip-password").removeAttr("disabled");
-
+        ShowWaiting(1000);
          if (id != 0) {
             var fdt = new FormData();
             fdt.append("id", id);
@@ -204,6 +210,7 @@
                 contentType: false,
                  success: function (data) {
                      $("#ip-code").html(data.code);
+                     $("#ip-createdBy").html(data.createdByString);
                     $("#ip-name").val(data.fullName);
                     $("#ip-phone").val(data.phone);
                     $("#ip-email").val(data.email);

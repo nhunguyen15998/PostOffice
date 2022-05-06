@@ -100,28 +100,25 @@ namespace post_office.Services
         }
         public int GetTotalQuantity(int pid)
         {
-            var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).qty ?? 0;
-            var ls_PDattr = GetListProductAttribute(0).Where(x => x.productId == pid).ToList();
-            var res = 0;
-            foreach (var item in ls_PDattr)
-            {
-                res += item.qty;
-            }
-            return res + pd;
+            var pd = ct.Products.SingleOrDefault(x => x.Id == pid).Qty ?? 0;
+            if (pd != 0) return pd;
+            var sum = ct.ProductAttributes.Where(x => x.ProductId == pid).Sum(x=>x.Qty??0);
+            return sum;
         }
         public string GetPrice(int pid)
         {
-            var pd = GetListProduct(0,0).FirstOrDefault(x => x.id == pid).price;
-            var ls_PDattr = GetListProductAttribute(0).Where(x => x.productId == pid).Select(x=>x.price).ToList();
-            if(pd!=null) ls_PDattr.Add((decimal)pd);
-            string res =string.Format("{0:n0}", ls_PDattr[0]);
+            var pd = ct.Products.SingleOrDefault(x => x.Id == pid).Price;
+            if(pd!=null) return string.Format("{0:n0}",pd);
+
+            var ls_PDattr = ct.ProductAttributes.Where(x => x.ProductId == pid).Select(x=>x.Price).ToList();
+
             if (ls_PDattr.Count >= 2) {
                 decimal min = ls_PDattr.Min();
                 decimal max = ls_PDattr.Max();
-                if (min == max)   res = string.Format("{0:n0}", min);
-                else res = string.Format("{0:n0}", min) + " - " + string.Format("{0:n0}", max);
+                if (min == max) return string.Format("{0:n0}", min);
+                else return string.Format("{0:n0}", min) + " - " + string.Format("{0:n0}", max);
                 }
-            return res;
+            return string.Format("{0:n0}", ls_PDattr[0]);
         }
         public ProductAttributeModel GetProductAttribute(int id)
         {

@@ -205,8 +205,8 @@
     function OpenForm(type, id) {
         var fdt = new FormData();
         fdt.append("id", id);
-
         if (id != 0) {
+            ShowWaiting(1000);
 
              $.ajax({
                 type: "POST",

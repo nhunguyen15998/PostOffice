@@ -46,6 +46,14 @@ namespace post_office.Controllers.Administrator
             _id = w.Id;
             return w;
         }
+        public void ChangeStatusCustomer(List<int> ls, int status)
+        {
+            bool changeStatus = _cusSvc.ChangeStatusListCustomer(ls, status);
+            mess = "Saved successfully!";
+            if (!changeStatus)
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot deactivated.";
+
+        }
         //Pagination
         public List<CustomerModel> LoadDataCustomer(int p, string cond, int status)
         {
