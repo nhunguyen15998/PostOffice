@@ -1226,6 +1226,7 @@
         }
     });
     function DeleteProducts(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__pd")
         localStorage.setItem("title", "PRODUCTS")
          $.ajax({

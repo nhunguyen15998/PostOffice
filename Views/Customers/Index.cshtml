@@ -53,13 +53,14 @@
                     { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
                 </td>
                 <td class="tbl-150">
+                    @if (AuthenticetionModel.hasPermission("UPDATE_CUSTOMER"))
+                    {
+                        <span oid="object-@item.Id" class="action-icon edit edit-customer">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    }
 
-                    <span oid="object-@item.Id" class="action-icon edit edit-customer">
-                        <i class="fa fa-edit"></i>
-                    </span>
-
-
-                </td>
+                    </td>
             </tr>
 
         }

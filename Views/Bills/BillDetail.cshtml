@@ -42,17 +42,24 @@
                     <td>@item.CreatedAt?.ToString("dd/MM/yyyy")</td>
                     <td>@Helpers.CheckStatusValue(item.Status, "OrderStatus")</td>
                     <td class="tbl-180">
+
                         <span class="action-icon view view-product" style="padding:10px 5px 10px 10px">
                             <i class="fa fa-eye"></i>
                         </span>
-                        <span class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
-                            <i class="fa fa-edit"></i>
-                        </span>
+                        @if (AuthenticetionModel.hasPermission("UPDATE_BILL"))
+                        {
+                            <span class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
+                                <i class="fa fa-edit"></i>
+                            </span>
+                        }
+                        @if (AuthenticetionModel.hasPermission("DELETE_BILL"))
+                        {
 
-                        <span class="action-icon delete delete-product">
-                            <i class="fa fa-trash"></i>
-                        </span>
-                    </td>
+                            <span class="action-icon delete delete-product">
+                                <i class="fa fa-trash"></i>
+                            </span>
+                        }
+                        </td>
                 </tr>
                 count++;
             }

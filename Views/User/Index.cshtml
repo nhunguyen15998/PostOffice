@@ -18,11 +18,11 @@
         }
         <input class="input-search form-control ml-2" style="float:left;width:285px;" type="text" placeholder="Search by code, name, phone, email" id="search-by-name" />
         <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by role:</label>
-        @Html.DropDownList("roleName", (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-role" })
+        @Html.DropDownList("roleName", (IEnumerable<SelectListItem>)ViewBag.role_search, null, new { @class = "dropdownlist", @style = "width:110px;float:left", @id = "search-by-role" })
         @if (post_office.Models.AuthenticetionModel.roleName == "Super Admin")
         {
             <label class="text-color ml-3 mr-1" style="float: left; font-size: 13px">Search by branch:</label>
-            @Html.DropDownList("branch", (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @style = "width:120px;float:left", @id = "search-by-branch" })
+            @Html.DropDownList("branch", (IEnumerable<SelectListItem>)ViewBag.branchList, null, new { @class = "dropdownlist", @style = "width:130px;float:left", @id = "search-by-branch" })
         }
         <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
         @if (AuthenticetionModel.hasPermission("CREATE_USER"))
@@ -412,7 +412,7 @@
     });
     function GetListToChangeStatus(status) {
         if (CheckCheckbox()) {
-            ShowWaiting(1000);
+            ShowWaiting(3000);
             localStorage.setItem("mySession", "__user")
             localStorage.setItem("title", "USERS")
             checkboxes = document.getElementsByClassName('sub-check');

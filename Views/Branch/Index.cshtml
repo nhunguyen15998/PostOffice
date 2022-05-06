@@ -328,6 +328,7 @@
         }
     });
     function DeleteBranch(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__branches")
         localStorage.setItem("title", "BRANCHES")
          $.ajax({

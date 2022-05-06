@@ -163,7 +163,7 @@
         }
     });
     function ClearFilter() {
-         $("#search-by-type").val(-1);
+         $("#search-by-type").val(0);
           $("#search-by-name").val("");
         SearchFilter(1);
     }
@@ -342,7 +342,7 @@
             }
             $(this).css("background", "#ddd");
         }
-        SearchFilter(1);
+        SearchFilter(pages);
 
     });
     function LoadDataAttribute( page,  selectType,sort) {

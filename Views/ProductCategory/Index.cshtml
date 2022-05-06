@@ -171,7 +171,6 @@
 
     $("#btnDelete").click(function () {
         if (CheckCheckbox()) {
-
             checkboxes = document.getElementsByClassName('sub-check');
             if (confirm("Are you sure to delete these item(s)?")) {
                 var fdt = new FormData();
@@ -189,7 +188,9 @@
     });
     function DeletePDCate(formData) {
         localStorage.setItem("mySession", "__pc")
-        localStorage.setItem("title", "PRODUCT CATEGORIES")
+        localStorage.setItem("title", "PRODUCT CATEGORIES");
+        ShowWaiting(2500);
+
          $.ajax({
                 type: "POST",
                 url: "@Url.Action("DeletePDCategory", "ProductCategory")",
@@ -257,11 +258,14 @@
     }
     $('#btnPDCateSave').click(function () {
         ResetValidate();
+
         var name = $("#pdcate-name").val();
         var parent = parseInt($("#slt-parent").val());
         if (isEmpty(name)) {
             $("#name-error").html(" * required");
         } else {
+            ShowWaiting(2500);
+
             var fdt = new FormData()
             fdt.append("name", name);
             fdt.append("parent", parent);

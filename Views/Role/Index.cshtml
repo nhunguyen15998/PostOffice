@@ -410,7 +410,7 @@
     $("#right-all").click(function () { ChangeList(true) });
     $("#left-all").click(function () { ChangeList(false) });
     $("#btnRolePermissionSave").click(function () {
-        ShowWaiting(2000);
+        ShowWaiting(4500);
         var current = $("#table-permission-current").find("tr");
         var ls = [];
         for (var i = 0; i < current.length; i++) {
@@ -428,7 +428,6 @@
             processData: false,
             contentType: false,
             success: function () {
-                    @{post_office.Controllers.Administrator.RoleController.roleId = 0; }
                      localStorage.setItem("mySession", "__role")
                      localStorage.setItem("title", "ROLE")
                      window.location.href = "@Url.Action("Index","Role")";

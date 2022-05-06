@@ -159,6 +159,8 @@
          var fdt = new FormData();
         fdt.append("id", id);
         if (id != 0) {
+            ShowWaiting(1000);
+
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetService", "Services")",
@@ -172,7 +174,6 @@
                 }
             });
         }
-        ShowWaiting(1000);
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
@@ -195,6 +196,7 @@
 
     }
     $('#btnServiceSave').click(function () {
+        ShowWaiting(1000);
         ShakeError();
         localStorage.setItem("mySession", "__svc")
         localStorage.setItem("title", "SERVICES")
@@ -378,6 +380,7 @@
         }
     });
     function DeletePDCate(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__svc")
         localStorage.setItem("title", "SERVICES")
          $.ajax({
