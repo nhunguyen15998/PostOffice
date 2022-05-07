@@ -37,7 +37,6 @@ namespace post_office.Models
         public string LastName { get; set; }
         public string Phone { get; set; }
         [Required(ErrorMessage = "* required")]
-        [Remote("EmailClientExists", "Customers", ErrorMessage = "This email already exist.")]
         [RegularExpression("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9-]+([.][a-zA-Z]+)+", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -13,22 +13,24 @@
         {
             <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
         }
-            <input class="input-search form-control" style="float:left;width:380px;" type="text" id="search-by-name" placeholder="Search by name" />
-            <label class="text-color ml-5 mr-2" style="float:left">Search by type: </label>
+        <input class="input-search form-control" style="float:left;width:380px;" type="text" id="search-by-name" placeholder="Search by name" />
+        <label class="text-color ml-5 mr-2" style="float:left">Search by type: </label>
 
-            <select class="dropdownlist" style="float:left;width:150px;" id="search-by-type">
-                <option value="0">all</option>
-                <option value="1">color</option>
-                <option value="2">length</option>
-                <option value="3">width</option>
-                <option value="4">height</option>
-            </select>
-            @if (AuthenticetionModel.hasPermission("CREATE_ATTRIBUTE"))
-            {
-                <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
-            }
+        <select class="dropdownlist" style="float:left;width:150px;" id="search-by-type">
+            <option value="0">all</option>
+            <option value="1">color</option>
+            <option value="2">length</option>
+            <option value="3">width</option>
+            <option value="4">height</option>
+        </select>
+        <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
 
-        </div>
+        @if (AuthenticetionModel.hasPermission("CREATE_ATTRIBUTE"))
+        {
+            <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        }
+
+    </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -160,6 +162,11 @@
             DeleteAttribute(fdt)
         }
     });
+    function ClearFilter() {
+         $("#search-by-type").val(0);
+          $("#search-by-name").val("");
+        SearchFilter(1);
+    }
     $("#btnDelete").click(function () {
         if (CheckCheckbox()) {
 
@@ -217,17 +224,18 @@
     }
     $("#search-by-name").on('keyup', function (e) {
         if (e.key === 'Enter' || e.keyCode === 13) {
-            var select = $("#search-by-type").val();
-            var nameSearch = $("#search-by-name").val();
-            LoadDataAttribute(1, select, nameSearch)
+            SearchFilter(1)
         }
 
     });
     $("#search-by-type").change(function () {
+        SearchFilter(1)
+    });
+    function SearchFilter(page) {
         var select = $("#search-by-type").val();
         var nameSearch = $("#search-by-name").val();
-        LoadDataAttribute(1, select, nameSearch)
-    });
+        LoadDataAttribute(page, select, nameSearch)
+    }
     $("#CloseForm").click(function () {
         ResetForm();
     });
@@ -334,9 +342,7 @@
             }
             $(this).css("background", "#ddd");
         }
-        var select = $("#search-by-type").val();
-        var nameSearch = $("#search-by-name").val();
-        LoadDataAttribute(pages, select, nameSearch);
+        SearchFilter(pages);
 
     });
     function LoadDataAttribute( page,  selectType,sort) {

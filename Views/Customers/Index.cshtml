@@ -9,6 +9,11 @@
 
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
+        @if (AuthenticetionModel.hasPermission("UPDATE_CUSTOMER"))
+        {
+            <button class="btn-action delete p-2 mr-1" id="btnDeactivated" style="float:left;font-size:13px">Deactivated</button>
+            <button class="btn-action save p-2 mr-1" id="btnActivated" style="float: left; font-size: 13px">Activated</button>
+        }
         <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by name, phone, email" id="search-by-name" />
         <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
         <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
@@ -48,13 +53,14 @@
                     { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
                 </td>
                 <td class="tbl-150">
+                    @if (AuthenticetionModel.hasPermission("UPDATE_CUSTOMER"))
+                    {
+                        <span oid="object-@item.Id" class="action-icon edit edit-customer">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    }
 
-                    <span oid="object-@item.Id" class="action-icon edit edit-customer">
-                        <i class="fa fa-edit"></i>
-                    </span>
-
-
-                </td>
+                    </td>
             </tr>
 
         }
@@ -142,7 +148,7 @@
 
            @{post_office.Controllers.Administrator.CustomersController.mess = "";}
     });
-     
+
     var pages = 1;
 
     function ClearFilter() {
@@ -169,13 +175,13 @@
 
     }
     $('body').delegate('.edit-customer', 'click', function () {
-        ShowWaiting(800);
 
         var id = parseInt($(this).attr("oid").replace("object-", ""));
         var fdt = new FormData();
         fdt.append("id", id);
 
         if (id != 0) {
+            ShowWaiting(500);
 
              $.ajax({
                 type: "POST",
@@ -277,10 +283,10 @@ window.onload = function () {
                 success: function (data) {
                     var edit = "";
                     for (var i = 0; i < data.length; i++) {
-                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_CUSTOMER")"=="True") edit = '<span oid="object-' + data[i].id + '" class="action-icon edit edit-user" > <i class="fa fa-edit"></i></span>';
+                             if ("@post_office.Models.AuthenticetionModel.hasPermission("UPDATE_CUSTOMER")"=="True") edit = '<span oid="object-' + data[i].Id + '" class="action-icon edit edit-customer" > <i class="fa fa-edit"></i></span>';
 
                             var str = '<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i>';
-                            if (data[i].status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
+                            if (data[i].Status != 1) { str = '<i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>'; }
                             var value = '<tr class="table-item"> <td class="tbl-10"><input type="checkbox" class="sub-check" post-item="post-'+data[i].Id+'" /></td>'+
                                         ' <td class="tbl-60">'+row+'</td> <td class="tbl-180">'+data[i].FirstName+'</td> <td class="tbl-180">'+data[i].LastName+'</td> <td class="tbl-150">'+data[i].Phone+'</td>'+
                                           '<td class="tbl-150">'+data[i].Email+'</td> <td class="tbl-110">'+moment(data[i].CreatedAt).format("DD/MM/YYYY HH:mm")+'</td>'+
@@ -358,5 +364,40 @@ window.onload = function () {
         var status = $("#search-by-status").val();
         LoadDataCustomer(page, nameSearch, status);
     }
+     $("#btnDeactivated").click(function () {
+        GetListToChangeStatus(0)
+    });
+    $("#btnActivated").click(function () {
+        GetListToChangeStatus(1)
+    });
+    function GetListToChangeStatus(status) {
+        if (CheckCheckbox()) {
+            ShowWaiting(6000);
+            localStorage.setItem("mySession", "__cus")
+            localStorage.setItem("title", "CUSTOMERS")
+            checkboxes = document.getElementsByClassName('sub-check');
+            if (confirm("Are you sure to "+(status==1?"activate":"deactivate")+" these item(s)?")) {
+                var fdt = new FormData();
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked == true) {
+                        var r = $(checkboxes[i]).attr("post-item").replace("post-", "");
+                        fdt.append("ls", r);
+                    }
+                }
+                fdt.append("status",status)
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeStatusCustomer", "Customers")",
+                data: fdt,
+                processData: false,
+                contentType: false,
+                 success: function () {
+                      window.location.href = "@Url.Action("Index","Customers")"
 
+                }
+            });
+                ResetCheckbox();
+            }
+        }
+    }
 </script>

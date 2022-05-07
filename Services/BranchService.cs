@@ -102,7 +102,9 @@ namespace post_office.Services
                 if (r != null)
                 {
                     var user = _context.Users.FirstOrDefault(x => x.BranchId == r.Id);
-                    if (user == null )
+                    var bill = _context.Bills.FirstOrDefault(x => x.BranchId == r.Id);
+                    var order = _context.OrderTrackings.FirstOrDefault(x => x.BranchId == r.Id);
+                    if (user == null &&bill==null&&order==null)
                     {
                         _context.Branches.Remove(r);
                         _context.SaveChanges();

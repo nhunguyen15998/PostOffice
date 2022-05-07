@@ -88,15 +88,15 @@ namespace post_office.Controllers.Administrator
             bool delete = _Branchsvc.RemoveBranches(ls);
             mess = "Deleted successfully!";
             if (!delete)
-                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a branch of another user";
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a branch of another user / of bill(s) ";
 
         }
         //Pagination
         public List<BranchModel> LoadDataBranch(int p, string cond, int status, int provinceId)
         {
-            int currentSkip = 7 * (p - 1);
+            int currentSkip = 10 * (p - 1);
             var w = _Branchsvc.GetListBranch().Where(x =>x.name.ToLower().Contains(cond == null ? "" : cond.ToLower()) || x.code.ToLower().Contains(cond == null ? "" : cond.ToLower())|| x.phone.Contains(cond == null ? "" : cond))
-                      .Where(x=> ( provinceId==0?true: x.provinceId==provinceId) && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(7).ToList();
+                      .Where(x=> ( provinceId==0?true: x.provinceId==provinceId) && (status == -1 ? true : x.status == status)).OrderByDescending(x => x.id).Skip(currentSkip).Take(10).ToList();
             return w;
         }
         public int GetCountBranch(string cond, int status, int provinceId)
@@ -110,7 +110,7 @@ namespace post_office.Controllers.Administrator
      
         public int RowEvent(int i)
         {
-            double pagi = i / 5.0;
+            double pagi = i / 10.0;
             if (Helpers.Helpers.IsNumber(pagi.ToString()))
             {
                 pagi = (int)pagi;

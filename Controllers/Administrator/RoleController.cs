@@ -136,6 +136,7 @@ namespace post_office.Controllers.Administrator
             }
             AuthenticetionModel.permissions = _pmsSvc.GetListPermissionByRoleID(AuthenticetionModel.roleId);
             mess = "Saved successfully!";
+            roleId = 0;
         }
         //Pagination
         public List<RoleModel> LoadDataRole(int p, string cond)

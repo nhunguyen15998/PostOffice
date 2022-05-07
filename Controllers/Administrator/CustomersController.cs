@@ -31,13 +31,7 @@ namespace post_office.Controllers.Administrator
             }
             else return RedirectToAction("Login", "User");
         }
-        public JsonResult EmailClientExists(CustomerModel model)
-        {
-            var obj = _cusSvc.GetListCustomer().FirstOrDefault(x => x.Email == model.Email);
-            if (_id != 0 && obj != null) { obj = obj.Id != _id ? obj : null; }
-            return Json(obj == null ? true : false);
-
-        }
+       
         public IActionResult CustomerUpdate( CustomerModel cus)
         {
             cus.Id = _id;
@@ -51,6 +45,14 @@ namespace post_office.Controllers.Administrator
             var w = _cusSvc.GetCustomer(id);
             _id = w.Id;
             return w;
+        }
+        public void ChangeStatusCustomer(List<int> ls, int status)
+        {
+            bool changeStatus = _cusSvc.ChangeStatusListCustomer(ls, status);
+            mess = "Saved successfully!";
+            if (!changeStatus)
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot deactivated.";
+
         }
         //Pagination
         public List<CustomerModel> LoadDataCustomer(int p, string cond, int status)

@@ -94,7 +94,7 @@ namespace post_office.Controllers.Administrator
         //End pagination
         public bool CheckExistsName(string name, int type)
         {
-            return m.FirstOrDefault(x => x.name.ToLower() == name.ToLower() && x.type == type) == null ? false : true;
+            return _attrsvc.GetListAttribute().FirstOrDefault(x => x.name.ToLower() == name.ToLower() && x.type == type) == null ? false : true;
         }
         public AttributeModel SaveAttribute(AttributeModel mdl)
         {

@@ -250,8 +250,8 @@
         $("#wardSlt").attr("disabled", "disabled");
         $("#citySlt").attr("disabled", "disabled");
 
-
          if (id != 0) {
+             ShowWaiting(1200);
 
             var fdt = new FormData();
             fdt.append("id", id);
@@ -328,6 +328,7 @@
         }
     });
     function DeleteBranch(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__branches")
         localStorage.setItem("title", "BRANCHES")
          $.ajax({
@@ -401,7 +402,7 @@
             formDT.append("cond", cond);
             formDT.append("provinceId", province);
             formDT.append("status", status);
-            var row = page == 1 ? 1 : 7 * (page - 1) + 1;
+            var row = page == 1 ? 1 : 10 * (page - 1) + 1;
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("LoadDataBranch", "Branch")",

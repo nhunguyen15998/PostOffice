@@ -19,6 +19,7 @@ namespace post_office.Services
         List<CustomerModel> GetListCustomer();
         CustomerModel GetCustomer(int id);
         bool ModifyCustomer(CustomerModel cus);
+        bool ChangeStatusListCustomer(List<int> ls, int status);
     }
 
     public class CustomerService : ICustomerService
@@ -146,6 +147,20 @@ namespace post_office.Services
                 _context.SaveChanges();
             }
             return true;
+        }
+        public bool ChangeStatusListCustomer(List<int> ls, int status)
+        {
+            bool check = true;
+            foreach (var item in ls)
+            {
+                var us = _context.Customers.SingleOrDefault(x => x.Id == item);
+                if (us != null)
+                {
+                    if (us.Status != status) us.Status = status;
+                    _context.SaveChanges();
+                }
+            }
+            return check;
         }
     }
 }

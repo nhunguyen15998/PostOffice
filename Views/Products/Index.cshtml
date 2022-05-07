@@ -22,11 +22,13 @@
             <option value="1">Activated</option>
             <option value="0">Deactivated</option>
         </select>
+        <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+
         @if (AuthenticetionModel.hasPermission("CREATE_PRODUCT"))
         {
             <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
         }
-        </div>
+    </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -241,6 +243,11 @@
 
 
     }
+    function ClearFilter() {
+        $("#search-by-name").val("");
+         $("#search-by-status").val(-1)
+        SearchFilter(1);
+    }
     $('body').delegate(".close-attr", "click", function () {
         $(this).closest(".attr-child").remove();
         $("#add-attr").prop("checked", false);
@@ -278,7 +285,7 @@
                 contentType: false,
                 success: function (data) {
                      if (data.length == 0) {
-                         $("#content-details").find("div").last().append('<br/><label class="text-color"> Attribute(s):<span class="text-readonly">None</span></label >');
+                         $("#content-details").find("div").last().append('<br/><label class="text-color"> Attribute(s):<span class="text-readonly">None</span></label ><br/>');
 
                      } else {
                          var ls_attr = [];
@@ -1219,6 +1226,7 @@
         }
     });
     function DeleteProducts(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__pd")
         localStorage.setItem("title", "PRODUCTS")
          $.ajax({

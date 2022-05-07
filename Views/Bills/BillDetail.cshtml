@@ -1,18 +1,9 @@
-﻿@{
+@{
     ViewData["Title"] = "Bill management";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
-    <div style="height:50px;position:relative; padding:0">
-        <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
-        <a class="btn-action save" id="btnCreate" style="float:right;" href='@Url.ActionLink("BillDetailCreate", "Bills")'>Create</a>
-        <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
-        <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
-            <option value="-1">all</option>
-            <option value="1">Activated</option>
-            <option value="0">Deactivated</option>
-        </select>
-    </div>
+    <h1>This is bill detail</h1>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -33,7 +24,7 @@
                 <tr class="table-item">
                     <td class="tbl-20"><input type="checkbox" class="sub-check"/></td>
                     <th scope="row">@count</th>
-                    <td><a href='@Url.Action("BillDetailUpdate", "Bills", new{billId = item.Id})' type="button">@item.Code</a>
+                    <td><a href='@Url.Action("BillDetail", "Bills", new {billId = item.Id})'>@item.Code</a>
                     </td>
                     <td>@item.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
                     <td>
@@ -68,7 +59,7 @@
                                 <i class="fa fa-trash"></i>
                             </span>
                         }
-                    </td>
+                        </td>
                 </tr>
                 count++;
             }
@@ -79,24 +70,4 @@
             </tr>
         }
     </table>
-    <div class="pagination-container" style="cursor:pointer">
-        <nav aria-label="Page navigation example" style="position:unset;box-shadow:none; background:none;padding:0">
-            <ul class="pagination" id="paginations">
-                <li class="page-item page-link" data-page="prev">&lt;</li>
-                @for (int i = 1; i <= ViewBag.pagi; i++)
-                {
-                    if (i == 1)
-                    {
-                        <li class="page-item page-link" data-page="page-1" style="background:#ddd">@i</li>
-
-                    }
-                    else
-                    {
-                        <li class="page-item page-link" data-page="page-@i">@i</li>
-                    }
-                }
-                <li class="page-item page-link" data-page="next">&gt;</li>
-            </ul>
-        </nav>
-    </div>
 </div>

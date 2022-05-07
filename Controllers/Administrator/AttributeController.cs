@@ -89,13 +89,13 @@ namespace post_office.Controllers.Administrator
 
         public JsonResult NameAttrExists(string name, int type)
         {
-            var obj = ls_attr.FirstOrDefault(x => x.name.ToLower() == name.ToLower()&&x.type ==type);
+            var obj = _attrsvc.GetListAttribute().FirstOrDefault(x => x.name.ToLower() == name.ToLower()&&x.type ==type);
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
         }
         public AttributeModel GetAttribute(int id)
         {
-            var e = ls_attr.FirstOrDefault(x => x.id == id);
+            var e = _attrsvc.GetListAttribute().FirstOrDefault(x => x.id == id);
             _id = e.id;
             return e;
         }

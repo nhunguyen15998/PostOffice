@@ -12,18 +12,20 @@
         {
             <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
         }
-            <input class="input-search form-control" style="float:left;width:230px;" type="text" placeholder="Search by name, content" id="search-by-name" />
-            <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
-            <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
-                <option value="-1">all</option>
-                <option value="1">Activated</option>
-                <option value="0">Deactivated</option>
-            </select>
-            @if (AuthenticetionModel.hasPermission("CREATE_SERVICE"))
-            {
-                <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
-            }
-        </div>
+        <input class="input-search form-control" style="float:left;width:230px;" type="text" placeholder="Search by name, content" id="search-by-name" />
+        <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
+        <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
+            <option value="-1">all</option>
+            <option value="1">Activated</option>
+            <option value="0">Deactivated</option>
+        </select>
+        <button class="btn-action edit pl-2 pr-2 ml-2" onclick="ClearFilter()"><i class="fa fa-repeat" style="font-size:18px"></i></button>
+
+        @if (AuthenticetionModel.hasPermission("CREATE_SERVICE"))
+        {
+            <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        }
+    </div>
     <table class="table" style=" border:2px solid #ddd;width:inherit" id="table-id">
         <tr style="color: white; background: #747583">
             <th><input type="checkbox" id="check-all" onclick="SelectAll(this)" /></th>
@@ -144,7 +146,12 @@
     $("#btnCreate").click(function () {
         OpenForm("Create service",0);
     });
-    $(".edit-service").click(function () {
+    function ClearFilter() {
+        $("#search-by-name").val("");
+         $("#search-by-status").val(-1);
+        SearchFilter(1);
+    }
+    $('body').delegate(".edit-service",'click',function () {
         var id = parseInt($(this).attr("oid").replace("object-", ""));
         OpenForm("Update service",id)
     });
@@ -152,6 +159,8 @@
          var fdt = new FormData();
         fdt.append("id", id);
         if (id != 0) {
+            ShowWaiting(1000);
+
              $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetService", "Services")",
@@ -165,7 +174,6 @@
                 }
             });
         }
-        ShowWaiting(1000);
         $("#view-main").css("display", "block");
         document.getElementById("view-title").children[0].innerHTML = type;
         $(".sidebar").css("pointer-events", "none")
@@ -188,6 +196,7 @@
 
     }
     $('#btnServiceSave').click(function () {
+        ShowWaiting(1000);
         ShakeError();
         localStorage.setItem("mySession", "__svc")
         localStorage.setItem("title", "SERVICES")
@@ -371,6 +380,7 @@
         }
     });
     function DeletePDCate(formData) {
+        ShowWaiting(1500);
         localStorage.setItem("mySession", "__svc")
         localStorage.setItem("title", "SERVICES")
          $.ajax({

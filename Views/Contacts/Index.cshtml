@@ -43,23 +43,23 @@
         <td><input type="checkbox" class="sub-check" post-item="post-@item.id" /></td>
         <td class="tbl-50">@k @{k++;} </td>
         <td class="tbl-120">@item.name</td>
-        <td class="tbl-140">@item.email</td>
+        <td class="tbl-160">@item.email</td>
         <td class="tbl-130">@item.phone</td>
         <td class="tbl-150">@item.subject</td>
         <td class="tbl-150">@item.message</td>
-        <td class="tbl-120">
+        <td class="tbl-40">
             @if (item.isRead)
             {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
             else
             { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
         </td>
-        <td>
+        <td class="tbl-40">
             @if (item.isReply)
             {<i class="fa fa-check-circle" style="color:#16e42c; font-size:20px;"></i> }
             else
             { <i class="fa fa-check-circle" style="color:#d6d2d2; font-size:20px;"></i>}
         </td>
-        <td>@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
+        <td class="tbl-120">@item.createdAt.ToString("dd/MM/yyyy HH:mm")</td>
         @*<i class="fas fa-check-square"></i>*@
     <td>
         @if (AuthenticetionModel.hasPermission("READ_CONTACT"))
@@ -203,10 +203,11 @@
 
 
     function OpenForm(type, id) {
-        ShowWaiting(1000);
         if (!type) $("#form-reply").append('<textarea name="content" class="dropdownlist mb-3" style="min-height:inherit;resize:none" placeholder="..."></textarea><button id = "btnSend" type = "submit" class= "save btn-action pl-4 pr-4 pt-2 pb-2" >Send</button > <a id="btnRoleCancel" onclick="ResetForm()" class="cancel btn-action ml-1" style="cursor:pointer; padding:12px 25px">Cancel</a>');
         else $("#form-reply").empty();
         if (id != 0) {
+            ShowWaiting(1000);
+
             var fdt = new FormData();
             fdt.append("id", id);
              $.ajax({

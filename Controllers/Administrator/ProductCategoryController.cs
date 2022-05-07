@@ -66,7 +66,7 @@ namespace post_office.Controllers.Administrator
         }
         public JsonResult NamePDCateExists(string name, int parent)
         {
-            var obj = ls.FirstOrDefault(x => x.name.ToLower() == name.ToLower() && (parent == 0 ? true : parent == x.parent_id));
+            var obj = _ProductCategorysvc.GetListProductCategory().FirstOrDefault(x => x.name.ToLower() == name.ToLower() && (parent == 0 ? true : parent == x.parent_id));
 
             if (_id != 0 && obj != null) { obj = obj.id != _id ? obj : null; }
             return Json(obj == null ? true : false);
