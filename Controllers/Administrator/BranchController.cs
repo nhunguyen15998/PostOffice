@@ -88,7 +88,7 @@ namespace post_office.Controllers.Administrator
             bool delete = _Branchsvc.RemoveBranches(ls);
             mess = "Deleted successfully!";
             if (!delete)
-                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a branch of another user";
+                mess = (ls.Count == 1 ? "Item" : "There are some items that") + " cannot be deleted. Please make sure the item you delete is not a branch of another user / of bill(s) ";
 
         }
         //Pagination
