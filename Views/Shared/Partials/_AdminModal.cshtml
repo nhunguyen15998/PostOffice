@@ -1,0 +1,332 @@
+@{
+    ViewData["Title"] = "Bill Detail";
+}
+<!--receiver-add-product-->
+<div class="modal fade" id="add-product" tabindex="-1" role="dialog" aria-labelledby="add-product-label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: fit-content;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-product-label">PURCHASE PRODUCTS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow: hidden scroll;height: 500px;">
+                <!--product-->
+                <div id="purchase-product" class="container mt-5" style="max-width: 95%;">
+                    <div class="mb-5 row">
+                        <div class="col-sm-3">
+                            <div class="input-group" style="">
+                                <select class="w-100" style="padding: 10px 15px;" id="select-product-cate"
+                                    asp-items='@new SelectList(ViewBag.ProductCateList, "Value", "Text")'>
+                                    <option value="0" disabled selected>Select category</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="">
+                            <select style="padding: 10px 15px;" class="w-100" id="select-products">
+                                <option value="0" disabled>Select product</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3" style="">
+                            <select style="padding: 10px 15px;" class="w-100" id="select-product-attribute">
+                                <option value="0" disabled>Select attribute</option>
+                            </select>
+                        </div>
+                        <div class="align-items-center col-sm-2 d-flex justify-content-between">
+                            <p class="mb-0" id="product-price">0</p>
+                            <button class="btn btn-sm" style="background-color: #ffdc39;"
+                                id="btn-add-product">Add</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-products" data-row="0">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mb-3">
+                        <h4>Total: <span id="total-price">0</span></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm" style="background-color:#ffdc39;"
+                    data-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#select-product-cate').on('change', function () {
+            let id = $(this).val()
+            $.ajax({
+                url: '@Url.Action("GetProductsByCate", "Bills")' + "?cateId=" + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    $('#select-products').empty()
+                    $('#select-products').append('<option value="0" disabled selected>Select product</option>')
+                    response.forEach(item => {
+                        let option = `<option value="${item.id}" data-price="${item.price ?? 0}" data-code="${item.code}">${item.name}</option>`
+                        $('#select-products').append(option)
+                    })
+                },
+                error: function (data) {
+                    alert(data.responseText.message)
+                }
+            })
+            $('#product-price').text(0)
+            $('#select-product-attribute').empty()
+        })
+        $('#select-products').on('change', function () {
+            let id = $(this).val()
+            if ($('#select-products').children('option').length <= 1) return
+            $.ajax({
+                url: '@Url.Action("GetProductAttributesByProduct", "Bills")' + "?productId=" + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    $('#select-product-attribute').empty()
+                    if (response.length == 0) {
+                        $('#select-product-attribute').append('<option disabled>No attribute</option>')
+                    }
+                    $('#select-product-attribute').append('<option value="0" disabled selected>Select product attribute</option>')
+                    response.forEach(item => {
+                        let option = `<option value="${item.id}" data-price="${item.price ?? 0}" data-color="${item.colorValue}"
+                        data-length="${item.lengthValue}" data-width="${item.widthValue}" data-height="${item.heightValue}">
+                                        ${item.colorValue == "null" || item.colorValue == undefined ? "" : "C:" + item.colorValue}
+                                        ${item.lengthValue == "null" || item.lengthValue == undefined ? "" : "L:" + item.lengthValue}
+                                        ${item.widthValue == "null" || item.widthValue == undefined ? "" : "W:" + item.widthValue}
+                                        ${item.heightValue == "null" || item.heightValue == undefined ? "" : "H:" + item.heightValue}
+                                    </option>`
+                        $('#select-product-attribute').append(option)
+                    })
+                },
+                error: function (data) {
+                    alert(data.responseText.message)
+                }
+            })
+            let price = $('#select-products :selected').attr('data-price')
+            $('#product-price').text(price ?? 0)
+        })
+        $('#select-product-attribute').on('change', function () {
+            let id = $(this).val()
+            let price = $('#select-product-attribute :selected').attr('data-price')
+            $('#product-price').text(price ?? 0)
+        })
+
+        $('#search-products').on('input', function () {
+            let search = $(this).val()
+            $.ajax({
+                url: '@Url.Action("GetProductAttributesByProduct", "Bills")' + "?productId=" + id,
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    $('#select-product-attribute').empty()
+                    if (response.length == 0) {
+                        $('#select-product-attribute').append('<option disabled>No attribute</option>')
+                    }
+                    $('#select-product-attribute').append('<option value="0" disabled selected>Select product attribute</option>')
+                    response.forEach(item => {
+                        let option = `<option value="${item.id}" data-price="${item.price ?? 0}">
+                                        ${item.colorValue == "null" || item.colorValue == undefined ? "" : "C:" + item.colorValue}
+                                        ${item.lengthValue == "null" || item.lengthValue == undefined ? "" : "L:" + item.lengthValue}
+                                        ${item.widthValue == "null" || item.widthValue == undefined ? "" : "W:" + item.widthValue}
+                                        ${item.heightValue == "null" || item.heightValue == undefined ? "" : "H:" + item.heightValue}
+                                    </option>`
+                        $('#select-product-attribute').append(option)
+                    })
+                },
+                error: function (data) {
+                    alert(data.responseText.message)
+                }
+            })
+        })
+        let totalprice = 0
+        $('#btn-add-product').on('click', function () {
+            let pId = parseInt($('#select-products').val())
+            let pTxt = $('#select-products :selected').text()
+            let pCode = $('#select-products :selected').attr('data-code')
+            let pAttrId = parseInt($('#select-product-attribute :selected').val())
+            let pAttrTxt = $('#select-product-attribute :selected').text()
+            let price = parseFloat($('#product-price').text() ?? 0)
+            let color = $('#select-product-attribute :selected').attr('data-color')
+            let width = $('#select-product-attribute :selected').attr('data-width')
+            let height = $('#select-product-attribute :selected').attr('data-height')
+            let length = $('#select-product-attribute :selected').attr('data-length')
+            if (price == 0) return
+            let rows = $('#list-products').children('tr').length
+            if (checkExistProduct(pId, pAttrId)) {
+                let oldQty = parseInt($(`#tr-${pId}-${pAttrId}`).attr('data-qty'))
+                $(`#tr-${pId}-${pAttrId}`).children('#td-qty').text(oldQty + 1)
+                $(`#tr-${pId}-${pAttrId}`).attr('data-qty', oldQty + 1)
+                $(`#tr-${pId}-${pAttrId}`).children('#td-total').text((oldQty + 1) * price)
+                $(`#tr-${pId}-${pAttrId}`).attr('data-total', (oldQty + 1) * price)
+                totalprice = Math.abs(totalprice - (oldQty * price) + ((oldQty + 1) * price))
+            } else {
+                let tr = ` <tr data-pid="${pId}" data-qty="1" data-pattrid="${pAttrId}" id="tr-${pId}-${pAttrId}" 
+                                data-price="${price}" data-total="${price}" data-name="${pTxt}" data-color="${color}" data-length="${length}"
+                                data-width="${width}" data-height="${height}">
+                            <th scope="row">${parseInt($('#list-products').attr('data-row')) + 1}</th>
+                            <td>${pCode}</td>
+                            <td>
+                                <div class="row">
+                                    <p class="mb-0 col">${pTxt}</p>
+                                    <p class="mb-0 col">${pAttrId != 0 ? pAttrTxt : ""}</p>
+                                </div>
+                            </td>
+                            <td>${price}</td>
+                            <td id="td-qty">1</td>
+                            <td id="td-total">${price}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onClick="deleteItem(${pId}, ${pAttrId})" >Delete</button>
+                            </td>
+                            
+                        </tr>`
+                $('#list-products').append(tr)
+                $('#list-products').attr('data-row', rows + 1)
+                totalprice += price
+            }
+            $('#total-price').text(totalprice)
+            $('#total-products').text(totalprice)
+            $('#totals').text(parseFloat($('#pickup-fee').text())+parseFloat($('#shipping-fee').text())+totalprice)
+        })
+
+        function deleteItem(id, pattrid) {
+            let row = $('#list-products').children('tr').length
+            if (row == 0) {
+              totalprice = 0  
+            } 
+            if (row > 0) {
+                let tr = $('#list-products').children(`#tr-${id}-${pattrid}`)
+                totalprice -= parseFloat(tr.attr('data-total'))
+                $('#list-products').attr('data-row', row - 1)
+                tr.remove()
+            }
+            $('#total-price').text(totalprice)
+            $('#total-products').text(totalprice)
+            $('#totals').text(parseFloat($('#pickup-fee').text())+parseFloat($('#shipping-fee').text())+parseFloat($('#total-products').text()))
+        }
+
+        function checkExistProduct(id, pAttrId) {
+            let rows = parseInt($('#list-products').attr('data-row'))
+            if (rows == 0) return false
+            for (let i = 0; i < rows; i++) {
+                let pid = parseInt($('#list-products').children(`#tr-${id}-${pAttrId}`).attr('data-pid'))
+                let pattrid = parseInt($('#list-products').children(`#tr-${id}-${pAttrId}`).attr('data-pattrid'))
+                console.log(pid + "-" + id)
+                console.log(pattrid + "-" + pAttrId)
+                if (pid == id && pAttrId == 0 || pid == id && pattrid == pAttrId) {
+                    return true
+                }
+            }
+            return false
+        }
+    </script>
+</div>
+
+
+<!--receiver-add-parcel-->
+<div class="modal fade" id="add-parcel" tabindex="-1" role="dialog" aria-labelledby="add-parcel-label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: fit-content;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-parcel-label">ADD PARCELS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow: hidden scroll;height: 500px;">
+                <!--parcel-->
+                <div id="parcel-list" class="container mt-5" style="max-width: 95%;">
+                    <div class="mb-5 row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control" id="parcel-name" placeholder="Enter name">
+                                <small class="d-none form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="">Qty</label>
+                                <input type="text" class="form-control" id="parcel-qty" placeholder="Enter qty">
+                                <small class="d-none form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="align-items-center col-sm-2 d-flex justify-content-between">
+                            <button class="btn btn-sm" style="background-color: #ffdc39;" onclick="onAdd()"
+                                id="btn-add-parcel">Add</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-parcels" data-row="0">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm" style="background-color:#ffdc39;"
+                    data-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function onAdd(){
+            let name = $('#parcel-name')
+            let qty = $('#parcel-qty')
+            let rows = $('#list-parcels').children('tr').length
+            let regexQty = new RegExp("^[0-9]*$")
+            if(name.val().trim() == ""){
+                return
+            }
+            if(!regexQty.test(qty.val())){
+
+            }
+            if(qty.val().trim() == "") qty.val(1)
+            let tr = `<tr data-name="${name.val()}" data-qty="${qty.val()}">
+                        <td scope="col">${rows+1}</td>
+                        <td scope="col">${name.val()}</td>
+                        <td scope="col">${qty.val()}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onClick="deleteParcel(${rows+1})" id="btnDel-${rows+1}">Delete</button>
+                        </td>
+                     </tr>`
+            $('#list-parcels').append(tr)
+            $('#list-parcels').attr('data-row', rows+1)
+        }
+        function deleteParcel(row){
+            let rows = $('#list-parcels').children('tr').length
+            $(`#btnDel-${row}`).closest('tr').remove()
+            $('#list-parcels').attr('data-row', rows-1)
+        }
+    </script>
+</div>

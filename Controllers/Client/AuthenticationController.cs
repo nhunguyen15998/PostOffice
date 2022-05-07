@@ -102,9 +102,10 @@ namespace post_office.Controllers.Client
                 var phone = Request.Form["phone"].ToString();
                 var email = Request.Form["email"].ToString();
                 var password = Request.Form["password"].ToString();
-                if (string.IsNullOrWhiteSpace(password))
-                    throw new AppException("Password is required");
-
+                if (string.IsNullOrWhiteSpace(password)){
+                    TempData["Error"] = "Password is required";
+                    return RedirectToAction("SignUp", "Authentication");
+                }
                 var customer = new {
                     FirstName = firstName,
                     LastName = lastName,
@@ -114,8 +115,12 @@ namespace post_office.Controllers.Client
                     CreatedAt = DateTime.Now,
                     Status = (int)Helpers.Helpers.DefaultStatus.Deactivated
                 };
-
-                int customerId = _customerService.Create(customer, phone).Id;
+                var createdCustomer = _customerService.Create(customer, phone);
+                if(createdCustomer == null){
+                    TempData["Error"] = "Phone \"" + phone + "\" is already taken";
+                    return RedirectToAction("SignUp", "Authentication");
+                }
+                int customerId = createdCustomer.Id;
                 if(customerId != 0){
                     TempData["Success"] = "Successfully registered";
                     return RedirectToAction("SignIn", "Authentication");   

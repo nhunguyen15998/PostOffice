@@ -4,9 +4,8 @@
 }
 <div class="col-12" style="display: table; background: white; top: 20px;box-shadow: rgb(248 242 225 / 0.92) 10px 10px 20px 5px; padding:20px">
     <div style="height:50px;position:relative; padding:0">
-        <button class="btn-action delete" id="btnDelete" style="float:left;margin-right:2vw">Delete</button>
         <input class="input-search form-control" style="float:left;width:380px;" type="text" placeholder="Search by code, name" id="search-by-name" />
-        <button class="btn-action save" id="btnCreate" style="float:right;">Create</button>
+        <a class="btn-action save" id="btnCreate" style="float:right;" href='@Url.ActionLink("BillDetailCreate", "Bills")'>Create</a>
         <label class="text-color ml-5 mr-3" style="float:left">Search by status:</label>
         <select class="dropdownlist" style="float:left;width:135px;" id="search-by-status">
             <option value="-1">all</option>
@@ -34,7 +33,7 @@
                 <tr class="table-item">
                     <td class="tbl-20"><input type="checkbox" class="sub-check"/></td>
                     <th scope="row">@count</th>
-                    <td><a href='@Url.Action("BillDetail", "Bills")'>@item.Code</a>
+                    <td><a href='@Url.Action("BillDetailUpdate", "Bills", new{billId = item.Id})' type="button">@item.Code</a>
                     </td>
                     <td>@item.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
                     <td>
@@ -52,13 +51,9 @@
                     <td>@item.CreatedAt?.ToString("dd/MM/yyyy")</td>
                     <td>@Helpers.CheckStatusValue(item.Status, "OrderStatus")</td>
                     <td class="tbl-180">
-                        <span class="action-icon view view-product" style="padding:10px 5px 10px 10px">
-                            <i class="fa fa-eye"></i>
-                        </span>
                         <span class="action-icon edit edit-product" style="padding:10px 5px 10px 10px">
                             <i class="fa fa-edit"></i>
                         </span>
-
                         <span class="action-icon delete delete-product">
                             <i class="fa fa-trash"></i>
                         </span>

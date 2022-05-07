@@ -29,7 +29,7 @@ namespace post_office.Services
         public IEnumerable<LocationModel> GetStates()
         {
             try{
-                return _context.VNStates.Select(x => new LocationModel { Id = x.Id, Name = x.Name })
+                return _context.VNStates.Select(x => new LocationModel { Id = x.Id, Name = x.Name }).OrderBy(x => x.Name)
                                       .ToList();
             }catch(Exception e){
                 var a = e.Message;
@@ -40,8 +40,8 @@ namespace post_office.Services
         public IEnumerable<LocationModel> GetCities(int stateId)
         {
             try{
-                return _context.VNCities.Where(x => x.StateId == stateId)
-                                      .Select(x => new LocationModel { Id = x.Id, Name = x.Name })
+                return _context.VNCities.Where(x => stateId != 0 ? x.StateId == stateId : true)
+                                      .Select(x => new LocationModel { Id = x.Id, Name = x.Name }).OrderBy(x => x.Name)
                                       .ToList();
             }catch(Exception e){
                 var a = e.Message;
@@ -52,8 +52,8 @@ namespace post_office.Services
         public IEnumerable<LocationModel> GetWards(int cityId)
         {
             try{
-                return _context.VNWards.Where(x => x.CityId == cityId)
-                                     .Select(x => new LocationModel { Id = x.Id, Name = x.Name })
+                return _context.VNWards.Where(x => cityId != 0 ? x.CityId == cityId : true)
+                                     .Select(x => new LocationModel { Id = x.Id, Name = x.Name }).OrderBy(x => x.Name)
                                      .ToList();
             }catch(Exception e){
                 var a = e.Message;

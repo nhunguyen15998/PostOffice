@@ -1,0 +1,373 @@
+@{
+    ViewData["Title"] = "Bill Detail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model post_office.Models.OrderModel;
+<div id="content-wrapper" class="site-content-wrapper">
+    <div id="content" class="site-content ">
+        <div id="content-inner" class="site-content-inner ">
+            <div id="primary" class="content-area  ">
+                <main id="main" class="site-main">
+                    <div data-vc-full-width="true" data-vc-full-width-init="true"
+                        style="position: relative; left: 0px; box-sizing: border-box; padding-left: 0px; padding-right: 0px;">
+                        <div class="vc_row container"
+                            style="margin-bottom: 150px !important; margin: auto">
+                           
+                            <div style="height: fit-content;width: 100%;">
+                                <div class="mb-3 row" id="show-detail" class="step-hidden">
+                                    <form method="post" action='@Url.ActionLink("Update", "Bills", new{billId = ViewBag.Bill.Id})'>
+                                        <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);padding: 30px 15px;" class="mb-4 h-100">
+                                            @{var Code = ViewBag.Bill != null ? "#"+ViewBag.Bill.Code : "";
+                                                var disabled = ViewBag.Bill.DeliveryStatus != 0 ? "" : "";
+                                            }
+                                            <h5 class="mb-4">Bill <span>@Code</span></h5>
+                                            <!--info-->
+                                        <div class="mb-4">
+                                                <!--start-->
+                                                <div class="row" style="">
+                                                    <div class="col-sm-12 mb-4">
+                                                        <h5>Sender</h5>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">First Name</label>
+                                                                @{var SenderFirstName = ViewBag.Bill != null ? ViewBag.Bill.SenderFirstName : "";}
+                                                                <input type="text" class="form-control" id="sender-first-name" placeholder="Enter first name" 
+                                                                        value="@SenderFirstName" @disabled>
+                                                                <small class="d-none form-text text-danger">Field first name is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Last Name</label>
+                                                                @{var SenderLastName = ViewBag.Bill != null ? ViewBag.Bill.SenderLastName : "";}
+                                                                <input type="text" class="form-control" id="sender-last-name" placeholder="Enter last name" 
+                                                                        value="@SenderLastName" @disabled>
+                                                                <small class="d-none form-text text-danger">Field last name is required</small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Phone</label>
+                                                                @{var SenderPhone = ViewBag.Bill != null ? ViewBag.Bill.SenderPhone : "";}
+                                                                <input type="phone" class="form-control" id="sender-phone" placeholder="Enter phone" 
+                                                                        value="@SenderPhone" @disabled>
+                                                                <small class="d-none form-text text-danger">Field phone is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Email</label>
+                                                                @{var SenderEmail = ViewBag.Bill != null ? ViewBag.Bill.SenderEmail : "";}
+                                                                <input type="text" class="form-control" id="sender-email" placeholder="Enter email"
+                                                                        value="@SenderEmail" @disabled>
+                                                                <small class="d-none form-text text-danger">Field email is required</small>
+                                                            </div>
+                                                        </div>
+                                                                                                                
+                                                                                                                
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Company Name</label>
+                                                                @{var CompanyName = ViewBag.Bill != null ? ViewBag.Bill.CompanyName : "";}
+                                                                <input type="text" class="form-control" id="sender-company-name" placeholder="Enter company name" 
+                                                                        value="@CompanyName" @disabled>
+                                                                <small class="d-none form-text text-danger">Field company name is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Company Phone</label>
+                                                                @{var CompanyPhone = ViewBag.Bill != null ? ViewBag.Bill.CompanyPhone : "";}
+                                                                <input type="text" class="form-control" id="sender-company-phone" placeholder="Enter company phone" 
+                                                                        value="@CompanyPhone" @disabled>
+                                                                <small class="d-none form-text text-danger">Field company phone is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Address</label>
+                                                                @{var FromAddress = ViewBag.Bill != null ? ViewBag.Bill.FromAddress : "";}
+                                                                <input type="text" class="form-control" id="sender-address" placeholder="Enter address" 
+                                                                        value="@FromAddress" @disabled>
+                                                                <small class="d-none form-text text-danger">Field address is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Province</label>
+                                                                @Html.DropDownListFor(item => item.FromProvinceId,new SelectList(ViewBag.FromProvinces, "Value", "Text", ViewBag.Bill.FromProvinceId??0), new { @class = "form-control", @id = "sender-province", @disabled = @disabled })
+                                                                <small class="d-none form-text text-danger">Field province is required</small>
+                                                            </div>
+                                                        </div><div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">District</label>
+                                                                @Html.DropDownListFor(item => item.FromCityId,new SelectList(ViewBag.FromDistricts, "Value", "Text", ViewBag.Bill.FromCityId??0), new { @class = "form-control", @id = "sender-district", @disabled = @disabled })
+                                                                <small class="d-none form-text text-danger">Field district is required</small>
+                                                        </div>
+                                                        <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Ward</label>
+                                                                @Html.DropDownListFor(item => item.FromWardId,new SelectList(ViewBag.FromWards, "Value", "Text", ViewBag.Bill.FromWardId??0), new { @class = "form-control", @id = "sender-ward" , @disabled =@disabled})
+                                                                <small class="d-none form-text text-danger">Field ward is required</small>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <div class="col-sm-12 mb-4">
+                                                            <h5>Receiver</h5>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">First Name</label>
+                                                                @{var ReceiverFirstName = ViewBag.Bill != null ? ViewBag.Bill.ReceiverFirstName : "";}
+                                                                <input type="text" class="form-control" id="receiver-first-name" placeholder="Enter first name" value="@ReceiverFirstName" @disabled>
+                                                                <small class="d-none form-text text-danger">Field first name is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Last Name</label>
+                                                                @{var ReceiverLastName = ViewBag.Bill != null ? ViewBag.Bill.ReceiverLastName : "";}
+                                                                <input type="text" class="form-control" id="receiver-last-name" placeholder="Enter last name" value="@ReceiverLastName" @disabled>
+                                                                <small class="d-none form-text text-danger">Field last name is required</small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Phone</label>
+                                                                @{var ReceiverPhone = ViewBag.Bill != null ? ViewBag.Bill.ReceiverPhone : "";}
+                                                                <input type="text" class="form-control" id="receiver-phone" placeholder="Enter phone" value="@ReceiverPhone" @disabled>
+                                                                <small class="d-none form-text text-danger">Field phone is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Email</label>
+                                                                @{var ReceiverEmail = ViewBag.Bill != null ? ViewBag.Bill.ReceiverEmail : "";}
+                                                                <input type="text" class="form-control" id="receiver-email" placeholder="Enter email" value="@ReceiverEmail" @disabled>
+                                                                <small class="d-none form-text text-danger">Field email is required</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Address</label>
+                                                                @{var ToAddress = ViewBag.Bill != null ? ViewBag.Bill.ToAddress : "";
+                                                                    
+                                                                }
+                                                                <input type="text" class="form-control" id="receiver-address" placeholder="Enter address" value="@ToAddress" , @disabled>
+                                                                <small class="d-none form-text text-danger">Field address is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Province</label>
+                                                                @Html.DropDownListFor(item => item.ToProvinceId,new SelectList(ViewBag.ToProvinces, "Value", "Text", ViewBag.Bill.ToProvinceId??0), new { @class = "form-control", @id = "receiver-province", @disabled =@disabled })
+                                                                <small class="d-none form-text text-danger">Field province is required</small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">District</label>
+                                                                @Html.DropDownListFor(item => item.ToCityId,new SelectList(ViewBag.ToDistricts, "Value", "Text", ViewBag.Bill.ToCityId??0), new { @class = "form-control", @id = "receiver-district" , @disabled =@disabled})
+                                                                <small class="d-none form-text text-danger">Field district is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Ward</label>
+                                                                @Html.DropDownListFor(item => item.ToWardId,new SelectList(ViewBag.ToWards, "Value", "Text", ViewBag.Bill.ToWardId??0), new { @class = "form-control", @id = "receiver-ward", @disabled =@disabled })
+                                                                <small class="d-none form-text text-danger">Field ward is required</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        <div class="col-sm-12 mb-4" style="">
+                                                            <h5>Details</h5>
+                                                            <div class="row">
+                                                            <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Length</label>
+                                                                @{var Length = ViewBag.Bill != null ? ViewBag.Bill.Length : "";}
+                                                                <input type="text" class="form-control" id="length" placeholder="Enter length" value="@Length" @disabled>
+                                                                <small class="d-none form-text text-danger">Field length is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Width</label>
+                                                                @{var Width = ViewBag.Bill != null ? ViewBag.Bill.Width : "";}
+                                                                <input type="text" class="form-control" id="width" placeholder="Enter width" value="@Width" @disabled>
+                                                                <small class="d-none form-text text-danger">Field width is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Height</label>
+                                                                @{var Height = ViewBag.Bill != null ? ViewBag.Bill.Height : "";}
+                                                                <input type="text" class="form-control" id="height" placeholder="Enter height" value="@Height" @disabled>
+                                                                <small class="d-none form-text text-danger">Field height is required</small>
+                                                            </div>
+                                                            <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Weight</label>
+                                                                @{var Weight = ViewBag.Bill != null ? ViewBag.Bill.Weight : "";}
+                                                                <input type="text" class="form-control" id="weight" placeholder="Enter weight" value="@Weight" @disabled>
+                                                                <small class="d-none form-text text-danger">Field weight is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Pin Code</label>
+                                                                @{var PinCode = ViewBag.Bill != null ? ViewBag.Bill.PinCode : "";}
+                                                                <input type="text" class="form-control" id="pin-code" placeholder="Enter pin code" value="@PinCode" @disabled>
+                                                                <small class="d-none form-text text-danger">Field pin code is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Payment Method</label>
+                                                                @{var PaymentType = ViewBag.Bill != null ? Helpers.CheckStatusValue(ViewBag.Bill.PaymentType, "PaymentType") : "";}
+                                                                <input type="text" class="form-control" id="payment-method" value='@PaymentType' disabled="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-4">
+                                                                <label style="font-size:12px;">Service</label>
+                                                                <select class="form-control"  id="select-delivery-status" asp-items='@new SelectList(ViewBag.Services, "Value", "Text", ViewBag.Bill.ServiceId??0)'>
+                                                                    <option value="0" disabled>Select service</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger">Field service is required</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-4">
+                                                                <label style="font-size:12px;">Delivery Status</label>
+                                                                <select class="form-control" id="select-delivery-status" asp-items='@new SelectList(ViewBag.DeliveryStatus, "Value", "Text", ViewBag.Bill.DeliveryStatus??0)'>
+                                                                    <option value="0" disabled>Select delivery status</option>                                                                
+                                                                </select>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Amount Collected</label>
+                                                                @{var CollectAmount = ViewBag.Bill != null ? ViewBag.Bill.CollectAmount : "";}
+                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount" value="@CollectAmount" @disabled>
+                                                                
+                                                            </div><div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Date Created</label>
+                                                                @{var CreatedAt = ViewBag.Bill != null ? ViewBag.Bill.CreatedAt : "";}
+                                                                <input type="text" class="form-control" id="pin-code" value="@CreatedAt" disabled="">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-8">
+                                                                <label style="font-size:12px;">Notes</label>
+                                                                @{var Notes = ViewBag.Bill != null ? ViewBag.Bill.Notes : "";}
+                                                                <textarea type="text" class="form-control" id="notes" rows="1" @disabled placeholder="Notes">@Notes</textarea>
+                                                            </div>
+                                                        @{var SendingOn = ViewBag.Bill != null && ViewBag.Bill.SendingOn != null ? ViewBag.Bill.SendingOn?.ToString("yyyy-MM-dd") : "";}
+                                                        <div class="align-items-center col-sm-1 d-flex form-group">
+                                                                <label style="font-size:12px;" class="mb-0 text-center">
+                                                                    @{var isChecked = ViewBag.Bill != null && ViewBag.Bill.SendingOn != null ? "checked" : "";}
+                                                                    <input type="checkbox" class="form-control" id="chbox-pickup-date" @disabled style="height: 15px !important;" @isChecked>Pick up?</label>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Pick Up Date</label>
+                                                                <input type="date" class="form-control" id="pickup-date" value="@SendingOn" @disabled>
+                                                                <small class="d-none form-text text-danger">Field pick-up date is required</small>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!--end-->
+                                            </div>
+                                            @if(ViewBag.Bill != null && ViewBag.OrderDetails.Count > 0){
+                                                var count = 1;
+                                                <div class="mb-4">
+                                                    <h5>Parcel detail</h5>
+                                                    <div class="row" style="padding: 0 60px;">
+                                                        <table class="table table-borderless" style="border-collapse: initial;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Qty</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach(var item in ViewBag.OrderDetails){
+                                                                    <tr>
+                                                                        <th scope="row">@count</th>
+                                                                        <td>@item.Name</td>
+                                                                        <td>@item.Qty</td>
+                                                                    </tr>
+                                                                    count++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if(ViewBag.Bill != null && ViewBag.OrderPhotos.Count > 0){
+                                                <div class="mb-4">
+                                                    <h5>Attached photo(s)</h5>
+                                                    <div class="m-0 w-75" id="photo-slider"
+                                                    style="background-color: #ffdc39;padding: 20px 0;overflow: scroll;margin: auto !important;">
+                                                        <div id="photo-scroll" class="align-items-center d-flex p-0">
+                                                            @foreach(var item in ViewBag.OrderPhotos){
+                                                                var photo = "../../img/customer"+ViewBag.Bill.SenderId+"/Photo_"+item.Photo;
+                                                                <div class="col-sm-2 d-flex justify-content-around justify-content-center p-0">
+                                                                    <img width="100" height="100" id="display-img"
+                                                                        src="@photo">
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if(ViewBag.Bill != null && ViewBag.ProductBillDetails.Count > 0){
+                                                var count = 1;
+                                                <div>
+                                                    <h5>Product(s)</h5>
+                                                
+                                                    <table class="table table-borderless" style="border-collapse: initial;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col">Price</th>
+                                                                <th scope="col">Qty</th>
+                                                                <th scope="col">Subtotal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="profile-product-bill-detail">
+                                                            @foreach (var item in ViewBag.ProductBillDetails)
+                                                            {
+                                                                var photo = "../../img/"+(item.Photo != null ? "ProductThumbnail/"+item.Photo : "defaults/no-avatar.jpeg");
+                                                                <tr>
+                                                                    <th scope="row">@count</th>
+                                                                    <td>
+                                                                    <div class="align-items-center d-flex">
+                                                                        <img src="@photo" width="50" class="mr-2">
+                                                                        <div>
+                                                                        <p class="mb-0">@item.Name</p>
+                                                                        <p class="mb-0">#@item.Code</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    </td>
+                                                                    <td>
+                                                                    <div class="align-items-center d-flex">
+                                                                        @if(item.Color != ""){
+                                                                            <div class="d-block mr-2" style="background-color:@item.Color ;height: 15px;width: 15px;"></div>
+                                                                        }
+                                                                        @{var length = item.Length != "" ? "L:"+item.Length: "";}
+                                                                        @{var width = item.Width != "" ? "W:"+item.Width: "";}
+                                                                        @{var height = item.Height != "" ? "H:"+item.Height: "";}
+                                                                        <p class="mb-0">@length @width @height</p>
+                                                                    </div>
+                                                                    </td>
+                                                                    <td class="money">@item.Price.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
+                                                                    <td>@item.Qty</td>
+                                                                    <td class="money">@item.SubTotal.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</td>
+                                                                </tr>
+                                                                count++;
+                                                            }
+                                                        </tbody> 
+                                                    </table>
+                                                </div>
+                                            }
+                                            <hr>
+                                            <div class="float-right" style="width: 30%;">
+                                                <dl class="float-end row">
+                                                    @if(ViewBag.Bill != null && ViewBag.ProductBill != null){
+                                                        <dt class="col-sm-7">Total products</dt>
+                                                        <dd class="col-sm-5 mb-2 money">@ViewBag.ProductBill.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                    }
+                                                    @if(ViewBag.Bill != null && ViewBag.Bill.IsPickup){
+                                                        <dt class="col-sm-7">Pickup fee</dt>
+                                                        <dd class="col-sm-5 mb-2">
+                                                            <p class="mb-0 money">@ViewBag.Bill.PickUpFee.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</p>
+                                                        </dd>
+                                                    }
+                                                    @if(ViewBag.Bill != null){
+                                                        <dt class="col-sm-7">Shipping fee</dt>
+                                                    <dd class="col-sm-5 mb-2 money">@ViewBag.Bill.DeliveryFee.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                    <dt class="col-sm-7 text-truncate">Total</dt>
+                                                    <dd class="col-sm-5 money">@ViewBag.Bill.Total.ToString("#,###", CultureInfo.GetCultureInfo("vi-VN").NumberFormat)</dd>
+                                                    }
+                                                </dl>
+                                            </div>
+                                            <!--btns-->
+                                            <div class="d-flex float-right justify-content-end mb-5" style="clear: both;padding-right: 5%;">
+                                                <button class="btn mr-2" style="background-color:#ffdc39;">Save</button>
+                                                <button class="btn btn-danger">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main><!-- #main .site-main -->
+            </div><!-- #primary .content-area -->
+        </div><!-- .site-content-inner -->
+    </div><!-- .site-content -->
+</div>

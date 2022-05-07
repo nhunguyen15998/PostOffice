@@ -94,6 +94,7 @@ namespace post_office.Services
                                                             qty=(int)x.Qty }).ToList();
 
         }
+        
         public ProductModel GetProduct(int id)
         {
             return ct.Products.Select(x => new ProductModel() { id = x.Id, name = x.Name, code = x.Code, categoryName = ct.ProductCategories.FirstOrDefault(y => y.Id == x.CategoryId).Name, categoryId = x.CategoryId, description = x.Description, price = x.Price, qty = x.Qty, thumbnail = x.Thumbnail, status = x.Status, createdAt = (DateTime)x.CreatedAt }).FirstOrDefault(x => x.id == id) ?? null;

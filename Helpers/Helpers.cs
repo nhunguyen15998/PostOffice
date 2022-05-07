@@ -1,4 +1,5 @@
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MimeKit;
 using post_office.Models;
 using System;
@@ -87,6 +88,8 @@ namespace post_office.Helpers
             return new VerifyModel() { email = email, created_at = DateTime.Now, isForUser = ISForUser, verify_code = vcode };
 
         }
+
+        //email order
        
         public enum DefaultStatus
         {
@@ -206,6 +209,19 @@ namespace post_office.Helpers
                     break;
             }
             return statusValue;
+        }
+    
+        public static List<SelectListItem> DeliveryStatusList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Pending).ToString(), Text = DeliveryStatus.Pending.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Picked).ToString(), Text = DeliveryStatus.Picked.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Queuing).ToString(), Text = DeliveryStatus.Queuing.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Delivery).ToString(), Text = DeliveryStatus.Delivery.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Delivered).ToString(), Text = DeliveryStatus.Delivered.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Failed).ToString(), Text = DeliveryStatus.Failed.ToString()});
+            list.Add(new SelectListItem{ Value = ((int)DeliveryStatus.Redeliver).ToString(), Text = DeliveryStatus.Redeliver.ToString()});
+            return list;
         }
     }
 }

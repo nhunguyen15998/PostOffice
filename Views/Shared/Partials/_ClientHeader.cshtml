@@ -137,7 +137,7 @@
                                             <a class="align-items-center d-flex">
                                                 <img src='@img' width="30" height="30"
                                                                 style="border-radius: 50px;" class="mr-2">
-                                                <p class="m-0" id="customer-name">@HttpContextAccessor.HttpContext.Session.GetString("CustomerName")</p>
+                                                <p class="m-0" id="customer-name" data-id='@HttpContextAccessor.HttpContext.Session.GetInt32("CustomerId")'>@HttpContextAccessor.HttpContext.Session.GetString("CustomerName")</p>
                                             </a>
                                             <ul class="sub-menu">
                                                 <li>
@@ -152,6 +152,10 @@
                                             </ul>
                                         }
                                     </li>
+                                    <script>
+                                        const userLoggedinId = $('#customer-name').attr('data-id') != null ? parseInt($('#customer-name').attr('data-id')) : 0
+                                        console.log(userLoggedinId)
+                                    </script>
                                     <li style="width: 200px;" id="choose-branch">
                                         <a class="align-items-center d-flex" href="#">
                                             <i class="fa-solid fa-location-dot mb-1 mr-1"></i>

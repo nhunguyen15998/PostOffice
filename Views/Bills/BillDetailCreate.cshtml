@@ -1,0 +1,477 @@
+@{
+    ViewData["Title"] = "Bill Detail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model post_office.Models.OrderModel;
+<div id="content-wrapper" class="site-content-wrapper">
+    <div id="content" class="site-content ">
+        <div id="content-inner" class="site-content-inner ">
+            <div id="primary" class="content-area  ">
+                <main id="main" class="site-main">
+                    <div data-vc-full-width="true" data-vc-full-width-init="true"
+                        style="position: relative; left: 0px; box-sizing: border-box; padding-left: 0px; padding-right: 0px;">
+                        <div class="vc_row container"
+                            style="margin-bottom: 150px !important; margin: auto">
+                           
+                            <div style="height: fit-content;width: 100%;">
+                                <div class="mb-3 row" id="show-detail" class="step-hidden">
+                                    <form method="post" action='@Url.ActionLink("Create", "Bills")' id="create-bill">
+                                        <div style="box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);padding: 30px 15px;" class="mb-4 h-100">
+                                            <h5 class="mb-4">Create Bill</h5>
+                                            <!--info-->
+                                        <div class="mb-4">
+                                                <!--start-->
+                                                <div class="row" style="">
+                                                    <div class="col-sm-12 mb-4">
+                                                        <h5>Sender</h5>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-12">
+                                                             <select class="form-control" id="sender-id" name="sender-id">
+                                                                        <option value="0">Select customer</option>   
+                                                                        @foreach (var item in ViewBag.CustomerIds)
+                                                                        {
+                                                                            <option value="@item.Id" data-last-name="@item.LastName" data-first-name="@item.FirstName"
+                                                                                    data-phone="@item.Phone" data-email="@item.Email">
+                                                                                @item.FirstName @item.LastName</option> 
+                                                                        }                                                             
+                                                                    </select>
+                                                            </div>
+                                                            <script>
+                                                                $('#sender-id').on('change', function(){
+                                                                    let lastname = $('#sender-id :selected').attr('data-last-name')
+                                                                    let firstname = $('#sender-id :selected').attr('data-first-name')
+                                                                    let phone = $('#sender-id :selected').attr('data-phone')
+                                                                    let email = $('#sender-id :selected').attr('data-email')
+                                                                    $('input[name="sender-first-name"]').val(firstname)
+                                                                    $('input[name="sender-last-name"]').val(lastname)
+                                                                    $('input[name="sender-phone"]').val(phone)
+                                                                    $('input[name="sender-email"]').val(email)
+                                                                })
+                                                            </script>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">First Name</label>
+                                                                <input type="text" class="form-control" id="sender-first-name" name="sender-first-name" placeholder="Enter first name" 
+                                                                        value="">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Last Name</label>
+                                                                <input type="text" class="form-control" id="sender-last-name" name="sender-last-name" placeholder="Enter last name" 
+                                                                        value="">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Phone</label>
+                                                                <input type="phone" class="form-control" id="sender-phone" name="sender-phone" placeholder="Enter phone" 
+                                                                        value="">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Email</label>
+                                                                <input type="text" class="form-control" id="sender-email" name="sender-email" placeholder="Enter email"
+                                                                        value="">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        </div>
+                                                                                                                
+                                                                                                                
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Company Name</label>
+                                                                <input type="text" class="form-control" id="sender-company-name" name="sender-company-name" placeholder="Enter company name" 
+                                                                        value="ABC">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Company Phone</label>
+                                                                <input type="text" class="form-control" id="sender-company-phone" name="sender-company-phone" placeholder="Enter company phone" 
+                                                                        value="0191929922">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Address</label>
+                                                                <input type="text" class="form-control" id="sender-address" placeholder="Enter address" name="sender-address"
+                                                                        value="124 nnfn">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Province</label>
+                                                                @Html.DropDownListFor(item => item.FromProvinceId,new SelectList(ViewBag.CreateFromProvinces, "Value", "Text"), new { @class = "form-control", @id = "sender-province", @name = "sender-province" })
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        </div><div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">District</label>
+                                                                @* @Html.DropDownListFor(item => item.FromCityId,new SelectList(ViewBag.CreateFromDistricts, "Value", "Text"), new { @class = "form-control", @id = "sender-district" }) *@
+                                                                <select class="form-control" id="sender-district" name="sender-district">
+                                                                    <option value="0" disabled>Select district</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                        </div>
+                                                        <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Ward</label>
+                                                                @* @Html.DropDownListFor(item => item.FromWardId,new SelectList(ViewBag.CreateFromWards, "Value", "Text"), new { @class = "form-control", @id = "sender-ward" }) *@
+                                                                <select class="form-control" id="sender-ward" name="sender-ward">
+                                                                    <option value="0" disabled>Select ward</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Branch</label>
+                                                                <select class="form-control" id="branch" name="branch">
+                                                                    <option value="0">Select branch</option>      
+                                                                    @foreach (var item in ViewBag.Branches)
+                                                                    {
+                                                                        <option value="@item.id">@item.name</option>
+                                                                    }
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                        </div>
+                                                        
+                                                        <script>
+                                                            //get districts by province
+                                                            $('#sender-province').on('change', function(){
+                                                                let provinceId = $(this).val()
+                                                                $.ajax({
+                                                                    url : '@Url.ActionLink("GetReceiverDistricts","Bills")'+'?provinceId='+provinceId,
+                                                                    type : 'get',
+                                                                    dataType : 'json',
+                                                                    contentType : 'application/json',
+                                                                    success: function(response){
+                                                                        $('#sender-district').empty()
+                                                                        $('#sender-district').append('<option value="0" selected disabled>Select district</option>') 
+                                                                        response.forEach(item=>{
+                                                                            let select = `<option value="${item.Value}">${item.Text}</option>`
+                                                                            $('#sender-district').append(select)
+                                                                        })
+                                                                    },
+                                                                    error: function(data){
+                                                                        alert(data.responseText.message)
+                                                                    }
+                                                                })
+                                                            }) 
+                                
+                                                            //get wards by district
+                                                             $('#sender-district').on('change', function(){
+                                                                let districtId = $(this).val()
+                                                                $.ajax({
+                                                                    url : '@Url.ActionLink("GetReceiverWards","Bills")'+'?districtId='+districtId,
+                                                                    type : 'get',
+                                                                    dataType : 'json',
+                                                                    contentType : 'application/json',
+                                                                    success: function(response){
+                                                                        $('#sender-ward').empty()
+                                                                        $('#sender-ward').append('<option value="0" selected disabled>Select ward</option>')
+                                                                        response.forEach(item=>{
+                                                                            let select = `<option value="${item.Value}">${item.Text}</option>`
+                                                                            $('#sender-ward').append(select)
+                                                                        })
+                                                                    },
+                                                                    error: function(data){
+                                                                        alert(data.responseText.message)
+                                                                    }
+                                                                })
+                                                            }) 
+
+                                            
+                                                        </script>
+                                                        </div>
+                                                        <div class="col-sm-12 mb-4">
+                                                            <h5>Receiver</h5>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">First Name</label>
+                                                                <input type="text" class="form-control" id="receiver-first-name" name="receiver-first-name" placeholder="Enter first name" value="dasdsad">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Last Name</label>
+                                                                <input type="text" class="form-control" id="receiver-last-name" name="receiver-last-name" placeholder="Enter last name" value="rertr">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Phone</label>
+                                                                <input type="text" class="form-control" id="receiver-phone" name="receiver-phone" placeholder="Enter phone" value="02783939332">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Email</label>
+                                                                <input type="text" class="form-control" id="receiver-email" name="receiver-email" placeholder="Enter email" value="gsgs@Kk.ddd">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Address</label>
+                                                                <input type="text" class="form-control" id="receiver-address" placeholder="Enter address" value="192 dndn" name="receiver-address">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Province</label>
+                                                                @Html.DropDownListFor(item => item.ToProvinceId,new SelectList(ViewBag.CreateToProvinces, "Value", "Text"), new { @class = "form-control", @id = "receiver-province", @name="receiver-province" })
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div><div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">District</label>
+                                                                @* @Html.DropDownListFor(item => item.ToCityId,new SelectList(ViewBag.CreateToDistricts, "Value", "Text"), new { @class = "form-control", @id = "receiver-district" }) *@
+                                                                <select class="form-control" id="receiver-district" name="receiver-district">
+                                                                    <option value="0" disabled>Select district</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-3">
+                                                                <label style="font-size:12px;">Ward</label>
+                                                                @* @Html.DropDownListFor(item => item.ToWardId,new SelectList(ViewBag.CreateToWards, "Value", "Text"), new { @class = "form-control", @id = "receiver-ward" }) *@
+                                                                <select class="form-control" id="receiver-ward" name="receiver-ward">
+                                                                    <option value="0" disabled>Select ward</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <script>
+                                                                /////////////////////////////////##################RECEIVER###################
+                                                            //getReceiverDistricts
+                                                             $('#receiver-province').on('change', function(){
+                                                                console.log("aaaaaaa")
+                                                                let provinceId = $(this).val()
+                                                                $.ajax({
+                                                                    url : '@Url.ActionLink("GetReceiverDistricts","Bills")'+'?provinceId='+provinceId,
+                                                                    type : 'get',
+                                                                    dataType : 'json',
+                                                                    contentType : 'application/json',
+                                                                    success: function(response){
+                                                                        $('#receiver-district').empty()
+                                                                        $('#receiver-district').append('<option value="0" selected disabled>Select district</option>') 
+                                                                        response.forEach(item=>{
+                                                                            let select = `<option value="${item.Value}">${item.Text}</option>`
+                                                                            $('#receiver-district').append(select)
+                                                                        })
+                                                                    },
+                                                                    error: function(data){
+                                                                        alert(data.responseText.message)
+                                                                    }
+                                                                })
+                                                            }) 
+                                
+                                                            //get wards by district
+                                                            $('#receiver-district').on('change', function(){
+                                                                let districtId = $(this).val()
+                                                                $.ajax({
+                                                                    url : '@Url.ActionLink("GetReceiverWards","Bills")'+'?districtId='+districtId,
+                                                                    type : 'get',
+                                                                    dataType : 'json',
+                                                                    contentType : 'application/json',
+                                                                    success: function(response){
+                                                                        $('#receiver-ward').empty()
+                                                                        $('#receiver-ward').append('<option value="0" selected disabled>Select ward</option>')
+                                                                        response.forEach(item=>{
+                                                                            let select = `<option value="${item.Value}">${item.Text}</option>`
+                                                                            $('#receiver-ward').append(select)
+                                                                        })
+                                                                    },
+                                                                    error: function(data){
+                                                                        alert(data.responseText.message)
+                                                                    }
+                                                                })
+                                                            }) 
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                        <div class="col-sm-12 mb-4" style="">
+                                                            <h5>Details</h5>
+                                                            <div class="row">
+                                                            <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Length</label>
+                                                                <input type="text" class="form-control" id="length" placeholder="Enter length" value="12.3" name="length">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Width</label>
+                                                                <input type="text" class="form-control" id="width" placeholder="Enter width" value="13.2" name="width">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Height</label>
+                                                                <input type="text" class="form-control" id="height" placeholder="Enter height" value="11" name="height">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Weight</label>
+                                                                <input type="text" class="form-control" id="weight" placeholder="Enter weight" value="8" name="weight">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            <script>
+                                                                let regexQty = new RegExp("^[0-9]*$")
+                                                                let totals = 0
+                                                                let _pickupfee = 0
+                                                                let _shippingfee = 0
+                                                                $('#weight').on('input', () => {
+                                                                    let weight = $('#weight').val().trim()
+                                                                    if(weight == "") {
+                                                                        $('#shipping-fee').text(0)
+                                                                        _shippingfee = 0
+                                                                        $('#totals').text(parseFloat($('#pickup-fee').text())+parseFloat($('#shipping-fee').text())+parseFloat($('#total-products').text()))
+                                                                        return
+                                                                    }
+                                                                    if(!regexQty.test(weight)) return
+                                                                    let shippingfee = parseFloat(3000)*parseFloat(weight)
+                                                                    $('#shipping-fee').text(shippingfee)
+                                                                    _shippingfee = shippingfee
+                                                                    $('#totals').text(parseFloat($('#pickup-fee').text())+parseFloat($('#shipping-fee').text())+parseFloat($('#total-products').text()))
+                                                                }) 
+                                                                $('#chbox-pickup-date').prop('checked', false)
+
+                                                                $(document).on('change','#chbox-pickup-date', function(){
+                                                                    if($(this).is(':checked')){
+                                                                        
+                                                                        _pickupfee = 23000
+                                                                        $('#pickup-fee').text(_pickupfee)
+                                                                    } else {
+                                                                        $('#pickup-fee').text(0)
+                                                                        _pickupfee = 0
+                                                                    } 
+                                                                    $('#totals').text(parseFloat($('#pickup-fee').text())+parseFloat($('#shipping-fee').text())+parseFloat($('#total-products').text()))
+                                                                })
+
+                                                                //$("#myModal").modal("hide")
+                                                                
+                                                            </script>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Pin Code</label>
+                                                                <input type="text" class="form-control" id="pin-code" placeholder="Enter pin code" value="12345" name="pin-code">
+                                                                <small class="d-none form-text text-danger">F</small>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Payment Method</label>
+                                                                <input type="text" class="form-control" id="payment-method" value='COD' disabled="" name="payment-method">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-4">
+                                                                <label style="font-size:12px;">Service</label>
+                                                                <select class="form-control" id="select-service" name="select-service" asp-items='@new SelectList(ViewBag.Services, "Value", "Text")'>
+                                                                    <option value="0" disabled>Select service</option>                                                                
+                                                                </select>
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                        <div class="form-group col-sm-4">
+                                                                <label style="font-size:12px;">Delivery Status</label>
+                                                                <select class="form-control" id="select-delivery-status" name="select-delivery-status" asp-items='@new SelectList(ViewBag.DeliveryStatus, "Value", "Text")'>
+                                                                    <option value="0" disabled>Select delivery status</option>                                                                
+                                                                </select>
+                                                            </div>
+                                                        <div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Amount Collected</label>
+                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount" value="100000" name="amount">
+                                                                
+                                                            </div><div class="form-group col-sm-2">
+                                                                <label style="font-size:12px;">Date Created</label>
+                                                                <input type="text" class="form-control" id="created-at" value="" disabled="">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-8">
+                                                                <label style="font-size:12px;">Notes</label>
+                                                                <textarea type="text" class="form-control" id="notes" rows="1" placeholder="Notes" name="notes">wewejnnew</textarea>
+                                                            </div>
+                                                        <div class="align-items-center col-sm-1 d-flex form-group">
+                                                                <label style="font-size:12px;" class="mb-0 text-center">
+                                                                    <input type="checkbox" class="form-control" id="chbox-pickup-date" style="height: 15px !important;" value="1">Pick up?</label>
+                                                            </div>
+                                                            
+                                                            <div class="form-group col-sm-3" id="pickup-date-group">
+                                                                <label style="font-size:12px;">Pick Up Date</label>
+                                                                <input type="date" class="form-control" id="pickup-date" value="" name="pickup-date">
+                                                                <small class="d-none form-text text-danger"></small>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!--end-->
+                                            </div>
+                                                <div class="mb-5">
+                                                    <div class="d-flex mr-3">
+                                                        <h5 class="mr-2">Parcel detail(s)</h5>
+                                                            <button class="btn btn-sm" style="background-color: #ffdc39;margin: 0 20px 0 0;" type="button"
+                                                                data-toggle="modal" data-target="#add-parcel">Add</button>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <h5 class="mr-2">Product(s)</h5>
+                                                            <button class="btn btn-sm" style="background-color: #ffdc39;margin: 0 20px 0 0;" type="button"
+                                                                data-toggle="modal" data-target="#add-product">Add</button>
+                                                    </div>
+                                                </div>
+                                            <div class="float-right mb-5" style="width: 30%;">
+                                                <dl class="float-end row">
+                                                    <dt class="col-sm-7">Total products</dt>
+                                                    <dd class="col-sm-5 mb-2 money" id="total-products">0</dd>
+                                                    <dt class="col-sm-7">Pickup fee</dt>
+                                                    <dd class="col-sm-5 mb-2">
+                                                        <p class="mb-0 money"id="pickup-fee" >0</p>
+                                                    </dd>
+                                                    <dt class="col-sm-7">Shipping fee</dt>
+                                                    <dd class="col-sm-5 mb-2 money" id="shipping-fee">0</dd>
+                                                    <dt class="col-sm-7 text-truncate">Total</dt>
+                                                    <dd class="col-sm-5 money" id="totals">0</dd>
+                                                    <input id="total-hidden" type="hidden" name="total-hidden"/>
+                                                     <input id="shipping-hidden" type="hidden" name="shipping-hidden"/>
+                                                      <input id="pickup-hidden" type="hidden" name="pickup-hidden"/>
+                                                       <input id="product-hidden" type="hidden" name="product-hidden"/>
+                                                
+
+                                                </dl>
+                                            </div>
+                                            <!--btns-->
+                                            <div class="d-flex float-right justify-content-end mb-5" style="clear: both;padding-right: 5%;">
+                                                <button class="btn mr-2" style="background-color:#ffdc39;" id="btn-submit">Save</button>
+                                                <button class="btn btn-danger">Cancel</button>
+                                            </div>
+                                            <script>
+                                                $('#btn-submit').on('click',function(){
+                                                    $('#total-hidden').val($('#totals').text())
+                                                    $('#shipping-hidden').val($('#shipping-fee').text())
+                                                    $('#pickup-hidden').val($('#pickup-fee').text())
+                                                    $('#product-hidden').val($('#total-products').text())
+                                                    $('#list-products').children(`tr`).each(function(index, item){
+                                                        let pid = $(item).data('pid')
+                                                        let pattrid = $(item).data('pid')
+                                                        let name = $(item).data('name')
+                                                        let price = $(item).data('price')
+                                                        let total = $(item).data('total')
+                                                        let color = $(item).data('color')
+                                                        let length = $(item).data('length')
+                                                        let width = $(item).data('width')
+                                                        let height = $(item).data('height')
+                                                        let qty = $(item).data('qty')
+
+                                                        let obj = {'productDetail':[{'Id':pid, 'Name':name, 'AttributeId':pattrid, 'Price':price, 'Qty':qty, 'Total':total,
+                                                        'Color':color, 'Length':length, 'Height':height, 'Width':width}]}
+                                                        let input = `<textarea id="jsondata" name="product-list-${index}" style="display:none;">${JSON.stringify(obj)}</textarea>`
+                                                        //let input = `<input type="hidden" name="product-list-${index}" value="${JSON.stringify(obj)}"/>`
+                                                        $('#create-bill').append(input)
+                                                    })
+                                                    let list = $('#list-products').attr('data-row')
+                                                    let ip = `<input type="hidden" name="totalproducts" value="${list}"/>`
+                                                    $('#create-bill').append(ip)
+
+                                                    $('#list-parcels').children('tr').each(function(index, item){
+                                                        let name = $(item).data('name')
+                                                        let qty = $(item).data('qty')
+                                                        let obj = {'orderDetail':[{'Name':name, 'Qty':qty}]}
+                                                        $('#create-bill').append(`<textarea id="jsondata" name="parcel-list-${index}" style="display:none;">${JSON.stringify(obj)}</textarea>`)
+                                                    })
+                                                    let listParcel = $('#list-parcels').attr('data-row')
+                                                    $('#create-bill').append(`<input type="hidden" name="totalparcels" value="${listParcel}"/>`)
+                                                })
+
+                                            </script>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main><!-- #main .site-main -->
+            </div><!-- #primary .content-area -->
+        </div><!-- .site-content-inner -->
+    </div><!-- .site-content -->
+</div>

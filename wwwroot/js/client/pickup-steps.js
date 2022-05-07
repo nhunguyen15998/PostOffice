@@ -1696,6 +1696,8 @@ function orderList(){
 
     let paymentType = $('#onepay').is(':checked') ? onepay : 
                     ($('#momo').is(':checked') ? momo : cod)
+                    const userLoggedinId = $('#customer-name').attr('data-id') != null ? parseInt($('#customer-name').attr('data-id')) : 0
+                    console.log(userLoggedinId)
     let customerId = userLoggedinId
     let totalProduct = parseFloat($(`#tbody-total-cart-${arr[i]}`).children('.order-total').attr('data-total-product'))
     let productBill = _productListTotal == 0 ? null : 
@@ -1703,7 +1705,7 @@ function orderList(){
     
     let serviceId = $('#service-list').find('button').attr('data-id')
     let serviceName = $('#service-list').find('button').attr('data-name')
-    let sendingDate = $('input[name="sending-date"]').val()
+    let sendingDate = new Date($('input[name="sending-date"]').val()).toISOString().slice(0, 10)
     let isPickedup = $('#pickup').is(':checked') ?? false
     let totalBill = totalProduct + pickUpFee + deliveryFee
     let bill = {"BillDetail":[{"ServiceId" : serviceId, "ServiceName" : serviceName, "PickUpFee" : pickUpFee, "IsPickup" : isPickedup, 

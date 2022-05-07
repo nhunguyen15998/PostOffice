@@ -21,6 +21,15 @@ namespace post_office.Services
         ProductBillModel GetProductBill(int? productBillId);
         List<ProductBillDetailModel> GetProducts(int? productBillId);
         List<OrderTrackingModel> GetOrderTrackings(string orderCode);
+        Order SaveOrder(OrderModel model);
+        void SaveOrderDetails(List<OrderDetailModel> models);
+        Bill SaveBill(BillModel model);
+        ProductBill SaveProductBill(ProductBillModel model);
+        void SaveProductBillDetails(List<ProductBillDetailModel> models);
+        OrderTracking SaveOrderTracking(OrderTrackingModel model);
+        OrderModel GetOrder(int billId);
+        bool UpdateOrder(int id, OrderModel model);
+        bool UpdateBill(int id, BillModel model);
     }
 
     public class BillService : IBillService
@@ -124,6 +133,105 @@ namespace post_office.Services
             }
         }
 
+        public Order SaveOrder(OrderModel model){
+            try{
+                //order
+                var _orderItem = new Order();
+                _context.Entry<Order>(_orderItem).CurrentValues.SetValues(model); 
+                _context.Entry<Order>(_orderItem).State = EntityState.Added;
+                _context.SaveChanges();
+                return _orderItem;
+            }catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public Bill SaveBill(BillModel model){
+            try{
+                //order
+                var _billItem = new Bill();
+                _context.Entry<Bill>(_billItem).CurrentValues.SetValues(model); 
+                _context.Entry<Bill>(_billItem).State = EntityState.Added;
+                _context.SaveChanges();
+                return _billItem;
+            }catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public OrderTracking SaveOrderTracking(OrderTrackingModel model){
+            try{
+                //order
+                var _orderTrackingItem = new OrderTracking();
+                _context.Entry<OrderTracking>(_orderTrackingItem).CurrentValues.SetValues(model); 
+                _context.Entry<OrderTracking>(_orderTrackingItem).State = EntityState.Added;
+                _context.SaveChanges();
+                return _orderTrackingItem;
+            }catch(Exception ex) {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public ProductBill SaveProductBill(ProductBillModel model)
+        {
+            try
+            {
+                var _productBill = new ProductBill();
+                _context.Entry<ProductBill>(_productBill).CurrentValues.SetValues(model); 
+                _context.Entry<ProductBill>(_productBill).State = EntityState.Added;
+                _context.SaveChanges();
+                return _productBill;
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public void SaveOrderDetails(List<OrderDetailModel> models)
+        {
+            try
+            {
+                List<OrderDetail> _orderDetailModel = new List<OrderDetail>();
+                foreach(var item in models){
+                    _orderDetailModel.Add(new OrderDetail{ 
+                        OrderId = item.OrderId, Name = item.Name, Qty = item.Qty, CreatedAt = DateTime.Now });
+                }
+                _context.OrderDetails.AddRange(_orderDetailModel);
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public void SaveProductBillDetails(List<ProductBillDetailModel> models)
+        {
+            try
+            {
+                List<ProductBillDetail> _productBillDetails = new List<ProductBillDetail>();
+                foreach(var item in models){
+                    _productBillDetails.Add(new ProductBillDetail{ 
+                        ProductBillId = item.ProductBillId, ProductId = item.ProductId, Code = item.Code, 
+                        Name = item.Name, Color = item.Color, Length = item.Length, Width = item.Width, Height = item.Height,
+                        Qty = item.Qty, Price = item.Price, SubTotal = item.SubTotal, CreatedAt = DateTime.Now });
+                }
+                _context.ProductBillDetails.AddRange(_productBillDetails);
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
         public List<ReadBillModel> GetBills(int customerId, int billId)//, int pageIndex, int pageSize)
         {
             try {
@@ -131,6 +239,7 @@ namespace post_office.Services
                                         Id = x.Id,
                                         Code = y.Code,
                                         Total = x.Total,
+
                                         SenderId = y.SenderId,
                                         SenderFirstName = y.SenderFirstName,
                                         SenderLastName = y.SenderLastName,
@@ -142,6 +251,10 @@ namespace post_office.Services
                                         FromWard = y.FromWard.Name,
                                         FromCity = y.FromCity.Name,
                                         FromProvince = y.FromProvince.Name, 
+                                        FromWardId = y.FromWard.Id,
+                                        FromCityId = y.FromCity.Id,
+                                        FromProvinceId = y.FromProvince.Id,
+
                                         ReceiverFirstName = y.ReceiverFirstName,
                                         ReceiverLastName = y.ReceiverLastName,
                                         ReceiverPhone = y.ReceiverPhone,
@@ -150,6 +263,10 @@ namespace post_office.Services
                                         ToWard = y.ToWard.Name,
                                         ToCity = y.ToCity.Name,
                                         ToProvince = y.ToProvince.Name, 
+                                        ToWardId = y.ToWard.Id,
+                                        ToCityId = y.ToCity.Id,
+                                        ToProvinceId = y.ToProvince.Id, 
+
                                         CreatedAt = x.CreatedAt,
                                         Status = x.Status,
                                         Length = y.Length,
@@ -159,7 +276,8 @@ namespace post_office.Services
                                         DeliveryOn = y.DeliveryOn,
                                         PaidOn = x.PaidOn,
                                         PinCode = y.PinCode,
-                                        ServiceName = x.ServiceName,     
+                                        ServiceName = x.ServiceName,
+                                        ServiceId = x.ServiceId,     
                                         PickUpFee  = x.PickUpFee,
                                         IsPickup = x.IsPickup,
                                         SendingOn = x.SendingOn,
@@ -174,6 +292,7 @@ namespace post_office.Services
                                     })
                                     .Where(x => customerId != 0 ? x.SenderId == customerId : true) 
                                     .Where(x => billId != 0 ? x.Id == billId : true) 
+                                    .OrderBy(x => x.CreatedAt)
                                     //.Skip((pageIndex - 1) * pageSize)
                                     //.Take(pageSize)
                                     .ToList();
@@ -319,6 +438,73 @@ namespace post_office.Services
                 throw;
             }
         }
+
+        public OrderModel GetOrder(int billId){
+            try
+            {
+                return _context.Bills.Where(x => x.Id == billId)
+                                    .Join(_context.Orders, x => x.OrderId, y => y.Id, (x, y) => new OrderModel{
+                                                            DeliveryStatus = y.DeliveryStatus,
+                                                            Id = y.Id
+                }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                throw;
+            }
+        }
+
+        public bool UpdateOrder(int id, OrderModel model)
+        { 
+                        var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var dbItem = _context.Orders.Find(id);
+                if (dbItem == null)
+                    return false;
+                _context.Orders.Remove(dbItem);
+                var item = new Order();
+                _context.Entry<Order>(item).CurrentValues.SetValues(model); //for few properties
+                _context.Entry<Order>(item).State = EntityState.Added;
+                 _context.SaveChangesAsync();
+
+                 transaction.Commit();
+                return true;
+            }
+            catch (Exception e)
+            {
+                                transaction.Rollback();
+                var a = e.Message;
+                throw;
+            }
+        }
+
+        public bool UpdateBill(int id, BillModel model)
+        { 
+                        var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var dbItem = _context.Bills.Find(id);
+                if (dbItem == null)
+                    return false;
+                _context.Bills.Remove(dbItem);
+                var item = new Bill();
+                _context.Entry<Bill>(item).CurrentValues.SetValues(model); //for few properties
+                _context.Entry<Bill>(item).State = EntityState.Added;
+                 _context.SaveChangesAsync();
+
+                 transaction.Commit();
+                return true;
+            }
+            catch (Exception e)
+            {
+                                transaction.Rollback();
+                var a = e.Message;
+                throw;
+            }
+        }
+
 
     }
 }

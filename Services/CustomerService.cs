@@ -11,7 +11,7 @@ namespace post_office.Services
     public interface ICustomerService
     {
         Customer Authenticate(string phone, string password);
-        IEnumerable<Customer> GetAll();
+        IEnumerable<Customer> GetAll(int status);
         Customer GetById(int id);
         Customer Create(object customer, string phone);
         void Update(Customer customer, string password = null);
@@ -46,9 +46,9 @@ namespace post_office.Services
             return customer;
         }
 
-        public IEnumerable<Customer> GetAll()
+        public IEnumerable<Customer> GetAll(int status)
         {
-            return _context.Customers.ToList();
+            return _context.Customers.Where(x => status != 0 ? x.Status == status : true).ToList();
         }
 
         public Customer GetById(int id)
@@ -60,8 +60,9 @@ namespace post_office.Services
         {
             var transaction = _context.Database.BeginTransaction();
             try {
-                if (_context.Customers.Any(x => x.Phone == phone))
-                    throw new AppException("Phone \"" + phone + "\" is already taken");
+                var dbCustomer = _context.Customers.Where(x => x.Phone == phone).FirstOrDefault();
+                if (dbCustomer != null)
+                    return null;
                 var item = new Customer(); 
                 _context.Entry<Customer>(item).CurrentValues.SetValues(customer); //for few properties
                 _context.Entry<Customer>(item).State = EntityState.Added;

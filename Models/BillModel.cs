@@ -49,6 +49,9 @@ namespace post_office.Models
         public string FromWard { get; set; }
         public string FromCity { get; set; }
         public string FromProvince { get; set; }
+        public int FromWardId { get; set; }
+        public int FromCityId { get; set; }
+        public int FromProvinceId { get; set; }
 
         //receiver
         public string ReceiverFirstName { get; set; }
@@ -59,6 +62,9 @@ namespace post_office.Models
         public string ToWard { get; set; }
         public string ToCity { get; set; }
         public string ToProvince { get; set; }
+        public int ToWardId { get; set; }
+        public int ToCityId { get; set; }
+        public int ToProvinceId { get; set; }
         public string PinCode { get; set; }
         //
         public double Length { get; set; }
@@ -70,7 +76,7 @@ namespace post_office.Models
         public DateTime? DeliveryOn { get; set; }
         public DateTime? PaidOn { get; set; }
         public string ServiceName { get; set; }
-        
+        public int ServiceId { get; set; }
         public decimal? PickUpFee { get; set; }
         public bool IsPickup { get; set; }
         public DateTime? SendingOn { get; set; }

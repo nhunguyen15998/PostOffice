@@ -17,6 +17,10 @@
 <body>
 
     <div class="body-wrapper">
+        <!--modal-->
+        @if(ViewData["Title"].ToString() == "Bill Detail"){
+            <partial name="Partials/_AdminModal" />
+        }
 
         <div class="sidebar">
             @{ Html.RenderPartial("_LayoutMenu");}
