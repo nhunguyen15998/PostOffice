@@ -26,7 +26,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0|| AuthenticetionModel.roleName == "Super Admin")
             {
                 ViewBag.data = ls = LoadDataBranch(page, string.Empty, -1, 0);
                 ViewBag.pagi = RowEvent(_Branchsvc.GetListBranch().Count);

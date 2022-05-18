@@ -25,7 +25,7 @@ namespace post_office.Controllers.Administrator
 
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.roleName == "Super Admin")
             {
                 ls_role_pms = _rolesvc.GetListRolePermission();
                 ls = LoadDataRole(page, string.Empty);
@@ -118,7 +118,7 @@ namespace post_office.Controllers.Administrator
             {
                 foreach (var item in before)
                 {
-                    _rolesvc.RemoveRolePermission(item);
+                    _rolesvc.RemoveRolePermission(item, roleId);
                 }
             }
             else
@@ -129,7 +129,7 @@ namespace post_office.Controllers.Administrator
                 }
                 foreach (var item in delete)
                 {
-                    _rolesvc.RemoveRolePermission(item);
+                    _rolesvc.RemoveRolePermission(item, roleId);
 
 
                 }

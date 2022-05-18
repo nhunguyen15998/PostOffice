@@ -16,7 +16,7 @@ namespace post_office.Services
         List<RolePermissionModel> GetListRolePermission();
         bool ModifyRole(RoleModel model);
         List<PermissionModel> GetListPermission();
-        void RemoveRolePermission(int mdl);
+        void RemoveRolePermission(int mdl, int roleid);
         void CreateRolePermission(RolePermissionModel mdl);
         bool RemoveRole(List<int> ls);
         RoleModel GetRole(int id);
@@ -61,9 +61,9 @@ namespace post_office.Services
             return _context.Permissions.Select(x => new PermissionModel() { id = x.Id, code = x.Code, name = x.Name, createdAt = (DateTime)x.CreatedAt }).ToList();
 
         }
-        public void RemoveRolePermission(int mdl)
+        public void RemoveRolePermission(int mdl,int roleId)
         {
-            var w = _context.RolePermissions.FirstOrDefault(x => x.PermissionId == mdl);
+            var w = _context.RolePermissions.FirstOrDefault(x => x.PermissionId == mdl&&x.RoleId==roleId);
             if (w != null)
             {
                 _context.RolePermissions.Remove(w);

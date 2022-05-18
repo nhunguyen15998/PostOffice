@@ -39,7 +39,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_PRODUCT"))
             {
                 ViewBag.lsPD = LoadDataProducts(page, string.Empty, -1);
                 ViewBag.pagi = RowEvent(_Productsvc.GetListProduct(0, 0).Count);

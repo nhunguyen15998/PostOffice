@@ -499,7 +499,7 @@
 
     $('body').delegate(".edit-product", "click", function () {
         var id = $(this).attr("oid").replace("object-", "");
-        OpenForm("Update product",id)
+        OpenForm("Create product",id)
     });
     function OpenForm(type, id) {
         if (document.getElementById("ip-thumbnail").files[0] == null) {

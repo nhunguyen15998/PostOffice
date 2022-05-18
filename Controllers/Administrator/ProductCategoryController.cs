@@ -25,7 +25,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_PRODUCT_CATEGORY"))
             {
                 ViewBag.ls_parent = new List<SelectListItem> { new SelectListItem { Value = "0", Text = "All" }, new SelectListItem { Value = "-1", Text = "Not have parent" } }.Concat(new SelectList(_ProductCategorysvc.GetListParent(), "id", "name"));
                 ViewBag.lsPDCate = ls = LoadDataPDCategories(page, 0, string.Empty, -1);

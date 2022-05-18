@@ -39,7 +39,7 @@ namespace post_office.Controllers.Administrator
 
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_BILL"))
             {
                 ViewBag.Bills = GetBills();
                 return View();

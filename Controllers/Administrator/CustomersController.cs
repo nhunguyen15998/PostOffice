@@ -21,7 +21,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_CUSTOMER"))
             {
                 ViewBag.lsCus = LoadDataCustomer(page, string.Empty, -1);
                 ViewBag.pagi = RowEvent(_cusSvc.GetListCustomer().Count);

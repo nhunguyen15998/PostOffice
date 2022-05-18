@@ -38,7 +38,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_USER"))
             {
                 ViewBag.ls_user = ls_user = LoadDataUser(page, string.Empty,0,0);
                 ViewBag.pagi = RowEvent(_usersvc.GetListUser().Count);

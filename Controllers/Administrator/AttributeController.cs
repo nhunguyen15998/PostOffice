@@ -23,7 +23,7 @@ namespace post_office.Controllers.Administrator
         }
         public IActionResult Index()
         {
-            if (AuthenticetionModel.id != 0)
+            if (AuthenticetionModel.id != 0&& AuthenticetionModel.hasPermission("VIEW_ATTRIBUTE"))
             {
                 ViewBag.ls_attr = ls_attr = LoadDataAttribute(page, 0, string.Empty);
                 ViewBag.attr = AttributeModel.ls_type;
